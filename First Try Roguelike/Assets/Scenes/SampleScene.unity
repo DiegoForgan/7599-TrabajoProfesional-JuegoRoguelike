@@ -325,3 +325,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 5
   _rigidBody: {fileID: 1552589172}
+  _camera: {fileID: 519420031}
