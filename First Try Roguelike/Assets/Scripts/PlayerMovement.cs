@@ -6,16 +6,21 @@ public class PlayerMovement : MonoBehaviour
 {
     public float movementSpeed = 5f;
 
-    public Rigidbody2D _rigidBody;
-    public Camera _camera;
+    private Rigidbody2D _rigidBody;
+    private Camera _camera;
 
     private Vector2 movement;
     private Vector2 currentMousePosition;
 
+    private void Awake() {
+        _rigidBody = GetComponent<Rigidbody2D>();
+        
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        _camera = Camera.main;
     }
 
     // Update is called once per frame
