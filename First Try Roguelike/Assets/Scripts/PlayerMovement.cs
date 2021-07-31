@@ -13,8 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 currentMousePosition;
 
     private void Awake() {
-        _rigidBody = GetComponent<Rigidbody2D>();
-        
+        _rigidBody = GetComponent<Rigidbody2D>();    
     }
     
     // Start is called before the first frame update
