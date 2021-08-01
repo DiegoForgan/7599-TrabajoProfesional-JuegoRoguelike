@@ -8,8 +8,7 @@ public class Proyectile : MonoBehaviour
 
     //Triggered when collides with another object
     private void OnCollisionEnter2D(Collision2D other) {
-        //GameObject targetHit = other.gameObject;
-        //Debug.Log(targetHit);
+        
         //This should run the "Take Damage" function in the enemy class
         GameObject enemy = other.gameObject;
         enemy.GetComponent<Enemy>().TakeDamage(damage);
