@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private SpriteRenderer _enemySpriteRenderer; 
-    public int health = 5;
+    private SpriteRenderer _enemySpriteRenderer;
+    public int maxHealth = 5; 
+    public int health;
+
+    public HealthBar healthBar;
     
     //Called before the Start function
     private void Awake() {
@@ -18,6 +21,8 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         _enemySpriteRenderer.color = Color.green;
+        health = maxHealth;
+        healthBar.initialize(health);
     }
 
     // Update is called once per frame
@@ -29,6 +34,8 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
+        healthBar.SetHealth(health);
+        
         StartCoroutine(flashColor());
     
         if(health <= 0) Destroy(gameObject);
