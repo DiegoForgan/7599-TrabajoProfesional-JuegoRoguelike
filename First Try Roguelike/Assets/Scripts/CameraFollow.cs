@@ -8,7 +8,9 @@ public class CameraFollow : MonoBehaviour
     
     private void FixedUpdate() 
     {  
-        transform.position = target.position + offset;
+        if(target) transform.position = target.position + offset;
+        //if target == null means main character is dead so camera fixes on center of screen
+        else transform.position = new Vector3(0,0,-10);
     }
     
     // Start is called before the first frame update

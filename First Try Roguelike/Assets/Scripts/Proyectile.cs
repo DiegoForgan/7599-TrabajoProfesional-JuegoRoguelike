@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Proyectile : MonoBehaviour
+public class Proyectile : MonoBehaviour, Collidable
 {   
     public int damage = 1;
 
     //Triggered when collides with another object
     private void OnCollisionEnter2D(Collision2D other) {
         
-        //This should run the "Take Damage" function in the enemy class
+        //This should run the "Take Damage" function in the Collidable interface
         GameObject enemy = other.gameObject;
-        enemy.GetComponent<Enemy>().TakeDamage(damage);
+        enemy.GetComponent<Collidable>().TakeDamage(damage);
         
         
         Destroy(gameObject);
@@ -21,15 +21,6 @@ public class Proyectile : MonoBehaviour
     private void OnBecameInvisible() {
         Destroy(gameObject);
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void TakeDamage(int damage){}
 }

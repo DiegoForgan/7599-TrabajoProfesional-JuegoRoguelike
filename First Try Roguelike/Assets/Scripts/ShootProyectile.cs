@@ -13,13 +13,7 @@ public class ShootProyectile : MonoBehaviour
     {
         
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-       if(Input.GetButtonDown("Fire1")) Shoot(); 
-    }
-    void Shoot(){
+    public void Shoot(){
         GameObject proyectile = Instantiate(proyectilePrefab,shootPoint.position,shootPoint.rotation);
         Rigidbody2D proyectileRigidBody = proyectile.GetComponent<Rigidbody2D>();
         proyectileRigidBody.AddForce(shootPoint.up * proyectileForce, ForceMode2D.Impulse);

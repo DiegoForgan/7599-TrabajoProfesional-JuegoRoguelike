@@ -1401,7 +1401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 5
-  health: 3
+  health: 5
   healthBar: {fileID: 1158459469}
 --- !u!58 &1261049404
 CircleCollider2D:
@@ -1753,9 +1753,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1552589174}
   - component: {fileID: 1552589173}
+  - component: {fileID: 1552589178}
   - component: {fileID: 1552589172}
   - component: {fileID: 1552589175}
   - component: {fileID: 1552589176}
+  - component: {fileID: 1552589177}
   m_Layer: 0
   m_Name: PlayerMock
   m_TagString: Untagged
@@ -1878,6 +1880,37 @@ MonoBehaviour:
   shootPoint: {fileID: 1587395586}
   proyectilePrefab: {fileID: 8661864622910317043, guid: ec6bbfb83c36ffa40a40cdc40da7a121, type: 3}
   proyectileForce: 10
+--- !u!114 &1552589177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552589171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5239dd164f430c40ada5313ccaa8666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 20
+  health: 0
+  healthBar: {fileID: 805616001}
+--- !u!58 &1552589178
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552589171}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0036797523, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.4006462
 --- !u!1 &1568647847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1977,7 +2010,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1587395585}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.001, y: 0.538, z: 0}
+  m_LocalPosition: {x: -0.01, y: 0.79, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1552589174}

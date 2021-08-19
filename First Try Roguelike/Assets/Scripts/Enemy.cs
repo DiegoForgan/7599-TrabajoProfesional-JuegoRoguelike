@@ -3,17 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
     private SpriteRenderer _enemySpriteRenderer;
-    public int maxHealth = 5; 
-    public int health;
-
-    public HealthBar healthBar;
+    private ShootProyectile _shootProyectile;
     
     //Called before the Start function
     private void Awake() {
         _enemySpriteRenderer = GetComponent<SpriteRenderer>();
+        _shootProyectile = GetComponent<ShootProyectile>();
     }
 
 
@@ -21,8 +19,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         _enemySpriteRenderer.color = Color.green;
-        health = maxHealth;
-        healthBar.initialize(health);
+        initializeHealth();
     }
 
     // Update is called once per frame
@@ -31,15 +28,11 @@ public class Enemy : MonoBehaviour
         
     }
 
-    public void TakeDamage(int damage)
+    public override void TakeDamage(int damage)
     {
-        health -= damage;
-        healthBar.SetHealth(health);
-        
         StartCoroutine(flashColor());
-    
-        if(health <= 0) Destroy(gameObject);
-
+        base.TakeDamage(damage);
+        _shootProyectile.Shoot();
     }
 
     IEnumerator flashColor(){
