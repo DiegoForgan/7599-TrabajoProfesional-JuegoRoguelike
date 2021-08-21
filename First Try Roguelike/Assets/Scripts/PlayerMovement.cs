@@ -2,14 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : EntityMovement
 {
-    public float movementSpeed = 5f;
-
-    private Rigidbody2D _rigidBody;
-    private Camera _camera;
-
-    private Vector2 movement;
     private Vector2 currentMousePosition;
     private ShootProyectile _shootProyectile;
 
@@ -18,12 +12,6 @@ public class PlayerMovement : MonoBehaviour
         _shootProyectile = GetComponent<ShootProyectile>();
     }
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        _camera = Camera.main;
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -41,10 +29,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate() 
     {
         _rigidBody.MovePosition(_rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime);
-
-        Vector2 lookDirection = currentMousePosition - _rigidBody.position;
-        float angle = Mathf.Atan2(lookDirection.y,lookDirection.x) * Mathf.Rad2Deg - 90f;
-
-        _rigidBody.rotation = angle;
+        
+        LookToPosition(currentMousePosition);
     }
 }

@@ -1312,8 +1312,10 @@ GameObject:
   - component: {fileID: 1261049402}
   - component: {fileID: 1261049401}
   - component: {fileID: 1261049404}
+  - component: {fileID: 1261049407}
   - component: {fileID: 1261049403}
   - component: {fileID: 1261049405}
+  - component: {fileID: 1261049406}
   m_Layer: 0
   m_Name: EnemyMock
   m_TagString: Untagged
@@ -1361,7 +1363,7 @@ SpriteRenderer:
   m_SortingLayerID: -675774301
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  m_Sprite: {fileID: -2413806693520163455, guid: 813b631f59c40e04f9c74b4b5e5aa311, type: 3}
   m_Color: {r: 0.20791234, g: 0.9716981, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1434,6 +1436,41 @@ MonoBehaviour:
   shootPoint: {fileID: 141366180}
   proyectilePrefab: {fileID: 8661864622910317043, guid: ec6bbfb83c36ffa40a40cdc40da7a121, type: 3}
   proyectileForce: 10
+--- !u!114 &1261049406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261049400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a54bef701e690174c88c31c7c83ae1d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 2.5
+  target: {fileID: 1552589171}
+--- !u!50 &1261049407
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261049400}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1394281440
 GameObject:
   m_ObjectHideFlags: 0
