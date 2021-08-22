@@ -31,4 +31,14 @@ public class Entity : MonoBehaviour, Collidable
     {
         Destroy(gameObject);
     }
+
+    public int GetHealth(){
+        return health;
+    }
+    public void AddHealth(int amount){
+        health += amount;
+        if(health >= maxHealth) health = maxHealth;
+        //Update the health bar HUD value aswell
+        healthBar.SetHealth(health);
+    }
 }
