@@ -9,5 +9,6 @@ public class HealthItem : Item
     {
         Entity player = other.GetComponent<Entity>();
         player.AddHealth(amountToGrant);
+        FindObjectOfType<AudioManager>().PlaySound("HealthPickup");
     }
 }
