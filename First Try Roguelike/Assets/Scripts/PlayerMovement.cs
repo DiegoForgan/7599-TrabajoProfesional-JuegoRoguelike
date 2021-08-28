@@ -22,7 +22,7 @@ public class PlayerMovement : EntityMovement
         currentMousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
 
         //this script now also checks if the fire key was pressed in order to shoot the proyectile
-        if(Input.GetButtonDown("Fire1")) _shootProyectile.Shoot();
+        if(Input.GetButtonDown("Fire1") && (PauseMenu.GameIsPaused == false)) _shootProyectile.Shoot();
     }
 
     //Updates at constant time interval regardless of Frames Per Second
