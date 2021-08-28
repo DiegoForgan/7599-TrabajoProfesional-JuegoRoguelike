@@ -9,6 +9,7 @@ public class HealthItem : Item
     {
         Entity player = other.GetComponent<Entity>();
         player.AddHealth(amountToGrant);
+        //This command plays the desired sound clip
         FindObjectOfType<AudioManager>().PlaySound("HealthPickup");
     }
 }
