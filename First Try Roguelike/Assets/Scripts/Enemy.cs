@@ -22,12 +22,6 @@ public class Enemy : Entity
         initializeHealth();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public override void TakeDamage(int damage)
     {
         StartCoroutine(flashColor());
