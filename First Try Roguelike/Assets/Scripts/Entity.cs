@@ -41,6 +41,11 @@ public class Entity : MonoBehaviour, Collidable
         Destroy(gameObject);
     }
 
+    public int GetMana()
+    {
+        return mana;
+    }
+
     public int GetHealth(){
         return health;
     }
@@ -49,5 +54,11 @@ public class Entity : MonoBehaviour, Collidable
         if(health >= maxHealth) health = maxHealth;
         //Update the health bar HUD value aswell
         healthBar.SetHealth(health);
+    }
+
+    public void SpendMana(int amountSpent){
+        mana -= amountSpent;
+        if(mana < 0) mana = 0;
+        manaBar.SetBarMana(mana);
     }
 }
