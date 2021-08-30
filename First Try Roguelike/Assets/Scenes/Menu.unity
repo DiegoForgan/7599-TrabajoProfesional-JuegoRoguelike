@@ -2645,5 +2645,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5707212675731776259, guid: bcff3c65c25ad6f458bb210fd0de46f2, type: 3}
+      propertyPath: sounds.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5707212675731776259, guid: bcff3c65c25ad6f458bb210fd0de46f2, type: 3}
+      propertyPath: sounds.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: a4ff48dbb6ab1c14b9b886ba4941c931, type: 3}
+    - target: {fileID: 5707212675731776259, guid: bcff3c65c25ad6f458bb210fd0de46f2, type: 3}
+      propertyPath: sounds.Array.data[2].name
+      value: ManaPickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 5707212675731776259, guid: bcff3c65c25ad6f458bb210fd0de46f2, type: 3}
+      propertyPath: sounds.Array.data[2].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5707212675731776259, guid: bcff3c65c25ad6f458bb210fd0de46f2, type: 3}
+      propertyPath: sounds.Array.data[2].volume
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcff3c65c25ad6f458bb210fd0de46f2, type: 3}
