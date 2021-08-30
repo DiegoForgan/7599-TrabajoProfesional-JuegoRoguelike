@@ -6,17 +6,26 @@ using UnityEngine;
 public class Entity : MonoBehaviour, Collidable
 {
     public int maxHealth = 100;
+    public int maxMana = 100;
     public int health;
+    public int mana;
     public HealthBar healthBar;
+    public ManaBar manaBar;
 
 
     private void Start() {
         initializeHealth();
+        initializeMana();
     }
 
     public void initializeHealth(){
         health = maxHealth;
         healthBar.initialize(health);
+    }
+
+    public void initializeMana(){
+        mana = maxMana;
+        manaBar.Initialize(mana);
     }
     
     //Implementing "Collidable" interface method
