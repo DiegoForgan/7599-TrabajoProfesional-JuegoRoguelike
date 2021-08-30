@@ -10,6 +10,9 @@ public class Entity : MonoBehaviour, Collidable
     public int health;
     public int mana;
     public HealthBar healthBar;
+
+    
+
     public ManaBar manaBar;
 
 
@@ -54,6 +57,14 @@ public class Entity : MonoBehaviour, Collidable
         if(health >= maxHealth) health = maxHealth;
         //Update the health bar HUD value aswell
         healthBar.SetHealth(health);
+    }
+
+    public void AddMana(int amountToGrant)
+    {
+        mana += amountToGrant;
+        if (mana >= maxMana) mana = maxMana;
+        //Update the health bar HUD value aswell
+        manaBar.SetBarMana(mana);
     }
 
     public void SpendMana(int amountSpent){
