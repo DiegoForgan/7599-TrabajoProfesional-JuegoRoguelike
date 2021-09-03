@@ -98,7 +98,7 @@ public class SpellManagement : MonoBehaviour
         ShowSpellDataOnUI();
     }
 
-    //This method Adds a spell to the main character ONLY if the character doesn´t already have ir
+    //This method Adds a spell to the main character ONLY if the character doesn´t already have it
     public void AddSpell(string newSpellName){
         //Search if spell already obtained by the player
         if (spells.FindIndex(element => element.spellName == newSpellName ) != -1) return;
