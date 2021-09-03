@@ -56,3 +56,9 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: ManaPickup
+    clip: {fileID: 8300000, guid: a4ff48dbb6ab1c14b9b886ba4941c931, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}

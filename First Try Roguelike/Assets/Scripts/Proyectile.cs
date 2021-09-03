@@ -23,4 +23,8 @@ public class Proyectile : MonoBehaviour, Collidable
     }
 
     public void TakeDamage(int damage){}
+
+    public void setDamage(int dmg){
+        damage = dmg;
+    }
 }
