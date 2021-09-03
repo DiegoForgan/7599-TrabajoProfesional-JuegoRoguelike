@@ -70,10 +70,12 @@ public class SpellManagement : MonoBehaviour
     //Creates a proyectile based on the current selected spell by the user
     private void CastSpell()
     {
-        GameObject spellProyectile = Instantiate(currentSpell.spellProyectilePrefab,castPoint.position,castPoint.rotation);
+        GameObject spellProyectile = Instantiate(currentSpell.GetSpellPrefab(),castPoint.position,castPoint.rotation);
         spellProyectile.GetComponent<Proyectile>().setDamage(currentSpell.GetSpellDamage());
         Rigidbody2D proyectileRigidBody = spellProyectile.GetComponent<Rigidbody2D>();
         proyectileRigidBody.AddForce(castPoint.up * currentSpell.spellproyectileForce, ForceMode2D.Impulse);
+        //This command plays the desired sound clip
+        FindObjectOfType<AudioManager>().PlaySound(currentSpell.GetSpellName());
     }
 
     private void ShowSpellDataOnUI(){

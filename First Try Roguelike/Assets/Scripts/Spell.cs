@@ -45,4 +45,8 @@ public class Spell
     {
         return avatar;
     }
+
+    public GameObject GetSpellPrefab(){
+        return spellProyectilePrefab;
+    }
 }

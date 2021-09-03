@@ -62,3 +62,21 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: Basic Spell
+    clip: {fileID: 8300000, guid: 8f73a3492af83a54bb69b2299d5cf559, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Fire Spell
+    clip: {fileID: 8300000, guid: a965e91f6c77e6945afa734e3bfa6cc3, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Poison Spell
+    clip: {fileID: 8300000, guid: 1926760c76de0ec48b497054c7ec3225, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
