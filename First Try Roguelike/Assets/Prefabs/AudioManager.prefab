@@ -51,13 +51,19 @@ MonoBehaviour:
     loop: 1
     source: {fileID: 0}
   - name: HealthPickup
-    clip: {fileID: 8300000, guid: 61b07aced5766354f8bf2dad083748c2, type: 3}
+    clip: {fileID: 8300000, guid: 230ca10496c806c40a4e2221a871609f, type: 3}
     volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: ManaPickup
     clip: {fileID: 8300000, guid: a4ff48dbb6ab1c14b9b886ba4941c931, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: NoMana
+    clip: {fileID: 8300000, guid: 5fb2e83168c5e7b4bb6be3a910587e10, type: 3}
     volume: 1
     pitch: 1
     loop: 0

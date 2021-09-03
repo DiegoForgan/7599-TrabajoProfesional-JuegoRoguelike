@@ -58,10 +58,14 @@ public class SpellManagement : MonoBehaviour
                 ShowSpellDataOnUI();
             }
             int currentManaCost = currentSpell.GetSpellManaCost();
-            if(Input.GetButtonDown("Fire1") && (_entity.GetMana() >= currentManaCost)){
-                _entity.SpendMana(currentManaCost);
-                CastSpell();
-            }
+            if(Input.GetButtonDown("Fire1")){
+                if(_entity.GetMana() >= currentManaCost){
+                    _entity.SpendMana(currentManaCost);
+                    CastSpell();
+                }
+                //This will play the "not enough mana sound"
+                else FindObjectOfType<AudioManager>().PlaySound("NoMana");
+            }    
         }
 
         
@@ -74,6 +78,7 @@ public class SpellManagement : MonoBehaviour
         spellProyectile.GetComponent<Proyectile>().setDamage(currentSpell.GetSpellDamage());
         Rigidbody2D proyectileRigidBody = spellProyectile.GetComponent<Rigidbody2D>();
         proyectileRigidBody.AddForce(castPoint.up * currentSpell.spellproyectileForce, ForceMode2D.Impulse);
+        
         //This command plays the desired sound clip
         FindObjectOfType<AudioManager>().PlaySound(currentSpell.GetSpellName());
     }
