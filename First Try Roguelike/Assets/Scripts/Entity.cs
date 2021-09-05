@@ -9,10 +9,8 @@ public class Entity : MonoBehaviour, Collidable
     public int maxMana = 100;
     public int health;
     public int mana;
+    private int keys = 0;
     public HealthBar healthBar;
-
-    
-
     public ManaBar manaBar;
 
 
@@ -71,5 +69,15 @@ public class Entity : MonoBehaviour, Collidable
         mana -= amountSpent;
         if(mana < 0) mana = 0;
         manaBar.SetBarMana(mana);
+    }
+
+    //Key Pickup Logic
+    public void ObtainKey()
+    {
+        keys++;
+    }
+
+    public void SpendKey(){
+        keys--;
     }
 }
