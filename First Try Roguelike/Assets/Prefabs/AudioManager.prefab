@@ -62,6 +62,18 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: KeyPickup
+    clip: {fileID: 8300000, guid: 891ff1a0b13c5d440aec39eff4043f37, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: GoldPickup
+    clip: {fileID: 8300000, guid: a34f543da4cc14c44a559e007c0724e3, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   - name: NoMana
     clip: {fileID: 8300000, guid: 5fb2e83168c5e7b4bb6be3a910587e10, type: 3}
     volume: 1

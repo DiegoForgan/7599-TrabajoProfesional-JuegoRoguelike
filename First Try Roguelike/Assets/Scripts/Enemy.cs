@@ -11,15 +11,8 @@ public class Enemy : Entity
     //Called before the Start function
     private void Awake() {
         _enemySpriteRenderer = GetComponent<SpriteRenderer>();
-        _shootProyectile = GetComponent<ShootProyectile>();
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
         _enemySpriteRenderer.color = Color.green;
-        initializeHealth();
+        _shootProyectile = GetComponent<ShootProyectile>();
     }
 
     public override void TakeDamage(int damage)

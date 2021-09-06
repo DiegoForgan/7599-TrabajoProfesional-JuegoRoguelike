@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class Proyectile : MonoBehaviour, Collidable
 {   
-    public int damage = 1;
+    [SerializeField]
+    private int damage = 1;
 
     //Triggered when collides with another object
     private void OnCollisionEnter2D(Collision2D other) {
         
         //This should run the "Take Damage" function in the Collidable interface
-        GameObject enemy = other.gameObject;
-        enemy.GetComponent<Collidable>().TakeDamage(damage);
+        GameObject entity = other.gameObject;
+        entity.GetComponent<Collidable>().TakeDamage(damage);
         
-        
+        //Destroys the proyectile because it hitted a target
         Destroy(gameObject);
     }
 
@@ -24,7 +25,7 @@ public class Proyectile : MonoBehaviour, Collidable
 
     public void TakeDamage(int damage){}
 
-    public void setDamage(int dmg){
-        damage = dmg;
+    public void setDamage(int newDamage){
+        damage = newDamage;
     }
 }

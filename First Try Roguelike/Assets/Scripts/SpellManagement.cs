@@ -10,7 +10,7 @@ public class SpellManagement : MonoBehaviour
     public List<Spell> spells;
     private Spell currentSpell;
 
-    private Entity _entity;
+    private Player _player;
 
     private int currentIndex;
     public Transform castPoint;
@@ -19,7 +19,7 @@ public class SpellManagement : MonoBehaviour
     public Image spellAvatar;
     
     private void Awake() {
-        _entity = GetComponent<Entity>();
+        _player = GetComponent<Player>();
     }
     
     
@@ -59,8 +59,8 @@ public class SpellManagement : MonoBehaviour
             }
             int currentManaCost = currentSpell.GetSpellManaCost();
             if(Input.GetButtonDown("Fire1")){
-                if(_entity.GetMana() >= currentManaCost){
-                    _entity.SpendMana(currentManaCost);
+                if(_player.GetMana() >= currentManaCost){
+                    _player.SpendMana(currentManaCost);
                     CastSpell();
                 }
                 //This will play the "not enough mana sound"
@@ -89,14 +89,15 @@ public class SpellManagement : MonoBehaviour
                         currentSpell.GetSpellDamage() );
         spellAvatar.sprite = currentSpell.GetSpellAvatar();
     }
-    private void ChangeCurrentWeapon(int currentIndex)
-    {
-        if(currentIndex > (spells.Count-1)) currentIndex = 0;
-        else if (currentIndex < 0) currentIndex = spells.Count-1;
-        currentSpell = spells[currentIndex];
-        Debug.Log(currentIndex);
-        ShowSpellDataOnUI();
-    }
+    
+    //private void ChangeCurrentWeapon(int currentIndex)
+    //{
+    //    if(currentIndex > (spells.Count-1)) currentIndex = 0;
+    //    else if (currentIndex < 0) currentIndex = spells.Count-1;
+    //    currentSpell = spells[currentIndex];
+    //    Debug.Log(currentIndex);
+    //    ShowSpellDataOnUI();
+    //}
 
     //This method Adds a spell to the main character ONLY if the character doesn´t already have it
     public void AddSpell(string newSpellName){

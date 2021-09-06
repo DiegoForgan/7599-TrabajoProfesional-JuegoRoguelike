@@ -17,11 +17,11 @@ public abstract class Item : MonoBehaviour
         //Instantiate visual effect that the item was picked up
         //TO ADD
         //Make the desired effect of the item
-        MakeEffect(other);
+        MakeEffect(other.GetComponent<Player>());
         //Destroy the item from the scene (the second parameter is the time before it´s destroyed)
         Destroy(gameObject);
     }
 
     //Method that every item should implement in order to make the desired effect on the player
-    protected abstract void MakeEffect(Collider2D other);
+    protected abstract void MakeEffect(Player player);
 }
