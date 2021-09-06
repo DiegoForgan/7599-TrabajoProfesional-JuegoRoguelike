@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -6,8 +7,10 @@ public class Player : Entity
     public int maxMana = 100;
     public int mana;
     private int keys = 0;
+    private int gold = 0;
     public ManaBar manaBar;
     public TextMeshProUGUI keysUI;
+    public TextMeshProUGUI goldUI;
 
     private void Start() {
         initializeHealth();
@@ -17,6 +20,7 @@ public class Player : Entity
         mana = maxMana;
         manaBar.Initialize(mana);
     }
+
 
     public void AddHealth(int amount){
         health += amount;
@@ -51,5 +55,12 @@ public class Player : Entity
     public void SpendKey(){
         keys = keys-1;
         keysUI.SetText("Keys: " + keys);
+    }
+
+    //Gold currency logic when gold item was picked up by the player
+    public void AddGold(int goldGranted)
+    {
+        gold += goldGranted;
+        goldUI.SetText("Gold: " + gold);
     }
 }
