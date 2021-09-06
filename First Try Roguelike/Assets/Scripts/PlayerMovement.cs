@@ -6,10 +6,6 @@ public class PlayerMovement : EntityMovement
 {
     private Vector2 currentMousePosition;
 
-    private void Awake() {
-        _rigidBody = GetComponent<Rigidbody2D>();
-    }
-    
     // Update is called once per frame
     void Update()
     {
@@ -17,7 +13,7 @@ public class PlayerMovement : EntityMovement
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
         //Get mouse position
-        currentMousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+        currentMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
     //Updates at constant time interval regardless of Frames Per Second
