@@ -3354,6 +3354,7 @@ GameObject:
   - component: {fileID: 1552589175}
   - component: {fileID: 1552589176}
   - component: {fileID: 1552589179}
+  - component: {fileID: 1552589177}
   m_Layer: 0
   m_Name: PlayerMock
   m_TagString: Player
@@ -3477,6 +3478,22 @@ MonoBehaviour:
   castPoint: {fileID: 1587395586}
   spellText: {fileID: 1100631704}
   spellAvatar: {fileID: 1142581626}
+--- !u!114 &1552589177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552589171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff1a4c6e24df40408a19236247129b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 805616001}
+  manaBar: {fileID: 328200807}
+  gold: {fileID: 1415128017}
+  keys: {fileID: 607324518}
 --- !u!58 &1552589178
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3505,14 +3522,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5f5c82e09100da4e85e5cff7d683699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 2
   health: 0
-  healthBar: {fileID: 805616001}
   maxMana: 25
   mana: 0
-  manaBar: {fileID: 328200807}
-  keysUI: {fileID: 607324518}
-  goldUI: {fileID: 1415128017}
 --- !u!1 &1568647847
 GameObject:
   m_ObjectHideFlags: 0

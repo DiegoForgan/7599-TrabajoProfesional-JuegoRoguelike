@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
+    public HealthBar healthBar;
     private SpriteRenderer _enemySpriteRenderer;
     private ShootProyectile _shootProyectile;
     
@@ -15,10 +16,16 @@ public class Enemy : Entity
         _shootProyectile = GetComponent<ShootProyectile>();
     }
 
+    private void Start() {
+        health = maxHealth;
+        healthBar.initialize(health);
+    }
+
     public override void TakeDamage(int damage)
     {
         StartCoroutine(flashColor());
         base.TakeDamage(damage);
+        healthBar.SetHealth(health);
         _shootProyectile.Shoot();
     }
 

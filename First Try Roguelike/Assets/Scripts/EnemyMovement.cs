@@ -18,14 +18,13 @@ public class EnemyMovement : EntityMovement
   private void Update() 
   {   
       //It will only start moving towards the player if you faced the enemy on screen
-      if(isVisible){
+      if(isVisible && target){
         movement = target.transform.position - transform.position;
         //prevents the enemy entity from accelerating and deaccelerating regarding its distance from the player
         movement.Normalize();
+        currentTargetPosition = target.transform.position;
       }
-      else movement = Vector2.zero;
-      
-      currentTargetPosition = target.transform.position;
+      else movement = Vector2.zero;  
   }
 
   private void FixedUpdate() 
