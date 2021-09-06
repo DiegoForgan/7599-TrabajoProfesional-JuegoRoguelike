@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class HUD : MonoBehaviour
    private TextMeshProUGUI gold;
    [SerializeField]
    private TextMeshProUGUI keys;
+   [SerializeField]
+   public TextMeshProUGUI spellText;
+   [SerializeField]
+   public Image spellAvatar;
 
    public void InitHUD(int maxHealth, int maxMana){
        healthBar.initialize(maxHealth);
@@ -41,5 +46,12 @@ public class HUD : MonoBehaviour
 
    public void UpdateKeys(int keysValue){
        keys.SetText("Keys: " + keysValue);
+   }
+
+   public void UpdateSpellUI(Spell currentSpell){
+       spellText.SetText(currentSpell.GetSpellName() + "\n\nMana cost: "  
+                        + currentSpell.GetSpellManaCost()+ "   Spell Damage: " +
+                        currentSpell.GetSpellDamage() );
+       spellAvatar.sprite = currentSpell.GetSpellAvatar();
    }
 }

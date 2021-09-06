@@ -3476,8 +3476,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spells: []
   castPoint: {fileID: 1587395586}
-  spellText: {fileID: 1100631704}
-  spellAvatar: {fileID: 1142581626}
 --- !u!114 &1552589177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3494,6 +3492,8 @@ MonoBehaviour:
   manaBar: {fileID: 328200807}
   gold: {fileID: 1415128017}
   keys: {fileID: 607324518}
+  spellText: {fileID: 1100631704}
+  spellAvatar: {fileID: 1142581626}
 --- !u!58 &1552589178
 CircleCollider2D:
   m_ObjectHideFlags: 0

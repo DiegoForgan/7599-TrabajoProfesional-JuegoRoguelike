@@ -15,11 +15,13 @@ public class SpellManagement : MonoBehaviour
     private int currentIndex;
     public Transform castPoint;
 
-    public TextMeshProUGUI spellText;
-    public Image spellAvatar;
+    private HUD _hud;
+
+    
     
     private void Awake() {
         _player = GetComponent<Player>();
+        _hud = GetComponent<HUD>();
     }
     
     
@@ -31,7 +33,7 @@ public class SpellManagement : MonoBehaviour
         AddSpell("Poison Spell");
         currentIndex = 0;
         currentSpell = spells[0];
-        ShowSpellDataOnUI();
+        _hud.UpdateSpellUI(currentSpell);
     }
 
     // Update is called once per frame
@@ -46,7 +48,7 @@ public class SpellManagement : MonoBehaviour
                 else
                     currentIndex++;
                 currentSpell = spells[currentIndex];
-                ShowSpellDataOnUI();
+                _hud.UpdateSpellUI(currentSpell);
             }
             if (Input.GetAxis("Mouse ScrollWheel")<0f)
             {
@@ -55,7 +57,7 @@ public class SpellManagement : MonoBehaviour
                 else
                     currentIndex--;
                 currentSpell = spells[currentIndex];
-                ShowSpellDataOnUI();
+                _hud.UpdateSpellUI(currentSpell);
             }
             int currentManaCost = currentSpell.GetSpellManaCost();
             if(Input.GetButtonDown("Fire1")){
@@ -82,14 +84,7 @@ public class SpellManagement : MonoBehaviour
         //This command plays the desired sound clip
         FindObjectOfType<AudioManager>().PlaySound(currentSpell.GetSpellName());
     }
-
-    private void ShowSpellDataOnUI(){
-        spellText.SetText(currentSpell.GetSpellName() + "\n\nMana cost: "  
-                        + currentSpell.GetSpellManaCost()+ "   Spell Damage: " +
-                        currentSpell.GetSpellDamage() );
-        spellAvatar.sprite = currentSpell.GetSpellAvatar();
-    }
-    
+   
     //private void ChangeCurrentWeapon(int currentIndex)
     //{
     //    if(currentIndex > (spells.Count-1)) currentIndex = 0;
