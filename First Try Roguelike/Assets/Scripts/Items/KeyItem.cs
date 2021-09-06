@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KeyItem : Item
 {
-    protected override void MakeEffect(Collider2D other)
+    protected override void MakeEffect(Player player)
     {
-        Entity player = other.GetComponent<Entity>();
+        //Calls the method to add one key to the player
         player.ObtainKey();
         FindObjectOfType<AudioManager>().PlaySound("KeyPickup");
     }
