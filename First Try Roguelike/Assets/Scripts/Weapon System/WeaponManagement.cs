@@ -51,7 +51,7 @@ public class WeaponManagement : MonoBehaviour
         //
         //
         //
-        //
+        // Mouse ScrollWheel logic to change beetween spells
         if (Input.GetAxis("Mouse ScrollWheel")>0f)
         {
             if (currentIndex >= spells.Count - 1)
@@ -76,61 +76,28 @@ public class WeaponManagement : MonoBehaviour
         //
         //
         if(Time.time >= nextAttackTime){
-        //Mouse Logic to Attack or Throw spells
-        if(Input.GetKeyDown(KeyCode.Mouse0)){
-            //Left Shift key must be pressed in order to cast a spell
-            if(Input.GetKey(KeyCode.LeftShift)){
-                int currentManaCost = currentSpell.GetSpellManaCost();
-                if (_player.GetMana() >= currentManaCost){
-                    _player.SpendMana(currentManaCost);
-                    CastSpell();
+            //Mouse Logic to Attack or Throw spells
+            if(Input.GetKeyDown(KeyCode.Mouse0)){
+                //Left Shift key must be pressed in order to cast a spell
+                if(Input.GetKey(KeyCode.LeftShift)){
+                    int currentManaCost = currentSpell.GetSpellManaCost();
+                    if (_player.GetMana() >= currentManaCost){
+                        _player.SpendMana(currentManaCost);
+                        CastSpell();
+                    }
+                    else 
+                    //This will play the "not enough mana sound"
+                    FindObjectOfType<AudioManager>().PlaySound("NoMana");
                 }
-                else 
-                //This will play the "not enough mana sound"
-                FindObjectOfType<AudioManager>().PlaySound("NoMana");
-            }
-            // Mouse click without holding the left shift key will result in basic melee attack
-            else {
-                _mainWeapon.Attack(_attackPoint);
-                //TODO: Add Sword swinging sound
-                Debug.Log("Remember to add sword swinging sound!");    
-            }
-            nextAttackTime = Time.time + 1f/attackRate;
-        }
-        }
-/*
-        if(PauseMenu.GameIsPaused == false && spells.Count != 0){
-            //This code I think its highly refactorable
-            if (Input.GetAxis("Mouse ScrollWheel")>0f)
-            {
-                if (currentIndex >= spells.Count - 1)
-                    currentIndex = 0;
-                else
-                    currentIndex++;
-                currentSpell = spells[currentIndex];
-                _hud.UpdateSpellUI(currentSpell);
-            }
-            if (Input.GetAxis("Mouse ScrollWheel")<0f)
-            {
-                if (currentIndex <= 0)
-                    currentIndex = spells.Count - 1;
-                else
-                    currentIndex--;
-                currentSpell = spells[currentIndex];
-                _hud.UpdateSpellUI(currentSpell);
-            }
-            int currentManaCost = currentSpell.GetSpellManaCost();
-            if(Input.GetButtonDown("Fire1")){
-                if(_player.GetMana() >= currentManaCost){
-                    _player.SpendMana(currentManaCost);
-                    CastSpell();
+                // Mouse click without holding the left shift key will result in basic melee attack
+                else {
+                    _mainWeapon.Attack(_attackPoint);
+                    //TODO: Add Sword swinging sound
+                    Debug.Log("Remember to add sword swinging sound!");    
                 }
-                //This will play the "not enough mana sound"
-                else FindObjectOfType<AudioManager>().PlaySound("NoMana");
-            }    
+                nextAttackTime = Time.time + 1f/attackRate;
+            }
         }
-
-        */
     }
 
     //Creates a proyectile based on the current selected spell by the user
@@ -145,15 +112,6 @@ public class WeaponManagement : MonoBehaviour
         FindObjectOfType<AudioManager>().PlaySound(currentSpell.GetSpellName());
     }
    
-    //private void ChangeCurrentWeapon(int currentIndex)
-    //{
-    //    if(currentIndex > (spells.Count-1)) currentIndex = 0;
-    //    else if (currentIndex < 0) currentIndex = spells.Count-1;
-    //    currentSpell = spells[currentIndex];
-    //    Debug.Log(currentIndex);
-    //    ShowSpellDataOnUI();
-    //}
-
     //This method Adds a spell to the main character ONLY if the character doesn´t already have it
     public void AddSpell(string newSpellName){
         //Search if spell already obtained by the player

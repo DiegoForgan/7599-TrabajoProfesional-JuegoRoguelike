@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class MeleeWeapon : MonoBehaviour
 {
+    [SerializeField]
     private float weaponRange = 0.5f;
+    [SerializeField]
     private int damage = 1;
     private LayerMask _entitiesLayer;
     private LayerMask _furnitureLayer;
@@ -26,5 +28,13 @@ public class MeleeWeapon : MonoBehaviour
         foreach (Collider2D furniture in furnitureHit){
             Debug.Log("Implement hitting furniture with melee weapon");
         }
+    }
+
+    public void SetDamage(int newDamage){
+        damage = newDamage;
+    }
+
+    public void SetWeaponReach(float newReach){
+        weaponRange = newReach;
     }
 }
