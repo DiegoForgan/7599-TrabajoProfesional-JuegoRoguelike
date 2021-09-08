@@ -5,15 +5,16 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class SpellManagement : MonoBehaviour
+public class WeaponManagement : MonoBehaviour
 {
     public List<Spell> spells;
+    private MeleeWeapon _mainWeapon;
     private Spell currentSpell;
 
     private Player _player;
 
-    private int currentIndex;
-    public Transform castPoint;
+    private int currentIndex = 0;
+    private Transform _attackPoint;
 
     private HUD _hud;
 
@@ -22,6 +23,8 @@ public class SpellManagement : MonoBehaviour
     private void Awake() {
         _player = GetComponent<Player>();
         _hud = GetComponent<HUD>();
+        _mainWeapon = GetComponent<MeleeWeapon>();
+        _attackPoint = transform.Find("ShootPoint");
     }
     
     
@@ -39,6 +42,57 @@ public class SpellManagement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //If game is paused any user input should be ignored
+        if(PauseMenu.GameIsPaused) return;
+        //
+        //
+        //
+        //
+        //
+        if (Input.GetAxis("Mouse ScrollWheel")>0f)
+        {
+            if (currentIndex >= spells.Count - 1)
+                currentIndex = 0;
+            else
+                currentIndex++;
+            currentSpell = spells[currentIndex];
+            _hud.UpdateSpellUI(currentSpell);
+        }
+        if (Input.GetAxis("Mouse ScrollWheel")<0f)
+        {
+            if (currentIndex <= 0)
+                currentIndex = spells.Count - 1;
+            else
+                currentIndex--;
+            currentSpell = spells[currentIndex];
+            _hud.UpdateSpellUI(currentSpell);
+        }
+        //
+        //
+        //
+        //
+        //
+        //Mouse Logic to Attack or Throw spells
+        if(Input.GetKeyDown(KeyCode.Mouse0)){
+            //Left Shift key must be pressed in order to cast a spell
+            if(Input.GetKey(KeyCode.LeftShift)){
+                int currentManaCost = currentSpell.GetSpellManaCost();
+                if (_player.GetMana() >= currentManaCost){
+                    _player.SpendMana(currentManaCost);
+                    CastSpell();
+                }
+                else 
+                //This will play the "not enough mana sound"
+                FindObjectOfType<AudioManager>().PlaySound("NoMana");
+            }
+            // Mouse click without holding the left shift key will result in basic melee attack
+            else {
+                _mainWeapon.Attack(_attackPoint);
+                //TODO: Add Sword swinging sound
+                Debug.Log("Remember to add sword swinging sound!");    
+            }
+        }
+/*
         if(PauseMenu.GameIsPaused == false && spells.Count != 0){
             //This code I think its highly refactorable
             if (Input.GetAxis("Mouse ScrollWheel")>0f)
@@ -70,16 +124,16 @@ public class SpellManagement : MonoBehaviour
             }    
         }
 
-        
+        */
     }
 
     //Creates a proyectile based on the current selected spell by the user
     private void CastSpell()
     {
-        GameObject spellProyectile = Instantiate(currentSpell.GetSpellPrefab(),castPoint.position,castPoint.rotation);
+        GameObject spellProyectile = Instantiate(currentSpell.GetSpellPrefab(),_attackPoint.position,_attackPoint.rotation);
         spellProyectile.GetComponent<Proyectile>().setDamage(currentSpell.GetSpellDamage());
         Rigidbody2D proyectileRigidBody = spellProyectile.GetComponent<Rigidbody2D>();
-        proyectileRigidBody.AddForce(castPoint.up * currentSpell.spellproyectileForce, ForceMode2D.Impulse);
+        proyectileRigidBody.AddForce(_attackPoint.up * currentSpell.spellproyectileForce, ForceMode2D.Impulse);
         
         //This command plays the desired sound clip
         FindObjectOfType<AudioManager>().PlaySound(currentSpell.GetSpellName());

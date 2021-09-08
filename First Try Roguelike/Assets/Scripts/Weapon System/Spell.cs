@@ -20,15 +20,6 @@ public class Spell
     public float spellproyectileForce = 10f;
     public Sprite avatar;
     
-
-    public Spell (string name, int damage, int manaCost, SpellTypes type, GameObject prefab){
-        this.spellName = name;
-        this.damage = damage;
-        this.manaCost = manaCost;
-        this.type = type;
-        this.spellProyectilePrefab = prefab;
-    }
-
     public string GetSpellName(){
         return spellName;
     }
