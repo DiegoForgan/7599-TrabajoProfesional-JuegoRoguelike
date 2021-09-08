@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 127368428}
   - component: {fileID: 127368430}
   - component: {fileID: 127368429}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 141366180}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2014,7 +2014,7 @@ GameObject:
   - component: {fileID: 1137639633}
   - component: {fileID: 1137639632}
   - component: {fileID: 1137639631}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2188,7 +2188,7 @@ GameObject:
   - component: {fileID: 1158459471}
   - component: {fileID: 1158459470}
   - component: {fileID: 1158459469}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2399,7 +2399,7 @@ GameObject:
   - component: {fileID: 1261049403}
   - component: {fileID: 1261049405}
   - component: {fileID: 1261049406}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnemyMock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3200,7 +3200,7 @@ GameObject:
   - component: {fileID: 1490042284}
   - component: {fileID: 1490042286}
   - component: {fileID: 1490042285}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3355,7 +3355,8 @@ GameObject:
   - component: {fileID: 1552589176}
   - component: {fileID: 1552589179}
   - component: {fileID: 1552589177}
-  m_Layer: 0
+  - component: {fileID: 1552589180}
+  m_Layer: 6
   m_Name: PlayerMock
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -3475,7 +3476,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spells: []
-  castPoint: {fileID: 1587395586}
 --- !u!114 &1552589177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3526,6 +3526,18 @@ MonoBehaviour:
   health: 0
   maxMana: 25
   mana: 0
+--- !u!114 &1552589180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552589171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf53463f39b82e942aca295a8826abdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1568647847
 GameObject:
   m_ObjectHideFlags: 0
@@ -3610,7 +3622,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1587395586}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

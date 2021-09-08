@@ -9,6 +9,9 @@ public class WeaponManagement : MonoBehaviour
 {
     public List<Spell> spells;
     private MeleeWeapon _mainWeapon;
+    //CoolDown parameters to prevent spamming attacks
+    private float attackRate = 2f;
+    private float nextAttackTime = 0f;
     private Spell currentSpell;
 
     private Player _player;
@@ -72,6 +75,7 @@ public class WeaponManagement : MonoBehaviour
         //
         //
         //
+        if(Time.time >= nextAttackTime){
         //Mouse Logic to Attack or Throw spells
         if(Input.GetKeyDown(KeyCode.Mouse0)){
             //Left Shift key must be pressed in order to cast a spell
@@ -91,6 +95,8 @@ public class WeaponManagement : MonoBehaviour
                 //TODO: Add Sword swinging sound
                 Debug.Log("Remember to add sword swinging sound!");    
             }
+            nextAttackTime = Time.time + 1f/attackRate;
+        }
         }
 /*
         if(PauseMenu.GameIsPaused == false && spells.Count != 0){
