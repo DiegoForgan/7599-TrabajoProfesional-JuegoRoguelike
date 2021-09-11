@@ -41,11 +41,11 @@ public class HUD : MonoBehaviour
    }
 
    public void UpdateGold(int goldValue){
-       gold.SetText("Gold: " + goldValue);
+       gold.SetText(": " + goldValue);
    }
 
    public void UpdateKeys(int keysValue){
-       keys.SetText("Keys: " + keysValue);
+       keys.SetText(": " + keysValue);
    }
 
    public void UpdateSpellUI(Spell currentSpell){
