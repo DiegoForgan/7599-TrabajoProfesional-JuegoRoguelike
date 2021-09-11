@@ -21,6 +21,12 @@ public class Player : Entity
     public override void TakeDamage(int damage){
         base.TakeDamage(damage);
         _hud.UpdateHealth(health);
+    }
+
+    public override void DestroyElement(){
+        GameOverMenu.IsPlayerDead = true;
+        FindObjectOfType<AudioManager>().PlaySound("GameOverTheme");
+        Destroy(gameObject);
     } 
     
     public void AddHealth(int amount){
