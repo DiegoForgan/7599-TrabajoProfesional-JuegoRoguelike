@@ -25,6 +25,7 @@ public class Player : Entity
 
     public override void DestroyElement(){
         GameOverMenu.IsPlayerDead = true;
+        FindObjectOfType<AudioManager>().PlaySound("GameOverTheme");
         Destroy(gameObject);
     } 
     

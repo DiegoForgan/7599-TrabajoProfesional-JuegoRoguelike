@@ -50,6 +50,12 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     source: {fileID: 0}
+  - name: GameOverTheme
+    clip: {fileID: 8300000, guid: 817644a43b8205141b524a4156338bb0, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   - name: HealthPickup
     clip: {fileID: 8300000, guid: 230ca10496c806c40a4e2221a871609f, type: 3}
     volume: 1

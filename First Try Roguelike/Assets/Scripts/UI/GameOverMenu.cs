@@ -27,6 +27,8 @@ public class GameOverMenu : MonoBehaviour
         //Goes back to the main menu to start again
         SceneManager.LoadScene(0);
         //This command plays the desired sound clip
+        FindObjectOfType<AudioManager>().StopSound("GameOverTheme");
+        //This command plays the desired sound clip
         FindObjectOfType<AudioManager>().PlaySound("MainMenuTheme");
     }
 
