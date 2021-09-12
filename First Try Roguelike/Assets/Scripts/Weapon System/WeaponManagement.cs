@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class WeaponManagement : MonoBehaviour
 {
     public PlayerData playerData;
-    public List<SpellData> spells;
+    private List<SpellData> spells;
     private MeleeWeapon _mainWeapon;
     //CoolDown parameters to prevent spamming attacks
     private float attackRate;
@@ -36,9 +36,11 @@ public class WeaponManagement : MonoBehaviour
     void Start()
     {
         //Load spells based on the player stats defined
-        spells = playerData.learnedSpells;
+        //Creates a copy of the list to prevent changes on the Scriptable Object
+        spells = new List<SpellData>(playerData.learnedSpells);
         attackRate = playerData.attackRate;
         nextAttackTime = playerData.nextAttackTime;
+        _mainWeapon.SetWeaponData(playerData.meleeWeapon);
         //
         currentIndex = 0;
         currentSpell = spells[0];

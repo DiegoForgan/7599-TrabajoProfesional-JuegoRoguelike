@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MeleeWeapon : MonoBehaviour
 {
-    public MeleeWeaponData meleeWeaponData;
     private float weaponRange;
     private int damage;
     private LayerMask _entitiesLayer;
@@ -15,9 +14,9 @@ public class MeleeWeapon : MonoBehaviour
         _furnitureLayer = LayerMask.GetMask("Furniture");
     }
 
-    private void Start() {
-        weaponRange = meleeWeaponData.range;
-        damage = meleeWeaponData.damage;
+    public void SetWeaponData(MeleeWeaponData data){
+        weaponRange = data.range;
+        damage = data.damage;
     }
 
     public void Attack(Transform attackPoint){

@@ -18,8 +18,8 @@ MonoBehaviour:
   nextAttackTime: 0
   sprite: {fileID: 0}
   mana: 30
-  gold: 10
-  keys: 1
+  gold: 0
+  keys: 0
   meleeWeapon: {fileID: 11400000, guid: 0382205b679707e45bb2bb36a01c7650, type: 2}
   learnedSpells:
   - {fileID: 11400000, guid: 64caa970409e76546b4af52c5b11d8c1, type: 2}

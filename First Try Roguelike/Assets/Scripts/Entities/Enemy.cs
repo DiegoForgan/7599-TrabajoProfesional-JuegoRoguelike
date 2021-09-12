@@ -17,13 +17,16 @@ public class Enemy : Entity
         _enemySpriteRenderer = GetComponent<SpriteRenderer>();
         _enemySpriteRenderer.color = Color.green;
         _shootProyectile = GetComponent<ShootProyectile>();
+        meleeWeapon = GetComponent<MeleeWeapon>();     
     }
 
     private void Start() {
         health = enemyData.health;
-        maxHealth = health;
-        availableSpells = enemyData.availableSpell; 
+        maxHealth = health; 
         healthBar.initialize(enemyData.health);
+        meleeWeapon.SetWeaponData(enemyData.availableMeleeWeapon);
+        //Creates a copy of the list to prevent changes on the Scriptable Object
+        availableSpells = new List<SpellData>(enemyData.availableSpell);
     }
 
     public override void TakeDamage(int damage)
