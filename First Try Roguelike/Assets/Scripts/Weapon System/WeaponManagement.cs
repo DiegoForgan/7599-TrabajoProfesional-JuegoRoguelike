@@ -7,12 +7,13 @@ using UnityEngine.UI;
 
 public class WeaponManagement : MonoBehaviour
 {
-    public List<Spell> spells;
+    public PlayerData playerData;
+    private List<SpellData> spells;
     private MeleeWeapon _mainWeapon;
     //CoolDown parameters to prevent spamming attacks
-    private float attackRate = 2f;
-    private float nextAttackTime = 0f;
-    private Spell currentSpell;
+    private float attackRate;
+    private float nextAttackTime;
+    private SpellData currentSpell;
 
     private Player _player;
 
@@ -34,9 +35,13 @@ public class WeaponManagement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AddSpell("Basic Spell");
-        AddSpell("Fire Spell");
-        AddSpell("Poison Spell");
+        //Load spells based on the player stats defined
+        //Creates a copy of the list to prevent changes on the Scriptable Object
+        spells = new List<SpellData>(playerData.learnedSpells);
+        attackRate = playerData.attackRate;
+        nextAttackTime = playerData.nextAttackTime;
+        _mainWeapon.SetWeaponData(playerData.meleeWeapon);
+        //
         currentIndex = 0;
         currentSpell = spells[0];
         _hud.UpdateSpellUI(currentSpell);
@@ -80,7 +85,7 @@ public class WeaponManagement : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Mouse0)){
                 //Left Shift key must be pressed in order to cast a spell
                 if(Input.GetKey(KeyCode.LeftShift)){
-                    int currentManaCost = currentSpell.GetSpellManaCost();
+                    int currentManaCost = currentSpell.manaCost;
                     if (_player.GetMana() >= currentManaCost){
                         _player.SpendMana(currentManaCost);
                         CastSpell();
@@ -103,28 +108,28 @@ public class WeaponManagement : MonoBehaviour
     //Creates a proyectile based on the current selected spell by the user
     private void CastSpell()
     {
-        GameObject spellProyectile = Instantiate(currentSpell.GetSpellPrefab(),_attackPoint.position,_attackPoint.rotation);
-        spellProyectile.GetComponent<Proyectile>().setDamage(currentSpell.GetSpellDamage());
+        GameObject spellProyectile = Instantiate(currentSpell.proyectilePrefab,_attackPoint.position,_attackPoint.rotation);
+        spellProyectile.GetComponent<Proyectile>().setDamage(currentSpell.damage);
         Rigidbody2D proyectileRigidBody = spellProyectile.GetComponent<Rigidbody2D>();
-        proyectileRigidBody.AddForce(_attackPoint.up * currentSpell.spellproyectileForce, ForceMode2D.Impulse);
+        proyectileRigidBody.AddForce(_attackPoint.up * currentSpell.proyectileForce, ForceMode2D.Impulse);
         
         //This command plays the desired sound clip
-        FindObjectOfType<AudioManager>().PlaySound(currentSpell.GetSpellName());
+        FindObjectOfType<AudioManager>().PlaySound(currentSpell.name);
     }
    
     //This method Adds a spell to the main character ONLY if the character doesn´t already have it
     public void AddSpell(string newSpellName){
         //Search if spell already obtained by the player
-        if (spells.FindIndex(element => element.spellName == newSpellName ) != -1) return;
+        if (spells.FindIndex(element => element.name == newSpellName ) != -1) return;
         //Search the spell data in the spell Database to add it
-        Spell newSpell = FindObjectOfType<SpellDatabase>().GetSpellByName(newSpellName);
+        SpellData newSpell = FindObjectOfType<SpellDatabase>().GetSpellByName(newSpellName);
         spells.Add(newSpell);
     }
-    public List<Spell> GetSpells(){
+    public List<SpellData> GetSpells(){
         return spells;
     }
 
-    public Spell GetCurrentSpell(){
+    public SpellData GetCurrentSpell(){
         return currentSpell;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EntityMovement : MonoBehaviour
 {
-    public float movementSpeed = 2.5f;
+    protected float movementSpeed;
 
     protected Rigidbody2D _rigidBody;
     protected Vector2 movement;

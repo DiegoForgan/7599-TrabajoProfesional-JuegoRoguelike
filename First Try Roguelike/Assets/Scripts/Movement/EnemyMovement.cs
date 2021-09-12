@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : EntityMovement
 {
+  public EnemyData enemyData;
   public GameObject target;
   private Vector2 currentTargetPosition;
   private bool isVisible;
@@ -14,6 +15,10 @@ public class EnemyMovement : EntityMovement
 
   private void OnBecameInvisible() {
       isVisible = false;
+  }
+
+  private void Start() {
+    movementSpeed = enemyData.movementSpeed;
   }
   private void Update() 
   {   

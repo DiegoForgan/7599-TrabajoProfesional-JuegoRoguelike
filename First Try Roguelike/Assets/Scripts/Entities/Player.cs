@@ -3,19 +3,24 @@ using UnityEngine;
 
 public class Player : Entity
 {
-    public int maxMana = 100;
-    public int mana;
-    private int keys = 0;
-    private int gold = 0;
+    public PlayerData playerData; 
+    private int maxMana;
+    private int mana;
+    private int keys;
+    private int gold;
     private HUD _hud;
 
     private void Awake() {
         _hud = GetComponent<HUD>(); 
     }
     private void Start() {
-        health = maxHealth;
-        mana = maxMana;
-        _hud.InitHUD(maxHealth,maxMana);
+        health = playerData.health;
+        maxHealth = health;
+        mana = playerData.mana;
+        maxMana = mana;
+        keys = playerData.keys;
+        gold = playerData.gold;
+        _hud.InitHUD(playerData.health,playerData.mana,playerData.gold,playerData.keys);
     }
 
     public override void TakeDamage(int damage){
