@@ -19,6 +19,5 @@ MonoBehaviour:
   sprite: {fileID: 0}
   availableMeleeWeapon: {fileID: 11400000, guid: 0382205b679707e45bb2bb36a01c7650, type: 2}
   availableSpell:
-  - {fileID: 11400000, guid: 64caa970409e76546b4af52c5b11d8c1, type: 2}
   - {fileID: 11400000, guid: b5449b3d86927334d915d209d79ec794, type: 2}
   - {fileID: 11400000, guid: 65ba44b234552dc459ee3cc9dc3624e7, type: 2}

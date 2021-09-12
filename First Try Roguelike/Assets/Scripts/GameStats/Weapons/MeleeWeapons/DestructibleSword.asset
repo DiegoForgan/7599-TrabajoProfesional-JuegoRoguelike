@@ -15,4 +15,4 @@ MonoBehaviour:
   name: Mortal Sword
   description: "It\xB4s name says it all"
   damage: 99
-  range: 0.2
+  range: 0.3
