@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b6d4b6443e491941ba0e074e0b8eaea, type: 3}
-  m_Name: PoisonSpellStats
+  m_Name: FireSpellStats
   m_EditorClassIdentifier: 
-  name: 
-  description: 
-  damage: 0
-  manaCost: 0
-  proyectilePrefab: {fileID: 0}
-  proyectileForce: 0
-  avatar: {fileID: 0}
+  name: Fire Spell
+  description: Beware this spell as it may burn you alive.
+  damage: 2
+  manaCost: 3
+  proyectilePrefab: {fileID: 550155997358378777, guid: 6029275556bd6df4594670c8ded51222, type: 3}
+  proyectileForce: 10
+  avatar: {fileID: 21300000, guid: 2c04f4986ebc72e48a8b0c3eb2e42db2, type: 3}

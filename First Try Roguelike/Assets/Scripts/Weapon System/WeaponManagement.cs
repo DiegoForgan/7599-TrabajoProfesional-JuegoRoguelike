@@ -7,11 +7,12 @@ using UnityEngine.UI;
 
 public class WeaponManagement : MonoBehaviour
 {
+    public PlayerData playerData;
     public List<SpellData> spells;
     private MeleeWeapon _mainWeapon;
     //CoolDown parameters to prevent spamming attacks
-    private float attackRate = 2f;
-    private float nextAttackTime = 0f;
+    private float attackRate;
+    private float nextAttackTime;
     private SpellData currentSpell;
 
     private Player _player;
@@ -34,12 +35,10 @@ public class WeaponManagement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Test Granted Spells
-        AddSpell("Basic Spell");
-        AddSpell("Fire Spell");
-        AddSpell("Poison Spell");
-        AddSpell("Hammer Throw");
-        //
+        //Load spells based on the player stats defined
+        spells = playerData.learnedSpells;
+        attackRate = playerData.attackRate;
+        nextAttackTime = playerData.nextAttackTime;
         //
         currentIndex = 0;
         currentSpell = spells[0];

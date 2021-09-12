@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b6d4b6443e491941ba0e074e0b8eaea, type: 3}
-  m_Name: HammerThrowSpellStats
+  m_Name: PoisonSpellStats
   m_EditorClassIdentifier: 
-  name: 
-  description: 
-  damage: 0
-  manaCost: 0
-  proyectilePrefab: {fileID: 0}
-  proyectileForce: 0
-  avatar: {fileID: 0}
+  name: Poison Spell
+  description: This spell guarantees to make your enemies feel sick.
+  damage: 5
+  manaCost: 5
+  proyectilePrefab: {fileID: 3846283087040102956, guid: 8f0d7c9a10c0c644886f80b0c7bb74f9, type: 3}
+  proyectileForce: 7.5
+  avatar: {fileID: 21300000, guid: 8a5f9829a049c704fa992203bfc451f2, type: 3}

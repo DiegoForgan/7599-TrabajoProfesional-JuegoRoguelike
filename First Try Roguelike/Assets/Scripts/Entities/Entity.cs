@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour, Collidable
 {
-    public int maxHealth = 100;
-    public int health;
+    protected int maxHealth;
+    protected int health;
     
     public int GetHealth(){
         return health;

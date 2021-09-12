@@ -17,11 +17,11 @@ public class HUD : MonoBehaviour
    [SerializeField]
    public Image spellAvatar;
 
-   public void InitHUD(int maxHealth, int maxMana){
+   public void InitHUD(int maxHealth, int maxMana, int currentGold, int currentKeys){
        healthBar.initialize(maxHealth);
        manaBar.Initialize(maxMana);
-       UpdateGold(0);
-       UpdateKeys(0);
+       UpdateGold(currentGold);
+       UpdateKeys(currentKeys);
    }
 
    public void UpdateHealth(int health){
@@ -51,7 +51,7 @@ public class HUD : MonoBehaviour
    public void UpdateSpellUI(SpellData currentSpell){
        spellText.SetText(currentSpell.name + "\n\nMana cost: "  
                         + currentSpell.manaCost+ "   Spell Damage: " +
-                        currentSpell.damage );
+                        currentSpell.damage);
        spellAvatar.sprite = currentSpell.avatar;
    }
 }

@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class MeleeWeapon : MonoBehaviour
 {
-    [SerializeField]
-    private float weaponRange = 0.5f;
-    [SerializeField]
-    private int damage = 1;
+    public MeleeWeaponData meleeWeaponData;
+    private float weaponRange;
+    private int damage;
     private LayerMask _entitiesLayer;
     private LayerMask _furnitureLayer;
 
     private void Awake() {
         _entitiesLayer = LayerMask.GetMask("Entities");
         _furnitureLayer = LayerMask.GetMask("Furniture");
+    }
+
+    private void Start() {
+        weaponRange = meleeWeaponData.range;
+        damage = meleeWeaponData.damage;
     }
 
     public void Attack(Transform attackPoint){

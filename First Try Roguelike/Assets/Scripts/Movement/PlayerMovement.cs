@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class PlayerMovement : EntityMovement
 {
+    public PlayerData playerData;
     private Vector2 currentMousePosition;
 
+    private void Start() {
+        movementSpeed = playerData.movementSpeed;
+    }
     // Update is called once per frame
     void Update()
     {
