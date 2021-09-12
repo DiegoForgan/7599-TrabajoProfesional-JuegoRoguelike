@@ -5,7 +5,7 @@ using System;
 
 public class SpellDatabase : MonoBehaviour
 {   
-    public Spell[] spellsDB;
+    public SpellData[] spellsDB;
     public static SpellDatabase instance;
     private void Awake() {
         
@@ -20,8 +20,8 @@ public class SpellDatabase : MonoBehaviour
     }
 
     //Searches for the desired spell on the database and returns all the data if found
-    public Spell GetSpellByName(string name){
-        Spell spellFound = Array.Find(spellsDB, spell => spell.GetSpellName() == name);
+    public SpellData GetSpellByName(string name){
+        SpellData spellFound = Array.Find(spellsDB, spell => spell.name == name);
         if (spellFound == null) Debug.LogWarning("Spell with name: "+ name +" was not found in the Database!");
         return spellFound;
     }

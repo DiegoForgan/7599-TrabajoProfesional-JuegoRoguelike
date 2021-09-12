@@ -48,10 +48,10 @@ public class HUD : MonoBehaviour
        keys.SetText(": " + keysValue);
    }
 
-   public void UpdateSpellUI(Spell currentSpell){
-       spellText.SetText(currentSpell.GetSpellName() + "\n\nMana cost: "  
-                        + currentSpell.GetSpellManaCost()+ "   Spell Damage: " +
-                        currentSpell.GetSpellDamage() );
-       spellAvatar.sprite = currentSpell.GetSpellAvatar();
+   public void UpdateSpellUI(SpellData currentSpell){
+       spellText.SetText(currentSpell.name + "\n\nMana cost: "  
+                        + currentSpell.manaCost+ "   Spell Damage: " +
+                        currentSpell.damage );
+       spellAvatar.sprite = currentSpell.avatar;
    }
 }
