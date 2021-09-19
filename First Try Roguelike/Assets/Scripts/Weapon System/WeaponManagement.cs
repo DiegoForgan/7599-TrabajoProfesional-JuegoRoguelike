@@ -123,7 +123,9 @@ public class WeaponManagement : MonoBehaviour
         if (spells.FindIndex(element => element.name == newSpellName ) != -1) return;
         //Search the spell data in the spell Database to add it
         SpellData newSpell = FindObjectOfType<SpellDatabase>().GetSpellByName(newSpellName);
-        spells.Add(newSpell);
+        //Think this fixes a bug
+        if (newSpell != null) spells.Add(newSpell);
+        else Debug.Log("Spell not found and not added!"); 
     }
     public List<SpellData> GetSpells(){
         return spells;

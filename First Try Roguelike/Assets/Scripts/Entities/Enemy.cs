@@ -43,6 +43,7 @@ public class Enemy : Entity
         Transform shootPoint = transform.Find("ShootPoint");
         GameObject proyectile = Instantiate(selectedSpell.proyectilePrefab,shootPoint.position,shootPoint.rotation);
         Rigidbody2D proyectileRigidBody = proyectile.GetComponent<Rigidbody2D>();
+        proyectile.GetComponent<Proyectile>().setDamage(selectedSpell.damage);
         FindObjectOfType<AudioManager>().PlaySound(selectedSpell.name);
         proyectileRigidBody.AddForce(shootPoint.up * selectedSpell.proyectileForce, ForceMode2D.Impulse);
     }
