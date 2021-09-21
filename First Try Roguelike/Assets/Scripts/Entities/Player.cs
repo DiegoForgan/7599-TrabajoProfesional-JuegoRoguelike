@@ -10,10 +10,19 @@ public class Player : Entity
     private int gold;
     private HUD _hud;
 
+    private bool canOpenDoor;
+
     private void Awake() {
         _hud = GetComponent<HUD>(); 
     }
+
+    internal void DisableKeyAction()
+    {
+        canOpenDoor = false;
+    }
+
     private void Start() {
+        canOpenDoor = false;
         health = playerData.health;
         maxHealth = health;
         mana = playerData.mana;
@@ -21,6 +30,18 @@ public class Player : Entity
         keys = playerData.keys;
         gold = playerData.gold;
         _hud.InitHUD(playerData.health,playerData.mana,playerData.gold,playerData.keys);
+    }
+
+    internal void EnableKeyAction()
+    {
+        if(keys >= 1) canOpenDoor = true;
+    }
+
+    private void Update() {
+        if(canOpenDoor && Input.GetKeyDown(KeyCode.E)){
+            SpendKey();
+            Debug.Log("You opened the door");
+        }
     }
 
     public override void TakeDamage(int damage){
