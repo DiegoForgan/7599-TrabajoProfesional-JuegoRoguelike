@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : EntityMovement
 {
-  public EnemyData enemyData;
+  //public EnemyData enemyData;
   public GameObject target;
   private Vector2 currentTargetPosition;
   private bool isVisible;
@@ -17,9 +17,7 @@ public class EnemyMovement : EntityMovement
       isVisible = false;
   }
 
-  private void Start() {
-    movementSpeed = enemyData.movementSpeed;
-  }
+  
   private void Update() 
   {   
       //It will only start moving towards the player if you faced the enemy on screen

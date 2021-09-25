@@ -15,6 +15,9 @@ public class MeleeWeapon : MonoBehaviour
     }
 
     public void SetWeaponData(MeleeWeaponData data){
+        //Check this because it may break the game on a later stage!
+        if(data == null) return;
+        
         weaponRange = data.range;
         damage = data.damage;
     }

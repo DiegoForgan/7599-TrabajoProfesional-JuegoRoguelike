@@ -11,13 +11,15 @@ public class Enemy : Entity
     private MeleeWeapon meleeWeapon;
     private SpriteRenderer _enemySpriteRenderer;
     private ShootProyectile _shootProyectile;
+    private EnemyMovement _enemyMovement;
     
     //Called before the Start function
     private void Awake() {
         _enemySpriteRenderer = GetComponent<SpriteRenderer>();
         _enemySpriteRenderer.color = Color.green;
         _shootProyectile = GetComponent<ShootProyectile>();
-        meleeWeapon = GetComponent<MeleeWeapon>();     
+        meleeWeapon = GetComponent<MeleeWeapon>();
+        _enemyMovement = GetComponent<EnemyMovement>();     
     }
 
     private void Start() {
@@ -27,6 +29,8 @@ public class Enemy : Entity
         meleeWeapon.SetWeaponData(enemyData.availableMeleeWeapon);
         //Creates a copy of the list to prevent changes on the Scriptable Object
         availableSpells = new List<SpellData>(enemyData.availableSpell);
+        //Passing movement data to corresponding component
+        _enemyMovement.SetMovementSpeed(enemyData.movementSpeed);
     }
 
     public override void TakeDamage(int damage)

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4787d526462795f49babdb1e0625f94a, type: 3}
+  m_Name: Wizard
+  m_EditorClassIdentifier: 
+  health: 50
+  movementSpeed: 3.5
+  attackRate: 2
+  nextAttackTime: 0
+  sprite: {fileID: 0}
+  availableMeleeWeapon: {fileID: 0}
+  availableSpell:
+  - {fileID: 11400000, guid: 64caa970409e76546b4af52c5b11d8c1, type: 2}
+  - {fileID: 11400000, guid: b5449b3d86927334d915d209d79ec794, type: 2}
+  - {fileID: 11400000, guid: 5ce2790f1d7192e4dab2863b42cee7a2, type: 2}
+  - {fileID: 11400000, guid: 65ba44b234552dc459ee3cc9dc3624e7, type: 2}

@@ -9,11 +9,14 @@ public class Player : Entity
     private int keys;
     private int gold;
     private HUD _hud;
-
+    private PlayerMovement _playerMovement;
+    private WeaponManagement _weaponManagement;
     private bool canOpenDoor;
 
     private void Awake() {
-        _hud = GetComponent<HUD>(); 
+        _hud = GetComponent<HUD>();
+        _playerMovement = GetComponent<PlayerMovement>();
+        _weaponManagement = GetComponent<WeaponManagement>(); 
     }
 
     internal void DisableKeyAction()
@@ -30,6 +33,10 @@ public class Player : Entity
         keys = playerData.keys;
         gold = playerData.gold;
         _hud.InitHUD(playerData.health,playerData.mana,playerData.gold,playerData.keys);
+        //Passing movement data to the movement component
+        _playerMovement.SetMovementSpeed(playerData.movementSpeed);
+        //Passing spells and attack data to the weapon management component
+        _weaponManagement.SetSpellAndAttackStats(playerData);
     }
 
     internal void EnableKeyAction()

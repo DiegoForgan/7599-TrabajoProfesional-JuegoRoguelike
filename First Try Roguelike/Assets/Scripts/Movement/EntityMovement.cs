@@ -12,6 +12,10 @@ public class EntityMovement : MonoBehaviour
     private void Awake() {
         _rigidBody = GetComponent<Rigidbody2D>();
     }
+
+    public void SetMovementSpeed(float speed){
+        movementSpeed = speed;
+    }
     
     protected void LookToPosition(Vector2 positionToLook)
     {

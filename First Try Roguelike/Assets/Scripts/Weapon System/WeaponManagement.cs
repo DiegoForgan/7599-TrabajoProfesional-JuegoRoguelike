@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class WeaponManagement : MonoBehaviour
 {
-    public PlayerData playerData;
+    //public PlayerData playerData;
     private List<SpellData> spells;
     private MeleeWeapon _mainWeapon;
     //CoolDown parameters to prevent spamming attacks
@@ -30,23 +30,20 @@ public class WeaponManagement : MonoBehaviour
         _mainWeapon = GetComponent<MeleeWeapon>();
         _attackPoint = transform.Find("ShootPoint");
     }
-    
-    
-    // Start is called before the first frame update
-    void Start()
-    {
+
+    public void SetSpellAndAttackStats(PlayerData data){
         //Load spells based on the player stats defined
         //Creates a copy of the list to prevent changes on the Scriptable Object
-        spells = new List<SpellData>(playerData.learnedSpells);
-        attackRate = playerData.attackRate;
-        nextAttackTime = playerData.nextAttackTime;
-        _mainWeapon.SetWeaponData(playerData.meleeWeapon);
+        spells = new List<SpellData>(data.learnedSpells);
+        attackRate = data.attackRate;
+        nextAttackTime = data.nextAttackTime;
+        _mainWeapon.SetWeaponData(data.meleeWeapon);
         //
         currentIndex = 0;
         currentSpell = spells[0];
-        _hud.UpdateSpellUI(currentSpell);
+        _hud.UpdateSpellUI(currentSpell);    
     }
-
+    
     // Update is called once per frame
     void Update()
     {
