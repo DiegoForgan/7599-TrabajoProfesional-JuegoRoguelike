@@ -40,7 +40,7 @@ public class WeaponManagement : MonoBehaviour
         //Creates a copy of the list to prevent changes on the Scriptable Object
         spells = new List<SpellData>(data.learnedSpells);
         attackRate = data.attackRate;
-        nextAttackTime = data.nextAttackTime;
+        nextAttackTime = 0;
         _mainWeapon.SetWeaponData(data.meleeWeapon);
         currentIndex = 0;
         //
