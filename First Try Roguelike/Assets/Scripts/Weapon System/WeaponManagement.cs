@@ -31,6 +31,10 @@ public class WeaponManagement : MonoBehaviour
         _attackPoint = transform.Find("ShootPoint");
     }
 
+    private bool HasAnySpells(){
+        return (spells.Count > 0);
+    }
+
     public void SetSpellAndAttackStats(PlayerData data){
         //Load spells based on the player stats defined
         //Creates a copy of the list to prevent changes on the Scriptable Object
@@ -38,10 +42,13 @@ public class WeaponManagement : MonoBehaviour
         attackRate = data.attackRate;
         nextAttackTime = data.nextAttackTime;
         _mainWeapon.SetWeaponData(data.meleeWeapon);
-        //
         currentIndex = 0;
-        currentSpell = spells[0];
-        _hud.UpdateSpellUI(currentSpell);    
+        //
+        //check if spells list is empty (Might happen if player is new)
+        if(HasAnySpells()){ 
+            currentSpell = spells[0];
+            _hud.UpdateSpellUI(currentSpell);
+        }    
     }
     
     // Update is called once per frame
@@ -53,25 +60,28 @@ public class WeaponManagement : MonoBehaviour
         //
         //
         //
-        // Mouse ScrollWheel logic to change beetween spells
-        if (Input.GetAxis("Mouse ScrollWheel")>0f)
-        {
-            if (currentIndex >= spells.Count - 1)
-                currentIndex = 0;
-            else
-                currentIndex++;
-            currentSpell = spells[currentIndex];
-            _hud.UpdateSpellUI(currentSpell);
+        if(HasAnySpells()){
+            // Mouse ScrollWheel logic to change beetween spells
+            if (Input.GetAxis("Mouse ScrollWheel")>0f)
+            {
+                if (currentIndex >= spells.Count - 1)
+                    currentIndex = 0;
+                else
+                    currentIndex++;
+                currentSpell = spells[currentIndex];
+                _hud.UpdateSpellUI(currentSpell);
+            }
+            if (Input.GetAxis("Mouse ScrollWheel")<0f)
+            {
+                if (currentIndex <= 0)
+                    currentIndex = spells.Count - 1;
+                else
+                    currentIndex--;
+                currentSpell = spells[currentIndex];
+                _hud.UpdateSpellUI(currentSpell);
+            }
         }
-        if (Input.GetAxis("Mouse ScrollWheel")<0f)
-        {
-            if (currentIndex <= 0)
-                currentIndex = spells.Count - 1;
-            else
-                currentIndex--;
-            currentSpell = spells[currentIndex];
-            _hud.UpdateSpellUI(currentSpell);
-        }
+        else _hud.NoSpellUI();
         //
         //
         //
@@ -82,14 +92,16 @@ public class WeaponManagement : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Mouse0)){
                 //Left Shift key must be pressed in order to cast a spell
                 if(Input.GetKey(KeyCode.LeftShift)){
-                    int currentManaCost = currentSpell.manaCost;
-                    if (_player.GetMana() >= currentManaCost){
-                        _player.SpendMana(currentManaCost);
-                        CastSpell();
+                    if(currentSpell != null){
+                        int currentManaCost = currentSpell.manaCost;
+                        if (_player.GetMana() >= currentManaCost){
+                            _player.SpendMana(currentManaCost);
+                            CastSpell();
+                        }
+                        else 
+                            //This will play the "not enough mana sound"
+                            FindObjectOfType<AudioManager>().PlaySound("NoMana");
                     }
-                    else 
-                    //This will play the "not enough mana sound"
-                    FindObjectOfType<AudioManager>().PlaySound("NoMana");
                 }
                 // Mouse click without holding the left shift key will result in basic melee attack
                 else {
@@ -120,9 +132,15 @@ public class WeaponManagement : MonoBehaviour
         if (spells.FindIndex(element => element.name == newSpellName ) != -1) return;
         //Search the spell data in the spell Database to add it
         SpellData newSpell = FindObjectOfType<SpellDatabase>().GetSpellByName(newSpellName);
-        //Think this fixes a bug
-        if (newSpell != null) spells.Add(newSpell);
-        else Debug.Log("Spell not found and not added!"); 
+        //Bug fix for no spell scenarios
+        if (newSpell != null){
+            spells.Add(newSpell);
+            //Every time you get a new spell it automatically sets as your new selected spell
+            currentIndex = spells.Count - 1;
+            currentSpell = spells[currentIndex];
+            _hud.UpdateSpellUI(newSpell); 
+        }
+        else Debug.Log("Spell not found and therefore not added!"); 
     }
     public List<SpellData> GetSpells(){
         return spells;

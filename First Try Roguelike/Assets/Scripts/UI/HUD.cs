@@ -54,4 +54,9 @@ public class HUD : MonoBehaviour
                         currentSpell.damage);
        spellAvatar.sprite = currentSpell.avatar;
    }
+
+   public void NoSpellUI(){
+       spellText.SetText("No Spells\nAvailable");
+       spellAvatar.sprite = null;
+   }
 }
