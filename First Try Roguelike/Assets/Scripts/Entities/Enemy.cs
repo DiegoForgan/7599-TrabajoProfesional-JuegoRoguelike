@@ -43,6 +43,11 @@ public class Enemy : Entity
         _enemyMovement.SetAttackingParameters(enemyData.attackRate,distance);
     }
 
+    internal HealthBar GetHealthBar()
+    {
+        return healthBar;
+    }
+
     public override void TakeDamage(int damage)
     {
         StartCoroutine(flashColor());

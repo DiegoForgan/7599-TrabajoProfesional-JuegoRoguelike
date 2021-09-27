@@ -9,12 +9,12 @@ public class HealthBarWithAmount : HealthBar
 
     public override void SetHealth(int health){
         base.SetHealth(health);
-        barText.SetText(health+" / "+slider.maxValue);
+        barText.SetText(health+" / "+ _slider.maxValue);
     }
 
     public override void SetMaxHealth(int maxHealth)
     {
         base.SetMaxHealth(maxHealth);
-        barText.SetText(slider.value+" / "+maxHealth);
+        barText.SetText(_slider.value+" / "+maxHealth);
     }
 }
