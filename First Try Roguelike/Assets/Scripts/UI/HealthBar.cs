@@ -1,9 +1,24 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public Slider slider;
+    protected Slider _slider;
+    protected Quaternion startRotation;
+
+    private void Awake() {
+        _slider = GetComponent<Slider>();
+    }
+
+    private void Start() {
+        startRotation = transform.rotation;
+    }
+
+    private void Update() {
+        //this keeps the healthbar from rotating
+        transform.rotation = startRotation;
+    }
 
     public void initialize(int maxHealth){
         SetMaxHealth(maxHealth);
@@ -11,10 +26,17 @@ public class HealthBar : MonoBehaviour
     }
 
     public virtual void SetMaxHealth(int maxHealth){
-        slider.maxValue = maxHealth;
+        _slider.maxValue = maxHealth;
     }
 
     public virtual void SetHealth(int health){
-        slider.value = health;
+        _slider.value = health;
+    }
+
+    internal void SetPosition(Vector2 position)
+    {
+        //This moves the canvas object that contains the enemy Health Bar
+        GameObject canvas = transform.parent.gameObject;
+        canvas.transform.position = position;
     }
 }

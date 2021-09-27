@@ -10,10 +10,12 @@ public class EnemyMovement : EntityMovement
   private Vector2 currentTargetPosition;
   private bool isVisible;
   private Enemy _enemy;
+  private HealthBar _healthBar;
 
   private float attackRate;
   private float nextAttackTime = 0;
   private float attackDistance;
+  private float offset_y;
   
   private void OnBecameVisible() {
       isVisible = true;
@@ -28,6 +30,10 @@ public class EnemyMovement : EntityMovement
     _enemy = GetComponent<Enemy>();
   }
 
+  private void Start() {
+    _healthBar = _enemy.GetHealthBar();
+    offset_y = (Vector2.Distance(_rigidBody.position,_healthBar.transform.position)); 
+  }
 
   
   private void Update() 
@@ -59,9 +65,25 @@ public class EnemyMovement : EntityMovement
 
     private void FixedUpdate() 
   {
-      _rigidBody.MovePosition(_rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime);
-      //TO DEBUG: Enemy looks on opposite direction
-      LookToPosition(currentTargetPosition);
+      if(isVisible && target){
+        //Move the enemy
+        _rigidBody.MovePosition(_rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime);
+        //Make the enemy face the player
+        LookToPosition(currentTargetPosition);
+        //Update the location of the enemy healthbar on screen
+        UpdateHealthbarPosition();
+      }
   }
+
+  private void UpdateHealthbarPosition(){
+    //1 - We get the angle that the enemy is facing the player
+    float angleFacingPlayer = transform.rotation.eulerAngles.z;
+    //2 - Separation beetween the healthbar and the entity
+    float offset = offset_y;
+    //3 - We check if the health bar must be placed above or below the enemy    
+    if(!(angleFacingPlayer > 90 && angleFacingPlayer < 270)) offset = offset_y * -1;
+    //4 - Update the health bar accordingly to the enemy movement and previous calculations
+    _healthBar.SetPosition(new Vector2(_rigidBody.position.x,_rigidBody.position.y+offset));
+   }
 
 }
