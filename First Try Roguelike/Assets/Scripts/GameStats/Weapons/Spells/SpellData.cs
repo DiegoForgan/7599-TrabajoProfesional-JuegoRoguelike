@@ -9,4 +9,5 @@ public class SpellData : WeaponData
     public GameObject proyectilePrefab;
     public float proyectileForce;
     public Sprite avatar;
+    public SpellSideEffectData effect;
 }

@@ -16,6 +16,10 @@ public class EntityMovement : MonoBehaviour
     public void SetMovementSpeed(float speed){
         movementSpeed = speed;
     }
+
+    public float GetMovementSpeed(){
+        return movementSpeed;
+    }
     
     protected void LookToPosition(Vector2 positionToLook)
     {
