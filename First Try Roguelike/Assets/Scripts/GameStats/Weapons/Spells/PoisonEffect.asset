@@ -16,5 +16,5 @@ MonoBehaviour:
   description: It slows you down and it also reduces health
   duration: 5
   damagePerSecond: 1
-  slowDown: 0.85
+  slowDown: 0.1
   type: 1
