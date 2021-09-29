@@ -37,6 +37,7 @@ public class Player : Entity
         _playerMovement.SetMovementSpeed(playerData.movementSpeed);
         //Passing spells and attack data to the weapon management component
         _weaponManagement.SetSpellAndAttackStats(playerData);
+        slowedDown = false;
     }
 
     internal void EnableKeyAction()
@@ -47,8 +48,14 @@ public class Player : Entity
     private void Update() {
         if(canOpenDoor && Input.GetKeyDown(KeyCode.E)){
             SpendKey();
-            Debug.Log("You opened the door");
+            DisableKeyAction();
+            LoadNextLevel();
         }
+    }
+
+    private void LoadNextLevel()
+    {
+        Debug.Log("Door Opened!\nNew level loaded");
     }
 
     public override void TakeDamage(int damage){

@@ -117,8 +117,13 @@ public class WeaponManagement : MonoBehaviour
     //Creates a proyectile based on the current selected spell by the user
     private void CastSpell()
     {
+        //Instantiate the proyectile prefab
         GameObject spellProyectile = Instantiate(currentSpell.proyectilePrefab,_attackPoint.position,_attackPoint.rotation);
-        spellProyectile.GetComponent<Proyectile>().setDamage(currentSpell.damage);
+        //Set attributes to the new created proyectile
+        Proyectile newSpellProyectile = spellProyectile.GetComponent<Proyectile>();
+        newSpellProyectile.setDamage(currentSpell.damage);
+        newSpellProyectile.SetSideEffect(currentSpell.effect);
+        //Apply physics to the proyectile to make it move like a bullet
         Rigidbody2D proyectileRigidBody = spellProyectile.GetComponent<Rigidbody2D>();
         proyectileRigidBody.AddForce(_attackPoint.up * currentSpell.proyectileForce, ForceMode2D.Impulse);
         

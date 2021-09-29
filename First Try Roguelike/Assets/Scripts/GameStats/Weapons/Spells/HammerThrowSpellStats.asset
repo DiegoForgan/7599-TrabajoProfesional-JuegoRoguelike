@@ -19,3 +19,4 @@ MonoBehaviour:
   proyectilePrefab: {fileID: 8661864622910317043, guid: ec6bbfb83c36ffa40a40cdc40da7a121, type: 3}
   proyectileForce: 15
   avatar: {fileID: 21300000, guid: 7092324b93851a14c858530cca4a6b26, type: 3}
+  effect: {fileID: 0}

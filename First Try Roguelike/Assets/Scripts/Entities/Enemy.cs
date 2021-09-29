@@ -41,6 +41,7 @@ public class Enemy : Entity
         //Passing movement data to corresponding component
         _enemyMovement.SetMovementSpeed(enemyData.movementSpeed);
         _enemyMovement.SetAttackingParameters(enemyData.attackRate,distance);
+        slowedDown = false;
     }
 
     internal HealthBar GetHealthBar()
@@ -65,10 +66,16 @@ public class Enemy : Entity
     public void CastRandomSpell(){
         SpellData selectedSpell = availableSpells[Random.Range(0,availableSpells.Count)];
         GameObject proyectile = Instantiate(selectedSpell.proyectilePrefab,_attackPoint.position,_attackPoint.rotation);
+        //Setting the new proyectile parameters
+        Proyectile newProyectile = proyectile.GetComponent<Proyectile>();
+        newProyectile.setDamage(selectedSpell.damage);
+        newProyectile.SetSideEffect(selectedSpell.effect);
+        //Adding Physics to the new proyectile created
         Rigidbody2D proyectileRigidBody = proyectile.GetComponent<Rigidbody2D>();
-        proyectile.GetComponent<Proyectile>().setDamage(selectedSpell.damage);
-        FindObjectOfType<AudioManager>().PlaySound(selectedSpell.name);
         proyectileRigidBody.AddForce(_attackPoint.up * selectedSpell.proyectileForce, ForceMode2D.Impulse);
+        
+        FindObjectOfType<AudioManager>().PlaySound(selectedSpell.name);
+        
     }
 
     IEnumerator flashColor(){
