@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Poison
   description: It slows you down and it also reduces health
-  duration: 5
+  duration: 3
   damagePerSecond: 1
   slowDown: 0.1
   type: 1

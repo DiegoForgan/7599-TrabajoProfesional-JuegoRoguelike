@@ -15,11 +15,13 @@ MonoBehaviour:
   health: 100
   movementSpeed: 5
   attackRate: 2
-  nextAttackTime: 0
   sprite: {fileID: 0}
-  mana: 20
+  mana: 200
   gold: 0
   keys: 0
   meleeWeapon: {fileID: 11400000, guid: 0382205b679707e45bb2bb36a01c7650, type: 2}
   learnedSpells:
   - {fileID: 11400000, guid: 64caa970409e76546b4af52c5b11d8c1, type: 2}
+  - {fileID: 11400000, guid: b5449b3d86927334d915d209d79ec794, type: 2}
+  - {fileID: 11400000, guid: 5ce2790f1d7192e4dab2863b42cee7a2, type: 2}
+  - {fileID: 11400000, guid: 65ba44b234552dc459ee3cc9dc3624e7, type: 2}
