@@ -428,6 +428,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemapVisualizer: {fileID: 0}
   startPosition: {x: 0, y: 0}
-  iterations: 10
-  walkLength: 10
-  startRandomlyEachIteration: 1
+  randomWalkParameters: {fileID: 11400000, guid: 61d528434cf11a54d8ec5a6aaf313370, type: 2}
