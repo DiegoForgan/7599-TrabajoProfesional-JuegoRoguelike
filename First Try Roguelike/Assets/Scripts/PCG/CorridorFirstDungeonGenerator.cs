@@ -15,6 +15,7 @@ public class CorridorFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
     private void CorridorFirstGeneration(){
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
+        
         CreateCorridors(floorPositions);
         tilemapVisualizer.PaintFloortiles(floorPositions);
         
