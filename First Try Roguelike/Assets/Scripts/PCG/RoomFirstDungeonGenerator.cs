@@ -27,9 +27,12 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         //1. Generate rooms space by partitioning the total dungeon size
         List<BoundsInt> roomsList = BinarySpacePartitioning(new BoundsInt((Vector3Int) startPosition,
          new Vector3Int(dungeonWidth,dungeonHeigth,0)), minRoomWidth, minRoomHeigth);
-        //2. Creation of square or rectangular rooms
+        //2. Creation of rooms
         HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
-        floor = CreateSimpleRooms(roomsList);
+        // Room Creation based on a random walk
+        if(randomWalkRooms) floor = CreateRandomWalkRooms(roomsList);
+        // Room creation using square and rectangular shapes
+        else floor = CreateSimpleRooms(roomsList);
         //3. Gather the center of every room created to generate the corridors beetween them
         List<Vector2Int> roomCenters = new List<Vector2Int>();
         ObtainRoomCenters(roomCenters, roomsList);
@@ -40,6 +43,28 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         tilemapVisualizer.PaintFloortiles(floor);
         HashSet<Vector2Int> wallsPositions = WallGenerator.GenerateWalls(floor);
         tilemapVisualizer.PaintWallstiles(wallsPositions);
+    }
+
+    private HashSet<Vector2Int> CreateRandomWalkRooms(List<BoundsInt> roomsList)
+    {
+        HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
+        for (int i = 0; i < roomsList.Count; i++)
+        {
+            BoundsInt roomBounds = roomsList[i];
+            Vector2Int roomCenter = new Vector2Int(Mathf.RoundToInt(roomBounds.center.x),
+                Mathf.RoundToInt(roomBounds.center.y));
+            HashSet<Vector2Int> roomFloor = RunRandomWalk(roomCenter);
+            foreach (Vector2Int position in roomFloor)
+            {
+                if (position.x >= (roomBounds.xMin + offset) && position.x <= (roomBounds.xMax - offset)
+                    && position.y >= (roomBounds.yMin - offset) && position.y <= (roomBounds.yMax - offset))
+                {
+                    floor.Add(position);
+                }
+            }
+
+        }
+        return floor;
     }
 
     private HashSet<Vector2Int> ConnectRooms(List<Vector2Int> roomCenters)
