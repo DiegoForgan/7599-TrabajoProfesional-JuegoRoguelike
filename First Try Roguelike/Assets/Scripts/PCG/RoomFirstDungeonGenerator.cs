@@ -24,15 +24,92 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
     private void CreateRooms()
     {
+        //1. Generate rooms space by partitioning the total dungeon size
         List<BoundsInt> roomsList = BinarySpacePartitioning(new BoundsInt((Vector3Int) startPosition,
          new Vector3Int(dungeonWidth,dungeonHeigth,0)), minRoomWidth, minRoomHeigth);
-
+        //2. Creation of square or rectangular rooms
         HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
         floor = CreateSimpleRooms(roomsList);
-
+        //3. Gather the center of every room created to generate the corridors beetween them
+        List<Vector2Int> roomCenters = new List<Vector2Int>();
+        ObtainRoomCenters(roomCenters, roomsList);
+        //4. Connect the rooms with corridors
+        HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
+        floor.UnionWith(corridors);
+        //5. Show results on screen to the player
         tilemapVisualizer.PaintFloortiles(floor);
         HashSet<Vector2Int> wallsPositions = WallGenerator.GenerateWalls(floor);
         tilemapVisualizer.PaintWallstiles(wallsPositions);
+    }
+
+    private HashSet<Vector2Int> ConnectRooms(List<Vector2Int> roomCenters)
+    {
+        HashSet<Vector2Int> corridors = new HashSet<Vector2Int>();
+        // Select a random room to start the process
+        Vector2Int currentRoomCenter = roomCenters[Random.Range(0,roomCenters.Count)];
+        roomCenters.Remove(currentRoomCenter);
+
+        while (roomCenters.Count > 0)
+        {
+            //Get the closest room to the one being considered on this iteration to make the shortest corridor
+            Vector2Int closest = FindClosestRoomCenter(currentRoomCenter ,roomCenters);
+            roomCenters.Remove(closest);
+            // Create the positions of the new corridor thats going to connect both rooms in consideration
+            HashSet<Vector2Int> newCorridor = CreateCorridorBeetweenRooms(currentRoomCenter, closest);
+            currentRoomCenter = closest;
+            corridors.UnionWith(newCorridor);
+        }
+        // Return all the positions where corridors should be placed
+        return corridors;
+    }
+
+    private HashSet<Vector2Int> CreateCorridorBeetweenRooms(Vector2Int origin, Vector2Int destination)
+    {
+        HashSet<Vector2Int> corridor = new HashSet<Vector2Int>();
+        Vector2Int currentPosition = origin;
+        corridor.Add(currentPosition);
+        // To reach the destination, first align Y axis
+        while (destination.y != currentPosition.y)
+        {
+             if (destination.y > currentPosition.y) currentPosition += Vector2Int.up;
+             else currentPosition += Vector2Int.down;
+
+             corridor.Add(currentPosition);
+        }
+        // Then we align the X axis
+        while (destination.x != currentPosition.x)
+        {
+            if (destination.x > currentPosition.x) currentPosition += Vector2Int.right;
+            else currentPosition += Vector2Int.left;
+
+            corridor.Add(currentPosition); 
+        }
+        
+        return corridor;
+    }
+
+    private Vector2Int FindClosestRoomCenter(Vector2Int currentRoomCenter, List<Vector2Int> roomCenters)
+    {
+        Vector2Int closest = Vector2Int.zero;
+        float currentMinDistance = float.MaxValue;
+
+        foreach (Vector2Int center in roomCenters)
+        {
+            float distance = Vector2.Distance(center, currentRoomCenter);
+            if( distance < currentMinDistance){
+                closest = center;
+                currentMinDistance = distance;
+            }
+        }
+        return closest;
+    }
+
+    private void ObtainRoomCenters(List<Vector2Int> roomCenters, List<BoundsInt> roomsList)
+    {
+        foreach (BoundsInt room in roomsList)
+        {
+            roomCenters.Add((Vector2Int) Vector3Int.RoundToInt(room.center));    
+        }
     }
 
     private List<BoundsInt> BinarySpacePartitioning(BoundsInt spaceToSplit, int minWidth, int minHeigth)
