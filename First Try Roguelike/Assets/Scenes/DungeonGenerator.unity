@@ -858,7 +858,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemapVisualizer: {fileID: 0}
   startPosition: {x: 0, y: 0}
-  randomWalkParameters: {fileID: 11400000, guid: f38152282cdf44a43812411ba04c7510, type: 2}
-  corridorLength: 40
-  corridorCount: 20
-  roomPercent: 0.784
+  randomWalkParameters: {fileID: 11400000, guid: 61d528434cf11a54d8ec5a6aaf313370, type: 2}
+  corridorLength: 70
+  corridorCount: 25
+  roomPercent: 0.5
