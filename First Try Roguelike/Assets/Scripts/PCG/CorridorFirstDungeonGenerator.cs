@@ -85,7 +85,8 @@ public class CorridorFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             {
                 if (floorPositions.Contains(position + direction)) neighboursCount++;
             }
-            if (neighboursCount == 1) deadEnds.Add(position);
+            //Here the neighbour count was tweaked from 1 to 2 because corridors are wider now
+            if (neighboursCount == 2) deadEnds.Add(position);
         }
 
         return deadEnds;
@@ -93,15 +94,24 @@ public class CorridorFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
     private List<Vector2Int> GenerateDungeonRandomWalkCorridor(Vector2Int startPosition, int corridorLength)
     {
+        bool isHorizontal = false;
+
         List<Vector2Int> corridor = new List<Vector2Int>();
         Vector2Int randomDirection = Direction2D.GetRandomCardinalDirection();
         
+        if(randomDirection.x != 0) isHorizontal = true;
+         
         Vector2Int currentPosition = startPosition;
         corridor.Add(currentPosition);
 
         for (int i = 0; i < corridorLength; i++)
         {
             currentPosition += randomDirection;
+            
+            //This adds extra floor tiles to make corridors wider so the player can walk on them
+            if(isHorizontal) corridor.Add(new Vector2Int(currentPosition.x, currentPosition.y - 1));
+            else corridor.Add(new Vector2Int(currentPosition.x + 1, currentPosition.y));
+            
             corridor.Add(currentPosition);    
         }
         return corridor;

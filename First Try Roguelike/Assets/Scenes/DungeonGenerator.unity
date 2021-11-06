@@ -883,4 +883,4 @@ MonoBehaviour:
   dungeonWidth: 70
   dungeonHeigth: 70
   offset: 2
-  randomWalkRooms: 0
+  randomWalkRooms: 1
