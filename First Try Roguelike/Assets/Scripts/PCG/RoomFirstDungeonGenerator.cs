@@ -96,10 +96,12 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         // To reach the destination, first align Y axis
         while (destination.y != currentPosition.y)
         {
-             if (destination.y > currentPosition.y) currentPosition += Vector2Int.up;
-             else currentPosition += Vector2Int.down;
+            if (destination.y > currentPosition.y) currentPosition += Vector2Int.up;
+            else currentPosition += Vector2Int.down;
 
-             corridor.Add(currentPosition);
+            //Add extra floor tile on the right to make corridor wider
+            corridor.Add(new Vector2Int(currentPosition.x + 1, currentPosition.y));
+            corridor.Add(currentPosition);
         }
         // Then we align the X axis
         while (destination.x != currentPosition.x)
@@ -107,6 +109,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             if (destination.x > currentPosition.x) currentPosition += Vector2Int.right;
             else currentPosition += Vector2Int.left;
 
+            //Add extra floor tile under the current one to make corridor wider
+            corridor.Add(new Vector2Int(currentPosition.x, currentPosition.y - 1));
             corridor.Add(currentPosition); 
         }
         
