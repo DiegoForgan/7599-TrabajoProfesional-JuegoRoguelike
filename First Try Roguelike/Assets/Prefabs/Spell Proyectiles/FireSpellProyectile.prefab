@@ -63,6 +63,14 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.9716981
       objectReference: {fileID: 0}
+    - target: {fileID: 2442503216280479309, guid: ec6bbfb83c36ffa40a40cdc40da7a121, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2442503216280479309, guid: ec6bbfb83c36ffa40a40cdc40da7a121, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -675774301
+      objectReference: {fileID: 0}
     - target: {fileID: 8661864622910317043, guid: ec6bbfb83c36ffa40a40cdc40da7a121, type: 3}
       propertyPath: m_Name
       value: FireSpellProyectile
