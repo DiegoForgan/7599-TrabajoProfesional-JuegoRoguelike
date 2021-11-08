@@ -12,11 +12,20 @@ public class Player : Entity
     private PlayerMovement _playerMovement;
     private WeaponManagement _weaponManagement;
     private bool canOpenDoor;
+    public static Player instance;
 
     private void Awake() {
         _hud = GetComponent<HUD>();
         _playerMovement = GetComponent<PlayerMovement>();
-        _weaponManagement = GetComponent<WeaponManagement>(); 
+        _weaponManagement = GetComponent<WeaponManagement>();
+        
+        if (instance == null) instance = this;
+        else {
+          Destroy(gameObject);
+          return;
+        }
+        
+        DontDestroyOnLoad(gameObject); 
     }
 
     internal void DisableKeyAction()
@@ -64,7 +73,8 @@ public class Player : Entity
     }
 
     public override void DestroyElement(){
-        GameOverMenu.IsPlayerDead = true;
+        Debug.Log("You were killed :(");
+        GameManager.Instance.ShowGameOver();
         FindObjectOfType<AudioManager>().PlaySound("GameOverTheme");
         Destroy(gameObject);
     } 

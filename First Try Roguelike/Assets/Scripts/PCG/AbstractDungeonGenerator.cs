@@ -6,10 +6,15 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
 {
     [SerializeField] protected TilemapVisualizer tilemapVisualizer = null;
     [SerializeField] protected Vector2Int startPosition = Vector2Int.zero;
+    [SerializeField] protected new string name;
 
     public void GenerateDungeon(){
         tilemapVisualizer.Clear();
         RunProceduralGeneration();
+    }
+
+    public string GetAlgorithmName(){
+        return name;
     }
 
     //This method will excute the desired algorithm in order to generate a new Dungeon
