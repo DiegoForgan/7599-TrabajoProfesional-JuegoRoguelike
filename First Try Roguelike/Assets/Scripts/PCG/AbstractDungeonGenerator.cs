@@ -8,9 +8,15 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
     [SerializeField] protected Vector2Int startPosition = Vector2Int.zero;
     [SerializeField] protected new string name;
 
+    public bool shouldGenerate = false;
+
     public void GenerateDungeon(){
         tilemapVisualizer.Clear();
         RunProceduralGeneration();
+    }
+
+    private void Start() {
+        if(shouldGenerate) GenerateDungeon();
     }
 
     public string GetAlgorithmName(){

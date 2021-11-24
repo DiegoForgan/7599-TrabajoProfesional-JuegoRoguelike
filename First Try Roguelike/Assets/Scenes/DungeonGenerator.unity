@@ -844,6 +844,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemapVisualizer: {fileID: 0}
   startPosition: {x: 0, y: 0}
+  name: 
+  shouldGenerate: 1
   randomWalkParameters: {fileID: 11400000, guid: 61d528434cf11a54d8ec5a6aaf313370, type: 2}
 --- !u!114 &1896701432
 MonoBehaviour:
@@ -859,6 +861,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemapVisualizer: {fileID: 0}
   startPosition: {x: 0, y: 0}
+  name: 
+  shouldGenerate: 1
   randomWalkParameters: {fileID: 11400000, guid: f38152282cdf44a43812411ba04c7510, type: 2}
   corridorLength: 30
   corridorCount: 20
@@ -870,17 +874,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1896701428}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7d3f19410bc8e942b09acb0a916d88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tilemapVisualizer: {fileID: 0}
   startPosition: {x: 0, y: 0}
+  name: 
+  shouldGenerate: 1
   randomWalkParameters: {fileID: 11400000, guid: f38152282cdf44a43812411ba04c7510, type: 2}
   minRoomWidth: 10
   minRoomHeigth: 10
   dungeonWidth: 70
   dungeonHeigth: 70
   offset: 2
-  randomWalkRooms: 1
+  randomWalkRooms: 0

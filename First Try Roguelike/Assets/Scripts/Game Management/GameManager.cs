@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
       if (gameManager == null) gameManager = this;
       else {
           Destroy(gameObject);
+          // I think this makes a new dungeon every time a new scene is loaded
+          // where the game manager is instantitated
+          gameManager.CreateNewDungeon();
           return;
       }
       DontDestroyOnLoad(gameObject);
