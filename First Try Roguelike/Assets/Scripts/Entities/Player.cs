@@ -33,20 +33,32 @@ public class Player : Entity
         canOpenDoor = false;
     }
 
-    private void Start() {
+    public void InitializeStats(){
         canOpenDoor = false;
+        slowedDown = false;
         health = playerData.health;
         maxHealth = health;
         mana = playerData.mana;
         maxMana = mana;
         keys = playerData.keys;
         gold = playerData.gold;
+        //Initialize the HUD
         _hud.InitHUD(playerData.health,playerData.mana,playerData.gold,playerData.keys);
+    }
+
+    public void InitializeMovementStats(){
         //Passing movement data to the movement component
         _playerMovement.SetMovementSpeed(playerData.movementSpeed);
+    }
+
+    public void InitializeSpellsAndAttacksStats(){
         //Passing spells and attack data to the weapon management component
         _weaponManagement.SetSpellAndAttackStats(playerData);
-        slowedDown = false;
+    }
+    private void Start() {
+        InitializeStats();
+        InitializeMovementStats();
+        InitializeSpellsAndAttacksStats();
     }
 
     internal void EnableKeyAction()
@@ -65,6 +77,8 @@ public class Player : Entity
     private void LoadNextLevel()
     {
         Debug.Log("Door Opened!\nNew level loaded");
+        //Maybe play a level completion sound before loading next scene
+        GameManager.Instance.LoadNextLevel();
     }
 
     public override void TakeDamage(int damage){

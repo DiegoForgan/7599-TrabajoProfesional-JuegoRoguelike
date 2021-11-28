@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance{ get{ return gameManager; } }
     private void Awake() {
+      Debug.Log(this.name + "executed the AWAKE method!");
+      
       if (gameManager == null) gameManager = this;
       else {
           Destroy(gameObject);
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start() {
+        Debug.Log(this.name + "executed the START method!");
         CreateNewDungeon();
     }
 
@@ -48,6 +51,10 @@ public class GameManager : MonoBehaviour
         Vector2Int playerPosition = currentDungeon.GetRandomFloorPosition();
         player.transform.position = new Vector3(playerPosition.x,playerPosition.y,player.transform.position.z);
         Debug.Log(playerPosition);
+    }
+
+    public void StartNewGame(){
+        player.GetComponent<Player>().InitializeStats();
     }
 
     private void Update() {
