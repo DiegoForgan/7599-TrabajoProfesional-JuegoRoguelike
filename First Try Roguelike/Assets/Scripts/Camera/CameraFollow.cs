@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform target;
-    public Vector3 offset = new Vector3(0,0,-10);
+    [SerializeField] private Transform target;
+    [SerializeField] private Vector3 offset = new Vector3(0,0,-10);
     
-    
+    private void Start() {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        SetTarget(player.transform);
+    }  
     private void FixedUpdate() 
     {  
         if(target) transform.position = target.position + offset;
@@ -13,15 +16,7 @@ public class CameraFollow : MonoBehaviour
         else transform.position = new Vector3(0,0,-10);
     }
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void SetTarget(Transform newTarget){
+        target = newTarget;
     }
 }

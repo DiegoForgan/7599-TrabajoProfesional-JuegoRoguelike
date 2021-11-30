@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : ToMainMenuUI
 {
     public static bool GameIsPaused = false;
     public GameObject PauseMenuUI;
@@ -15,7 +16,7 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    private void Pause()
+    public void Pause()
     {
         PauseMenuUI.SetActive(true);
         GameIsPaused = true;
@@ -30,14 +31,16 @@ public class PauseMenu : MonoBehaviour
     }
 
     public void LoadMainMenu(){
+        // Restore normal flow of time
         Time.timeScale = 1f;
         GameIsPaused = false;
+        // When returning to main menu, all preserved instances must be destroyed
+        DestroyAllPreservedInstances();
         PauseMenuUI.SetActive(false);
         //Scene zero is our main menu scene
         SceneManager.LoadScene(0);
         //This command plays the desired sound clip
         FindObjectOfType<AudioManager>().PlaySound("MainMenuTheme");
-        Debug.Log("This should load the main menu of the game");
     }
 
     public void QuitGame(){

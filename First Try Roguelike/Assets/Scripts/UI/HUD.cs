@@ -17,6 +17,17 @@ public class HUD : MonoBehaviour
    [SerializeField]
    public Image spellAvatar;
 
+   public static HUD instance;
+
+    private void Awake() {
+        if (instance == null) instance = this;
+        else {
+          Destroy(gameObject);
+          return;
+        }
+        
+        DontDestroyOnLoad(gameObject);
+    }
    public void InitHUD(int maxHealth, int maxMana, int currentGold, int currentKeys){
        healthBar.initialize(maxHealth);
        manaBar.Initialize(maxMana);

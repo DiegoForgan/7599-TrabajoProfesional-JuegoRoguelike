@@ -14,9 +14,9 @@ public class SimpleRandomWalkDungeonGenerator : AbstractDungeonGenerator
         tilemapVisualizer = GetComponent<TilemapVisualizer>();
     }
     
-    private void Start() {
-        RunProceduralGeneration();
-    }
+    //private void Start() {
+    //    RunProceduralGeneration();
+    //}
     
     // PCG using the random walk algorithm which often results in a single dungeon room modified in size by the parameters defined on the editor
     protected override void RunProceduralGeneration()

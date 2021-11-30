@@ -14,7 +14,8 @@ public class Proyectile : MonoBehaviour, Collidable
         
         //This should run the "Take Damage" function in the Collidable interface
         GameObject entity = other.gameObject;
-        entity.GetComponent<Collidable>().TakeDamage(damage);
+        Collidable collidableEntity = entity.GetComponent<Collidable>();
+        if(collidableEntity != null) collidableEntity.TakeDamage(damage);
         //Side effect from the spell logic
         Affectable affectableEntity = entity.GetComponent<Affectable>();
         //The casted spell must have a side effect associated and the entity that was hit must be

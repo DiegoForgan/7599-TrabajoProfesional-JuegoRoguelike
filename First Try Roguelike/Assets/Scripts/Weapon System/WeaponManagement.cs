@@ -26,7 +26,7 @@ public class WeaponManagement : MonoBehaviour
     
     private void Awake() {
         _player = GetComponent<Player>();
-        _hud = GetComponent<HUD>();
+        _hud = GameObject.Find("HUD").GetComponent<HUD>();
         _mainWeapon = GetComponent<MeleeWeapon>();
         _attackPoint = transform.Find("ShootPoint");
     }

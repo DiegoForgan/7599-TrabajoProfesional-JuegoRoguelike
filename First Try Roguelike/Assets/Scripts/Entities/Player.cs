@@ -12,11 +12,28 @@ public class Player : Entity
     private PlayerMovement _playerMovement;
     private WeaponManagement _weaponManagement;
     private bool canOpenDoor;
+    public static Player instance;
 
-    private void Awake() {
-        _hud = GetComponent<HUD>();
+    private void Awake()
+    {
+        // Gets the player references to UI and other script components
+        GetPlayerReferences();
+        // Singleton implementation
+        if (instance == null) instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        // Maintain this object through all the life of the game
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void GetPlayerReferences()
+    {
+        _hud = GameObject.Find("HUD").GetComponent<HUD>();
         _playerMovement = GetComponent<PlayerMovement>();
-        _weaponManagement = GetComponent<WeaponManagement>(); 
+        _weaponManagement = GetComponent<WeaponManagement>();
     }
 
     internal void DisableKeyAction()
@@ -24,20 +41,32 @@ public class Player : Entity
         canOpenDoor = false;
     }
 
-    private void Start() {
+    public void InitializeStats(){
         canOpenDoor = false;
+        slowedDown = false;
         health = playerData.health;
         maxHealth = health;
         mana = playerData.mana;
         maxMana = mana;
         keys = playerData.keys;
         gold = playerData.gold;
+        //Initialize the HUD
         _hud.InitHUD(playerData.health,playerData.mana,playerData.gold,playerData.keys);
+    }
+
+    public void InitializeMovementStats(){
         //Passing movement data to the movement component
         _playerMovement.SetMovementSpeed(playerData.movementSpeed);
+    }
+
+    public void InitializeSpellsAndAttacksStats(){
         //Passing spells and attack data to the weapon management component
         _weaponManagement.SetSpellAndAttackStats(playerData);
-        slowedDown = false;
+    }
+    private void Start() {
+        InitializeStats();
+        InitializeMovementStats();
+        InitializeSpellsAndAttacksStats();
     }
 
     internal void EnableKeyAction()
@@ -51,11 +80,15 @@ public class Player : Entity
             DisableKeyAction();
             LoadNextLevel();
         }
+        if(Input.GetKeyDown(KeyCode.N)) LoadNextLevel();
+        if(Input.GetKeyDown(KeyCode.K)) DestroyElement();
     }
 
     private void LoadNextLevel()
     {
         Debug.Log("Door Opened!\nNew level loaded");
+        //Maybe play a level completion sound before loading next scene
+        GameManager.Instance.LoadNextLevel();
     }
 
     public override void TakeDamage(int damage){
@@ -64,7 +97,8 @@ public class Player : Entity
     }
 
     public override void DestroyElement(){
-        GameOverMenu.IsPlayerDead = true;
+        Debug.Log("You were killed :(");
+        GameManager.Instance.ShowGameOver();
         FindObjectOfType<AudioManager>().PlaySound("GameOverTheme");
         Destroy(gameObject);
     } 

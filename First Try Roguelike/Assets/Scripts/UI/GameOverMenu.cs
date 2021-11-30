@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameOverMenu : MonoBehaviour
+public class GameOverMenu : ToMainMenuUI
 {
-   public static bool IsPlayerDead = false;
    
-
    public GameObject _GameOverUI;
 
+   public static GameOverMenu instance;
 
-    // Update is called once per frame
-    void Update()
-    { 
-       if (IsPlayerDead)
+    private void Awake() {
+        // Singleton implementation
+        if (instance == null) instance = this;
+        else
         {
-            _GameOverUI.SetActive(true);
-            Time.timeScale = 0f;
-        }  
+            Destroy(gameObject);
+            return;
+        }
+        // Maintain this object through all the life of the game
+        DontDestroyOnLoad(gameObject);
     }
-
     public void TryAgain(){
         Time.timeScale = 1f;
-        IsPlayerDead = false;
+        DestroyAllPreservedInstances();
         _GameOverUI.SetActive(false);
         //Goes back to the main menu to start again
         SceneManager.LoadScene(0);
