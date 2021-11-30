@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class DungeonGenerator : MonoBehaviour
+public class DungeonGeneratorManager : MonoBehaviour
 {
     private AbstractDungeonGenerator randomWalkGenerator;
     private AbstractDungeonGenerator corridorFirstGenerator;

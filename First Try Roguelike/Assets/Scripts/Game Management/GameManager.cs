@@ -3,43 +3,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {   
     public static GameManager gameManager;
     [SerializeField] private GameObject gameOverUI;
-    
-
-    private DungeonGenerator dungeonGenerator;
+    private DungeonGeneratorManager dungeonGenerator;
     private Dungeon currentDungeon;
     private GameObject player;
 
     public static GameManager Instance{ get{ return gameManager; } }
-    private void Awake() {
-      Debug.Log(this.name + "executed the AWAKE method!");
-      
-      if (gameManager == null) gameManager = this;
-      else {
-          Destroy(gameObject);
-          // I think this makes a new dungeon every time a new scene is loaded
-          // where the game manager is instantitated
-          gameManager.CreateNewDungeon();
-          return;
-      }
-      DontDestroyOnLoad(gameObject);
+    private void Awake()
+    {
+        GetGameManagerReferences();
 
-      dungeonGenerator = GetComponentInChildren<DungeonGenerator>();
-
-      currentDungeon = GameObject.Find("Dungeon").GetComponent<Dungeon>();
-      player = GameObject.FindGameObjectWithTag("Player");
+        if (gameManager == null) gameManager = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
-    private void Start() {
-        Debug.Log(this.name + "executed the START method!");
-        CreateNewDungeon();
+    private void GetGameManagerReferences()
+    {
+        dungeonGenerator = GetComponentInChildren<DungeonGeneratorManager>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    private void CreateNewDungeon()
+    public void CreateNewDungeon()
     {
         GenerateDungeonByName("Random");
         PlacePlayerOnDungeon();
@@ -50,7 +44,6 @@ public class GameManager : MonoBehaviour
     {
         Vector2Int playerPosition = currentDungeon.GetRandomFloorPosition();
         player.transform.position = new Vector3(playerPosition.x,playerPosition.y,player.transform.position.z);
-        Debug.Log(playerPosition);
     }
 
     public void StartNewGame(){
@@ -90,5 +83,12 @@ public class GameManager : MonoBehaviour
 
     public void LoadNextLevel(){
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+    }
+
+    public void SetNewTileMap(Tilemap floor, Tilemap walls)
+    {
+        currentDungeon = GameObject.Find("Dungeon").GetComponent<Dungeon>();
+        TilemapVisualizer tilemapVisualizer = dungeonGenerator.GetComponent<TilemapVisualizer>();
+        tilemapVisualizer.SetTilemaps(floor,walls);
     }
 }

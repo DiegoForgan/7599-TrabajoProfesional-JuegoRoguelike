@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,5 +33,11 @@ public class TilemapVisualizer : MonoBehaviour
     public void Clear(){
         floorTilemap.ClearAllTiles();
         wallsTilemap.ClearAllTiles();
+    }
+
+    public void SetTilemaps(Tilemap newFloorTilemap, Tilemap newWallTilemap)
+    {
+        floorTilemap = newFloorTilemap;
+        wallsTilemap = newWallTilemap;
     }
 }
