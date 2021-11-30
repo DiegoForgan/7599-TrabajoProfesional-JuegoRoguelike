@@ -14,18 +14,26 @@ public class Player : Entity
     private bool canOpenDoor;
     public static Player instance;
 
-    private void Awake() {
-        _hud = GetComponent<HUD>();
+    private void Awake()
+    {
+        // Gets the player references to UI and other script components
+        GetPlayerReferences();
+        // Singleton implementation
+        if (instance == null) instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        // Maintain this object through all the life of the game
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void GetPlayerReferences()
+    {
+        _hud = GameObject.Find("HUD").GetComponent<HUD>();
         _playerMovement = GetComponent<PlayerMovement>();
         _weaponManagement = GetComponent<WeaponManagement>();
-        
-        if (instance == null) instance = this;
-        else {
-          Destroy(gameObject);
-          return;
-        }
-        
-        DontDestroyOnLoad(gameObject); 
     }
 
     internal void DisableKeyAction()
@@ -72,6 +80,8 @@ public class Player : Entity
             DisableKeyAction();
             LoadNextLevel();
         }
+        if(Input.GetKeyDown(KeyCode.N)) LoadNextLevel();
+        if(Input.GetKeyDown(KeyCode.K)) DestroyElement();
     }
 
     private void LoadNextLevel()

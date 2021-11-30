@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 362bc2d404b7ec649b4f8541f1e66f08
   - enabled: 1
-    path: Assets/Scenes/GameWithGeneration.unity
+    path: Assets/Scenes/Level 1.unity
     guid: 729fdda185fae6441b8e22cf391f112b
   - enabled: 1
-    path: Assets/Scenes/Game_Diego.unity
-    guid: 4ab7b32b98ac7bb46a7d802c483994bc
+    path: Assets/Scenes/Level 2.unity
+    guid: 8fc5bd04635150b4b80b81b435ce1106
+  - enabled: 1
+    path: Assets/Scenes/Level 3.unity
+    guid: 895b59bd1fcb9704fac7c17dd1fc8130
+  - enabled: 1
+    path: Assets/Scenes/Level 4.unity
+    guid: d7610c457c54f8a4a9ee2743013132e6
   m_configObjects: {}
