@@ -9,5 +9,7 @@ public class EnemyData : EntityData
     public float attackDistance;
     public MeleeWeaponData availableMeleeWeapon;
     public List<SpellData> availableSpell;
+    // This attribute posses the enemy prefab model to instantiate them 
+    public GameObject enemyModel;
        
 }
