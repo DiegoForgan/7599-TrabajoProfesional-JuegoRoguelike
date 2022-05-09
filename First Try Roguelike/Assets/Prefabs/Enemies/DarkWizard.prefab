@@ -290,9 +290,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1830875697395433388}
   - component: {fileID: 8545532218292634474}
+  - component: {fileID: 5504856336007101704}
   - component: {fileID: 6013429532377176304}
   - component: {fileID: 5668484341910920751}
-  - component: {fileID: -7203267764900997718}
+  - component: {fileID: 5928364378171831452}
   - component: {fileID: 4038518190127825400}
   m_Layer: 6
   m_Name: DarkWizard
@@ -368,6 +369,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &5504856336007101704
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8079784701663818644}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!70 &6013429532377176304
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -399,13 +419,13 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &-7203267764900997718
+--- !u!114 &5928364378171831452
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -414,7 +434,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8079784701663818644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81c9f08e24ec7d94d8981d1444b9718b, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b14faf66cad03a4cb86ecb11db39fcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: ad659ff7c07c23d45a1cc1ced6256e54, type: 2}

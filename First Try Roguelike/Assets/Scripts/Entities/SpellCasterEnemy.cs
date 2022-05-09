@@ -29,6 +29,7 @@ public class SpellCasterEnemy : Enemy
     }
 
     public override void Attack(){
+        Debug.Log("Spell casting from SPELL CASTER CLASS");
         CastRandomSpell();
     }
 }

@@ -15,7 +15,6 @@ MonoBehaviour:
   health: 50
   movementSpeed: 2
   attackRate: 0.5
-  sprite: {fileID: 0}
   attackDistance: 6
   availableMeleeWeapon: {fileID: 0}
   availableSpell:
@@ -23,3 +22,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b5449b3d86927334d915d209d79ec794, type: 2}
   - {fileID: 11400000, guid: 5ce2790f1d7192e4dab2863b42cee7a2, type: 2}
   - {fileID: 11400000, guid: 65ba44b234552dc459ee3cc9dc3624e7, type: 2}
+  enemyModel: {fileID: 8079784701663818644, guid: dd3686efa9aa4844ea1c9cdd83c1d0b7, type: 3}
