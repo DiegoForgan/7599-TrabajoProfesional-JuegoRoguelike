@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyMovement : EntityMovement
 {
   //public EnemyData enemyData;
-  public GameObject target;
+  private GameObject target;
   private Vector2 currentTargetPosition;
   private bool isVisible;
   private Enemy _enemy;
@@ -32,7 +32,9 @@ public class EnemyMovement : EntityMovement
 
   private void Start() {
     _healthBar = _enemy.GetHealthBar();
-    offset_y = (Vector2.Distance(_rigidBody.position,_healthBar.transform.position)); 
+    offset_y = (Vector2.Distance(_rigidBody.position,_healthBar.transform.position));
+    target  = GameObject.FindGameObjectWithTag("Player");
+    if (!target) Debug.LogError("No target aquired!");
   }
 
   

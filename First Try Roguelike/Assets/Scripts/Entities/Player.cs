@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Player : Entity
 {
-    public PlayerData playerData; 
+    [SerializeField] private PlayerData playerData; 
     private int maxMana;
     private int mana;
     private int keys;

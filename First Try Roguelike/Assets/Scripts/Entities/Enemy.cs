@@ -7,11 +7,11 @@ public class Enemy : Entity
     public EnemyData enemyData;
     public HealthBar healthBar;
 
-    private List<SpellData> availableSpells;
-    private MeleeWeapon meleeWeapon;
-    private SpriteRenderer _enemySpriteRenderer;
-    private EnemyMovement _enemyMovement;
-    private Transform _attackPoint;
+    protected List<SpellData> availableSpells;
+    protected MeleeWeapon meleeWeapon;
+    protected SpriteRenderer _enemySpriteRenderer;
+    protected EnemyMovement _enemyMovement;
+    protected Transform _attackPoint;
     
     //Called before the Start function
     private void Awake() {
@@ -56,7 +56,7 @@ public class Enemy : Entity
         healthBar.SetHealth(health);
     }
 
-    public void Attack(){
+    public virtual void Attack(){
         if(IsMeleeAttacker()) 
             meleeWeapon.AttackPlayer(_attackPoint);
         else if(IsSpellCaster()) 
