@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
@@ -98,7 +97,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoadNextLevel(){
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+        LevelLoader.Instance.LoadNextLevel();
     }
 
     public void SetNewTileMap(Tilemap floor, Tilemap walls)

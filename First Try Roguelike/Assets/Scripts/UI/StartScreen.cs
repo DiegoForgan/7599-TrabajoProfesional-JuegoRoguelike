@@ -15,8 +15,7 @@ public class StartScreen : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Return)){
-            if(SceneManager.GetActiveScene().name == "Story 3 - Ending") SceneManager.LoadScene("Menu");
-            else SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            LevelLoader.Instance.LoadNextLevel();
         }
     }
 }
