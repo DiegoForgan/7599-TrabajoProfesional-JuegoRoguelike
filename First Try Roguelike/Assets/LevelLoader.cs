@@ -37,11 +37,14 @@ public class LevelLoader : MonoBehaviour
         StartCoroutine(LoadLevel(index));
     }
 
+    public void LoadLevelBySceneName(string sceneName){
+        SceneManager.LoadScene(sceneName);
+    }
+
     IEnumerator LoadLevel(int levelIndex){
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(waitTime);
         transition.SetTrigger("End");
         SceneManager.LoadScene(levelIndex);
-
     }   
 }
