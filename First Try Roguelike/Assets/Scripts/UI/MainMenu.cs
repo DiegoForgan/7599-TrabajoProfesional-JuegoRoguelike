@@ -25,6 +25,13 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Showing HighScores...");
     }
 
+    public void Login(string data){
+        Debug.Log("Login...");
+    }
+    public void LoginUser(string usernameText, string passwordText){
+        Debug.Log("Login in with username: "+usernameText+" and password: "+ passwordText);
+    }
+
    
 
     public void QuitGame()
