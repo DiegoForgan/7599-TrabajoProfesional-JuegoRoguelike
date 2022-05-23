@@ -22,9 +22,7 @@ public class Enemy : Entity
     }
 
     private void Start() {
-        health = enemyData.health;
-        maxHealth = health; 
-        healthBar.initialize(enemyData.health);
+        InitHealth();
         //Assigning a big value cause we count on it being replaced on any of the following "if" statements
         float distance = 100;
         if(IsMeleeAttacker()){
@@ -38,9 +36,19 @@ public class Enemy : Entity
             availableSpells = new List<SpellData>(enemyData.availableSpell);
             distance = enemyData.attackDistance;
         }
+        InitMovementStats(distance);
+    }
+
+    protected void InitMovementStats(float distance){
         //Passing movement data to corresponding component
         _enemyMovement.SetMovementSpeed(enemyData.movementSpeed);
         _enemyMovement.SetAttackingParameters(enemyData.attackRate,distance);
+    }
+
+    protected void InitHealth(){
+        health = enemyData.health;
+        maxHealth = health;
+        healthBar.initialize(enemyData.health);
         slowedDown = false;
     }
 
