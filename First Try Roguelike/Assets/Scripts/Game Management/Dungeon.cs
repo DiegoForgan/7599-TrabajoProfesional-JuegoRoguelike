@@ -12,9 +12,9 @@ public class Dungeon : MonoBehaviour
         GameManager.Instance.SetNewTileMap(floor,walls);   
     }
 
-    private void Start() {
+    /*private void Start() {
         GameManager.Instance.CreateNewDungeon();
-    }
+    }*/
 
     //This method is supposed to put the player on a valid FLOOR tile.
     //It seems to work fine but maybe it needs some tunning

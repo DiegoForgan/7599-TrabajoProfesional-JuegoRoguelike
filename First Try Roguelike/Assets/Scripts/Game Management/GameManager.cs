@@ -36,14 +36,36 @@ public class GameManager : MonoBehaviour
 
     public void CreateNewDungeon()
     {
+        // Get the algorithm to use based on the GameDesign Doc
+        string algorithmToUse = ObtainAlgorithmToUse();
         // Places the tiles on the tilemap to create the dungeon layout
-        GenerateDungeonByName("Random");
+        GenerateDungeonByName(algorithmToUse);
         // Sets the position of the main player inside the dungeon
         PlacePlayerOnDungeon();
         // Instantiates the items that will be available on the dungeon created
         PlaceItemsOnDungeon();
         // This method will place the enemies on the dungeon to challenge the main player on its quest
         PlaceEnemiesOnDungeon();
+    }
+
+    internal void StartNewScene()
+    {
+
+        if (LevelLoader.Instance.IsCinematicScene()) Debug.Log("Its cinematic!");//SetupCinematicConfig();
+        else {
+            GetGameManagerReferences();
+            CreateNewDungeon();
+        }
+    }
+
+    private string ObtainAlgorithmToUse()
+    {
+        // This function holds the logic to decide which algorithm to use when creating the new dungeon
+        // Following what´s on te Game Design Doc. first 4 levels are generated with "Random Walk"
+        int currentSceneIndex = LevelLoader.Instance.GetCurrentSceneIndex();
+        if (currentSceneIndex <= 7) return "randomwalk";
+        // After mid game Levels are generated with room first algorithm
+        return "roomfirst";
     }
 
     private void PlaceItemsOnDungeon()

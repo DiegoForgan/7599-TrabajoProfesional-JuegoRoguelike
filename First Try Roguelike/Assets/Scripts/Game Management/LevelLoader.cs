@@ -30,6 +30,13 @@ public class LevelLoader : MonoBehaviour
         return SceneManager.GetActiveScene().name;
     }
 
+    public bool IsCinematicScene(){
+        // I dont know why yet but gotta ask the next scene name to get current. This may be due to the time used to fully load the new scene?
+        string sceneName = SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex+1).name;//SceneManager.GetActiveScene().name;
+        if(sceneName.Contains("Level")) return false;
+        return true;
+    }
+
     public void LoadNextLevel(){
         int index = 0;
         if (SceneManager.GetActiveScene().name == "Story 3 - Ending") index = 0;
@@ -46,5 +53,6 @@ public class LevelLoader : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         transition.SetTrigger("End");
         SceneManager.LoadScene(levelIndex);
+        GameManager.Instance.StartNewScene();
     }   
 }
