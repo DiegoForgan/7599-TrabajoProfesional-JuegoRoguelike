@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityMovement : MonoBehaviour
+public abstract class EntityMovement : MonoBehaviour
 {
     protected float movementSpeed;
 

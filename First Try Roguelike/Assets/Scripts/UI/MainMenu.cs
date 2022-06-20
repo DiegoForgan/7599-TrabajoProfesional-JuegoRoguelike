@@ -1,22 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+//using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void PlayGame()
-    {
-        FindObjectOfType<AudioManager>().StopSound("MainMenuTheme");
-        
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
-    public void LoadGame()
+     public void ContinueGame()
     {
         //TO DO: implement save and load system
         Debug.Log("Game should be loading but still not implemented");    
     }
+    
+    public void PlayGame()
+    {
+        FindObjectOfType<AudioManager>().StopSound("MainMenuTheme");
+        LevelLoader.Instance.LoadNextLevel();
+    }
+
+    public void ShowHowToPlay(){
+        Debug.Log("Decide if this shows image on input or loads tutorial scene");
+    }
+
+    public void ShowHighScores(){
+        Debug.Log("Showing HighScores...");
+    }
+
+    public void Login(string data){
+        Debug.Log("Login...");
+    }
+    public void LoginUser(string usernameText, string passwordText){
+        Debug.Log("Login in with username: "+usernameText+" and password: "+ passwordText);
+    }
+
+   
 
     public void QuitGame()
     {

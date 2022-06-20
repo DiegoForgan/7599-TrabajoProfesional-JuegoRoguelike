@@ -9,5 +9,6 @@ public abstract class EntityData : ScriptableObject
     //The bigger the number, te faster it can attack
     //Use numbers smaller than 1 to make time beetween attacks slower!
     public float attackRate;
-    public Sprite sprite;
+    //This is replaced by enemy prefab on EnemyData Scriptable Object
+    //public Sprite sprite;
 }

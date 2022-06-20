@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyMovement : EntityMovement
 {
   //public EnemyData enemyData;
-  public GameObject target;
+  private GameObject target;
   private Vector2 currentTargetPosition;
   private bool isVisible;
   private Enemy _enemy;
@@ -32,26 +32,39 @@ public class EnemyMovement : EntityMovement
 
   private void Start() {
     _healthBar = _enemy.GetHealthBar();
-    offset_y = (Vector2.Distance(_rigidBody.position,_healthBar.transform.position)); 
+    offset_y = (Vector2.Distance(_rigidBody.position,_healthBar.transform.position));
+    target  = GameObject.FindGameObjectWithTag("Player");
+    if (!target) Debug.LogError("No target aquired!");
+  }
+
+  private bool CanMove(){
+    return (isVisible && target);
+  }
+
+  private void GetMovementValues(){
+    movement = target.transform.position - transform.position;
+    //prevents the enemy entity from accelerating and deaccelerating regarding its distance from the player
+    movement.Normalize();
+    currentTargetPosition = target.transform.position;
+  }
+
+  private bool IsInAttackDistanceAndAbleToAttack(){
+    //Checks if player is at the distance required for enemy to attack
+    float playerEnemyDistance = Vector2.Distance(transform.position,currentTargetPosition);
+    if ((playerEnemyDistance <= attackDistance) && (Time.time >= nextAttackTime)) return true;
+    return false;
   }
 
   
   private void Update() 
   {   
       //It will only start moving towards the player if you faced the enemy on screen
-      if(isVisible && target){
-        movement = target.transform.position - transform.position;
-        //prevents the enemy entity from accelerating and deaccelerating regarding its distance from the player
-        movement.Normalize();
-        currentTargetPosition = target.transform.position;
-
+      if(CanMove()){
+        GetMovementValues();
         //Checks if player is at the distance required for enemy to attack
-        float playerEnemyDistance = Vector2.Distance(transform.position,currentTargetPosition);
-        if(playerEnemyDistance <= (attackDistance)){
-          if(Time.time >= nextAttackTime){
-            _enemy.Attack();
-            nextAttackTime = Time.time + 1f/attackRate;
-          }
+        if (IsInAttackDistanceAndAbleToAttack()){
+          _enemy.Attack();
+          nextAttackTime = Time.time + 1f/attackRate;
         }
       }
       else movement = Vector2.zero;
@@ -65,7 +78,7 @@ public class EnemyMovement : EntityMovement
 
     private void FixedUpdate() 
   {
-      if(isVisible && target){
+      if(CanMove()){
         //Move the enemy
         _rigidBody.MovePosition(_rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime);
         //Make the enemy face the player

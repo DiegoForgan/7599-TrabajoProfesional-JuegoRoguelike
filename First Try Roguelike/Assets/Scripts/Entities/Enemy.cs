@@ -7,11 +7,11 @@ public class Enemy : Entity
     public EnemyData enemyData;
     public HealthBar healthBar;
 
-    private List<SpellData> availableSpells;
-    private MeleeWeapon meleeWeapon;
-    private SpriteRenderer _enemySpriteRenderer;
-    private EnemyMovement _enemyMovement;
-    private Transform _attackPoint;
+    protected List<SpellData> availableSpells;
+    protected MeleeWeapon meleeWeapon;
+    protected SpriteRenderer _enemySpriteRenderer;
+    protected EnemyMovement _enemyMovement;
+    protected Transform _attackPoint;
     
     //Called before the Start function
     private void Awake() {
@@ -22,9 +22,7 @@ public class Enemy : Entity
     }
 
     private void Start() {
-        health = enemyData.health;
-        maxHealth = health; 
-        healthBar.initialize(enemyData.health);
+        InitHealth();
         //Assigning a big value cause we count on it being replaced on any of the following "if" statements
         float distance = 100;
         if(IsMeleeAttacker()){
@@ -38,9 +36,19 @@ public class Enemy : Entity
             availableSpells = new List<SpellData>(enemyData.availableSpell);
             distance = enemyData.attackDistance;
         }
+        InitMovementStats(distance);
+    }
+
+    protected void InitMovementStats(float distance){
         //Passing movement data to corresponding component
         _enemyMovement.SetMovementSpeed(enemyData.movementSpeed);
         _enemyMovement.SetAttackingParameters(enemyData.attackRate,distance);
+    }
+
+    protected void InitHealth(){
+        health = enemyData.health;
+        maxHealth = health;
+        healthBar.initialize(enemyData.health);
         slowedDown = false;
     }
 
@@ -56,7 +64,7 @@ public class Enemy : Entity
         healthBar.SetHealth(health);
     }
 
-    public void Attack(){
+    public virtual void Attack(){
         if(IsMeleeAttacker()) 
             meleeWeapon.AttackPlayer(_attackPoint);
         else if(IsSpellCaster()) 
