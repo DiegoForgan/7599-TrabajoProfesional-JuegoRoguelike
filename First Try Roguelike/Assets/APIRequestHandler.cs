@@ -3,58 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
-
-
-
-public class RegisterData
-{
-    public string username;
-    public string password;
-    public string first_name;
-    public string last_name;
-    public ContactData contact;
-    public string avatar;
-    public bool login_service;
-
-    public RegisterData(string usr, string pass, string first, string last, string email, string phone,
-        bool isurl, string data, bool login){
-        
-        username = usr;
-        password = pass;
-        first_name = first;
-        last_name = last;
-        //contact = new ContactData(email, phone);
-        Debug.Log(contact);
-        //avatar = JsonUtility.ToJson(new AvatarData(isurl, data));
-        //Debug.Log(avatar);
-        login_service = login;
-    }
-}
-
-
-
-public class ContactData
-{
-    public string email;
-    public string phone;
-
-    public ContactData(string e, string p){
-        email = e;
-        phone = p;
-    }
-}
-
-public class AvatarData
-{
-    public bool isUrl;
-    public string data;
-
-    public AvatarData(bool u, string d){
-        isUrl = u;
-        data = d;
-    }
-}
-
+using UnityEngine.UI;
+using TMPro;
 
 public class APIRequestHandler : MonoBehaviour
 {
@@ -62,20 +12,24 @@ public class APIRequestHandler : MonoBehaviour
     private const string DEV_URL = ""; // TO DEFINE
     private string testString = "{ \"username\": \"juan05146\", \"password\": \"123456\", \"first_name\": \"Damián\", \"last_name\": \"Marquesín Fernandez\", \"contact\": { \"email\": \"juanmg0511@gmail.com\", \"phone\": \"5555 5555\" }}";
 
-    public void TestGetEndpoint(){
-        StartCoroutine(MakeGetRequest());
+    public void CheckUsernameAlreadyTaken(){
+        StartCoroutine(CheckUsernameRequest());
     }
 
     public void TestRegisterNewUser(){
         StartCoroutine(RegisterNewUserRequest());
     }
 
-    private IEnumerator MakeGetRequest(){
-        Debug.Log("Sending GET request to QA server...");
-        string userQuery = "";
-        UnityWebRequest request = UnityWebRequest.Get(QA_URL+"/juan0511/exists");
-        //UnityWebRequest request = UnityWebRequest.Get(QA_URL+"/"+userQuery+"/exists");
+    private IEnumerator CheckUsernameRequest(){
+        // Getting data from the UI
+        TMP_InputField field = GameObject.Find("UserNameInputField").GetComponent<TMP_InputField>();
+        string userToCheck = field.text;
+        if (userToCheck == "") yield break;
+        Debug.Log("Checking if username is already taken...");
+        // Preparing the GET request
+        UnityWebRequest request = UnityWebRequest.Get(QA_URL+"/"+userToCheck+"/exists");
         yield return request.SendWebRequest();
+        // Processing the response
         Debug.Log("Status Code: " + request.responseCode);
         Debug.Log("Response: " + request.downloadHandler.text);
     }
