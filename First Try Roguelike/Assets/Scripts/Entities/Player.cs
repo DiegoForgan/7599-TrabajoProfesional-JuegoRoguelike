@@ -80,6 +80,7 @@ public class Player : Entity
             DisableKeyAction();
             LoadNextLevel();
         }
+        // REMEMBER TO DESTROY THIS OBJECTS BECAUSE IT KEEPS LISTENING FOR THE INPUTS IN THE GAME MENU!!!!
         if(Input.GetKeyDown(KeyCode.N)) LoadNextLevel();
         if(Input.GetKeyDown(KeyCode.K)) DestroyElement();
     }

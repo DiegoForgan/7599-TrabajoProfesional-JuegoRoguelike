@@ -8,7 +8,7 @@ using TMPro;
 
 public class APIRequestHandler : MonoBehaviour
 {
-    private const string QA_URL = "http://fiuba-qa-7599-cs-app-server.herokuapp.com/api/v1/users";
+    private const string QA_URL = "http://fiuba-qa-7599-cs-app-server.herokuapp.com/api/v1/";
     private const string DEV_URL = ""; // TO DEFINE
     //private string testString = "{ \"username\": \"juan05146\", \"password\": \"123456\", \"first_name\": \"Damián\", \"last_name\": \"Marquesín Fernandez\", \"contact\": { \"email\": \"juanmg0511@gmail.com\", \"phone\": \"5555 5555\" }}";
 
@@ -18,6 +18,37 @@ public class APIRequestHandler : MonoBehaviour
 
     public void RegisterNewUser(){
         StartCoroutine(RegisterNewUserRequest());
+    }
+
+    public void ForgotPassword(){
+        StartCoroutine(ForgotPasswordRequest());
+    }
+
+    private IEnumerator ForgotPasswordRequest(){
+        // Getting data from the UI
+        string username = GameObject.Find("UserNameForgotInputField").GetComponent<TMP_InputField>().text;
+        TextMeshProUGUI mailSentUI = GameObject.Find("MailSentMsg").GetComponent<TextMeshProUGUI>();
+        string passwordRecoveryData = "{ \"username\": \""+username+"\" }";
+        
+        UnityWebRequest request = UnityWebRequest.Put(QA_URL+"recovery", passwordRecoveryData);
+        request.method = UnityWebRequest.kHttpVerbPOST;
+        
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Accept", "application/json");
+        
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success){
+            mailSentUI.SetText("Recovery mail sent.\n Check your account to complete the process");
+            Debug.Log("Success");
+        }
+        else{
+            mailSentUI.SetText("Invalid Username");
+            Debug.Log("Result: " + request.result);
+            Debug.Log("Status Code: " + request.responseCode);
+            Debug.Log("Response: " + request.downloadHandler.text);
+        }
+
     }
 
     private IEnumerator CheckUsernameRequest(){
@@ -32,13 +63,14 @@ public class APIRequestHandler : MonoBehaviour
         }
         Debug.Log("Checking if username is already taken...");
         // Preparing the GET request
-        UnityWebRequest request = UnityWebRequest.Get(QA_URL+"/"+userToCheck+"/exists");
+        UnityWebRequest request = UnityWebRequest.Get(QA_URL+"users/"+userToCheck+"/exists");
         yield return request.SendWebRequest();
         //Debug.Log("Result: " + request.result);
         //Debug.Log("Status Code: " + request.responseCode);
         //Debug.Log("Response: " + request.downloadHandler.text);
         
         // Processing the response
+        // BEWARE OF THIS BUTTON INTERACTABLE ATTRIBUTE, MIGHT LEAD TO BUGS IF NOT MANAGED CORRECTLY
         Button createButton = GameObject.Find("CreateButton").GetComponent<Button>();
         // Username already taken
         if(request.result == UnityWebRequest.Result.Success){
@@ -65,8 +97,13 @@ public class APIRequestHandler : MonoBehaviour
         string newLastName = GameObject.Find("LastNameInputField").GetComponent<TMP_InputField>().text;
         string newEmail = GameObject.Find("EmailInputField").GetComponent<TMP_InputField>().text;
         string newPhone = GameObject.Find("PhoneInputField").GetComponent<TMP_InputField>().text;
+        if(newPhone == "") newPhone = "-1";
+        // TO DO: Add custom Avatar support, in the meantime default avatar is set
+        bool isUrl = true;
+        string avatarUrl = "https://ui-avatars.com/api/?background=1A82E2&color=FFFFFF&size=256&name="+newFirstName+"+"+newLastName;
         //TO DO: ADD missing info to the json -> Avatar and login service
-        return "{ \"username\": \""+newUsername+"\", \"password\": \""+newPassword+"\", \"first_name\": \""+newFirstName+"\", \"last_name\": \""+newLastName+"\", \"contact\": { \"email\": \""+newEmail+"\", \"phone\": \""+newPhone+"\" }}";
+        return "{ \"username\": \""+newUsername+"\", \"password\": \""+newPassword+"\", \"first_name\": \""+newFirstName+"\", \"last_name\": \""+newLastName+"\", \"contact\": { \"email\": \""+newEmail+"\", \"phone\": \""+newPhone+"\" }, \"avatar\": { \"isUrl\": "+isUrl.ToString().ToLower()+", \"data\": \""+avatarUrl+"\" }}"; 
+        
     }
 
     private IEnumerator RegisterNewUserRequest(){
@@ -74,7 +111,7 @@ public class APIRequestHandler : MonoBehaviour
         string registerDataJson = GetJsonStringRegisterData();
         // The UnityWebRequest library its pretty tricky, for POST method you should start with PUT and then change it on the next lines
         // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
-        UnityWebRequest request = UnityWebRequest.Put(QA_URL, registerDataJson);
+        UnityWebRequest request = UnityWebRequest.Put(QA_URL+"users/", registerDataJson);
         request.method = UnityWebRequest.kHttpVerbPOST;
         
         request.SetRequestHeader("Content-Type", "application/json");
