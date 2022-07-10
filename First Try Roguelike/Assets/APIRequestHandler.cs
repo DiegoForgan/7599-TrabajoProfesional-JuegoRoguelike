@@ -16,7 +16,7 @@ public class APIRequestHandler : MonoBehaviour
         StartCoroutine(CheckUsernameRequest());
     }
 
-    public void TestRegisterNewUser(){
+    public void RegisterNewUser(){
         StartCoroutine(RegisterNewUserRequest());
     }
 
@@ -24,14 +24,37 @@ public class APIRequestHandler : MonoBehaviour
         // Getting data from the UI
         TMP_InputField field = GameObject.Find("UserNameInputField").GetComponent<TMP_InputField>();
         string userToCheck = field.text;
-        if (userToCheck == "") yield break;
+        // If input field is blank you don´t need to make a request for that
+        TextMeshProUGUI usernameTakenMsg = GameObject.Find("UsernameTakenMsg").GetComponent<TextMeshProUGUI>();
+        if (userToCheck == ""){ 
+            usernameTakenMsg.SetText("");
+            yield break;
+        }
         Debug.Log("Checking if username is already taken...");
         // Preparing the GET request
         UnityWebRequest request = UnityWebRequest.Get(QA_URL+"/"+userToCheck+"/exists");
         yield return request.SendWebRequest();
+        //Debug.Log("Result: " + request.result);
+        //Debug.Log("Status Code: " + request.responseCode);
+        //Debug.Log("Response: " + request.downloadHandler.text);
+        
         // Processing the response
-        Debug.Log("Status Code: " + request.responseCode);
-        Debug.Log("Response: " + request.downloadHandler.text);
+        Button createButton = GameObject.Find("CreateButton").GetComponent<Button>();
+        // Username already taken
+        if(request.result == UnityWebRequest.Result.Success){
+            createButton.interactable = false;
+            usernameTakenMsg.SetText("Username Already Taken !!!");
+        }
+        // Username not Taken -> VALID username
+        else if (request.result == UnityWebRequest.Result.ProtocolError){
+            createButton.interactable = true;
+            usernameTakenMsg.SetText("Valid Username!");
+        }
+        // Error
+        else if (request.result == UnityWebRequest.Result.ConnectionError){
+            Debug.Log("The request resulted in a connection error");
+        }
+        else Debug.Log("Request resulted in unknown error");
     }
 
     /*private IEnumerator RegisterNewUser(string username, string password, string first_name, string last_name,
