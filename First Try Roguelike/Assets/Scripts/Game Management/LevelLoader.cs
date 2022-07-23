@@ -13,7 +13,15 @@ public class LevelLoader : MonoBehaviour
 
     private void Awake() {
         
-        if (levelLoader == null) levelLoader = this;
+        if (levelLoader == null) {
+            // Initialize player prefs in case they not exist
+            if(!PlayerPrefs.HasKey("session_token")) {
+                PlayerPrefs.SetString("session_token", "");
+                PlayerPrefs.SetString("username", "");
+                PlayerPrefs.Save();
+            }
+            levelLoader = this;
+        }
         else
         {
             Destroy(gameObject);
