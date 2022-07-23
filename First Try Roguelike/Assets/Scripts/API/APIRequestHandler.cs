@@ -1,10 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using TMPro;
+
+// TO DO: Make schema file to store the request data
+public class UserSessionData{
+    public string username;   
+    public string user_role;
+    public string session_token;
+    public string expires;
+    public string date_created;
+    public string id;
+}
+
+public class UserRecoveryData{
+    public string username;
+    public string email;   
+    public string recovery_key;
+    public string expires;
+    public string date_created;
+    public string id;
+}
+
+public class ErrorAPIResponse{
+    public int code; 
+    public string message;
+    public string data;
+}
 
 public class APIRequestHandler : MonoBehaviour
 {
@@ -24,6 +50,50 @@ public class APIRequestHandler : MonoBehaviour
         StartCoroutine(ForgotPasswordRequest());
     }
 
+    public void UserLogin(){
+        StartCoroutine(UserLoginRequest());
+    }
+
+    private IEnumerator UserLoginRequest(){
+        // Getting data from the UI
+        string username = GameObject.Find("LoginUserNameInputField").GetComponent<TMP_InputField>().text;
+        string password = GameObject.Find("LoginPasswordInputField").GetComponent<TMP_InputField>().text;
+        // Formatting JSON string
+        string loginData = "{ \"username\": \""+username+"\", \"password\": \""+password+"\"}";
+    
+        // The UnityWebRequest library its pretty tricky, for POST method you should start with PUT and then change it on the next lines
+        // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
+        UnityWebRequest request = UnityWebRequest.Put(QA_URL+"sessions", loginData);
+        request.method = UnityWebRequest.kHttpVerbPOST;
+        
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Accept", "application/json");
+        
+        yield return request.SendWebRequest();
+        Debug.Log("Result: " + request.result);
+        Debug.Log("Status Code: " + request.responseCode);
+        Debug.Log("Response: " + request.downloadHandler.text);
+        
+        if (request.result == UnityWebRequest.Result.Success){
+            Debug.Log("Success");
+            // Formatting data to JSON.
+            UserSessionData userSessionData = JsonUtility.FromJson<UserSessionData>(request.downloadHandler.text);
+            // Storing user session data to use it on other API endpoints
+            PlayerPrefs.SetString("session_token", userSessionData.session_token);
+            PlayerPrefs.SetString("username", userSessionData.username);
+            PlayerPrefs.Save();
+        }
+        else{
+            Debug.Log("Error");
+            // Formatting data to JSON.
+            ErrorAPIResponse errorResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
+            // Show data to the user to reflect the result of the request
+            Debug.Log(errorResponse.code);
+            Debug.Log(errorResponse.message);
+            Debug.Log(errorResponse.data);
+        }
+    }
+
     private IEnumerator ForgotPasswordRequest(){
         // Getting data from the UI
         string username = GameObject.Find("UserNameForgotInputField").GetComponent<TMP_InputField>().text;
@@ -39,10 +109,18 @@ public class APIRequestHandler : MonoBehaviour
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success){
-            mailSentUI.SetText("Recovery mail sent.\n Check your account to complete the process");
             Debug.Log("Success");
+            // Formatting data to JSON.
+            UserRecoveryData recoveryData = JsonUtility.FromJson<UserRecoveryData>(request.downloadHandler.text);
+            // Masks the current user recovery email address address@hosting.com => *****ss@hosting.com
+            string input = recoveryData.email;
+            string pattern = @".(?=.*..@)";     //@"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
+            string maskedEmail = Regex.Replace(input, pattern, m => new string('*', m.Length));
+            // Shows the user the correct UI
+            mailSentUI.SetText("Recovery mail sent to: "+maskedEmail+"\n Check your account to complete the process");
         }
         else{
+            // Shows the user the correct UI
             mailSentUI.SetText("Invalid Username");
             Debug.Log("Result: " + request.result);
             Debug.Log("Status Code: " + request.responseCode);
@@ -111,7 +189,7 @@ public class APIRequestHandler : MonoBehaviour
         string registerDataJson = GetJsonStringRegisterData();
         // The UnityWebRequest library its pretty tricky, for POST method you should start with PUT and then change it on the next lines
         // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
-        UnityWebRequest request = UnityWebRequest.Put(QA_URL+"users/", registerDataJson);
+        UnityWebRequest request = UnityWebRequest.Put(QA_URL+"users", registerDataJson);
         request.method = UnityWebRequest.kHttpVerbPOST;
         
         request.SetRequestHeader("Content-Type", "application/json");
@@ -127,9 +205,9 @@ public class APIRequestHandler : MonoBehaviour
             Debug.Log("Success");
         }
         else Debug.Log(request.result);
-        //Debug.Log("Status Code: " + request.responseCode);
-        //Debug.Log("Response: " + request.downloadHandler.text);
-        //Debug.Log(request.result);
+        Debug.Log("Status Code: " + request.responseCode);
+        Debug.Log("Response: " + request.downloadHandler.text);
+        Debug.Log(request.result);
     }
 
    
