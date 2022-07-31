@@ -7,8 +7,6 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using TMPro;
 
-// TO DO: Make schema file to store the request data
-
 public class APIRequestHandler : MonoBehaviour
 {
     private const string DEV_URL = "http://127.0.0.1/api/v1/";
@@ -18,6 +16,8 @@ public class APIRequestHandler : MonoBehaviour
     private const string SESSIONS_ROUTE = "sessions";
     private const string RECOVERY_ROUTE = "recovery";
     private const string USERS_ROUTE = "users";
+    [SerializeField] private GameObject statusPanel;
+    [SerializeField] private GameObject closeButton;
     
     public void CheckUsernameAlreadyTaken(){
         StartCoroutine(CheckUsernameRequest());
@@ -43,6 +43,26 @@ public class APIRequestHandler : MonoBehaviour
         StartCoroutine(ShowHighScoresRequest());
     }
 
+    private void ShowStatusMessage(string title, string message, bool shouldClose){
+        if(statusPanel == null) this.statusPanel = GameObject.Find("StatusPanel");
+        
+        TextMeshProUGUI statusTitle = this.statusPanel.transform.Find("StatusTitle").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI statusMsg = this.statusPanel.transform.Find("StatusMessage").GetComponent<TextMeshProUGUI>();
+        
+        statusTitle.SetText(title);
+        statusMsg.SetText(message);
+
+        statusPanel.SetActive(true);
+        
+        if(closeButton == null) this.closeButton = GameObject.Find("CloseButton");
+        closeButton.SetActive(shouldClose);
+    }
+
+    private void CloseStatusMessage(){
+        if(statusPanel == null) this.statusPanel = GameObject.Find("StatusPanel");
+        statusPanel.SetActive(false);
+    }
+
     private IEnumerator ShowHighScoresRequest(){
         
         UnityWebRequest request = UnityWebRequest.Get(QA_URL+HIGHSCORES_ROUTE);
@@ -52,9 +72,18 @@ public class APIRequestHandler : MonoBehaviour
 
         yield return request.SendWebRequest();
 
-        Debug.Log("Result: " + request.result);
-        Debug.Log("Status Code: " + request.responseCode);
-        Debug.Log("Response: " + request.downloadHandler.text);
+        if (request.result == UnityWebRequest.Result.Success){
+            Debug.Log("Result: " + request.result);
+            Debug.Log("Status Code: " + request.responseCode);
+            Debug.Log("Response: " + request.downloadHandler.text);
+            PaginatedHighScoreResponse paginatedTest = JsonUtility.FromJson<PaginatedHighScoreResponse>(request.downloadHandler.text);
+            //HighScoresResponse highScoresResponse = JsonUtility.FromJson<HighScoresResponse>(paginatedTest.results);
+            Debug.Log(paginatedTest.results);
+        }
+        else{
+            ErrorAPIResponse errorResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
+            ShowStatusMessage(request.result.ToString(), errorResponse.message, true);
+        }
 
     }
     
@@ -72,8 +101,9 @@ public class APIRequestHandler : MonoBehaviour
         
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Accept", "application/json");
-        
+        ShowStatusMessage("Login Status", "Logging into your account, please wait...", false);
         yield return request.SendWebRequest();
+        CloseStatusMessage();
         Debug.Log("Result: " + request.result);
         Debug.Log("Status Code: " + request.responseCode);
         Debug.Log("Response: " + request.downloadHandler.text);
@@ -86,6 +116,7 @@ public class APIRequestHandler : MonoBehaviour
             PlayerPrefs.SetString("session_token", userSessionData.session_token);
             PlayerPrefs.SetString("username", userSessionData.username);
             PlayerPrefs.Save();
+            ShowStatusMessage("Login Succesful", "You logged in as: "+userSessionData.username, true);
         }
         else{
             Debug.Log("Error");
@@ -95,6 +126,7 @@ public class APIRequestHandler : MonoBehaviour
             Debug.Log(errorResponse.code);
             Debug.Log(errorResponse.message);
             Debug.Log(errorResponse.data);
+            ShowStatusMessage("Login Error", errorResponse.message, true);
         }
     }
 

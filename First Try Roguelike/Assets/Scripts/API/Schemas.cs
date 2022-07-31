@@ -25,3 +25,36 @@ public class ErrorAPIResponse{
     public string message;
     public string data;
 }
+
+public class PaginatedHighScoreResponse{
+    public int total;
+    public int limit;
+    public string next;
+    public string previous;
+    public List<HighScoresResponse> results;
+}
+
+public class HighScoresResponse{
+    public string id;
+    public string username;
+    public int achieved_level;
+    public int difficulty_level;
+    public string time_elapsed;
+    public int gold_collected;
+    public int high_score;
+    public string date_created;
+    public string date_updated;
+}
+
+public class GameProgressResponse{
+    public string id;
+    public string username;
+    public int next_level;
+    public int difficulty_level;
+    public string time_elapsed;
+    public int gold_collected;
+    public string date_created;
+    public string date_updated;
+}
+
+
