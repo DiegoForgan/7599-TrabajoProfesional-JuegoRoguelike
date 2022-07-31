@@ -31,6 +31,7 @@ public class PaginatedHighScoreResponse{
     public int limit;
     public string next;
     public string previous;
+    // WARNING!!! Fix this issue to correct display the highscores
     public List<HighScoresResponse> results;
 }
 

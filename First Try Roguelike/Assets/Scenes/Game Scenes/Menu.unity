@@ -15498,6 +15498,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statusPanel: {fileID: 307348592}
   closeButton: {fileID: 34901953}
+  loginBtn: {fileID: 1389086444}
+  logOutBtn: {fileID: 2032018862}
 --- !u!4 &1576393648
 Transform:
   m_ObjectHideFlags: 0
@@ -18821,7 +18823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2032018863
 RectTransform:
   m_ObjectHideFlags: 0

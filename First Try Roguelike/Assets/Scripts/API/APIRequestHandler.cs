@@ -18,6 +18,9 @@ public class APIRequestHandler : MonoBehaviour
     private const string USERS_ROUTE = "users";
     [SerializeField] private GameObject statusPanel;
     [SerializeField] private GameObject closeButton;
+    [SerializeField] private GameObject loginBtn;
+    [SerializeField] private GameObject logOutBtn;
+
     
     public void CheckUsernameAlreadyTaken(){
         StartCoroutine(CheckUsernameRequest());
@@ -117,6 +120,8 @@ public class APIRequestHandler : MonoBehaviour
             PlayerPrefs.SetString("username", userSessionData.username);
             PlayerPrefs.Save();
             ShowStatusMessage("Login Succesful", "You logged in as: "+userSessionData.username, true);
+            loginBtn.SetActive(false);
+            logOutBtn.SetActive(true);
         }
         else{
             Debug.Log("Error");
@@ -154,7 +159,7 @@ public class APIRequestHandler : MonoBehaviour
             // Show data to the user to reflect the result of the request
             Debug.Log(serverResponse.code);
             Debug.Log(serverResponse.message);
-            Debug.Log(serverResponse.data);
+            
         
             if (request.result == UnityWebRequest.Result.Success){
                 Debug.Log("Success");
@@ -162,9 +167,12 @@ public class APIRequestHandler : MonoBehaviour
                 PlayerPrefs.SetString("session_token", "");
                 PlayerPrefs.SetString("username", "");
                 PlayerPrefs.Save();
+                loginBtn.SetActive(true);
+                logOutBtn.SetActive(false);
             }
             else{
-                Debug.Log("Error");    
+                Debug.Log("Error");
+                ShowStatusMessage("LogOut Error", serverResponse.message, true);    
             }
         }
     }
