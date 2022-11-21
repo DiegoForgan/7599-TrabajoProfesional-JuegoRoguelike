@@ -7,11 +7,12 @@ using TMPro;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEditor.PackageManager.Requests;
+using System;
 
 public class APIRequestHandler : MonoBehaviour
 {
     private const string DEV_URL = "http://127.0.0.1/api/v1/";
-    private const string QA_URL = "https://fiuba-qa-7599-cs-app-server.herokuapp.com/api/v1/";
+    private const string QA_URL = "https://app-qa.7599-fiuba-cs.net/api/v1/";
     private const string PR_URL = "https://fiuba-pr-7599-cs-app-server.herokuapp.com/api/v1/"; // DOWN TEMPORARILY
     private const string HIGHSCORES_ROUTE = "highscores?start=0&limit=0";
     private const string SESSIONS_ROUTE = "sessions";
@@ -19,10 +20,10 @@ public class APIRequestHandler : MonoBehaviour
     private const string USERS_ROUTE = "users";
     [SerializeField] private GameObject statusPanel;
     [SerializeField] private GameObject closeButton;
-    [SerializeField] private GameObject loginBtn;
-    [SerializeField] private GameObject logOutBtn;
+    [SerializeField] private GameObject loggedPanel;
+    [SerializeField] private GameObject loginPanel;
 
-    
+
     public void CheckUsernameAlreadyTaken(){
         StartCoroutine(CheckUsernameRequest());
     }
@@ -40,11 +41,37 @@ public class APIRequestHandler : MonoBehaviour
     }
 
     public void UserLogOut(){
-        StartCoroutine(UserLogOutRequest());
+        if (IsUserLoggedIn()) StartCoroutine(UserLogOutRequest());
+        else Debug.LogWarning("Cant logout user because is already logged out!");
     }
 
     public void ShowHighScores(){
         StartCoroutine(ShowHighScoresRequest());
+    }
+
+    public void GetUserGameProgress() {
+        if (IsUserLoggedIn()) StartCoroutine(GetGameProgress());
+        else Debug.LogWarning("User Session not found, cant get progress");
+    }
+
+    private IEnumerator GetGameProgress()
+    {
+        UnityWebRequest request = UnityWebRequest.Get(QA_URL + USERS_ROUTE + "/" + PlayerPrefs.GetString("username")+"/gameprogress");
+        
+        request.SetRequestHeader("Accept", "application/json");
+        request.SetRequestHeader("X-Auth-Token", PlayerPrefs.GetString("session_token"));
+        
+        yield return request.SendWebRequest();
+        
+        UnityWebRequestResponseDTO responseDTO = new(request);
+        showResponseData(responseDTO);
+
+        GameProgressResponseDTO gameProgress = JsonConvert.DeserializeObject<GameProgressResponseDTO>(responseDTO.getBody());
+        
+        Debug.Log("Gold Collected: " + gameProgress.getGoldCollected());
+        Debug.Log("Next Level: " + gameProgress.getNextLevel());
+        Debug.Log("Difficulty Level: " + gameProgress.getDifficultyLevel());
+        Debug.Log("Elapsed Time: " + gameProgress.getTimeElapsed());
     }
 
     private void ShowStatusMessage(string title, string message, bool shouldClose){
@@ -76,7 +103,7 @@ public class APIRequestHandler : MonoBehaviour
 
         yield return request.SendWebRequest();
 
-        UnityWebRequestResponseDTO responseDTO = new(request.result, request.responseCode, request.downloadHandler.text);
+        UnityWebRequestResponseDTO responseDTO = new(request);
         showResponseData(responseDTO);
         
         if (responseDTO.getResult() == UnityWebRequest.Result.Success){
@@ -115,7 +142,7 @@ public class APIRequestHandler : MonoBehaviour
         Debug.Log("Login Status: Logging into your account, please wait...");
         yield return request.SendWebRequest();
         // CloseStatusMessage();
-        UnityWebRequestResponseDTO responseDTO = new(request.result, request.responseCode, request.downloadHandler.text);
+        UnityWebRequestResponseDTO responseDTO = new(request);
         showResponseData(responseDTO);
 
         if (responseDTO.getResult() == UnityWebRequest.Result.Success){
@@ -127,21 +154,27 @@ public class APIRequestHandler : MonoBehaviour
             PlayerPrefs.SetString("username", loginResponse.getUsername());
             PlayerPrefs.Save();
             Debug.Log("Logged In!");
-            //ShowStatusMessage("Login Succesful", "You logged in as: "+userSessionData.username, true);
-            //loginBtn.SetActive(false);
-            //logOutBtn.SetActive(true);
+            setLoggedPanel(loginResponse);
+            
         }
         else{
             Debug.Log("Error");
             // Formatting data to JSON.
             APIErrorResponseDTO errorResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
-            //ErrorAPIResponse errorResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
             // Show data to the user to reflect the result of the request
             Debug.Log(errorResponse.getCode());
             Debug.Log(errorResponse.getMessage());
             Debug.Log(errorResponse.getData());
             //ShowStatusMessage("Login Error", errorResponse.message, true);
         }
+    }
+
+    private void setLoggedPanel(LoginResponseDTO loginResponse)
+    {
+        loggedPanel.SetActive(true);
+        loginPanel.SetActive(false);
+        loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+        GameObject.Find("LoggedUsername").GetComponent<TextMeshProUGUI>().SetText(loginResponse.getUsername());
     }
 
     private bool IsUserLoggedIn(){
@@ -160,11 +193,10 @@ public class APIRequestHandler : MonoBehaviour
             request.SetRequestHeader("Accept", "application/json");
         
             yield return request.SendWebRequest();
-            Debug.Log("Result: " + request.result);
-            Debug.Log("Status Code: " + request.responseCode);
-            Debug.Log("Response: " + request.downloadHandler.text);
-        
-            ErrorAPIResponse serverResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
+            UnityWebRequestResponseDTO responseDTO = new(request);
+            showResponseData(responseDTO);
+
+            APIErrorResponseDTO serverResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
             // Show data to the user to reflect the result of the request
             Debug.Log(serverResponse.code);
             Debug.Log(serverResponse.message);
@@ -176,12 +208,15 @@ public class APIRequestHandler : MonoBehaviour
                 PlayerPrefs.SetString("session_token", "");
                 PlayerPrefs.SetString("username", "");
                 PlayerPrefs.Save();
-                loginBtn.SetActive(true);
-                logOutBtn.SetActive(false);
+                loggedPanel.SetActive(false);
+                loginPanel.SetActive(true);
+                loginPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+                //loginBtn.SetActive(true);
+                //logOutBtn.SetActive(false);
             }
             else{
                 Debug.Log("Error");
-                ShowStatusMessage("LogOut Error", serverResponse.message, true);    
+                //ShowStatusMessage("LogOut Error", serverResponse.message, true);    
             }
         }
     }
@@ -202,7 +237,7 @@ public class APIRequestHandler : MonoBehaviour
         
         yield return request.SendWebRequest();
 
-        UnityWebRequestResponseDTO responseDTO = new(request.result, request.responseCode, request.downloadHandler.text);
+        UnityWebRequestResponseDTO responseDTO = new(request);
         showResponseData(responseDTO);
 
         if (responseDTO.getResult() == UnityWebRequest.Result.Success){
@@ -308,9 +343,9 @@ public class APIRequestHandler : MonoBehaviour
     }
 
     private void showResponseData(UnityWebRequestResponseDTO response) {
-        Debug.Log("Result: " + response.getResult());
-        Debug.Log("Status Code: " + response.getCode());
-        Debug.Log("Response: " + response.getBody());
+        Debug.LogWarning("Result: " + response.getResult());
+        Debug.LogWarning("Status Code: " + response.getCode());
+        Debug.LogWarning("Response: " + response.getBody());
     }
 
    

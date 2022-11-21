@@ -12,6 +12,13 @@ public class UnityWebRequestResponseDTO
         this.body = body;
     }
 
+    public UnityWebRequestResponseDTO(UnityWebRequest request)
+    {
+        this.result = request.result;
+        this.code = request.responseCode;
+        this.body = request.downloadHandler.text;
+    }
+
     public UnityWebRequest.Result getResult() { return this.result; }
     public long getCode() { return this.code; }
     public string getBody() { return this.body; }
