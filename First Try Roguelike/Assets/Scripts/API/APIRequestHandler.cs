@@ -1,11 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using TMPro;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using UnityEditor.PackageManager.Requests;
 
 public class APIRequestHandler : MonoBehaviour
 {
@@ -75,13 +76,16 @@ public class APIRequestHandler : MonoBehaviour
 
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.Success){
-            Debug.Log("Result: " + request.result);
-            Debug.Log("Status Code: " + request.responseCode);
-            Debug.Log("Response: " + request.downloadHandler.text);
-            PaginatedHighScoreResponse paginatedTest = JsonUtility.FromJson<PaginatedHighScoreResponse>(request.downloadHandler.text);
-            //HighScoresResponse highScoresResponse = JsonUtility.FromJson<HighScoresResponse>(paginatedTest.results);
-            Debug.Log(paginatedTest.results);
+        UnityWebRequestResponseDTO responseDTO = new(request.result, request.responseCode, request.downloadHandler.text);
+        showResponseData(responseDTO);
+        
+        if (responseDTO.getResult() == UnityWebRequest.Result.Success){
+            PaginatedHighscoreResponseDTO paginatedHighscoreResponse = JsonConvert.DeserializeObject<PaginatedHighscoreResponseDTO>(responseDTO.getBody());
+            List<HighScoreResultsDTO> highscoreResults = paginatedHighscoreResponse.getResults();
+            
+            Debug.Log(highscoreResults[0].getUsername());
+            Debug.Log(highscoreResults[0].getGoldCollected());
+            Debug.Log(highscoreResults[0].getHighscore());
         }
         else{
             ErrorAPIResponse errorResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
@@ -91,47 +95,52 @@ public class APIRequestHandler : MonoBehaviour
     }
     
     private IEnumerator UserLoginRequest(){
+        
         // Getting data from the UI
-        string username = GameObject.Find("LoginUserNameInputField").GetComponent<TMP_InputField>().text;
-        string password = GameObject.Find("LoginPasswordInputField").GetComponent<TMP_InputField>().text;
+        string username = GameObject.Find("UsernameInputField").GetComponent<TMP_InputField>().text;
+        string password = GameObject.Find("PasswordInputField").GetComponent<TMP_InputField>().text;
+        
         // Formatting JSON string
-        string loginData = "{ \"username\": \""+username+"\", \"password\": \""+password+"\"}";
-    
+        LoginRequestDTO loginRequest = new(username, password);
+        string loginRequestJSON = JsonConvert.SerializeObject(loginRequest);
+     
         // The UnityWebRequest library its pretty tricky, for POST method you should start with PUT and then change it on the next lines
         // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
-        UnityWebRequest request = UnityWebRequest.Put(QA_URL+SESSIONS_ROUTE, loginData);
+        UnityWebRequest request = UnityWebRequest.Put(QA_URL+SESSIONS_ROUTE, loginRequestJSON);
         request.method = UnityWebRequest.kHttpVerbPOST;
-        
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Accept", "application/json");
-        ShowStatusMessage("Login Status", "Logging into your account, please wait...", false);
-        yield return request.SendWebRequest();
-        CloseStatusMessage();
-        Debug.Log("Result: " + request.result);
-        Debug.Log("Status Code: " + request.responseCode);
-        Debug.Log("Response: " + request.downloadHandler.text);
         
-        if (request.result == UnityWebRequest.Result.Success){
-            Debug.Log("Success");
+        //ShowStatusMessage("Login Status", "Logging into your account, please wait...", false);
+        Debug.Log("Login Status: Logging into your account, please wait...");
+        yield return request.SendWebRequest();
+        // CloseStatusMessage();
+        UnityWebRequestResponseDTO responseDTO = new(request.result, request.responseCode, request.downloadHandler.text);
+        showResponseData(responseDTO);
+
+        if (responseDTO.getResult() == UnityWebRequest.Result.Success){
+            
             // Formatting data to JSON.
-            UserSessionData userSessionData = JsonUtility.FromJson<UserSessionData>(request.downloadHandler.text);
+            LoginResponseDTO loginResponse = JsonConvert.DeserializeObject<LoginResponseDTO>(responseDTO.getBody());
             // Storing user session data to use it on other API endpoints
-            PlayerPrefs.SetString("session_token", userSessionData.session_token);
-            PlayerPrefs.SetString("username", userSessionData.username);
+            PlayerPrefs.SetString("session_token", loginResponse.getSessionToken());
+            PlayerPrefs.SetString("username", loginResponse.getUsername());
             PlayerPrefs.Save();
-            ShowStatusMessage("Login Succesful", "You logged in as: "+userSessionData.username, true);
-            loginBtn.SetActive(false);
-            logOutBtn.SetActive(true);
+            Debug.Log("Logged In!");
+            //ShowStatusMessage("Login Succesful", "You logged in as: "+userSessionData.username, true);
+            //loginBtn.SetActive(false);
+            //logOutBtn.SetActive(true);
         }
         else{
             Debug.Log("Error");
             // Formatting data to JSON.
-            ErrorAPIResponse errorResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
+            APIErrorResponseDTO errorResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
+            //ErrorAPIResponse errorResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
             // Show data to the user to reflect the result of the request
-            Debug.Log(errorResponse.code);
-            Debug.Log(errorResponse.message);
-            Debug.Log(errorResponse.data);
-            ShowStatusMessage("Login Error", errorResponse.message, true);
+            Debug.Log(errorResponse.getCode());
+            Debug.Log(errorResponse.getMessage());
+            Debug.Log(errorResponse.getData());
+            //ShowStatusMessage("Login Error", errorResponse.message, true);
         }
     }
 
@@ -180,10 +189,12 @@ public class APIRequestHandler : MonoBehaviour
     private IEnumerator ForgotPasswordRequest(){
         // Getting data from the UI
         string username = GameObject.Find("UserNameForgotInputField").GetComponent<TMP_InputField>().text;
-        TextMeshProUGUI mailSentUI = GameObject.Find("MailSentMsg").GetComponent<TextMeshProUGUI>();
-        string passwordRecoveryData = "{ \"username\": \""+username+"\" }";
+        //TextMeshProUGUI mailSentUI = GameObject.Find("MailSentMsg").GetComponent<TextMeshProUGUI>();
+ 
+        PasswordRecoveryRequestDTO passwordRecoveryDTO = new(username);
+        string passwordRecoveryBody = JsonConvert.SerializeObject(passwordRecoveryDTO);
         
-        UnityWebRequest request = UnityWebRequest.Put(QA_URL+RECOVERY_ROUTE, passwordRecoveryData);
+        UnityWebRequest request = UnityWebRequest.Put(QA_URL+RECOVERY_ROUTE, passwordRecoveryBody);
         request.method = UnityWebRequest.kHttpVerbPOST;
         
         request.SetRequestHeader("Content-Type", "application/json");
@@ -191,23 +202,26 @@ public class APIRequestHandler : MonoBehaviour
         
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.Success){
+        UnityWebRequestResponseDTO responseDTO = new(request.result, request.responseCode, request.downloadHandler.text);
+        showResponseData(responseDTO);
+
+        if (responseDTO.getResult() == UnityWebRequest.Result.Success){
             Debug.Log("Success");
             // Formatting data to JSON.
-            UserRecoveryData recoveryData = JsonUtility.FromJson<UserRecoveryData>(request.downloadHandler.text);
+            PasswordRecoveryResponseDTO passwordRecoveryResponse = JsonConvert.DeserializeObject<PasswordRecoveryResponseDTO>(responseDTO.getBody());
             // Masks the current user recovery email address address@hosting.com => *****ss@hosting.com
-            string input = recoveryData.email;
+            string input = passwordRecoveryResponse.getEmail();
             string pattern = @".(?=.*..@)";     //@"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
             string maskedEmail = Regex.Replace(input, pattern, m => new string('*', m.Length));
             // Shows the user the correct UI
-            mailSentUI.SetText("Recovery mail sent to: "+maskedEmail+"\n Check your account to complete the process");
+            //mailSentUI.SetText("Recovery mail sent to: "+maskedEmail+"\n Check your account to complete the process");
         }
         else{
             // Shows the user the correct UI
-            mailSentUI.SetText("Invalid Username");
-            Debug.Log("Result: " + request.result);
-            Debug.Log("Status Code: " + request.responseCode);
-            Debug.Log("Response: " + request.downloadHandler.text);
+            //mailSentUI.SetText("Invalid Username");
+            //Debug.Log("Result: " + request.result);
+            //Debug.Log("Status Code: " + request.responseCode);
+            //Debug.Log("Response: " + request.downloadHandler.text);
         }
 
     }
@@ -226,10 +240,9 @@ public class APIRequestHandler : MonoBehaviour
         // Preparing the GET request
         UnityWebRequest request = UnityWebRequest.Get(QA_URL+USERS_ROUTE+"/"+userToCheck+"/exists");
         yield return request.SendWebRequest();
-        //Debug.Log("Result: " + request.result);
-        //Debug.Log("Status Code: " + request.responseCode);
-        //Debug.Log("Response: " + request.downloadHandler.text);
-        
+        UnityWebRequestResponseDTO responseDTO = new(request.result, request.responseCode, request.downloadHandler.text);
+        showResponseData(responseDTO);
+
         // Processing the response
         // BEWARE OF THIS BUTTON INTERACTABLE ATTRIBUTE, MIGHT LEAD TO BUGS IF NOT MANAGED CORRECTLY
         Button createButton = GameObject.Find("CreateButton").GetComponent<Button>();
@@ -263,8 +276,9 @@ public class APIRequestHandler : MonoBehaviour
         bool isUrl = true;
         string avatarUrl = "https://ui-avatars.com/api/?background=1A82E2&color=FFFFFF&size=256&name="+newFirstName+"+"+newLastName;
         //TO DO: ADD missing info to the json -> Avatar and login service
-        return "{ \"username\": \""+newUsername+"\", \"password\": \""+newPassword+"\", \"first_name\": \""+newFirstName+"\", \"last_name\": \""+newLastName+"\", \"contact\": { \"email\": \""+newEmail+"\", \"phone\": \""+newPhone+"\" }, \"avatar\": { \"isUrl\": "+isUrl.ToString().ToLower()+", \"data\": \""+avatarUrl+"\" }}"; 
-        
+        //return "{ \"username\": \""+newUsername+"\", \"password\": \""+newPassword+"\", \"first_name\": \""+newFirstName+"\", \"last_name\": \""+newLastName+"\", \"contact\": { \"email\": \""+newEmail+"\", \"phone\": \""+newPhone+"\" }, \"avatar\": { \"isUrl\": "+isUrl.ToString().ToLower()+", \"data\": \""+avatarUrl+"\" }}"; 
+        RegisterNewUserRequestDTO registerNewUserRequestDTO = new(newUsername,newPassword,newFirstName,newLastName,new(newEmail,newPhone),new(isUrl,avatarUrl));
+        return JsonConvert.SerializeObject(registerNewUserRequestDTO);
     }
 
     private IEnumerator RegisterNewUserRequest(){
@@ -291,6 +305,12 @@ public class APIRequestHandler : MonoBehaviour
         Debug.Log("Status Code: " + request.responseCode);
         Debug.Log("Response: " + request.downloadHandler.text);
         Debug.Log(request.result);
+    }
+
+    private void showResponseData(UnityWebRequestResponseDTO response) {
+        Debug.Log("Result: " + response.getResult());
+        Debug.Log("Status Code: " + response.getCode());
+        Debug.Log("Response: " + response.getBody());
     }
 
    
