@@ -8,23 +8,23 @@ public class PlayerStatusHUD : MonoBehaviour
  
     internal void initializePlayerStatus(int maxHealth, int maxMana)
     {
-        /*healthBarWithAmount.initializeHealthStatus(maxHealth);
-        manaBar.initializeManaStatus(maxMana);*/
+        healthBarWithAmount.initializeHealthStatus(maxHealth);
+        manaBar.initializeManaStatus(maxMana);
     }
 
     internal void updateHealth(int health)
     {
-        //healthBarWithAmount.SetHealth(health);
+        healthBarWithAmount.SetHealth(health);
     }
 
     internal void updateMaxHealth(int newMaxHealth)
     {
-       // healthBarWithAmount.SetMaxHealth(newMaxHealth);
+       healthBarWithAmount.SetMaxHealth(newMaxHealth);
     }
 
     internal void updateMana(int mana)
     {
-       // manaBar.SetBarMana(mana);
+       manaBar.SetBarMana(mana);
     }
 
     internal void updateMaxMana(int newMaxMana)
