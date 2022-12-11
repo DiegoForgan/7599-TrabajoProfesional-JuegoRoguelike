@@ -48,7 +48,7 @@ public class Enemy : Entity
     protected void InitHealth(){
         health = enemyData.health;
         maxHealth = health;
-        healthBar.initialize(enemyData.health);
+        healthBar.initializeHealthStatus(enemyData.health);
         slowedDown = false;
     }
 

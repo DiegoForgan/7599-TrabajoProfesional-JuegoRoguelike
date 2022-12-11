@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0504afa5fe4f2a40b8fc0db84b5004c, type: 3}
-  m_Name: PoisonEffect
+  m_Name: BurnEffect
   m_EditorClassIdentifier: 
-  name: Poison
-  description: It slows you down and it also reduces health
+  name: Burn
+  description: As simple as that, fire runs through your body.
   duration: 3
   damagePerSecond: 1
-  slowDown: 0.1
+  slowDown: 0
   type: 1

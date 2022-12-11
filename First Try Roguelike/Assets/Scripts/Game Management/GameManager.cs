@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private Dungeon currentDungeon;
     private ItemSpawner itemSpawner;
     private GameObject player;
+    [SerializeField] HUD _hud;
 
     public static GameManager Instance{ get{ return gameManager; } }
     private void Awake()

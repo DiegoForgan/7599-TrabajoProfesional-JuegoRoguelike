@@ -20,7 +20,7 @@ public class HealthBar : MonoBehaviour
         transform.rotation = startRotation;
     }
 
-    public void initialize(int maxHealth){
+    public void initializeHealthStatus(int maxHealth){
         SetMaxHealth(maxHealth);
         SetHealth(maxHealth);
     }

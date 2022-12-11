@@ -8,7 +8,7 @@ public class ManaBar : MonoBehaviour
     public TextMeshProUGUI barText;
     
     
-    public void Initialize(int mana){
+    public void initializeManaStatus(int mana){
         SetMaxBarMana(mana);
         SetBarMana(mana);
     }
