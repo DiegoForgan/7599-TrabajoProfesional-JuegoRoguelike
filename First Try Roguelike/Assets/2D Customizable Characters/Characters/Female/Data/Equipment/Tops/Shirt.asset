@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Shirt
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 1de23515ad1d0db458a3284eb72c828e, type: 3}
+  _category: {fileID: 11400000, guid: dfebf0a21665d2949bed88c25abc0d16, type: 2}
+  _spriteSets:
+  - _downSprite: {fileID: 21300000, guid: 1eac4d99b470e754cb968b038aa28e53, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 0294dc95aa7077d4193499ba1ea33c9a, type: 3}
+    _upSprite: {fileID: 21300000, guid: ae3b2b43b5980ec4d9e34b5178b4df6d, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: 4a36f2786b62efb4b8b245dc103169d6,
+      type: 2}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 0}
+      _sideSprite: {fileID: 0}
+      _upSprite: {fileID: 0}
+    - _downSprite: {fileID: 21300000, guid: 3064cb8ed8e52ef4c875d638e8aabb94, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 26d2fe4ee6200454f8a8a2dbf903203a, type: 3}
+      _upSprite: {fileID: 0}
+  - _downSprite: {fileID: 21300000, guid: fbdb2861558835e499fc5a55a69623b6, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 164d2e1b16c47f94da77968719a93d9a, type: 3}
+    _upSprite: {fileID: 21300000, guid: da95287d28843c847a487d67f2587650, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: f4cf633c071006844adcec27c78628cc,
+      type: 2}
+    _detailSpriteSets: []
+  - _downSprite: {fileID: 21300000, guid: e506aa4011410364c995359e4fabb597, type: 3}
+    _sideSprite: {fileID: 21300000, guid: c79337fc2e88a04449d0f15cf718c59d, type: 3}
+    _upSprite: {fileID: 21300000, guid: 699b6ff9527684e4da7ca2f2953a385e, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: b0e83c618bbb00e4bb7409312ca1b83d,
+      type: 2}
+    _detailSpriteSets: []
+  - _downSprite: {fileID: 21300000, guid: e506aa4011410364c995359e4fabb597, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 899332780bf48b14db565e1d078e7d47, type: 3}
+    _upSprite: {fileID: 21300000, guid: 699b6ff9527684e4da7ca2f2953a385e, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: 73a22b112e62b34458e26ddf65975958,
+      type: 2}
+    _detailSpriteSets: []
+  _locationsToHide: []
+  _slotPriority: 0
+  _canBeTinted: 1
+  _canDetailsBeTinted: 1
+  _usePrimaryColorForDetail: 0

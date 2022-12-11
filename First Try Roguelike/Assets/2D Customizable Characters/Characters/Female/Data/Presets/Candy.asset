@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1436996484437ba088e125e09f1ff0, type: 3}
+  m_Name: Candy
+  m_EditorClassIdentifier: 
+  _bodyColor: {r: 1, g: 1, b: 1, a: 1}
+  _customizations:
+  - _customizationData: {fileID: 11400000, guid: dc5627378d1c82a49bf2d8644012a350,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 5f8adae0ebba9ce42b84324de1cb3002,
+      type: 2}
+    _mainColor: {r: 0.48377034, g: 0.19972765, b: 0.40484336, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: ce19d0bc16d18a34b97cd08b212292e7,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 08d565e1bc928cc4ca2d0ddaa4b29d5c,
+      type: 2}
+    _mainColor: {r: 0.5555708, g: 0.7735849, b: 0.53640085, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: a5db241140d3b794f8f00cf2e97b566d,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: cd71c7278dcd34c4a87607cb4daae782,
+      type: 2}
+    _mainColor: {r: 0.1483177, g: 0.86375403, b: 0.696322, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 0.09523684, b: 0.09523684, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 2d55f904d5e16484093c40bfaca6723f,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 0.8000001, b: 0, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: fdb083d340b480c44adebe5467e472d7,
+      type: 2}
+    _mainColor: {r: 0.96605736, g: 0.4129616, b: 0.4129616, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 179e0dcff0edd6340a2852f774df51d6,
+      type: 2}
+    _mainColor: {r: 0.65882355, g: 0.43137252, b: 0.23921569, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 11b1667fdb210054bbadfc16492b4f56,
+      type: 2}
+    _mainColor: {r: 0.24592985, g: 0.6664548, b: 0.5619461, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 5ed7c4e3db5c6004a80cfc72afb00c6f,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: e1a2a9ccfdc20fc44a6b976e2a7bb2c6,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: b65ad25d15bd0b641bd244444ffd55c6,
+      type: 2}
+    _mainColor: {r: 1, g: 0.6156863, b: 0.917647, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 933e7642b4c43b743a644415f700f31c,
+      type: 2}
+    _mainColor: {r: 0.16807179, g: 0.75414336, b: 0.6885766, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 0.7254902, g: 0.34509808, b: 0.9098039, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 4fecf36f18c2379449ff9ba420fd529a,
+      type: 2}
+    _mainColor: {r: 0.65882355, g: 0.43137252, b: 0.23921569, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 3e851026061cde644b82c025f8fcd57c,
+      type: 2}
+    _mainColor: {r: 0.8784314, g: 0.60784316, b: 0.37647063, a: 1}
+    _detailSpritesIndex: 1
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  _scaleGroups:
+  - _groupName: Body
+    _scale: 1
+    _width: 1
+    _length: 1
+  - _groupName: Head
+    _scale: 1
+    _width: 1
+    _length: 1
+  - _groupName: Arms
+    _scale: 1
+    _width: 1
+    _length: 1
+  - _groupName: Hands
+    _scale: 1
+    _width: 1
+    _length: 1
+  - _groupName: Legs
+    _scale: 1
+    _width: 1
+    _length: 1
+  - _groupName: Feet
+    _scale: 1
+    _width: 1
+    _length: 1
+  - _groupName: Weapon
+    _scale: 0.971002
+    _width: 0.93
+    _length: 0.93
+  - _groupName: Shield
+    _scale: 1
+    _width: 1
+    _length: 1

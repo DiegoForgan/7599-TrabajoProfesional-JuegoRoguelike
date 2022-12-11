@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Eyebrows 1 Frown
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 0}
+  _category: {fileID: 11400000, guid: d8c0cecd5c4149f46b30d3abf4db83f8, type: 2}
+  _spriteSets:
+  - _customizationLocation: {fileID: 11400000, guid: 1eedacaed2a0ea04a9d59041f00b74dd,
+      type: 2}
+    _downSprite: {fileID: 21300000, guid: 255b5a5c98dab584886258dfecb045b7, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 4fce18f951c929d418b624bbf3265874, type: 3}
+    _upSprite: {fileID: 0}
+    _detailSpriteSets: []
+  _locationsToHide: []
+  _slotPriority: 0
+  _canBeTinted: 1
+  _canDetailsBeTinted: 1
+  _canBeHidden: 0

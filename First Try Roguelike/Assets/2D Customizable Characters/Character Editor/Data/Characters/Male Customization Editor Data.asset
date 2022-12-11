@@ -1,0 +1,817 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b77863e89a4a138c00fccda379fd37, type: 3}
+  m_Name: Male Customization Editor Data
+  m_EditorClassIdentifier: 
+  _customizableCharacters:
+  - {fileID: 1203780825325970955, guid: 608c0779f62abf14fa0e9a99b676398b, type: 3}
+  _randomBodyColorGroups:
+  - {fileID: 11400000, guid: e121773741ce53e42b80f2a5658d1b88, type: 2}
+  _customizationSets:
+  - {fileID: 11400000, guid: a03a68eea1bab644d92c265ee73805f8, type: 2}
+  - {fileID: 11400000, guid: 69ab0cf72ced7174f884b97ecf4c0606, type: 2}
+  _characterPresets:
+  - {fileID: 11400000, guid: cc9b594b3feb9724d82771325f877f9c, type: 2}
+  - {fileID: 11400000, guid: db6942b299f000c4db3b2d5f560d737d, type: 2}
+  - {fileID: 11400000, guid: b79c0d866434d60408b5749c18431e6a, type: 2}
+  - {fileID: 11400000, guid: 2711df3d29dd2d14394f7d5bf055bace, type: 2}
+  - {fileID: 11400000, guid: 5099ac9dac7d83a40bbaf95a1da9adaa, type: 2}
+  - {fileID: 11400000, guid: 16b71148e755295419050a4ce62ed1d0, type: 2}
+  - {fileID: 11400000, guid: cc8821d55a0b3444397364a2b520554a, type: 2}
+  - {fileID: 11400000, guid: 4e0c67a1cd40996448642838bc450069, type: 2}
+  - {fileID: 11400000, guid: 804de7792b150da4cb59888a5e639ad3, type: 2}
+  - {fileID: 11400000, guid: 56efed525eae10c4aa3263503c0f9aa3, type: 2}
+  _appearances:
+  - DisplayName: Hair 1
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: bdbee7467021b474ba672f891baf4fae, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Facial Hair 1
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 70ecd6e67f3ae874a8945eb2974bbc49, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Ears 1
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: dc5627378d1c82a49bf2d8644012a350, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+  - DisplayName: Ears 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 0c5ecba60e20dd44aa480c406d0dd88c, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+  - DisplayName: Ears 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 5b138055b272ced4e8146e504da8a7d6, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+  - DisplayName: Eyebrows 1
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: b71a19ec467eb154cbe374df6b2244a2, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyebrows 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: bbb464423c13131459dffd8064ad5ff9, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyebrows 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 37ba8164ab1bbf449adc1920200f4ba8, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyebrows 1
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 5f8adae0ebba9ce42b84324de1cb3002, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyebrows 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 3dc55079fee5638418126c5794b1b94a, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyebrows 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: ef2df51f233e05240b7ead4d6beaa585, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyes 1
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: f8e4eb408432543468b10615c80f75c6, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyes 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 283fa5c2bb177fe49ab0220596282f84, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyes 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 41a04b674c52e784c96b52e341bd35f3, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyes 4
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 8057251d4cf1c434f8fe0181da94b09f, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Facial Hair 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 9ad1961f8abdca94690606f45226a71d, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Facial Hair 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 5ffffb31c5895674786a1b99a4f2dc1f, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Facial Hair 4
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 0356691c55e3bdb46b635d7d98d14911, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Facial Hair 5
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 641585d25377c214180eb21a8d4a19d5, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Facial Hair 6
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: a7e5cee44ac3a474a9fd4f7d05519bf6, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: ad696c162154f1f4c98ec18185cb8f6c, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: ccef83b70f32cd247a6468757f28f0a3, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 4
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: d40c936fe15089d4b9e685c95f0e84c8, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 5
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: f98c424cf7f70ce4a9e762735cda0a47, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 6
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 990bc85eb18aca94cab4148b25dbb9cc, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 7
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: dcd98ca2265e9274996ed10f15f3b3ca, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 8
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: fff7f10781bab9949b0d8ddadf75c383, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 3946e9bcaaf0c8247986244774e2e78a, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 85321faa9cd03e74085a447bed1cc55e, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 4
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 76a4631492b0b884ab62069f58fbf687, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 5
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 9cd57bd02840c0c4896e32ed6be27b74, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 6
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: a8e283572e67c334daecbbf8a2cb6f01, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 7
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: bddd755fea9d0fa45a106f829b3ca0ca, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 8
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 73dbd07210c213a498b08ec917dd13b4, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Hair 9
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 8a9933602563a2d44b75713b05988b42, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Headwear Hair Long
+    _icon: {fileID: 21300000, guid: 3b408e7e2bc7d1c4cbb54c983678e25b, type: 3}
+    _data: {fileID: 11400000, guid: b65ad25d15bd0b641bd244444ffd55c6, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Headwear Hair Short
+    _icon: {fileID: 21300000, guid: 91cda1f101c98d64486b8940a4fc388f, type: 3}
+    _data: {fileID: 11400000, guid: 1013a7976094bbf4d86632b138ab58d7, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Iris 1
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 08d565e1bc928cc4ca2d0ddaa4b29d5c, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 4e566498be0521943afb6bae3d741fb7, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Iris 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 92f2c3d96cdfdd3488e2e9e8dc666639, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 4e566498be0521943afb6bae3d741fb7, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Mouth Clenched
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: ab218c91573938847a8483c727b14b41, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Mouth Fangs
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 21ab21926b5213d4ba92ed26f7ad5993, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Mouth Neutral
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: b102f0e64b76b9848bbfc8ba69481df9, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Mouth Open Smile
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: cb86b7793cb4ec44090e41e6818b2b10, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Mouth Open
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: b65a379295fd1d94eb7b63f13bb74a7b, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Mouth Sad
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 1b36d71dfded64645a996bddd3845c59, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Mouth Smile
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: a5db241140d3b794f8f00cf2e97b566d, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Mouth Smirk
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 7095e20c33bbf88448cbd78d49998566, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Makeup 1
+    _icon: {fileID: 21300000, guid: 2de6b6091d4c7414682f9591ad031785, type: 3}
+    _data: {fileID: 11400000, guid: cd71c7278dcd34c4a87607cb4daae782, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Makeup 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: a3e8fceff5fcc724d92204148dc31bc2, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Makeup 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 9a448d00bea1a69469e3a3c7edb3ebe1, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyebrows 1 Frown
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 78da6cabb8061bd4694c4bcfee52fe8e, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyebrows 1 Raised
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 29cf39e97239615419a3ba675e434440, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyebrows 2 Frown
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: d72f10861b21ac24aad98c43eecb89ac, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyebrows 2 Raised
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: d02f531d9290f6142ab59d43084b76f9, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyebrows 3 Frown
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 90059fa9f4de19845941363a101e766e, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Eyebrows 3 Raised
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 3762aba67ae176f46bc45220f512b463, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 39ff3d3c7b8d0fb439da11c372caa24f, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Iris 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: c8e0beda4da87874a8866dfc31420363, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 4e566498be0521943afb6bae3d741fb7, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Makeup 4
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 6798ac253382d314d80ee687c1aecdbe, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+    _suggestedDetailColorGroups: []
+  _equipment:
+  - DisplayName: Cap 1
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 9ed1208c9513bda4481fc7e0d9da0663, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+  - DisplayName: Long Sleeve
+    _icon: {fileID: 21300000, guid: 447bad054cb4dc94fb8d6604cc2611f3, type: 3}
+    _data: {fileID: 11400000, guid: 88340f7d293d3d74399652eeba165c16, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+  - DisplayName: Leather Armor
+    _icon: {fileID: 21300000, guid: 47575d35332e2234487177cb01206718, type: 3}
+    _data: {fileID: 11400000, guid: 8b13eb9e0b8351244b63fae64eeceb9e, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Belt 1
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 23a61bc65567c3a47a67c4f5b23355ca, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Belt 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 18e65b98fc9169f458d8fb79eae24dcf, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+  - DisplayName: Belt 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 38bef44bfc19b2a4fb7248a6fbbfbe2c, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Belt 4
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 5289169b18bf3b6479822b8e86bbf630, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+  - DisplayName: Cloth Pants
+    _icon: {fileID: 21300000, guid: 79327c11afd8cfa4a947d7f04f407e6f, type: 3}
+    _data: {fileID: 11400000, guid: ab52945dc25f7bb4e834fa3528d19ab2, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Bracelets
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 4fb948039906c5249899255bdff2ea8f, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+  - DisplayName: Boots
+    _icon: {fileID: 21300000, guid: 7138998ceabf7a140b4a882c4e37370c, type: 3}
+    _data: {fileID: 11400000, guid: 179e0dcff0edd6340a2852f774df51d6, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+  - DisplayName: Open Shoe
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 409075be3694b9c4a8ef6b43e2f999b6, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+  - DisplayName: Sabatons
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 967a16ffb69adac489914cab121abe0e, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+  - DisplayName: Sandals
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 5fc211ca7eaf530418adac7bccb4834e, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Glasses 1
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 7147b865e3574a1488af08254a3b194e, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Glasses 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 79edc5fb3fac1364fa632184bbb2f12a, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Glasses 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 315da73e86c899a48a2b25551a365b7f, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Fingerless
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: b6f209527d4aeb545b5b119f3af7f120, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Gauntlets
+    _icon: {fileID: 21300000, guid: 51642319eb091774984d5fe7aa2e88dc, type: 3}
+    _data: {fileID: 11400000, guid: f08828dc9bc69444eb8821c54c1b9985, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+  - DisplayName: Gloves
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 4fecf36f18c2379449ff9ba420fd529a, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Ring
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: c669109766f6a0c45992918102aeeacd, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Cap 1
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 5e0e5a2c2752b924da1c4ad34405cace, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+  - DisplayName: Cap 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: a20b9eb8925c77241ab7a523741aa6a9, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+  - DisplayName: Cap 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: f240a7c33545b4044b69529220e5f41a, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+  - DisplayName: Cap 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 933e7642b4c43b743a644415f700f31c, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+  - DisplayName: Helm 1
+    _icon: {fileID: 21300000, guid: 711753c4a7d89614fb6a36f4ca938f2d, type: 3}
+    _data: {fileID: 11400000, guid: 5c8f861b145c00740b3dbb5974090683, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+  - DisplayName: Helm 1
+    _icon: {fileID: 21300000, guid: 927e41b397a8c314da4c54371ef006a5, type: 3}
+    _data: {fileID: 11400000, guid: 8b1067fdf81783d478c97575fe8da7c1, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+  - DisplayName: Helm 2
+    _icon: {fileID: 21300000, guid: 2277fd34c660c1541b32819a17d6d48b, type: 3}
+    _data: {fileID: 11400000, guid: fbe7d1d424510b0459fadbcaaba674e5, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Helm 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 99dc61a6bdbe4774da7d359a388f4444, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Scale Mail Pants
+    _icon: {fileID: 21300000, guid: b88bfc7817a3edb44b6116b3f652530c, type: 3}
+    _data: {fileID: 11400000, guid: 9f8b9cc1c45e60447bed5841a0a68b0c, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Shorts
+    _icon: {fileID: 21300000, guid: f5e54688e700f8048aa662a5d856c713, type: 3}
+    _data: {fileID: 11400000, guid: 47b75f8708b60b547b675d72f788ee82, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Plate Armor
+    _icon: {fileID: 21300000, guid: 98b85d60cfd098144bd25dd815d90ea9, type: 3}
+    _data: {fileID: 11400000, guid: 106955dd4d9618849b8d08f65171b46c, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+  - DisplayName: Pauldrons 1
+    _icon: {fileID: 21300000, guid: dd1b470af78bd714f9e1ccfe76799cc5, type: 3}
+    _data: {fileID: 11400000, guid: bc77e55eebe0cb0478a2945bb43fa73e, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Pauldrons 2
+    _icon: {fileID: 21300000, guid: 3020c96d71c7b634f9014caa320eea45, type: 3}
+    _data: {fileID: 11400000, guid: f05a64345123b46469fac518931b5f2b, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+  - DisplayName: Pauldrons 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: a5be24a59dbdd98498a14dd0188eee09, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Pauldrons 4
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 377af93cb9dbfab47850d5276c67bcf9, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Scale Mail Shirt
+    _icon: {fileID: 21300000, guid: 7b7a285bcc062644fa34b682392e5e10, type: 3}
+    _data: {fileID: 11400000, guid: e36c34ef8db06824fa8ea4a3451849cf, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Shirt
+    _icon: {fileID: 21300000, guid: a1e51bc27eef2b748a803346bff64697, type: 3}
+    _data: {fileID: 11400000, guid: c2dd6815c1b24fb488157d137fd19c9a, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+  - DisplayName: Tunic
+    _icon: {fileID: 21300000, guid: 51afa1ebf3dd24147bac1b1b07c9a75e, type: 3}
+    _data: {fileID: 11400000, guid: 70b63f0ced9c50142a52f47df0cc8281, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+  - DisplayName: Axe 1
+    _icon: {fileID: 21300000, guid: d467d6fa07b7fd9438b8332d2912b313, type: 3}
+    _data: {fileID: 11400000, guid: fbab025afb0dfbc4a848bf878233dccf, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Axe 2
+    _icon: {fileID: 21300000, guid: 015239f55b320674496a6f924a870a41, type: 3}
+    _data: {fileID: 11400000, guid: 210c5eed091789d4c98b4cc4a00318f0, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Bow 1
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 74862848bb74e834c9ce83bcebe673d3, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Bow 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 76890e2276c48d646bcf0407aa67ca05, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Bow 3
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 708ca0e0336858d4bafee6ddde6960e4, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Dagger 1
+    _icon: {fileID: 21300000, guid: 2680e470fe4022b40abc3bba625dfe05, type: 3}
+    _data: {fileID: 11400000, guid: 2ceb5c9990baa6043803989023edb6c4, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Dagger 2
+    _icon: {fileID: 21300000, guid: d711db482548d0846ab44d87b82f4175, type: 3}
+    _data: {fileID: 11400000, guid: 6769b55fb616380458446e52f03f550e, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Mace 1
+    _icon: {fileID: 21300000, guid: 544be5c5f7832584da90aa234228f432, type: 3}
+    _data: {fileID: 11400000, guid: 4144ab741b7f99a4ca73d7aee5cf2ed8, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Mace 2
+    _icon: {fileID: 21300000, guid: 33d7027db9cd2184680e13ba22dfdf60, type: 3}
+    _data: {fileID: 11400000, guid: 691a8a3d397a48d4eb7de318664747cc, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Spear 1
+    _icon: {fileID: 21300000, guid: 1c8667d90e9364d4191a8ef97c8997d3, type: 3}
+    _data: {fileID: 11400000, guid: 132556185dd2d184d903d5a7870c7cc3, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Spear 2
+    _icon: {fileID: 21300000, guid: 30dbf9f46b2a9784e87eff4943fa2ea2, type: 3}
+    _data: {fileID: 11400000, guid: 3b59569e2c8a2c445abb4d233597bf4a, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Sword 1
+    _icon: {fileID: 21300000, guid: f84cee3528026f943a795491aa3be184, type: 3}
+    _data: {fileID: 11400000, guid: e1a2a9ccfdc20fc44a6b976e2a7bb2c6, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Sword 2
+    _icon: {fileID: 21300000, guid: faef4be2a2d684d4b9bd2d4089021051, type: 3}
+    _data: {fileID: 11400000, guid: d2d579b6e969cd3488c3d5a79f764890, type: 2}
+    _suggestedMainColorGroups: []
+    _suggestedDetailColorGroups: []
+  - DisplayName: Beanie
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 5c8c9b86e6b26e24ea836b914cc41a12, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+  - DisplayName: Shield 1
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 3e851026061cde644b82c025f8fcd57c, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+  - DisplayName: Shield 2
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: dcbd46b686c5abb4fab472ab410e2181, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: dfb6bef1dc9b4b540a1ce15b824514d2, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: 303707bf803103a4190dec87ce21399d, type: 2}
+  - DisplayName: Layered Tunic
+    _icon: {fileID: 21300000, guid: b5916d9c2960fdf478539e3fb8c2bbc9, type: 3}
+    _data: {fileID: 11400000, guid: 7bcde3cf716c218468ecda941663841c, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+  - DisplayName: Pointy Hat
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: aabce222a8a05e349b99df99ec3e4f9a, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups: []
+  - DisplayName: Puffy Shoulders
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 8d63990f7b797124b9db45a112d8f31f, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+  - DisplayName: Vest
+    _icon: {fileID: 0}
+    _data: {fileID: 11400000, guid: 3562560a15cc8c94cbec662be5d12c75, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    _suggestedDetailColorGroups:
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+  - DisplayName: Puffy Pants
+    _icon: {fileID: 21300000, guid: befbb5ec75eddcd499552221170d0d1d, type: 3}
+    _data: {fileID: 11400000, guid: a7e272adf68a13144997e19f78a42407, type: 2}
+    _suggestedMainColorGroups:
+    - {fileID: 11400000, guid: e5f4c80dbbb0a5a44b6ffe6e8ff24496, type: 2}
+    - {fileID: 11400000, guid: 90980450d94b76d46b906442c8d109df, type: 2}
+    _suggestedDetailColorGroups: []
+  _defaultPoseClipGroup:
+    _groupName: Default Pose
+    _downAnimationClip: {fileID: 7400000, guid: 03a70ffa14c4d584c8de1b77cd944ea3,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: e93383b727ca44d41883fb1b10c0de92,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: 2746de6410690874092a34b0538de804, type: 2}
+  _animationClipGroups:
+  - _groupName: Idle
+    _downAnimationClip: {fileID: 7400000, guid: 254214aa843649d49a2c7edbeadf7b14,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: c9a0216825096394fbd282a7527247e7,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: ec508495298b98d4fb9203b24400cffe, type: 2}
+  - _groupName: Walk
+    _downAnimationClip: {fileID: 7400000, guid: 8ae5a6d7f73fd3447a336379de1f60bd,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: fe45834e8b5702b4cb8b478885b7deee,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: f45132d2b20642b42a82e50b60c971e6, type: 2}
+  - _groupName: Run
+    _downAnimationClip: {fileID: 7400000, guid: c1c7d2570a490df469a3a08380d911cc,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: 18beab9315c9d504fba44f664865b4ea,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: b68fd2cd039332e4399898c88db9a332, type: 2}
+  - _groupName: Swing
+    _downAnimationClip: {fileID: 7400000, guid: 23b503df0b760ef41925d4ee76efaf26,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: 07b8ad7dbd9746c40be9ceddd8b5137a,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: 08e1f79a12553f242b2cc1d6b8048446, type: 2}
+  - _groupName: Spell
+    _downAnimationClip: {fileID: 7400000, guid: ad71d9ede6c8ea7449d2a8615d2dadbc,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: fa94b5c7625209349ae8bac0c52790aa,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: 5aa2f1da72180294c9baccaf2b9cd316, type: 2}
+  - _groupName: Bow Load
+    _downAnimationClip: {fileID: 7400000, guid: 36c047f67b5bcee4890aa2da96671e29,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: 1329d42a284854e4fb820b32d573fc2e,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: 15586aa77009f2646ad2a63f425af627, type: 2}
+  - _groupName: Bow Release
+    _downAnimationClip: {fileID: 7400000, guid: 57cde9782d7c4df46b85bdc2d599d061,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: 1f1adbc24b242c545b55b94776715d2a,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: b824938b4add3ab4aa63e20509f56791, type: 2}
+  - _groupName: Die
+    _downAnimationClip: {fileID: 7400000, guid: b820aed60fca61340bd30cf5fc16c077,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: 29eff21ce94861d40bb90bf128b905e1,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: 6a5e679ad782a834d9c5196555d4bef3, type: 2}
+  - _groupName: Hurt
+    _downAnimationClip: {fileID: 7400000, guid: 2e61131d03f3b9f499bb68635c40b922,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: 8fb2c69f8422f2643b152bee03baff46,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: df86c73bf6c78cc4aa4d9789d698a533, type: 2}
+  - _groupName: Stab
+    _downAnimationClip: {fileID: 7400000, guid: ba056394a6d647c43b480fc684ba0116,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: 9888334b81360834d9b25dab49c3c1e4,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: 4b4e79a0833316841bd50d0126b049ee, type: 2}
+  - _groupName: Weapon Idle
+    _downAnimationClip: {fileID: 7400000, guid: 0f278639b6afa394da67bd7e0bdd6d66,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: 22ec64f48a8afeb40827855d99fb06f8,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: 4e41feacaca496d4cbe3f37fd6de1706, type: 2}
+  - _groupName: Weapon Run
+    _downAnimationClip: {fileID: 7400000, guid: 1d819e649effb2443af23a86782c9a75,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: a0c4bb7aa0105e140bf552e96090f18e,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: f194adf078938d14b913f1ea54b03820, type: 2}
+  - _groupName: Weapon Walk
+    _downAnimationClip: {fileID: 7400000, guid: 9deb3abd16da6a04cac61a4a65ee6617,
+      type: 2}
+    _sideAnimationClip: {fileID: 7400000, guid: f31b5962986f8c34cb3aebfe19369041,
+      type: 2}
+    _upAnimationClip: {fileID: 7400000, guid: c390e13da83d8b345a0654d67e7c5ff0, type: 2}

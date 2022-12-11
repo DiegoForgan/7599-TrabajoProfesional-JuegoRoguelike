@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Facial Hair 6
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 0}
+  _category: {fileID: 11400000, guid: 5c54a10df04fc2443b4a11f6422efb87, type: 2}
+  _spriteSets:
+  - _downSprite: {fileID: 21300000, guid: f4e3891f421f00842a6e60dbb73bcb78, type: 3}
+    _sideSprite: {fileID: 21300000, guid: bd517de1c4196b745a90f5ac364dd35a, type: 3}
+    _upSprite: {fileID: 0}
+    _customizationLocation: {fileID: 11400000, guid: 63e89496dbb476641ba2f1a856b5118e,
+      type: 2}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 0}
+      _sideSprite: {fileID: 0}
+      _upSprite: {fileID: 0}
+    - _downSprite: {fileID: 21300000, guid: 303e17480ee7a37429cdc67ee6d6cf8c, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 7748ff7eda8d61b41b4992a9511fd1b1, type: 3}
+      _upSprite: {fileID: 0}
+    - _downSprite: {fileID: 21300000, guid: d4035085a423c5440904e26b6e5ddbf4, type: 3}
+      _sideSprite: {fileID: 21300000, guid: a892b966a79cc06458dc8c84b7c98565, type: 3}
+      _upSprite: {fileID: 0}
+  _locationsToHide: []
+  _slotPriority: 0
+  _canBeTinted: 1
+  _canDetailsBeTinted: 1
+  _useMainColorForDetail: 1

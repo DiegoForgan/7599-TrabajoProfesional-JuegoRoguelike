@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Belt 2
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 0}
+  _category: {fileID: 11400000, guid: d5dc1342e3dbee948884dc0214112c6f, type: 2}
+  _spriteSets:
+  - _customizationLocation: {fileID: 11400000, guid: 457b41cacb5d692499a268437550c753,
+      type: 2}
+    _downSprite: {fileID: 21300000, guid: ad8b8ee31c3d0d7458a63642f94239f8, type: 3}
+    _sideSprite: {fileID: 21300000, guid: e053ac8208caf564e81f0823afb06cc7, type: 3}
+    _upSprite: {fileID: 21300000, guid: 33672ec9c74794c468c9d999bec32e2b, type: 3}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 21300000, guid: fc15a300fd6838a48a16ef724f3bd221, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 5f1bc1aecad1a8846a647e0e48425c7b, type: 3}
+      _upSprite: {fileID: 0}
+    - _downSprite: {fileID: 21300000, guid: 13975817004fc0f4fbdd88e08967962e, type: 3}
+      _sideSprite: {fileID: 21300000, guid: bf3ddacf11a8f714b9a04021d8c9c28b, type: 3}
+      _upSprite: {fileID: 0}
+  _locationsToHide: []
+  _slotPriority: 0
+  _canBeTinted: 1
+  _canDetailsBeTinted: 1

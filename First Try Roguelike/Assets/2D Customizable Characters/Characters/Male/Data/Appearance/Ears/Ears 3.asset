@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Ears 3
+  m_EditorClassIdentifier: 
+  _category: {fileID: 11400000, guid: c781a26e5dbcac4499f3a9a2229771d1, type: 2}
+  _spriteSets:
+  - _downSprite: {fileID: 21300000, guid: c9c1f30a86f951c4293008415c4f4dda, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 076722750015fac49b8d2a9c90c0bf36, type: 3}
+    _upSprite: {fileID: 21300000, guid: 306ede0f81f06914c9d5450ab780153c, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: 585c8498f2f97cb449f1983fd65a783e,
+      type: 2}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 0}
+      _sideSprite: {fileID: 0}
+      _upSprite: {fileID: 0}
+    - _downSprite: {fileID: 21300000, guid: ef91cdf202fe2754cad2534890fc939b, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 49c4e16ee582eec4993466d7b2e38539, type: 3}
+      _upSprite: {fileID: 21300000, guid: c285988b1c036c242ae41f522cc6369e, type: 3}
+    - _downSprite: {fileID: 21300000, guid: 1e46be2e9d71c5a4c8dfc0b0cdc9d763, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 49c4e16ee582eec4993466d7b2e38539, type: 3}
+      _upSprite: {fileID: 21300000, guid: 98d39058318ca414090f075884b4cf77, type: 3}
+    - _downSprite: {fileID: 21300000, guid: 95a6ab73e341d794abde388b8c6d71d2, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 2b2297a9f8f33ae4f829748e993c6328, type: 3}
+      _upSprite: {fileID: 21300000, guid: bc12f3905f38bb8439c9252e60369ba2, type: 3}
+  _locationsToHide: []
+  _slotPriority: 0
+  _canBeTinted: 0
+  _canDetailsBeTinted: 1
+  _useMainColorForDetail: 0

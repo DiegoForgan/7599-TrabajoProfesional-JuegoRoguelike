@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Open Shoe
+  m_EditorClassIdentifier: 
+  _category: {fileID: 11400000, guid: 41fe338ddc485504c8cb52c7285826a6, type: 2}
+  _spriteSets:
+  - _downSprite: {fileID: 21300000, guid: 47fc0764265c33846af9c186ef17a417, type: 3}
+    _sideSprite: {fileID: 21300000, guid: ca519504092a64f42b0c75649f0ae117, type: 3}
+    _upSprite: {fileID: 21300000, guid: 5a7b0f83d30d2a44aaf4595c155b5c78, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: 1c69ebcf5fb55fd46a56ad0d06b3d433,
+      type: 2}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 0}
+      _sideSprite: {fileID: 0}
+      _upSprite: {fileID: 0}
+    - _downSprite: {fileID: 21300000, guid: 0ed73bf6ab725fd4c8f8ac0d2e7b82f0, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 5532d9c652559464aa71c69ffe0a8255, type: 3}
+      _upSprite: {fileID: 21300000, guid: e56d6533cb3adb342a802383e03e98bb, type: 3}
+    - _downSprite: {fileID: 21300000, guid: 19f6171abbf0ae34cb32e601e932907c, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 235fe5ef30f4ab04cb3c08b1bf835575, type: 3}
+      _upSprite: {fileID: 21300000, guid: 38eb1a09557873e49a69dbae22dfbe0e, type: 3}
+  - _downSprite: {fileID: 21300000, guid: 47fc0764265c33846af9c186ef17a417, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 1c95aaf01c084cd439c5cc62041291c7, type: 3}
+    _upSprite: {fileID: 21300000, guid: 5a7b0f83d30d2a44aaf4595c155b5c78, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: 5d60caf3b7cdcfa43ba65e8cd4d302ff,
+      type: 2}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 0}
+      _sideSprite: {fileID: 0}
+      _upSprite: {fileID: 0}
+    - _downSprite: {fileID: 21300000, guid: 0ed73bf6ab725fd4c8f8ac0d2e7b82f0, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 3eae8db5258b1954891ca878618e8350, type: 3}
+      _upSprite: {fileID: 21300000, guid: e56d6533cb3adb342a802383e03e98bb, type: 3}
+    - _downSprite: {fileID: 21300000, guid: 19f6171abbf0ae34cb32e601e932907c, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 3db2d75d733b6054ab828c33159a5733, type: 3}
+      _upSprite: {fileID: 21300000, guid: 38eb1a09557873e49a69dbae22dfbe0e, type: 3}
+  _locationsToHide: []
+  _slotPriority: 10
+  _canBeTinted: 1
+  _canDetailsBeTinted: 1
+  _useMainColorForDetail: 0

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Cap 3
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 0}
+  _category: {fileID: 11400000, guid: 4fa26ac1a7b166d4cb560487928ce9ad, type: 2}
+  _spriteSets:
+  - _downSprite: {fileID: 21300000, guid: ee5b9e8853f6ec84eb50a69afc0db2c9, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 086703b034d619a45b882a76dcd994f3, type: 3}
+    _upSprite: {fileID: 21300000, guid: 859c1f29565bb78419aeafacd6335576, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: 1c95714c3c33f6c4199abbcdc5484f3c,
+      type: 2}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 21300000, guid: faca24b32e218224e8da2719f5df984e, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 98e820e3474eec944898b18f3c0a25fd, type: 3}
+      _upSprite: {fileID: 21300000, guid: 3d3f775584815f940a8a709037989f89, type: 3}
+    - _downSprite: {fileID: 21300000, guid: 786e4475ae5e2af4d991108ac2bde72a, type: 3}
+      _sideSprite: {fileID: 21300000, guid: e23f4d5491dff3849af062e0c2d8a01e, type: 3}
+      _upSprite: {fileID: 21300000, guid: 3f50c9da3fd97d34487971a896dcac65, type: 3}
+    - _downSprite: {fileID: 0}
+      _sideSprite: {fileID: 0}
+      _upSprite: {fileID: 0}
+  _locationsToHide: []
+  _slotPriority: 0
+  _canBeTinted: 1
+  _canDetailsBeTinted: 1
+  _useMainColorForDetail: 0

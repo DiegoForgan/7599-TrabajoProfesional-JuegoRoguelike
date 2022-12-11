@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Plate Armor
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 98b85d60cfd098144bd25dd815d90ea9, type: 3}
+  _category: {fileID: 11400000, guid: d8d5bca1f701fb6439f8547e935e517f, type: 2}
+  _spriteSets:
+  - _downSprite: {fileID: 21300000, guid: e2f56ed5dfb54ec4d9076000d1f453aa, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 0d5591dfd1973b54ebc32348778514ad, type: 3}
+    _upSprite: {fileID: 21300000, guid: ed458c29b00ad054e8d442cc58d05e77, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: c023060ca49de4b4997b4da987bbe1ef,
+      type: 2}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 21300000, guid: 4ca6bfc765009cd4485a6e7d24ccadf3, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 7d8759e3aa66a464696816246d5df59b, type: 3}
+      _upSprite: {fileID: 21300000, guid: 7675190b16935d84188bec7db4c00523, type: 3}
+  - _downSprite: {fileID: 21300000, guid: 1a7a4b5221870d742adb111e93d0185e, type: 3}
+    _sideSprite: {fileID: 21300000, guid: c9197d167e5e36d40acacd97c10ea0a6, type: 3}
+    _upSprite: {fileID: 21300000, guid: abcb00a411e6f674fabae7ca7b777d1a, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: 5d57ed7ba299dcd47986ead37135f1a3,
+      type: 2}
+    _detailSpriteSets: []
+  _locationsToHide: []
+  _slotPriority: 0
+  _canBeTinted: 1
+  _canDetailsBeTinted: 1
+  _useMainColorForDetail: 0

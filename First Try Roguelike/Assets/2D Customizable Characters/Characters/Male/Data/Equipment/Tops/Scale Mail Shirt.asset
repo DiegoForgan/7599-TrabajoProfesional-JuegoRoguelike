@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Scale Mail Shirt
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 7b7a285bcc062644fa34b682392e5e10, type: 3}
+  _category: {fileID: 11400000, guid: dfebf0a21665d2949bed88c25abc0d16, type: 2}
+  _spriteSets:
+  - _customizationLocation: {fileID: 11400000, guid: f4cf633c071006844adcec27c78628cc,
+      type: 2}
+    _downSprite: {fileID: 21300000, guid: f08ae93fd5ef5a34089d19611af31729, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 860cbde33d8f95b4fa58d073e157fb3c, type: 3}
+    _upSprite: {fileID: 21300000, guid: 7fd0031dcdb6e0543a43a076e70d9c6a, type: 3}
+    _detailSpriteSets: []
+  - _customizationLocation: {fileID: 11400000, guid: 4a36f2786b62efb4b8b245dc103169d6,
+      type: 2}
+    _downSprite: {fileID: 21300000, guid: ca7be44c9b7d40d4783162037006eee3, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 49cd77876e2aec246b671fab9ec6d076, type: 3}
+    _upSprite: {fileID: 21300000, guid: 82b72251ad706164c84b2ed67e7d19e9, type: 3}
+    _detailSpriteSets: []
+  - _customizationLocation: {fileID: 11400000, guid: 07f8884947f97e94badf952dcd36cdab,
+      type: 2}
+    _downSprite: {fileID: 21300000, guid: 210512ed091675f45b06a2ec4ae59d4f, type: 3}
+    _sideSprite: {fileID: 21300000, guid: df6ad4bed304fd440a48768640df3838, type: 3}
+    _upSprite: {fileID: 21300000, guid: 7e8ca32c3cbecbb4184a8414b90fe9f5, type: 3}
+    _detailSpriteSets: []
+  - _customizationLocation: {fileID: 11400000, guid: b0e83c618bbb00e4bb7409312ca1b83d,
+      type: 2}
+    _downSprite: {fileID: 21300000, guid: d5d67aa89f3718d4ebf9fe446479468b, type: 3}
+    _sideSprite: {fileID: 21300000, guid: fdc1447f27494af48a9552aebe7eb364, type: 3}
+    _upSprite: {fileID: 21300000, guid: 2083964ee2f76e94d98ca66bd672c02b, type: 3}
+    _detailSpriteSets: []
+  - _customizationLocation: {fileID: 11400000, guid: 73a22b112e62b34458e26ddf65975958,
+      type: 2}
+    _downSprite: {fileID: 21300000, guid: d5d67aa89f3718d4ebf9fe446479468b, type: 3}
+    _sideSprite: {fileID: 21300000, guid: db112315e1f061d409f94dbd7f6bcc02, type: 3}
+    _upSprite: {fileID: 21300000, guid: 2083964ee2f76e94d98ca66bd672c02b, type: 3}
+    _detailSpriteSets: []
+  - _customizationLocation: {fileID: 11400000, guid: 251aecf68c092b042b6f23be5c869916,
+      type: 2}
+    _downSprite: {fileID: 21300000, guid: 210512ed091675f45b06a2ec4ae59d4f, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 700d94d3cc9be1142b9b6668c89de4d4, type: 3}
+    _upSprite: {fileID: 21300000, guid: 7e8ca32c3cbecbb4184a8414b90fe9f5, type: 3}
+    _detailSpriteSets: []
+  _locationsToHide: []
+  _slotPriority: 0
+  _canBeTinted: 0
+  _canDetailsBeTinted: 0
