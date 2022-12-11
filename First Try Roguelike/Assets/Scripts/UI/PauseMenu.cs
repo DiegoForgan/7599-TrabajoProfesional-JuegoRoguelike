@@ -37,8 +37,8 @@ public class PauseMenu : ToMainMenuUI
         // When returning to main menu, all preserved instances must be destroyed
         DestroyAllPreservedInstances();
         PauseMenuUI.SetActive(false);
-        //Scene zero is our main menu scene
-        SceneManager.LoadScene(0);
+        //Scene one is our main menu scene
+        SceneManager.LoadScene(1);
         //This command plays the desired sound clip
         FindObjectOfType<AudioManager>().PlaySound("MainMenuTheme");
     }
