@@ -5,7 +5,6 @@ using UnityEngine;
 public abstract class EntityMovement : MonoBehaviour
 {
     protected float movementSpeed;
-
     protected Rigidbody2D _rigidBody;
     protected Vector2 movement;
 

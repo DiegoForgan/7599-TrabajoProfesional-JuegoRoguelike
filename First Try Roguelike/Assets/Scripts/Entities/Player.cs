@@ -9,7 +9,7 @@ public class Player : Entity
     private int keys;
     private int gold;
     private HUD _hud;
-    private PlayerMovement _playerMovement;
+    private PlayerMovementController _playerMovement;
     private WeaponManagement _weaponManagement;
     private bool canOpenDoor;
     public static Player instance;
@@ -32,7 +32,7 @@ public class Player : Entity
     private void GetPlayerReferences()
     {
         _hud = GameObject.Find("HUD").GetComponent<HUD>();
-        _playerMovement = GetComponent<PlayerMovement>();
+        _playerMovement = GetComponent<PlayerMovementController>();
         _weaponManagement = GetComponent<WeaponManagement>();
     }
 
