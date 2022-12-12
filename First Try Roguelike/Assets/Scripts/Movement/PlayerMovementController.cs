@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class PlayerMovementController : EntityMovement
 {
-
+    [SerializeField] PlayerData testData;
     private MovementInput movementInput = new MovementInput();
+    private MovementAnimator movementAnimator;
+
+    private void Start()
+    {
+        movementAnimator = GetComponent<MovementAnimator>();
+        movementAnimator.ResetRigs();
+        movementSpeed = testData.movementSpeed;
+    }
 
     // Update is called once per frame
     void Update()
@@ -17,8 +25,15 @@ public class PlayerMovementController : EntityMovement
     private void FixedUpdate() 
     {
         movement = movementInput.getMovement();
-        float appliedSpeed = movementInput.isRunningKeyPressed() ? movementSpeed * 1.5f : movementSpeed; 
+        bool runningKeyPressed = movementInput.isRunningKeyPressed();
         
-        _rigidBody.MovePosition(_rigidBody.position + movement * appliedSpeed * Time.fixedDeltaTime);
+        float appliedSpeed = runningKeyPressed ? movementSpeed * 1.5f : movementSpeed;
+        Vector2 newPosition = _rigidBody.position + movement * appliedSpeed * Time.fixedDeltaTime;
+        
+        _rigidBody.MovePosition(newPosition);
+
+        float actualMovementSpeed = _rigidBody.velocity.x;
+        Debug.Log(actualMovementSpeed);
+        movementAnimator.HandleMovementAnimation(appliedSpeed, appliedSpeed, movement);
     }
 }
