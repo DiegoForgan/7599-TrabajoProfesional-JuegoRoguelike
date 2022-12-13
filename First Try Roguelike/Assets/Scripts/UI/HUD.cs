@@ -50,10 +50,7 @@ public class HUD : MonoBehaviour
     }
 
     public void UpdateSpellUI(SpellData currentSpell){
-        _spellHUD.updateSpellHUD(currentSpell);
-    }
-
-    public void NoSpellUI(){
-        _spellHUD.initializeSpellHUD();
+        if (currentSpell == null) _spellHUD.initializeSpellHUD();
+        else _spellHUD.updateSpellHUD(currentSpell);
     }
 }

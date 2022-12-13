@@ -16,15 +16,16 @@ public class MovementAnimator : MonoBehaviour
     {
         customizableCharacter.UpRig.SetActive(false);
         customizableCharacter.SideRig.SetActive(false);
-        customizableCharacter.DownRig.SetActive(false);
+        customizableCharacter.DownRig.SetActive(true);
     }
     public void HandleMovementAnimation(float currentSpeed, float movementSpeed, Vector2 movement)
     {
         HandleDirection(movement);
-        HandleSpeed(currentSpeed,movementSpeed);
+        HandleSpeed(movement);
     }
-    private void HandleSpeed(float currentSpeed, float movementSpeed) {
-        float animatorSpeed = Mathf.InverseLerp(0, currentSpeed, movementSpeed);
+    private void HandleSpeed(Vector2 movement) {
+        //Partially fixed, should take into account the real speed of the movement
+        float animatorSpeed = (movement == Vector2.zero) ? 0f : 1f;
         animator.SetFloat("Speed", animatorSpeed);
     }
 

@@ -12,6 +12,7 @@ public class PlayerMovementController : EntityMovement
     {
         movementAnimator = GetComponent<MovementAnimator>();
         movementAnimator.ResetRigs();
+        //Remove this and replace with custom player data from the player component
         movementSpeed = testData.movementSpeed;
     }
 
@@ -24,7 +25,7 @@ public class PlayerMovementController : EntityMovement
     //Updates at constant time interval regardless of Frames Per Second
     private void FixedUpdate() 
     {
-        movement = movementInput.getMovement();
+        movement = movementInput.getMovementAxis();
         bool runningKeyPressed = movementInput.isRunningKeyPressed();
         
         float appliedSpeed = runningKeyPressed ? movementSpeed * 1.5f : movementSpeed;
