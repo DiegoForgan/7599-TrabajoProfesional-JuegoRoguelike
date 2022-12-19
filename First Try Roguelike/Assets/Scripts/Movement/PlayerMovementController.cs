@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class PlayerMovementController : EntityMovement
 {
-    [SerializeField] PlayerData testData;
     private MovementInput movementInput = new MovementInput();
-    private MovementAnimator movementAnimator;
+    private CharactersAnimator movementAnimator;
 
     private void Start()
     {
-        movementAnimator = GetComponent<MovementAnimator>();
+        movementAnimator = GetComponent<CharactersAnimator>();
         movementAnimator.ResetRigs();
         //Remove this and replace with custom player data from the player component
-        movementSpeed = testData.movementSpeed;
+        //movementSpeed = testData.movementSpeed;
     }
 
     // Update is called once per frame

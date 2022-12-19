@@ -1,9 +1,10 @@
 using CustomizableCharacters;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovementAnimator : MonoBehaviour
+public class CharactersAnimator : MonoBehaviour
 {
     [SerializeField] private CustomizableCharacter customizableCharacter;
     [SerializeField] private Animator animator;
@@ -17,12 +18,19 @@ public class MovementAnimator : MonoBehaviour
         customizableCharacter.UpRig.SetActive(false);
         customizableCharacter.SideRig.SetActive(false);
         customizableCharacter.DownRig.SetActive(true);
+        previousDirection = Vector2.down;
+        currentDirectionGameObject = customizableCharacter.DownRig;
     }
     public void HandleMovementAnimation(float currentSpeed, float movementSpeed, Vector2 movement)
     {
         HandleDirection(movement);
         HandleSpeed(movement);
     }
+
+    public void SetShowWeapon(bool shouldShowWeapon) {
+        animator.SetBool("Showing Weapon", shouldShowWeapon);
+    }
+
     private void HandleSpeed(Vector2 movement) {
         //Partially fixed, should take into account the real speed of the movement
         float animatorSpeed = (movement == Vector2.zero) ? 0f : 1f;
@@ -88,5 +96,15 @@ public class MovementAnimator : MonoBehaviour
         }
 
         return ret;
+    }
+
+    internal void setAttackAnimation()
+    {
+        animator.SetTrigger("Attack 1");
+    }
+
+    internal void setSpellCastingAnimation()
+    {
+        animator.SetTrigger("Spell");
     }
 }

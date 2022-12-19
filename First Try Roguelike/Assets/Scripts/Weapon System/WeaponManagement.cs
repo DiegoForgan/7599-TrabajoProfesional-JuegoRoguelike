@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class WeaponManagement : MonoBehaviour
 {
-    [SerializeField] Animator attackingAnimator;
+    private CharactersAnimator animator;
     private List<SpellData> spells;
     private MeleeWeapon _mainWeapon;
     private AttackInput inputs = new AttackInput();
@@ -29,8 +29,8 @@ public class WeaponManagement : MonoBehaviour
         _player = GetComponent<Player>();
         _hud = GameObject.Find("HUD").GetComponent<HUD>();
         _mainWeapon = GetComponent<MeleeWeapon>();
-        _attackPoint = transform.Find("ShootPoint");
-        attackingAnimator = GetComponent<Animator>();
+        _attackPoint = transform.Find("AttackPoint");
+        animator = GetComponent<CharactersAnimator>();
     }
 
     private bool HasAnySpells(){
@@ -51,7 +51,7 @@ public class WeaponManagement : MonoBehaviour
             currentSpell = spells[currentIndex];
             _hud.UpdateSpellUI(currentSpell);
         }
-        attackingAnimator.SetBool("Showing Weapon", true);
+        animator.SetShowWeapon(true);
     }
     
     // Update is called once per frame
@@ -76,7 +76,8 @@ public class WeaponManagement : MonoBehaviour
         if(Time.time >= nextAttackTime){
             //Mouse Logic to Melee 
             if (inputs.isMeleeAttackKeyPressed()) {
-                _mainWeapon.Attack(_attackPoint);
+                //_mainWeapon.Attack(_attackPoint);
+                animator.setAttackAnimation();
                 //TODO: Add Sword swinging sound
                 Debug.Log("Remember to add sword swinging sound!");
                 nextAttackTime = Time.time + 1f / attackRate;
@@ -91,6 +92,7 @@ public class WeaponManagement : MonoBehaviour
                 {
                     _player.SpendMana(currentManaCost);
                     CastSpell();
+                    animator.setSpellCastingAnimation();
                     nextAttackTime = Time.time + 1f / attackRate;
                 }
                 //This will play the "not enough mana sound"
