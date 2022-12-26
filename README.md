@@ -19,3 +19,7 @@ El mismo consiste en la creación de un juego en 2D con mecánicas _roguelike_ c
 ## Herramientas Utilizadas
 
 - Unity 2020.3.11f1
+
+## Documentación
+
+- [Wiki del Proyecto](https://github.com/DiegoForgan/7599-TrabajoProfesional-JuegoRoguelike/wiki)
