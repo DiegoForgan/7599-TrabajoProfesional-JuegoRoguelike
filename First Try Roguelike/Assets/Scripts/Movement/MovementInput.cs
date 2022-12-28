@@ -21,7 +21,7 @@ public class MovementInput
         movementAxis.x = Input.GetAxisRaw(horizontal);
         movementAxis.y = Input.GetAxisRaw(vertical);
         runningKeyPressed = Input.GetKey(runningKey);
-        Debug.Log(movementAxis);
+        //Debug.Log(movementAxis);
     }
 
     public void resetMoveAxis()

@@ -76,7 +76,8 @@ public class WeaponManagement : MonoBehaviour
         if(Time.time >= nextAttackTime){
             //Mouse Logic to Melee 
             if (inputs.isMeleeAttackKeyPressed()) {
-                //_mainWeapon.Attack(_attackPoint);
+                Debug.Log(_attackPoint.position);
+                _mainWeapon.Attack(_attackPoint);
                 animator.setAttackAnimation();
                 //TODO: Add Sword swinging sound
                 Debug.Log("Remember to add sword swinging sound!");

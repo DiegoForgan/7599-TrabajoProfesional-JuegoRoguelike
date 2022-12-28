@@ -2,23 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : Entity
+public abstract class Enemy : Entity
 {
-    public EnemyData enemyData;
-    public HealthBar healthBar;
+    public EnemyData enemyData; 
 
     protected List<SpellData> availableSpells;
     protected MeleeWeapon meleeWeapon;
-    protected SpriteRenderer _enemySpriteRenderer;
+    //protected SpriteRenderer _enemySpriteRenderer;
     protected EnemyMovement _enemyMovement;
     protected Transform _attackPoint;
-    
+    protected float attackRate;
+    protected float nextAttackTime = 0;
+    protected float attackDistance;
+
     //Called before the Start function
     private void Awake() {
-        _enemySpriteRenderer = GetComponent<SpriteRenderer>();
+        //_enemySpriteRenderer = GetComponent<SpriteRenderer>();
         meleeWeapon = GetComponent<MeleeWeapon>();
         _enemyMovement = GetComponent<EnemyMovement>(); 
-        _attackPoint = transform.Find("ShootPoint");    
+        _attackPoint = transform.Find("AttackPoint");    
     }
 
     private void Start() {
@@ -42,26 +44,32 @@ public class Enemy : Entity
     protected void InitMovementStats(float distance){
         //Passing movement data to corresponding component
         _enemyMovement.SetMovementSpeed(enemyData.movementSpeed);
-        _enemyMovement.SetAttackingParameters(enemyData.attackRate,distance);
+        SetAttackingParameters(enemyData.attackRate,distance);
     }
 
     protected void InitHealth(){
         health = enemyData.health;
         maxHealth = health;
-        healthBar.initializeHealthStatus(enemyData.health);
+        //healthBar.initializeHealthStatus(enemyData.health);
         slowedDown = false;
     }
 
-    internal HealthBar GetHealthBar()
+    internal void SetAttackingParameters(float attRate, float attDistance)
+    {
+        attackRate = attRate;
+        attackDistance = attDistance;
+    }
+
+    /*internal HealthBar GetHealthBar()
     {
         return healthBar;
-    }
+    }*/
 
     public override void TakeDamage(int damage)
     {
-        StartCoroutine(flashColor());
+        //StartCoroutine(flashColor());
         base.TakeDamage(damage);
-        healthBar.SetHealth(health);
+        //healthBar.SetHealth(health);
     }
 
     public virtual void Attack(){
@@ -87,13 +95,13 @@ public class Enemy : Entity
     }
 
     IEnumerator flashColor(){
-        _enemySpriteRenderer.color = Color.red;
+        //_enemySpriteRenderer.color = Color.red;
         yield return new WaitForSeconds(0.1f);
-        _enemySpriteRenderer.color = Color.white;
+        //_enemySpriteRenderer.color = Color.white;
     }
 
     //If the enemy has a melee weapon asigned, it´s a "melee attacker"
-    public bool IsMeleeAttacker(){
+    public virtual bool IsMeleeAttacker(){
         return (enemyData.availableMeleeWeapon != null);
     }
 

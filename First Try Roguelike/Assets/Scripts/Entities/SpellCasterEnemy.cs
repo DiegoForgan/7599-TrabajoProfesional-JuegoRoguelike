@@ -6,7 +6,7 @@ public class SpellCasterEnemy : Enemy
 {
     //Called before the Start function
     private void Awake() {
-        _enemySpriteRenderer = GetComponent<SpriteRenderer>();
+        //_enemySpriteRenderer = GetComponent<SpriteRenderer>();
         _enemyMovement = GetComponent<EnemyMovement>(); 
         _attackPoint = transform.Find("ShootPoint");    
     }
