@@ -26,7 +26,7 @@ public abstract class Enemy : Entity
     private void Start() {
         InitHealth();
         //Assigning a big value cause we count on it being replaced on any of the following "if" statements
-        float distance = 100;
+        float distance = float.MaxValue;
         if(IsMeleeAttacker()){
             meleeWeapon.SetWeaponData(enemyData.availableMeleeWeapon);
             //distance has to be tweaked in order to respond to the attacking point

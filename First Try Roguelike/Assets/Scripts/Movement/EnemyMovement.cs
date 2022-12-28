@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemyMovement : EntityMovement
 {
+    [SerializeField] private float movementTolerance = 0.3f;
     private GameObject target;
     private CharactersAnimator movementAnimator;
     private bool isVisible;
@@ -35,6 +36,7 @@ public class EnemyMovement : EntityMovement
         movementAnimator = GetComponent<CharactersAnimator>();
         movementAnimator.ResetRigs();
         _attackPoint = transform.Find("AttackPoint");
+        // Set vector2 to enemy attackpoints
         attackPointPositions = new Vector2[] { new Vector2(0f, -0.2f), new Vector2(0f, 2f), new Vector2(0.8f, 0.5f), new Vector2(-0.8f, 0.5f) };
         _attackPoint.localPosition = attackPointPositions[0];
     }
@@ -46,9 +48,12 @@ public class EnemyMovement : EntityMovement
     private Vector2 GetMovementValues(){
         Vector2 movement = Vector2.zero;
         Vector2 distanceVector = target.transform.position - transform.position;
-        movement.x = (distanceVector.x < 0) ? -1 : 1;
-        movement.y = (distanceVector.y < 0) ? -1 : 1;
-        Debug.Log(movement);
+        if (distanceVector.x < -movementTolerance) movement.x = -1;
+        if (distanceVector.x > movementTolerance) movement.x = 1;
+        if (distanceVector.y < -movementTolerance) movement.y = -1;
+        if (distanceVector.y > movementTolerance) movement.y = 1;
+        //movement.x = (distanceVector.x < -movementTolerance) ? -1 : (distanceVector.x > movementTolerance) ? 1 : 0;
+        //movement.y = (distanceVector.y < -movementTolerance) ? -1 : (distanceVector.y > movementTolerance) ? 1 : 0;
         return movement;        
     }
 
@@ -64,6 +69,7 @@ public class EnemyMovement : EntityMovement
   {
         //It will only start moving towards the player if you faced the enemy on screen
         movement = CanMove() ? GetMovementValues() : Vector2.zero;
+        
         /*if(CanMove()){
         GetMovementValues();
         //Checks if player is at the distance required for enemy to attack

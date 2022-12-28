@@ -14,7 +14,10 @@ public class MeleeEnemy : Enemy
         //Passing movement data to corresponding component
         InitMovementStats(distance);
     }
-
+    private void Update()
+    {
+        
+    }
     private void FixedUpdate()
     {
         
