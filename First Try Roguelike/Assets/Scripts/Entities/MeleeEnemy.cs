@@ -14,18 +14,11 @@ public class MeleeEnemy : Enemy
         //Passing movement data to corresponding component
         InitMovementStats(distance);
     }
-    private void Update()
-    {
-        
-    }
-    private void FixedUpdate()
-    {
-        
-    }
-
+   
     public override void Attack(){
-            Debug.Log("Attacking from Melee atacker class");
-            meleeWeapon.AttackPlayer(_attackPoint);
+        Debug.Log("Attacking from Melee atacker class");
+        meleeWeapon.AttackPlayer(_attackPoint);
+        animator.setAttackAnimation();
     }
 
     public override bool IsMeleeAttacker() { return true; }

@@ -1,19 +1,16 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
 public class EnemyMovement : EntityMovement
 {
     [SerializeField] private float movementTolerance = 0.3f;
-    private GameObject target;
-    private CharactersAnimator movementAnimator;
     private bool isVisible;
     private Enemy _enemy;
     //private HealthBar _healthBar;
-    
-
-
     private float offset_y;
-  
+    private Transform currentPlayerTransform;
+
     private void OnBecameVisible() {
         Debug.Log("Enemy Visible!");
         isVisible = true;
@@ -31,8 +28,6 @@ public class EnemyMovement : EntityMovement
     private void Start() {
         //_healthBar = _enemy.GetHealthBar();
         //offset_y = (Vector2.Distance(_rigidBody.position,_healthBar.transform.position));
-        target  = GameObject.FindGameObjectWithTag("Player");
-        if (!target) Debug.LogError("No target aquired!");
         movementAnimator = GetComponent<CharactersAnimator>();
         movementAnimator.ResetRigs();
         _attackPoint = transform.Find("AttackPoint");
@@ -42,57 +37,39 @@ public class EnemyMovement : EntityMovement
     }
 
     private bool CanMove(){
-        return target;// (isVisible && target);
+        return true;// (isVisible);
     }
 
     private Vector2 GetMovementValues(){
         Vector2 movement = Vector2.zero;
-        Vector2 distanceVector = target.transform.position - transform.position;
-        if (distanceVector.x < -movementTolerance) movement.x = -1;
-        if (distanceVector.x > movementTolerance) movement.x = 1;
-        if (distanceVector.y < -movementTolerance) movement.y = -1;
-        if (distanceVector.y > movementTolerance) movement.y = 1;
-        //movement.x = (distanceVector.x < -movementTolerance) ? -1 : (distanceVector.x > movementTolerance) ? 1 : 0;
-        //movement.y = (distanceVector.y < -movementTolerance) ? -1 : (distanceVector.y > movementTolerance) ? 1 : 0;
+        Vector2 distanceVector = currentPlayerTransform.position - transform.position;
+        if (distanceVector.x < -movementTolerance)  movement.x = -1;
+        if (distanceVector.x >  movementTolerance)  movement.x =  1;
+        if (distanceVector.y < -movementTolerance)  movement.y = -1;
+        if (distanceVector.y >  movementTolerance)  movement.y =  1;
         return movement;        
     }
 
-    private bool IsInAttackDistanceAndAbleToAttack(){
-        //Checks if player is at the distance required for enemy to attack
-        /*float playerEnemyDistance = Vector2.Distance(transform.position,currentTargetPosition);
-        if ((playerEnemyDistance <= attackDistance) && (Time.time >= nextAttackTime)) return true;
-        */return false;
-    }
+    
 
   
   private void Update() 
   {
         //It will only start moving towards the player if you faced the enemy on screen
-        movement = CanMove() ? GetMovementValues() : Vector2.zero;
-        
-        /*if(CanMove()){
-        GetMovementValues();
-        //Checks if player is at the distance required for enemy to attack
-        if (IsInAttackDistanceAndAbleToAttack()){
-          _enemy.Attack();
-          nextAttackTime = Time.time + 1f/attackRate;
-        }
-      }
-      else movement = Vector2.zero;*/
+        movement = CanMove() ? GetMovementValues() : Vector2.zero;   
   }   
 
     private void FixedUpdate() 
     {
-      if(CanMove()){
-            //Move the enemy
-            Vector2 newPosition = _rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime;
-            _rigidBody.MovePosition(newPosition);
-            Vector2 direction = GetMovementDirection(movement);
-            moveAttackPointToDirection(direction);
-            movementAnimator.HandleMovementAnimation(direction);
-            //Update the location of the enemy healthbar on screen
-            //UpdateHealthbarPosition();
-        }
+        if (!CanMove()) return;
+        //Move the enemy
+        Vector2 newPosition = _rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime;
+        _rigidBody.MovePosition(newPosition);
+        Vector2 direction = GetMovementDirection(movement);
+        moveAttackPointToDirection(direction);
+        movementAnimator.HandleMovementAnimation(direction);
+        //Update the location of the enemy healthbar on screen
+        //UpdateHealthbarPosition();
     }
 
   private void UpdateHealthbarPosition(){
@@ -106,4 +83,8 @@ public class EnemyMovement : EntityMovement
     //_healthBar.SetPosition(new Vector2(_rigidBody.position.x,_rigidBody.position.y+offset));
    }
 
+    internal void SetPlayerTransform(Transform playerTransform)
+    {
+        currentPlayerTransform = playerTransform;
+    }
 }

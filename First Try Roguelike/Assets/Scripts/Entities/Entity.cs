@@ -6,6 +6,7 @@ public class Entity : MonoBehaviour, Collidable, Affectable
 {
     protected int maxHealth;
     protected int health;
+    protected CharactersAnimator animator;
 
     protected bool slowedDown = false;
     
@@ -16,9 +17,15 @@ public class Entity : MonoBehaviour, Collidable, Affectable
     //Implementing "Collidable" interface method
     public virtual void TakeDamage(int damage){
          health -= damage;
-         //checks if entity is dead
-         if(health <= 0) DestroyElement();
-     }
+        //checks if entity is dead
+        if (health <= 0)
+        {
+            //Give time to play animation before destroying game object
+            animator.setDeadAnimation();
+            DestroyElement();
+        }
+        else animator.setHurtAnimation();
+    }
 
     public virtual void DestroyElement()
     {

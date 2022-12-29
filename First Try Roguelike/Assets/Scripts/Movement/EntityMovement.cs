@@ -10,6 +10,7 @@ public abstract class EntityMovement : MonoBehaviour
     private readonly Vector2[] _directions = { Vector2.right, Vector2.left, Vector2.up, Vector2.down };
     protected Vector2[] attackPointPositions;
     protected Transform _attackPoint;
+    protected CharactersAnimator movementAnimator;
 
     private void Awake() {
         _rigidBody = GetComponent<Rigidbody2D>();

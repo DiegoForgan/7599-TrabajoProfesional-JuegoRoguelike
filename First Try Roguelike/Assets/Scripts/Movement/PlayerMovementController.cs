@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerMovementController : EntityMovement
 {
     private MovementInput movementInput = new MovementInput();
-    private CharactersAnimator movementAnimator;
     
     private void Start()
     {

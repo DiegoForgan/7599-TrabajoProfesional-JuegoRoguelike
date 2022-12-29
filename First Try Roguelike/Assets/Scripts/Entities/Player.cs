@@ -34,6 +34,8 @@ public class Player : Entity
         _hud = GameObject.Find("HUD").GetComponent<HUD>();
         _playerMovement = GetComponent<PlayerMovementController>();
         _weaponManagement = GetComponent<WeaponManagement>();
+        animator = GetComponent<CharactersAnimator>();
+        Debug.Log("Animator reference from player");
     }
 
     internal void DisableKeyAction()

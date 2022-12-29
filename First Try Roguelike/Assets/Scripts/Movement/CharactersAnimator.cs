@@ -73,5 +73,14 @@ public class CharactersAnimator : MonoBehaviour
     internal void setSpellCastingAnimation()
     {
         animator.SetTrigger("Spell");
+    } 
+    internal void setHurtAnimation()
+    {
+        animator.SetTrigger("Hurt");
     }
+    internal void setDeadAnimation()
+    {
+        animator.SetTrigger("Die");
+    }
+
 }

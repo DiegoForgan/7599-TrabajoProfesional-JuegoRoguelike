@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public abstract class Enemy : Entity
 {
@@ -11,6 +12,7 @@ public abstract class Enemy : Entity
     //protected SpriteRenderer _enemySpriteRenderer;
     protected EnemyMovement _enemyMovement;
     protected Transform _attackPoint;
+    protected Transform playerTransform;
     protected float attackRate;
     protected float nextAttackTime = 0;
     protected float attackDistance;
@@ -18,9 +20,15 @@ public abstract class Enemy : Entity
     //Called before the Start function
     private void Awake() {
         //_enemySpriteRenderer = GetComponent<SpriteRenderer>();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         meleeWeapon = GetComponent<MeleeWeapon>();
-        _enemyMovement = GetComponent<EnemyMovement>(); 
-        _attackPoint = transform.Find("AttackPoint");    
+        _enemyMovement = GetComponent<EnemyMovement>();
+        _attackPoint = transform.Find("AttackPoint");
+        animator = GetComponent<CharactersAnimator>();
+        Debug.Log("Animator reference from enemy");
+        if (!playerTransform) Debug.LogError("No player Transform aquired!");
+        if (!_attackPoint) Debug.LogError("No attack point found!");
+        
     }
 
     private void Start() {
@@ -30,8 +38,7 @@ public abstract class Enemy : Entity
         if(IsMeleeAttacker()){
             meleeWeapon.SetWeaponData(enemyData.availableMeleeWeapon);
             //distance has to be tweaked in order to respond to the attacking point
-            distance = Vector2.Distance(transform.position,_attackPoint.position);
-            distance += enemyData.availableMeleeWeapon.range;
+            distance = Vector2.Distance(transform.position,_attackPoint.position) + enemyData.availableMeleeWeapon.range;
         }
         if(IsSpellCaster()){
             //Creates a copy of the list to prevent changes on the Scriptable Object
@@ -41,9 +48,17 @@ public abstract class Enemy : Entity
         InitMovementStats(distance);
     }
 
+    private void Update()
+    {
+        if (!IsInAttackDistanceAndAbleToAttack()) return;
+        Attack();
+        nextAttackTime = Time.time + 1f / attackRate;
+    }
+
     protected void InitMovementStats(float distance){
         //Passing movement data to corresponding component
         _enemyMovement.SetMovementSpeed(enemyData.movementSpeed);
+        _enemyMovement.SetPlayerTransform(playerTransform);
         SetAttackingParameters(enemyData.attackRate,distance);
     }
 
@@ -64,6 +79,12 @@ public abstract class Enemy : Entity
     {
         return healthBar;
     }*/
+    protected bool IsInAttackDistanceAndAbleToAttack()
+    {
+        //Checks if player is at the distance required for enemy to attack
+        float playerEnemyDistance = Vector2.Distance(transform.position,playerTransform.position);
+        return ((playerEnemyDistance <= attackDistance) && (Time.time >= nextAttackTime));
+    }
 
     public override void TakeDamage(int damage)
     {
@@ -73,10 +94,16 @@ public abstract class Enemy : Entity
     }
 
     public virtual void Attack(){
-        if(IsMeleeAttacker()) 
+        if (IsMeleeAttacker())
+        {
             meleeWeapon.AttackPlayer(_attackPoint);
-        else if(IsSpellCaster()) 
+            animator.setAttackAnimation();
+        }
+        else if (IsSpellCaster())
+        {
             CastRandomSpell();
+            animator.setSpellCastingAnimation();
+        }
     }
     
     public void CastRandomSpell(){
