@@ -3019,7 +3019,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.8245939}
   m_Size: {x: 0.5, y: 1.2181463}
   m_Direction: 0
---- !u!114 &6853517086260768112
+--- !u!114 &4620484981906487786
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3028,7 +3028,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8280887873811152406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a54bef701e690174c88c31c7c83ae1d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8727a9ee29467d1429a9f671b4913c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   movementTolerance: 0.3

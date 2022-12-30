@@ -6,10 +6,10 @@ public class EnemyMovement : EntityMovement
 {
     [SerializeField] private float movementTolerance = 0.3f;
     private bool isVisible;
-    private Enemy _enemy;
     //private HealthBar _healthBar;
     private float offset_y;
-    private Transform currentPlayerTransform;
+    protected Transform currentPlayerTransform;
+    protected float attackingDistance;
 
     private void OnBecameVisible() {
         Debug.Log("Enemy Visible!");
@@ -22,7 +22,7 @@ public class EnemyMovement : EntityMovement
 
     private void Awake() {
         _rigidBody = GetComponent<Rigidbody2D>();
-        _enemy = GetComponent<Enemy>();
+        //_enemy = GetComponent<Enemy>();
     }
 
     private void Start() {
@@ -59,11 +59,21 @@ public class EnemyMovement : EntityMovement
         movement = CanMove() ? GetMovementValues() : Vector2.zero;   
   }   
 
-    private void FixedUpdate() 
+    private void FixedUpdate()
     {
         if (!CanMove()) return;
+        Vector2 newPosition = getNewPosition();
+        moveEnemy(newPosition);
+    }
+
+    protected virtual Vector2 getNewPosition() { 
+        return _rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime; 
+    }
+    
+
+    private void moveEnemy(Vector2 newPosition)
+    {
         //Move the enemy
-        Vector2 newPosition = _rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime;
         _rigidBody.MovePosition(newPosition);
         Vector2 direction = GetMovementDirection(movement);
         moveAttackPointToDirection(direction);
@@ -72,7 +82,7 @@ public class EnemyMovement : EntityMovement
         //UpdateHealthbarPosition();
     }
 
-  private void UpdateHealthbarPosition(){
+    private void UpdateHealthbarPosition(){
     //1 - We get the angle that the enemy is facing the player
     float angleFacingPlayer = transform.rotation.eulerAngles.z;
     //2 - Separation beetween the healthbar and the entity
@@ -86,5 +96,10 @@ public class EnemyMovement : EntityMovement
     internal void SetPlayerTransform(Transform playerTransform)
     {
         currentPlayerTransform = playerTransform;
+    }
+
+    internal void SetAttackingDistance(float distance)
+    {
+        attackingDistance = distance;
     }
 }

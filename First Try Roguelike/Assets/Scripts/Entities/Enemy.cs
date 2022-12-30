@@ -60,6 +60,7 @@ public abstract class Enemy : Entity
         _enemyMovement.SetMovementSpeed(enemyData.movementSpeed);
         _enemyMovement.SetPlayerTransform(playerTransform);
         SetAttackingParameters(enemyData.attackRate,distance);
+        _enemyMovement.SetAttackingDistance(distance);
     }
 
     protected void InitHealth(){
