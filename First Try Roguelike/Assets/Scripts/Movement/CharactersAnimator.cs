@@ -1,4 +1,5 @@
 using CustomizableCharacters;
+using System;
 using UnityEngine;
 
 public class CharactersAnimator : MonoBehaviour
@@ -83,4 +84,8 @@ public class CharactersAnimator : MonoBehaviour
         animator.SetTrigger("Die");
     }
 
+    internal void SetSpellCastingWithStaffAnimation()
+    {
+        animator.SetTrigger("Stab");
+    }
 }

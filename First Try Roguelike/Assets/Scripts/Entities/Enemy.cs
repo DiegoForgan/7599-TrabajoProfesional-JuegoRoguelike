@@ -25,7 +25,7 @@ public abstract class Enemy : Entity
         _enemyMovement = GetComponent<EnemyMovement>();
         _attackPoint = transform.Find("AttackPoint");
         animator = GetComponent<CharactersAnimator>();
-        Debug.Log("Animator reference from enemy");
+        
         if (!playerTransform) Debug.LogError("No player Transform aquired!");
         if (!_attackPoint) Debug.LogError("No attack point found!");
         

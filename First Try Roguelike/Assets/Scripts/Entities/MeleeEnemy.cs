@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class MeleeEnemy : Enemy
 {
+    private void Awake()
+    {
+        //_enemySpriteRenderer = GetComponent<SpriteRenderer>();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        meleeWeapon = GetComponent<MeleeWeapon>();
+        _enemyMovement = GetComponent<EnemyMovement>();
+        _attackPoint = transform.Find("AttackPoint");
+        animator = GetComponent<CharactersAnimator>();
+        if (!playerTransform) Debug.LogError("No player Transform aquired!");
+        if (!_attackPoint) Debug.LogError("No attack point found!");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
