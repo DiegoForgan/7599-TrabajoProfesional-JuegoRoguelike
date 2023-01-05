@@ -88,4 +88,9 @@ public class CharactersAnimator : MonoBehaviour
     {
         animator.SetTrigger("Stab");
     }
+
+    internal void SetArrowThrowingAnimation()
+    {
+        throw new NotImplementedException();
+    }
 }
