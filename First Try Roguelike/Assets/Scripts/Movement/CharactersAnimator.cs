@@ -1,5 +1,6 @@
 using CustomizableCharacters;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class CharactersAnimator : MonoBehaviour
@@ -18,17 +19,17 @@ public class CharactersAnimator : MonoBehaviour
         currentDirectionGameObject.SetActive(true);
         animator.SetFloat("Direction", animatorDirection);
     }
-    public void HandleMovementAnimation(Vector2 direction)
+    public void HandleMovementAnimation(Vector2 direction, float currentSpeed)
     {
         HandleDirectionAnimation(direction);
-        HandleSpeed(direction);
+        HandleSpeed(direction, currentSpeed);
     }
     public void SetShowWeapon(bool shouldShowWeapon) {
         animator.SetBool("Showing Weapon", shouldShowWeapon);
     }
-    private void HandleSpeed(Vector2 direction) {
+    private void HandleSpeed(Vector2 direction, float currentSpeed) {
         //Partially fixed, should take into account the real speed of the movement
-        float animatorSpeed = (direction == Vector2.zero) ? 0f : 1f;
+        float animatorSpeed = (direction == Vector2.zero || currentSpeed == 0f) ? 0f : 1f;
         animator.SetFloat("Speed", animatorSpeed);
     }
     private void HandleDirectionAnimation(Vector2 direction)
@@ -89,8 +90,27 @@ public class CharactersAnimator : MonoBehaviour
         animator.SetTrigger("Stab");
     }
 
-    internal void SetArrowThrowingAnimation()
+    internal IEnumerator SetArrowThrowingAnimation()
     {
-        throw new NotImplementedException();
+        // enter animator to enter bow load state
+        animator.SetTrigger("Bow Load");
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Bow Load") == false)
+            yield return null;
+
+        animator.ResetTrigger("Bow Load");
+
+        // wait for bow load animation
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Bow Load")
+               && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
+
+        // enter animator to enter bow release state
+        animator.SetTrigger("Bow Release");
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Bow Release") == false)
+            yield return null;
+
+        animator.ResetTrigger("Bow Release");
     }
 }

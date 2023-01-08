@@ -14,6 +14,7 @@ public class MeleeEnemy : Enemy
         animator = GetComponent<CharactersAnimator>();
         if (!playerTransform) Debug.LogError("No player Transform aquired!");
         if (!_attackPoint) Debug.LogError("No attack point found!");
+        if (!_enemyMovement) Debug.LogError("No movement component found!");
     }
 
     // Start is called before the first frame update

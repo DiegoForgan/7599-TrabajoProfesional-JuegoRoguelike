@@ -77,7 +77,7 @@ public class EnemyMovement : EntityMovement
         _rigidBody.MovePosition(newPosition);
         Vector2 direction = GetMovementDirection(movement);
         moveAttackPointToDirection(direction);
-        movementAnimator.HandleMovementAnimation(direction);
+        movementAnimator.HandleMovementAnimation(direction,movementSpeed);
         //Update the location of the enemy healthbar on screen
         //UpdateHealthbarPosition();
     }

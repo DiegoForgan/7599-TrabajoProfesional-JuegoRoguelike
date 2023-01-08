@@ -36,6 +36,6 @@ public class PlayerMovementController : EntityMovement
         float actualMovementSpeed = _rigidBody.velocity.x;
         Vector2 direction = GetMovementDirection(movement);
         moveAttackPointToDirection(direction);
-        movementAnimator.HandleMovementAnimation(direction);
+        movementAnimator.HandleMovementAnimation(direction,movementSpeed);
     }
 }
