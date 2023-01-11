@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum EffectType
 {
+    None, //No side effect
     Burn, //Makes damage per second
     Poison,//Slows down entity and damages per second
     Freeze //Makes entity stop moving for an amount of seconds

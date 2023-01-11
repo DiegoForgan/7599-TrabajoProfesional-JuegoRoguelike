@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1436996484437ba088e125e09f1ff0, type: 3}
+  m_Name: Gnome
+  m_EditorClassIdentifier: 
+  _bodyColor: {r: 1, g: 0.9294118, b: 0.909804, a: 1}
+  _customizations:
+  - _customizationData: {fileID: 11400000, guid: 08d565e1bc928cc4ca2d0ddaa4b29d5c,
+      type: 2}
+    _mainColor: {r: 0.6117647, g: 0.48235297, b: 0.36078432, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: f8e4eb408432543468b10615c80f75c6,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 37ba8164ab1bbf449adc1920200f4ba8,
+      type: 2}
+    _mainColor: {r: 0.6117647, g: 0.48235297, b: 0.36078432, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: a5db241140d3b794f8f00cf2e97b566d,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 0c5ecba60e20dd44aa480c406d0dd88c,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 0356691c55e3bdb46b635d7d98d14911,
+      type: 2}
+    _mainColor: {r: 0.6117647, g: 0.48235297, b: 0.36078432, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: bdbee7467021b474ba672f891baf4fae,
+      type: 2}
+    _mainColor: {r: 0.6117647, g: 0.48235297, b: 0.36078432, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 23a61bc65567c3a47a67c4f5b23355ca,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 409075be3694b9c4a8ef6b43e2f999b6,
+      type: 2}
+    _mainColor: {r: 0.8784314, g: 0.60784316, b: 0.37647063, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: ab52945dc25f7bb4e834fa3528d19ab2,
+      type: 2}
+    _mainColor: {r: 0.65882355, g: 0.43137252, b: 0.23921569, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 70b63f0ced9c50142a52f47df0cc8281,
+      type: 2}
+    _mainColor: {r: 0.309804, g: 0.48627454, b: 0.8117647, a: 1}
+    _detailSpritesIndex: 1
+    _detailColor: {r: 1, g: 0.8290068, b: 0.34186006, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: a20b9eb8925c77241ab7a523741aa6a9,
+      type: 2}
+    _mainColor: {r: 1, g: 0.39480883, b: 0.28497815, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  _scaleGroups:
+  - _groupName: Head
+    _scale: 1.1669915
+    _width: 1
+    _length: 1
+  - _groupName: Body
+    _scale: 0.75
+    _width: 1
+    _length: 1
+  - _groupName: Arms
+    _scale: 1
+    _width: 1
+    _length: 0.9791673
+  - _groupName: Hands
+    _scale: 1.1956793
+    _width: 1
+    _length: 1
+  - _groupName: Legs
+    _scale: 1
+    _width: 1
+    _length: 0.9780989
+  - _groupName: Feet
+    _scale: 1.2
+    _width: 1.07
+    _length: 1.07

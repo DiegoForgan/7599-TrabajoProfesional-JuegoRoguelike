@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Facial Hair 2
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 0}
+  _category: {fileID: 11400000, guid: 5c54a10df04fc2443b4a11f6422efb87, type: 2}
+  _spriteSets:
+  - _customizationLocation: {fileID: 11400000, guid: 63e89496dbb476641ba2f1a856b5118e,
+      type: 2}
+    _downSprite: {fileID: 21300000, guid: bdea2452c3fcea447acc6df6d91b253e, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 2838b5048c6342f44b47cecbc4597a98, type: 3}
+    _upSprite: {fileID: 0}
+    _detailSpriteSets: []
+  _locationsToHide: []
+  _slotPriority: 0
+  _canBeTinted: 1
+  _canDetailsBeTinted: 1
+  _canBeHidden: 0

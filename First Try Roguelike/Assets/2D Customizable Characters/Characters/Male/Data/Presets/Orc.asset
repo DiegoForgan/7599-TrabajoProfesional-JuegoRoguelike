@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1436996484437ba088e125e09f1ff0, type: 3}
+  m_Name: Orc
+  m_EditorClassIdentifier: 
+  _bodyColor: {r: 0.49708402, g: 0.75996935, b: 0.34200433, a: 1}
+  _customizations:
+  - _customizationData: {fileID: 11400000, guid: 08d565e1bc928cc4ca2d0ddaa4b29d5c,
+      type: 2}
+    _mainColor: {r: 0.27803493, g: 0.6678738, b: 0.8301887, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 8057251d4cf1c434f8fe0181da94b09f,
+      type: 2}
+    _mainColor: {r: 0.9333334, g: 0.40784317, b: 0.32156864, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 5b138055b272ced4e8146e504da8a7d6,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 2
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 21ab21926b5213d4ba92ed26f7ad5993,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 377af93cb9dbfab47850d5276c67bcf9,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 47b75f8708b60b547b675d72f788ee82,
+      type: 2}
+    _mainColor: {r: 0.65882355, g: 0.43137252, b: 0.23921569, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 5289169b18bf3b6479822b8e86bbf630,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 1
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 4fb948039906c5249899255bdff2ea8f,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 1
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  - _customizationData: {fileID: 11400000, guid: 4144ab741b7f99a4ca73d7aee5cf2ed8,
+      type: 2}
+    _mainColor: {r: 1, g: 1, b: 1, a: 1}
+    _detailSpritesIndex: 0
+    _detailColor: {r: 1, g: 1, b: 1, a: 1}
+    _isHidden: 0
+  _scaleGroups:
+  - _groupName: Body
+    _scale: 1.1490586
+    _width: 1.0384605
+    _length: 1
+  - _groupName: Head
+    _scale: 0.97405446
+    _width: 0.9679496
+    _length: 1
+  - _groupName: Arms
+    _scale: 1
+    _width: 1.07
+    _length: 1
+  - _groupName: Hands
+    _scale: 1
+    _width: 1
+    _length: 1
+  - _groupName: Legs
+    _scale: 1
+    _width: 1.07
+    _length: 1
+  - _groupName: Feet
+    _scale: 1
+    _width: 1
+    _length: 1
+  - _groupName: Weapon
+    _scale: 0.942004
+    _width: 1
+    _length: 1
+  - _groupName: Shield
+    _scale: 1
+    _width: 1
+    _length: 1

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Fingerless
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 0}
+  _category: {fileID: 11400000, guid: 5f10d671b013e0d48b1819a8ab5d722d, type: 2}
+  _spriteSets:
+  - _customizationLocation: {fileID: 11400000, guid: defdc9e95dea72e4289a7adef428747b,
+      type: 2}
+    _downSprite: {fileID: 21300000, guid: b7795d1756a0c9a409fd780738bbc8ad, type: 3}
+    _sideSprite: {fileID: 21300000, guid: fe29839711ae8824f8765f7b93c875b5, type: 3}
+    _upSprite: {fileID: 21300000, guid: 1df5b29a4e0048e49b8753b61a90f464, type: 3}
+    _detailSpriteSets: []
+  - _customizationLocation: {fileID: 11400000, guid: 349fd1c1b1172d24b89e4c21baf6b649,
+      type: 2}
+    _downSprite: {fileID: 21300000, guid: b7795d1756a0c9a409fd780738bbc8ad, type: 3}
+    _sideSprite: {fileID: 21300000, guid: d98b56476d0d0d54bb2e774090e3e9aa, type: 3}
+    _upSprite: {fileID: 21300000, guid: 1df5b29a4e0048e49b8753b61a90f464, type: 3}
+    _detailSpriteSets: []
+  _locationsToHide: []
+  _slotPriority: 0
+  _canBeTinted: 1
+  _canDetailsBeTinted: 1
+  _canBeHidden: 1

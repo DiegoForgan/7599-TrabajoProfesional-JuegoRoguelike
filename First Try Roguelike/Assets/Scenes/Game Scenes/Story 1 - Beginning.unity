@@ -151,6 +151,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1502991221}
   m_RootOrder: 0
@@ -180,10 +181,29 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CINEMATIC 1
+  m_text: "This story begins a long time ago, in a land far away. You are Leunam,
+    a wandering Knight who travels the realm doing good deeds, imparting wisdom and
+    justice.\r\n \r\nDuring one of your journeys, you find yourself in the mysterious
+    land of Nodnol, where you are immediately welcomed and admired by its people,
+    given your actions. Unfortunately, news of your visit soon reaches the evil Nilbud,
+    the Dark Lord, who rules this god forsaken land with an iron fist. Green with
+    envy, and from the isolation of his Keep, he orders your capture. The search
+    party quickly finds you and Nilbud throws you in a cell, in the dungeon below
+    his castle, deprived of all comfort.\r\n \r\nInfinite moons go by, and your faith
+    begins to dwindle. The Dark Lord seems to have all but forgotten about you, rotting
+    away in one of his cells. It is during one of these lengthy days that you meet
+    Ordanel, another of Nilbud\u2019s prisoners. You soon learn his story: a benevolent
+    Wizard that has been, just as you have, unrighteously imprisoned and robbed of
+    his magic.\r\n \r\nFor Ordnael, however, not all hope is lost: he cannot make
+    magic, but unbeknownst to his captors, he can teach others. And so, he gets to
+    the task at hand\u2026 as the months go by, without the guards noticing, he teaches
+    you a simple spell to defend yourself, and designs a plan for your escape.\r\n\r\nTouched
+    by the sacrifice of the good people of this kingdom, you assume the challenge
+    of escaping the dungeon, defeating Nilbud and freeing Ordnael, in order to restore
+    order and prosperity to the land of Nodnol.\r\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 91abe01dea11e5f4c8c32980edd4dfa9, type: 2}
+  m_sharedMaterial: {fileID: 1598404662159808678, guid: 91abe01dea11e5f4c8c32980edd4dfa9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -207,7 +227,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 200
+  m_fontSize: 44.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -336,10 +356,72 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1331262589
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6345628289988202272, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345628289988202272, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345628289988202272, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345628289988202272, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345628289988202272, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345628289988202272, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345628289988202272, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345628289988202272, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345628289988202272, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345628289988202272, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345628289988202272, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345628289988202278, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
+      propertyPath: m_Name
+      value: LevelLoader
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345628289988202278, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cbe1c88f703655a44ad9b7bce68c5085, type: 3}
 --- !u!1 &1502991217
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,6 +513,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 373576239}
   m_Father: {fileID: 0}
@@ -515,6 +598,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2

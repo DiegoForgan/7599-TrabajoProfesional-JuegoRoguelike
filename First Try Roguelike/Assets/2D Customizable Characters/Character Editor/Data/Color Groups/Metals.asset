@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b68ba76182fe43d4a4d0efbc08f7cf1a, type: 3}
+  m_Name: Metals
+  m_EditorClassIdentifier: 
+  _colors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.8, b: 0, a: 1}
+  - {r: 0.75686276, g: 1, b: 0.96862745, a: 1}
+  - {r: 1, g: 0.68235296, b: 0.48235294, a: 1}
+  - {r: 0.4693396, g: 0.5372549, b: 0.5294118, a: 1}
+  - {r: 0.3137255, g: 0.34509805, b: 0.34117648, a: 1}

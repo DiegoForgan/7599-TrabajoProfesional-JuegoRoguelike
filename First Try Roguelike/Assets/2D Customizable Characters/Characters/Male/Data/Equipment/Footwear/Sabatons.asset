@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Sabatons
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: b6a29447492bf3e46a0754b9a8db03e0, type: 3}
+  _category: {fileID: 11400000, guid: 41fe338ddc485504c8cb52c7285826a6, type: 2}
+  _spriteSets:
+  - _downSprite: {fileID: 21300000, guid: 778577e6801b726468eedbb1d5f2d5bb, type: 3}
+    _sideSprite: {fileID: 21300000, guid: a85fc57b9089e4e48b570c99d1f8d00a, type: 3}
+    _upSprite: {fileID: 21300000, guid: b49c978effec52f4ba36a2ffa7587a08, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: 1c69ebcf5fb55fd46a56ad0d06b3d433,
+      type: 2}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 21300000, guid: fbedc64777a8f8647b6a8e13861e32cc, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 801d5c3df3a90f246b20a4072259f3cd, type: 3}
+      _upSprite: {fileID: 21300000, guid: 60a92b74ad7ad83408af263f20737a77, type: 3}
+  - _downSprite: {fileID: 21300000, guid: 778577e6801b726468eedbb1d5f2d5bb, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 9099ac2f02d5a394ca3b40ede3ca2e24, type: 3}
+    _upSprite: {fileID: 21300000, guid: b49c978effec52f4ba36a2ffa7587a08, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: 5d60caf3b7cdcfa43ba65e8cd4d302ff,
+      type: 2}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 21300000, guid: fbedc64777a8f8647b6a8e13861e32cc, type: 3}
+      _sideSprite: {fileID: 21300000, guid: c6c1d937fa0de4542a2bcac6b74eb1dc, type: 3}
+      _upSprite: {fileID: 21300000, guid: 60a92b74ad7ad83408af263f20737a77, type: 3}
+  - _downSprite: {fileID: 21300000, guid: a9fda15cf4bcea34fade656cceaf5f76, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 27c1d3b19f65ca448a52fe92ca6fd2dd, type: 3}
+    _upSprite: {fileID: 21300000, guid: ccd8a9dab5a7d8941bfc2a1b365ce40a, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: d9d70933c2d850349ac47203114b69b8,
+      type: 2}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 21300000, guid: fc350edef2c9acf4688e39aaa847d40e, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 62054b2efd7720846b5002556ce0bb2c, type: 3}
+      _upSprite: {fileID: 21300000, guid: 96ed5c5cd8ff0bc4eb0acccd4a64246e, type: 3}
+  - _downSprite: {fileID: 21300000, guid: a9fda15cf4bcea34fade656cceaf5f76, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 4763b4abc072e7d448bf5303f795956a, type: 3}
+    _upSprite: {fileID: 21300000, guid: ccd8a9dab5a7d8941bfc2a1b365ce40a, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: e7b0d31b2ffd3b5419c7fd4179d9ba95,
+      type: 2}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 21300000, guid: fc350edef2c9acf4688e39aaa847d40e, type: 3}
+      _sideSprite: {fileID: 21300000, guid: ac4ab305616445341aabf2966990a5c9, type: 3}
+      _upSprite: {fileID: 21300000, guid: 96ed5c5cd8ff0bc4eb0acccd4a64246e, type: 3}
+  _locationsToHide: []
+  _slotPriority: 10
+  _canBeTinted: 1
+  _canDetailsBeTinted: 1
+  _useMainColorForDetail: 0

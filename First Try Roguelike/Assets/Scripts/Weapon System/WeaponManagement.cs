@@ -7,13 +7,14 @@ using UnityEngine.UI;
 
 public class WeaponManagement : MonoBehaviour
 {
-    //public PlayerData playerData;
+    private CharactersAnimator animator;
     private List<SpellData> spells;
     private MeleeWeapon _mainWeapon;
+    private AttackInput inputs = new AttackInput();
     //CoolDown parameters to prevent spamming attacks
     private float attackRate;
     private float nextAttackTime;
-    private SpellData currentSpell;
+    private SpellData currentSpell = null;
 
     private Player _player;
 
@@ -28,7 +29,8 @@ public class WeaponManagement : MonoBehaviour
         _player = GetComponent<Player>();
         _hud = GameObject.Find("HUD").GetComponent<HUD>();
         _mainWeapon = GetComponent<MeleeWeapon>();
-        _attackPoint = transform.Find("ShootPoint");
+        _attackPoint = transform.Find("AttackPoint");
+        animator = GetComponent<CharactersAnimator>();
     }
 
     private bool HasAnySpells(){
@@ -46,9 +48,10 @@ public class WeaponManagement : MonoBehaviour
         //
         //check if spells list is empty (Might happen if player is new)
         if(HasAnySpells()){ 
-            currentSpell = spells[0];
+            currentSpell = spells[currentIndex];
             _hud.UpdateSpellUI(currentSpell);
-        }    
+        }
+        animator.SetShowWeapon(true);
     }
     
     // Update is called once per frame
@@ -56,62 +59,67 @@ public class WeaponManagement : MonoBehaviour
     {
         //If game is paused any user input should be ignored
         if(PauseMenu.GameIsPaused) return;
-        //
-        //
-        //
-        //
+        
+        HandleInput();
+        
         if(HasAnySpells()){
             // Mouse ScrollWheel logic to change beetween spells
-            if (Input.GetAxis("Mouse ScrollWheel")>0f)
-            {
-                if (currentIndex >= spells.Count - 1)
-                    currentIndex = 0;
-                else
-                    currentIndex++;
-                currentSpell = spells[currentIndex];
-                _hud.UpdateSpellUI(currentSpell);
-            }
-            if (Input.GetAxis("Mouse ScrollWheel")<0f)
-            {
-                if (currentIndex <= 0)
-                    currentIndex = spells.Count - 1;
-                else
-                    currentIndex--;
-                currentSpell = spells[currentIndex];
-                _hud.UpdateSpellUI(currentSpell);
-            }
+            if (inputs.shouldDisplayNextSpell()) currentIndex = getNextSpellIndex();
+            
+            if (inputs.shouldDisplayPreviousSpell()) currentIndex = getPreviousSpellIndex();
+            
+            currentSpell = spells[currentIndex];
         }
-        else _hud.NoSpellUI();
-        //
-        //
-        //
-        //
-        //
+        
+        _hud.UpdateSpellUI(currentSpell);
+        
         if(Time.time >= nextAttackTime){
-            //Mouse Logic to Attack or Throw spells
-            if(Input.GetKeyDown(KeyCode.Mouse0)){
-                //Left Shift key must be pressed in order to cast a spell
-                if(Input.GetKey(KeyCode.LeftShift)){
-                    if(currentSpell != null){
-                        int currentManaCost = currentSpell.manaCost;
-                        if (_player.GetMana() >= currentManaCost){
-                            _player.SpendMana(currentManaCost);
-                            CastSpell();
-                        }
-                        else 
-                            //This will play the "not enough mana sound"
-                            FindObjectOfType<AudioManager>().PlaySound("NoMana");
-                    }
+            //Mouse Logic to Melee 
+            if (inputs.isMeleeAttackKeyPressed()) {
+                Debug.Log(_attackPoint.position);
+                _mainWeapon.Attack(_attackPoint);
+                animator.setAttackAnimation();
+                //TODO: Add Sword swinging sound
+                Debug.Log("Remember to add sword swinging sound!");
+                nextAttackTime = Time.time + 1f / attackRate;
+            }
+            //Mouse Logic to cast spells
+            else if(inputs.isSpellCastKeyPressed())
+            {
+                if (currentSpell == null) return;
+
+                int currentManaCost = currentSpell.manaCost;
+                if (playerCanAffordSpellWithCost(currentManaCost))
+                {
+                    _player.SpendMana(currentManaCost);
+                    CastSpell();
+                    animator.setSpellCastingAnimation();
+                    nextAttackTime = Time.time + 1f / attackRate;
                 }
-                // Mouse click without holding the left shift key will result in basic melee attack
-                else {
-                    _mainWeapon.Attack(_attackPoint);
-                    //TODO: Add Sword swinging sound
-                    Debug.Log("Remember to add sword swinging sound!");    
-                }
-                nextAttackTime = Time.time + 1f/attackRate;
+                //This will play the "not enough mana sound"
+                else FindObjectOfType<AudioManager>().PlaySound("NoMana");
             }
         }
+    }
+
+    private bool playerCanAffordSpellWithCost(int currentManaCost)
+    {
+        return _player.GetMana() >= currentManaCost;
+    }
+
+    private int getPreviousSpellIndex()
+    {
+        return (currentIndex <= 0) ? getSpellsLastIndex() : currentIndex - 1;
+    }
+
+    private int getNextSpellIndex()
+    {
+        return (currentIndex >= getSpellsLastIndex()) ? 0 : currentIndex + 1;   
+    }
+
+    private void HandleInput()
+    {
+        inputs.updateInputs();
     }
 
     //Creates a proyectile based on the current selected spell by the user
@@ -132,21 +140,32 @@ public class WeaponManagement : MonoBehaviour
     }
    
     //This method Adds a spell to the main character ONLY if the character doesn´t already have it
-    public void AddSpell(string newSpellName){
+    public void AddSpell(string newSpellName)
+    {
         //Search if spell already obtained by the player
-        if (spells.FindIndex(element => element.name == newSpellName ) != -1) return;
+        if (spells.FindIndex(element => element.name == newSpellName) != -1) return;
         //Search the spell data in the spell Database to add it
         SpellData newSpell = FindObjectOfType<SpellDatabase>().GetSpellByName(newSpellName);
         //Bug fix for no spell scenarios
-        if (newSpell != null){
-            spells.Add(newSpell);
-            //Every time you get a new spell it automatically sets as your new selected spell
-            currentIndex = spells.Count - 1;
-            currentSpell = spells[currentIndex];
-            _hud.UpdateSpellUI(newSpell); 
+        if (newSpell == null)
+        {
+            Debug.Log("Spell not found and therefore not added!");
+            return;
         }
-        else Debug.Log("Spell not found and therefore not added!"); 
+
+        spells.Add(newSpell);
+        //Every time you get a new spell it automatically sets as your new selected spell
+        currentIndex = getSpellsLastIndex();
+        currentSpell = spells[currentIndex];
+        _hud.UpdateSpellUI(newSpell);
+
     }
+
+    private int getSpellsLastIndex()
+    {
+        return spells.Count - 1;
+    }
+
     public List<SpellData> GetSpells(){
         return spells;
     }
