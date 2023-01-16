@@ -5,8 +5,9 @@ using static UnityEngine.GraphicsBuffer;
 
 public abstract class Enemy : Entity
 {
-    public EnemyData enemyData; 
+    public EnemyData enemyData;
 
+    [SerializeField] private Renderer _renderer;
     protected List<SpellData> availableSpells;
     protected MeleeWeapon meleeWeapon;
     //protected SpriteRenderer _enemySpriteRenderer;
@@ -50,7 +51,7 @@ public abstract class Enemy : Entity
 
     private void Update()
     {
-        if (!IsInAttackDistanceAndAbleToAttack()) return;
+        if (!IsInAttackDistanceAndVisibleOnScreen()) return;
         Attack();
         nextAttackTime = Time.time + 1f / attackRate;
     }
@@ -80,11 +81,11 @@ public abstract class Enemy : Entity
     {
         return healthBar;
     }*/
-    protected bool IsInAttackDistanceAndAbleToAttack()
+    protected bool IsInAttackDistanceAndVisibleOnScreen()
     {
         //Checks if player is at the distance required for enemy to attack
         float playerEnemyDistance = Vector2.Distance(transform.position,playerTransform.position);
-        return ((playerEnemyDistance <= attackDistance) && (Time.time >= nextAttackTime));
+        return ((_renderer.isVisible) && (playerEnemyDistance <= attackDistance) && (Time.time >= nextAttackTime));
     }
 
     public override void TakeDamage(int damage)
