@@ -16,7 +16,7 @@ public class Entity : MonoBehaviour, Collidable, Affectable
     
     //Implementing "Collidable" interface method
     public virtual void TakeDamage(int damage){
-         health -= damage;
+        health -= damage;
         //checks if entity is dead
         if (health <= 0)
         {

@@ -84,12 +84,10 @@ public class CharactersAnimator : MonoBehaviour
     {
         animator.SetTrigger("Die");
     }
-
     internal void SetSpellCastingWithStaffAnimation()
     {
         animator.SetTrigger("Stab");
     }
-
     internal IEnumerator SetArrowThrowingAnimation()
     {
         // enter animator to enter bow load state
