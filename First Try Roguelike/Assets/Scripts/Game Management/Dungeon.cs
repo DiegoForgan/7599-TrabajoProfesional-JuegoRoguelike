@@ -19,12 +19,13 @@ public class Dungeon : MonoBehaviour
     //This method is supposed to put the player on a valid FLOOR tile.
     //It seems to work fine but maybe it needs some tunning
     public Vector2Int GetRandomFloorPosition(){
-        Vector2Int candidatePosition = new Vector2Int(0,0);
+        Vector2Int candidatePosition = Vector2Int.zero;
         Vector3Int tilePosition;
         do
         {
-           candidatePosition.x = Random.Range(0,500);
-           candidatePosition.y = Random.Range(0,500);
+           //TODO: Be careful with this numbers, may break the game
+           candidatePosition.x = Random.Range(-1000, 1000);
+           candidatePosition.y = Random.Range(-1000, 1000);
            tilePosition = floor.WorldToCell((Vector3Int)candidatePosition);
         } while (!floor.HasTile(tilePosition));
         
