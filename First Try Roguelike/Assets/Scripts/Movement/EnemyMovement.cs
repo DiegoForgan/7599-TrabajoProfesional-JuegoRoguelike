@@ -1,24 +1,16 @@
 using System;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
 public class EnemyMovement : EntityMovement
 {
     [SerializeField] private float movementTolerance = 0.3f;
-    private bool isVisible;
+    [SerializeField] private Renderer _renderer;
     //private HealthBar _healthBar;
     private float offset_y;
     protected Transform currentPlayerTransform;
     protected float attackingDistance;
-
-    private void OnBecameVisible() {
-        Debug.Log("Enemy Visible!");
-        isVisible = true;
-    }
-
-    private void OnBecameInvisible() {
-        isVisible = false;
-    }
 
     private void Awake() {
         _rigidBody = GetComponent<Rigidbody2D>();
@@ -37,7 +29,7 @@ public class EnemyMovement : EntityMovement
     }
 
     private bool CanMove(){
-        return true;// (isVisible);
+        return _renderer.isVisible;
     }
 
     private Vector2 GetMovementValues(){
@@ -55,8 +47,7 @@ public class EnemyMovement : EntityMovement
   
   private void Update() 
   {
-        //It will only start moving towards the player if you faced the enemy on screen
-        movement = CanMove() ? GetMovementValues() : Vector2.zero;   
+        movement = GetMovementValues();   
   }   
 
     private void FixedUpdate()
