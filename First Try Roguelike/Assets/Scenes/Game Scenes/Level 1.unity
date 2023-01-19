@@ -3170,6 +3170,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DarkWitch
       objectReference: {fileID: 0}
+    - target: {fileID: 8280887873811152406, guid: 3459eafaec8e15f4f979a90a4ebbf710, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6853517086260768112, guid: 3459eafaec8e15f4f979a90a4ebbf710, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3459eafaec8e15f4f979a90a4ebbf710, type: 3}
@@ -4846,6 +4850,10 @@ PrefabInstance:
     - target: {fileID: 4733504212952526192, guid: 80716d64b22127f4fbc0776a79c22bec, type: 3}
       propertyPath: m_Name
       value: OgreCharacter
+      objectReference: {fileID: 0}
+    - target: {fileID: 4733504212952526192, guid: 80716d64b22127f4fbc0776a79c22bec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80716d64b22127f4fbc0776a79c22bec, type: 3}
@@ -7640,6 +7648,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer
       objectReference: {fileID: 0}
+    - target: {fileID: 3019000847415835507, guid: c072b1102b7c64e4db0698823b782c6c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8692513501449840677, guid: c072b1102b7c64e4db0698823b782c6c, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.37900043
@@ -7742,6 +7754,10 @@ PrefabInstance:
     - target: {fileID: 4939747943407780155, guid: f59e6b8c9e737d54085f9cf89a266eaa, type: 3}
       propertyPath: m_Name
       value: Goblin
+      objectReference: {fileID: 0}
+    - target: {fileID: 4939747943407780155, guid: f59e6b8c9e737d54085f9cf89a266eaa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f59e6b8c9e737d54085f9cf89a266eaa, type: 3}
@@ -8470,3 +8486,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
+--- !u!1 &2370704341495874937 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2370704341437052029, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
+  m_PrefabInstance: {fileID: 2370704341495874936}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2370704341495874938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2370704341495874937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55c0d97f287e45349b9046a249977595, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ogrePrefab: {fileID: 4733504212952526192, guid: 80716d64b22127f4fbc0776a79c22bec, type: 3}
+  goblinPrefab: {fileID: 4939747943407780155, guid: f59e6b8c9e737d54085f9cf89a266eaa, type: 3}
+  archerPrefab: {fileID: 3019000847415835507, guid: c072b1102b7c64e4db0698823b782c6c, type: 3}
+  darkWitchPrefab: {fileID: 8280887873811152406, guid: 3459eafaec8e15f4f979a90a4ebbf710, type: 3}
+  ogresToSpawn: 1
+  goblinsToSpawn: 2
+  archersToSpawn: 3
+  darwitchesToSpawn: 4
