@@ -51,6 +51,7 @@ public abstract class Enemy : Entity
 
     private void Update()
     {
+        if (playerTransform.Equals(null)) return;
         if (!IsInAttackDistanceAndVisibleOnScreen()) return;
         Attack();
         nextAttackTime = Time.time + 1f / attackRate;

@@ -6,6 +6,7 @@ public class HUD : MonoBehaviour
     [SerializeField] private SpellHUD _spellHUD;
     [SerializeField] private PlayerStatusHUD _playerStatusHUD;
     [SerializeField] private CollectablesStatusHUD _collectablesStatusHUD;
+    [SerializeField] private LevelDifficultyHUD _levelDifficultyHUD;
 
     public static HUD instance;
 
@@ -22,6 +23,7 @@ public class HUD : MonoBehaviour
         _playerStatusHUD.initializePlayerStatus(maxHealth,maxMana);
         _collectablesStatusHUD.initializeCollectablesStatus(currentGold, currentKeys);
         _spellHUD.initializeSpellHUD();
+        _levelDifficultyHUD.restartLevelAndDifficulty();
     }
 
     public void UpdateHealth(int health){
@@ -52,5 +54,21 @@ public class HUD : MonoBehaviour
     public void UpdateSpellUI(SpellData currentSpell){
         if (currentSpell == null) _spellHUD.initializeSpellHUD();
         else _spellHUD.updateSpellHUD(currentSpell);
+    }
+
+    public void UpdateLevelName(string name)
+    {
+        _levelDifficultyHUD.setLevelName(name);
+    }
+
+    public void UpdateDifficulty(int difficultyLevel)
+    {
+        _levelDifficultyHUD.setDifficulty(difficultyLevel.ToString());
+    }
+
+    public void UpdateLevelNameAndDifficulty(string name, int difficultyLevel)
+    {
+        this.UpdateLevelName(name);
+        this.UpdateDifficulty(difficultyLevel);
     }
 }

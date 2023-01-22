@@ -42,13 +42,11 @@ public class EnemyMovement : EntityMovement
         return movement;        
     }
 
-    
-
-  
-  private void Update() 
-  {
-        movement = GetMovementValues();   
-  }   
+    private void Update() 
+    {
+        if (currentPlayerTransform.Equals(null)) movement = Vector2.zero;
+        else movement = GetMovementValues();   
+    }   
 
     private void FixedUpdate()
     {
@@ -61,7 +59,6 @@ public class EnemyMovement : EntityMovement
         return _rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime; 
     }
     
-
     private void moveEnemy(Vector2 newPosition)
     {
         //Move the enemy

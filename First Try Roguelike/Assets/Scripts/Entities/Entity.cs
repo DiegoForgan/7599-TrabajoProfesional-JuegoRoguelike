@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class Entity : MonoBehaviour, Collidable, Affectable
+public abstract class Entity : MonoBehaviour, Collidable, Affectable
 {
     protected int maxHealth;
     protected int health;
@@ -18,17 +18,14 @@ public class Entity : MonoBehaviour, Collidable, Affectable
     public virtual void TakeDamage(int damage){
         health -= damage;
         //checks if entity is dead
-        if (health <= 0)
-        {
-            //Give time to play animation before destroying game object
-            animator.setDeadAnimation();
-            DestroyElement();
-        }
-        else animator.setHurtAnimation();
+        if (health <= 0) DestroyElement();
+        animator.setHurtAnimation();
     }
-
+    
     public virtual void DestroyElement()
     {
+        //Give time to play animation before destroying game object
+        animator.setDeadAnimation();
         Destroy(gameObject);
     }
 
