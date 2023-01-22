@@ -13,7 +13,7 @@ public class APIRequestHandler : MonoBehaviour
     private const string DEV_URL = "http://127.0.0.1/api/v1/";
     private const string QA_URL = "https://app-qa.7599-fiuba-cs.net/api/v1/";
     private const string PR_URL = "https://fiuba-pr-7599-cs-app-server.herokuapp.com/api/v1/"; // DOWN TEMPORARILY
-    private const string HIGHSCORES_ROUTE = "highscores?start=0&limit=0";
+    private const string HIGHSCORES_ROUTE = "highscores?start=0&limit=0&sort_column=[difficulty_level, achieved_level, gold_collected, time_elapsed]&sort_order=[-1,-1,-1,1]";
     private const string SESSIONS_ROUTE = "sessions";
     private const string RECOVERY_ROUTE = "recovery";
     private const string USERS_ROUTE = "users";
@@ -106,12 +106,51 @@ public class APIRequestHandler : MonoBehaviour
         showResponseData(responseDTO);
         
         if (responseDTO.getResult() == UnityWebRequest.Result.Success){
+
             PaginatedHighscoreResponseDTO paginatedHighscoreResponse = JsonConvert.DeserializeObject<PaginatedHighscoreResponseDTO>(responseDTO.getBody());
             List<HighScoreResultsDTO> highscoreResults = paginatedHighscoreResponse.getResults();
-            
-            Debug.Log(highscoreResults[0].getUsername());
-            Debug.Log(highscoreResults[0].getGoldCollected());
-            Debug.Log(highscoreResults[0].getHighscore());
+
+            GameObject entryContainer = GameObject.Find("HighscoreEntryContainer");
+            GameObject entryTemplate = GameObject.Find("HighscoreEntryTemplate");
+            entryTemplate.SetActive(false);
+
+            int i = 0;
+            float templateHeight = 30f;
+            foreach (var entry in highscoreResults)
+            {
+
+                Transform entryTransform = Instantiate(entryTemplate.transform, entryContainer.transform);
+                RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
+                entryRectTransform.anchoredPosition = new Vector2(0, -templateHeight * i);
+                entryTransform.gameObject.SetActive(true);
+
+                int rank = i + 1;
+                string rankString = "";
+                switch (rank) {
+                    case 1:
+                        rankString = "1st";
+                        break;
+                    case 2:
+                        rankString = "2nd";
+                        break;
+                    case 3:
+                        rankString = "3rd";
+                        break;
+                    default:
+                        rankString = rank.ToString() + "th";
+                        break;
+                }
+
+                entryTransform.Find("TextPos").GetComponent<TextMeshProUGUI>().text = rankString;
+                entryTransform.Find("TextUsername").GetComponent<TextMeshProUGUI>().text = entry.getUsername();
+                entryTransform.Find("TextLevel").GetComponent<TextMeshProUGUI>().text = entry.getAchievedLevel().ToString();
+                entryTransform.Find("TextDifficulty").GetComponent<TextMeshProUGUI>().text = entry.getDifficultyLevel().ToString();
+                entryTransform.Find("TextGold").GetComponent<TextMeshProUGUI>().text = entry.getGoldCollected().ToString();
+                entryTransform.Find("TextTime").GetComponent<TextMeshProUGUI>().text = entry.getTimeElapsed();
+
+                i++;
+            }
+
         }
         else{
             ErrorAPIResponse errorResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
