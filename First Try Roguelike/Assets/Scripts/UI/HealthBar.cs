@@ -2,22 +2,15 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour
+public abstract class HealthBar : MonoBehaviour
 {
     protected Slider _slider;
-    protected Quaternion startRotation;
+    [SerializeField] private Gradient _gradient;
+    [SerializeField] private Image _fill;
+    
 
     private void Awake() {
         _slider = GetComponent<Slider>();
-    }
-
-    private void Start() {
-        startRotation = transform.rotation;
-    }
-
-    private void Update() {
-        //this keeps the healthbar from rotating
-        transform.rotation = startRotation;
     }
 
     public void initializeHealthStatus(int maxHealth){
@@ -27,10 +20,12 @@ public class HealthBar : MonoBehaviour
 
     public virtual void SetMaxHealth(int maxHealth){
         _slider.maxValue = maxHealth;
+        _fill.color = _gradient.Evaluate(_slider.normalizedValue);
     }
 
     public virtual void SetHealth(int health){
         _slider.value = health;
+        _fill.color = _gradient.Evaluate(_slider.normalizedValue);
     }
 
     internal void SetPosition(Vector2 position)
