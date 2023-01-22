@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public abstract class Enemy : Entity
 {
     public EnemyData enemyData;
-
+    [SerializeField] private HealthBarEnemies healthBar;
     [SerializeField] private Renderer _renderer;
     protected List<SpellData> availableSpells;
     protected MeleeWeapon meleeWeapon;
@@ -68,7 +67,7 @@ public abstract class Enemy : Entity
     protected void InitHealth(){
         health = enemyData.health;
         maxHealth = health;
-        //healthBar.initializeHealthStatus(enemyData.health);
+        healthBar.initializeHealthStatus(enemyData.health);
         slowedDown = false;
     }
 
@@ -77,11 +76,11 @@ public abstract class Enemy : Entity
         attackRate = attRate;
         attackDistance = attDistance;
     }
-
-    /*internal HealthBar GetHealthBar()
+    internal HealthBarEnemies GetHealthBar()
     {
         return healthBar;
-    }*/
+    }
+
     protected bool IsInAttackDistanceAndVisibleOnScreen()
     {
         //Checks if player is at the distance required for enemy to attack
@@ -93,7 +92,7 @@ public abstract class Enemy : Entity
     {
         //StartCoroutine(flashColor());
         base.TakeDamage(damage);
-        //healthBar.SetHealth(health);
+        healthBar.SetHealth(health);
     }
 
     public virtual void Attack(){

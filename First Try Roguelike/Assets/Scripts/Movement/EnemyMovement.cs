@@ -7,19 +7,18 @@ public class EnemyMovement : EntityMovement
 {
     [SerializeField] private float movementTolerance = 0.3f;
     [SerializeField] private Renderer _renderer;
-    //private HealthBar _healthBar;
-    private float offset_y;
+    private HealthBarEnemies _healthBar;
+    private Enemy _enemy;
     protected Transform currentPlayerTransform;
     protected float attackingDistance;
 
     private void Awake() {
         _rigidBody = GetComponent<Rigidbody2D>();
-        //_enemy = GetComponent<Enemy>();
+        _enemy = GetComponent<Enemy>();
     }
 
     private void Start() {
-        //_healthBar = _enemy.GetHealthBar();
-        //offset_y = (Vector2.Distance(_rigidBody.position,_healthBar.transform.position));
+        _healthBar = _enemy.GetHealthBar(); 
         movementAnimator = GetComponent<CharactersAnimator>();
         movementAnimator.ResetRigs();
         _attackPoint = transform.Find("AttackPoint");
@@ -67,19 +66,14 @@ public class EnemyMovement : EntityMovement
         moveAttackPointToDirection(direction);
         movementAnimator.HandleMovementAnimation(direction,movementSpeed);
         //Update the location of the enemy healthbar on screen
-        //UpdateHealthbarPosition();
+        UpdateHealthbarPosition(direction);
     }
 
-    private void UpdateHealthbarPosition(){
-    //1 - We get the angle that the enemy is facing the player
-    float angleFacingPlayer = transform.rotation.eulerAngles.z;
-    //2 - Separation beetween the healthbar and the entity
-    float offset = offset_y;
-    //3 - We check if the health bar must be placed above or below the enemy    
-    if(!(angleFacingPlayer > 90 && angleFacingPlayer < 270)) offset = offset_y * -1;
-    //4 - Update the health bar accordingly to the enemy movement and previous calculations
-    //_healthBar.SetPosition(new Vector2(_rigidBody.position.x,_rigidBody.position.y+offset));
-   }
+    private void UpdateHealthbarPosition(Vector2 direction){
+        if (direction.Equals(Vector2.left) || direction.Equals(Vector2.right)) return;
+        if (direction.Equals(Vector2.up)) _healthBar.setBottomPosition(_rigidBody.position);
+        if (direction.Equals(Vector2.down)) _healthBar.setTopPosition(_rigidBody.position);
+    }
 
     internal void SetPlayerTransform(Transform playerTransform)
     {
