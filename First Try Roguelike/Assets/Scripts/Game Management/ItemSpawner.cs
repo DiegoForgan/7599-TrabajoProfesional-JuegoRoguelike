@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class ItemSpawner : MonoBehaviour
+public class ItemSpawner : Spawner
 {
     // This sets the amount of items to spawn PER DUNGEON
     // It means that every time a new dungeon is loaded, the amount defined by this variables
     // will be instantiated for every type of item.
-    [SerializeField] private int healthItemAmount = 5;
-    [SerializeField] private int manaItemAmount = 5;
-    [SerializeField] private int goldItemAmount = 10;
-    
-    //[SerializeField] private int keyItemAmount = 1;
+    [SerializeField] private int healthItemBoost = 5;
+    [SerializeField] private int manaItemBoost = 5;
+    [SerializeField] private const int GOLD_AMOUNT = 25;
+    [SerializeField] private const int KEY_AMOUNT = 1;
     
     //Prefab Variables
     [SerializeField] private GameObject healthItemPrefab;
@@ -21,44 +20,11 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] private GameObject goldItemPrefab;
     [SerializeField] private GameObject keyItemPrefab;
     
-    public void Spawn(Dungeon currentDungeon)
+    public override void Spawn(int difficultyLevel, Dungeon currentDungeon)
     {
-        SpawnHealthItems(currentDungeon);
-        SpawnManaItems(currentDungeon);
-        SpawnGoldItems(currentDungeon);
-        SpawnKeyItem(currentDungeon.GetRandomFloorPosition());
-    }
-
-    private void SpawnGoldItems(Dungeon currentDungeon)
-    {
-        for (int i = 0; i < goldItemAmount; i++)
-        {
-            Vector3Int spawnPosition = (Vector3Int) currentDungeon.GetRandomFloorPosition();
-            GameObject gold = Instantiate(goldItemPrefab, spawnPosition, Quaternion.identity);
-        }
-    }
-
-    private void SpawnManaItems(Dungeon currentDungeon)
-    {
-        for (int i = 0; i < manaItemAmount; i++)
-        {
-            Vector3Int spawnPosition = (Vector3Int) currentDungeon.GetRandomFloorPosition();
-            GameObject mana = Instantiate(manaItemPrefab, spawnPosition, Quaternion.identity);
-        }
-    }
-
-    private void SpawnHealthItems(Dungeon currentDungeon)
-    {
-        for (int i = 0; i < healthItemAmount; i++)
-        {
-            Vector3Int spawnPosition = (Vector3Int) currentDungeon.GetRandomFloorPosition();
-            GameObject health = Instantiate(healthItemPrefab, spawnPosition, Quaternion.identity);
-        }
-    }
-
-    // Spawn the only key that will be available per dungeon
-    private void SpawnKeyItem(Vector2Int spawnPosition)
-    {
-        GameObject key = Instantiate(keyItemPrefab, (Vector3Int) spawnPosition, Quaternion.identity);
+        spawnPrefabsOnDungeonByBoost(currentDungeon, difficultyLevel, healthItemPrefab, healthItemBoost);
+        spawnPrefabsOnDungeonByBoost(currentDungeon, difficultyLevel, manaItemPrefab, manaItemBoost);
+        spawnPrefabsOnDungeonByAmount(currentDungeon, goldItemPrefab, GOLD_AMOUNT);
+        spawnPrefabsOnDungeonByAmount(currentDungeon, keyItemPrefab, KEY_AMOUNT);
     }
 }
