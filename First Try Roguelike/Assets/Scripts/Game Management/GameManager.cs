@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     private void PlaceItemsOnDungeon()
     {
         Debug.Log("Placing Items on the current dungeon!");
-        itemSpawner.Spawn(currentDungeon);
+        itemSpawner.Spawn(difficultyLevel,currentDungeon);
     }
 
     private void PlaceEnemiesOnDungeon()
