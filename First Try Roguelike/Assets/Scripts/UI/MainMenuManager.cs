@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private Animator loginFormAnimator;
     [SerializeField] private GameObject highScoresTable;
+    [SerializeField] private GameObject aboutVersionField;
 
     // Start is called before the first frame update
     void Start()
     {
         // Use this for initialisation
         Debug.Log("MainMenuManager Start!");
+        Debug.Log("Application Version : " + Application.version);
+
+        // Set the version in the "About" screen
+        aboutVersionField.GetComponent<TextMeshProUGUI>().text = "v" + Application.version + " - PREVIEW ONLY";
     }
 
     // Update is called once per frame
