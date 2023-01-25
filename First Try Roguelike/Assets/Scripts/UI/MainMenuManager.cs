@@ -7,6 +7,9 @@ using TMPro;
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private Animator loginFormAnimator;
+    [SerializeField] private GameObject loggedPanel;
+    [SerializeField] private GameObject highScoresButton;
+    [SerializeField] private GameObject loginButton;
     [SerializeField] private GameObject highScoresTableMessage;
     [SerializeField] private GameObject aboutVersionField;
 
@@ -19,6 +22,26 @@ public class MainMenuManager : MonoBehaviour
 
         // Set the version in the "About" screen
         aboutVersionField.GetComponent<TextMeshProUGUI>().text = "v" + Application.version + " - PREVIEW ONLY";
+
+        // Checking for saved session
+        var sessionToken = PlayerPrefs.GetString("session_token");
+        var sessionUser = PlayerPrefs.GetString("username");
+        if (sessionToken != "") {
+
+            Debug.Log("tiene token");
+            // ToDo: Check if the token is still valid!
+            highScoresButton.SetActive(true);
+            loginButton.GetComponent<Button>().interactable = true;
+            loggedPanel.SetActive(true);
+            loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+            GameObject.Find("LoggedUsername").GetComponent<TextMeshProUGUI>().SetText(sessionUser);
+
+        }
+        else {
+            Debug.Log("no tiene token");
+            highScoresButton.SetActive(false);
+            loginButton.GetComponent<Button>().interactable = true;
+        }
     }
 
     // Update is called once per frame

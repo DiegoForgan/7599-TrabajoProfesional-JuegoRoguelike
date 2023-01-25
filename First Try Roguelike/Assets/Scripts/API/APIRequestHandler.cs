@@ -21,6 +21,8 @@ public class APIRequestHandler : MonoBehaviour
     //[SerializeField] private GameObject closeButton;
     [SerializeField] private GameObject loggedPanel;
     [SerializeField] private GameObject loginPanel;
+    [SerializeField] private GameObject highScoresButton;
+    [SerializeField] private GameObject loginButton;
     [SerializeField] private GameObject highScoresTableMessage;
     [SerializeField] private GameObject highScoresEntryContainer;
     [SerializeField] private GameObject highScoresEntryTemplate;
@@ -30,6 +32,7 @@ public class APIRequestHandler : MonoBehaviour
     {
         // Use this for initialisation
         Debug.Log("APIRequestHandler Start!");
+        // Hide row template for Highscores table
         highScoresEntryTemplate.SetActive(false);
     }
 
@@ -216,8 +219,13 @@ public class APIRequestHandler : MonoBehaviour
             PlayerPrefs.SetString("username", loginResponse.getUsername());
             PlayerPrefs.Save();
             Debug.Log("Logged In!");
-            setLoggedPanel(loginResponse);
-            
+            loginButton.GetComponent<Button>().interactable = false; 
+            highScoresButton.SetActive(true);
+            loginPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+            loginPanel.SetActive(false);
+            loggedPanel.SetActive(true);
+            loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+            setLoggedPanel(loginResponse);            
         }
         else{
             Debug.Log("Error");
@@ -233,9 +241,6 @@ public class APIRequestHandler : MonoBehaviour
 
     private void setLoggedPanel(LoginResponseDTO loginResponse)
     {
-        loggedPanel.SetActive(true);
-        loginPanel.SetActive(false);
-        loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
         GameObject.Find("LoggedUsername").GetComponent<TextMeshProUGUI>().SetText(loginResponse.getUsername());
     }
 
@@ -270,6 +275,9 @@ public class APIRequestHandler : MonoBehaviour
                 PlayerPrefs.SetString("session_token", "");
                 PlayerPrefs.SetString("username", "");
                 PlayerPrefs.Save();
+                loginButton.GetComponent<Button>().interactable = true; 
+                highScoresButton.SetActive(false);
+                loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
                 loggedPanel.SetActive(false);
                 loginPanel.SetActive(true);
                 loginPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
