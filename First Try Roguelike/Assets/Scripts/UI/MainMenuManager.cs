@@ -24,9 +24,9 @@ public class MainMenuManager : MonoBehaviour
         aboutVersionField.GetComponent<TextMeshProUGUI>().text = "v" + Application.version + " - PREVIEW ONLY";
 
         // Checking for saved session
-        var sessionToken = PlayerPrefs.GetString("session_token");
-        var sessionUser = PlayerPrefs.GetString("username");
-        if (sessionToken != "") {
+        var sessionToken = PlayerPrefs.GetString("session_token", null);
+        var sessionUser = PlayerPrefs.GetString("username", null);
+        if (sessionToken != null && sessionToken != "") {
 
             Debug.Log("tiene token");
             // ToDo: Check if the token is still valid!
