@@ -7,7 +7,7 @@ using TMPro;
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private Animator loginFormAnimator;
-    [SerializeField] private GameObject highScoresTable;
+    [SerializeField] private GameObject highScoresTableMessage;
     [SerializeField] private GameObject aboutVersionField;
 
     // Start is called before the first frame update
@@ -33,7 +33,8 @@ public class MainMenuManager : MonoBehaviour
         var highscoreResults = GameObject.FindGameObjectsWithTag("HighScoreEntry");
         foreach(var entry in highscoreResults) {
             Destroy(entry);
-        }   
+        }
+        highScoresTableMessage.SetActive(true);
     }
 
     public void StartNewGame() {

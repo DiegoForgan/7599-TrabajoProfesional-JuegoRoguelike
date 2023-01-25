@@ -21,6 +21,7 @@ public class APIRequestHandler : MonoBehaviour
     //[SerializeField] private GameObject closeButton;
     [SerializeField] private GameObject loggedPanel;
     [SerializeField] private GameObject loginPanel;
+    [SerializeField] private GameObject highScoresTableMessage;
     [SerializeField] private GameObject highScoresEntryContainer;
     [SerializeField] private GameObject highScoresEntryTemplate;
 
@@ -119,57 +120,64 @@ public class APIRequestHandler : MonoBehaviour
             PaginatedHighscoreResponseDTO paginatedHighscoreResponse = JsonConvert.DeserializeObject<PaginatedHighscoreResponseDTO>(responseDTO.getBody());
             List<HighScoreResultsDTO> highscoreResults = paginatedHighscoreResponse.getResults();
 
-            int i = 0;
-            float templateHeight = 30f;
-            foreach (var entry in highscoreResults)
-            {
-                Transform entryTransform = Instantiate(highScoresEntryTemplate.transform, highScoresEntryContainer.transform);
-                entryTransform.gameObject.tag = "HighScoreEntry";
-                RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
-                entryRectTransform.anchoredPosition = new Vector2(0, -templateHeight * i);
-                entryTransform.gameObject.SetActive(true);
-
-                int rank = i + 1;
-                string rankString = "";
-                switch(rank % 100)
-                {
-                    case 11:
-                    case 12:
-                    case 13:
-                        rankString = rank.ToString() + "th";
-                        break;
-                    default:
-                        switch (rank % 10) {
-                            case 1:
-                                rankString = rank.ToString() + "st";
-                                break;
-                            case 2:
-                                rankString = rank.ToString() + "nd";
-                                break;
-                            case 3:
-                                rankString = rank.ToString() + "rd";
-                                break;
-                            default:
-                                rankString = rank.ToString() + "th";
-                                break;
-                        }
-                        break;
-                }
-
-                entryTransform.Find("TextPos").GetComponent<TextMeshProUGUI>().text = rankString;
-                entryTransform.Find("TextUsername").GetComponent<TextMeshProUGUI>().text = entry.getUsername();
-                entryTransform.Find("TextLevel").GetComponent<TextMeshProUGUI>().text = entry.getAchievedLevel().ToString();
-                entryTransform.Find("TextDifficulty").GetComponent<TextMeshProUGUI>().text = entry.getDifficultyLevel().ToString();
-                entryTransform.Find("TextGold").GetComponent<TextMeshProUGUI>().text = entry.getGoldCollected().ToString();
-                entryTransform.Find("TextTime").GetComponent<TextMeshProUGUI>().text = entry.getTimeElapsed();
-
-                i++;
+            if (highscoreResults.Count == 0) {
+                highScoresTableMessage.GetComponent<TextMeshProUGUI>().text = "No Highscores found!";
             }
+            else {
+                highScoresTableMessage.SetActive(false);
 
+                int i = 0;
+                float templateHeight = 30f;
+                foreach (var entry in highscoreResults)
+                {
+                    Transform entryTransform = Instantiate(highScoresEntryTemplate.transform, highScoresEntryContainer.transform);
+                    entryTransform.gameObject.tag = "HighScoreEntry";
+                    RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
+                    entryRectTransform.anchoredPosition = new Vector2(0, -templateHeight * i);
+                    entryTransform.gameObject.SetActive(true);
+
+                    int rank = i + 1;
+                    string rankString = "";
+                    switch(rank % 100)
+                    {
+                        case 11:
+                        case 12:
+                        case 13:
+                            rankString = rank.ToString() + "th";
+                            break;
+                        default:
+                            switch (rank % 10) {
+                                case 1:
+                                    rankString = rank.ToString() + "st";
+                                    break;
+                                case 2:
+                                    rankString = rank.ToString() + "nd";
+                                    break;
+                                case 3:
+                                    rankString = rank.ToString() + "rd";
+                                    break;
+                                default:
+                                    rankString = rank.ToString() + "th";
+                                    break;
+                            }
+                            break;
+                    }
+
+                    entryTransform.Find("TextPos").GetComponent<TextMeshProUGUI>().text = rankString;
+                    entryTransform.Find("TextUsername").GetComponent<TextMeshProUGUI>().text = entry.getUsername();
+                    entryTransform.Find("TextLevel").GetComponent<TextMeshProUGUI>().text = entry.getAchievedLevel().ToString();
+                    entryTransform.Find("TextDifficulty").GetComponent<TextMeshProUGUI>().text = entry.getDifficultyLevel().ToString();
+                    entryTransform.Find("TextGold").GetComponent<TextMeshProUGUI>().text = entry.getGoldCollected().ToString();
+                    entryTransform.Find("TextTime").GetComponent<TextMeshProUGUI>().text = entry.getTimeElapsed();
+
+                    i++;
+                }
+            }
         }
         else{
             ErrorAPIResponse errorResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
             //ShowStatusMessage(request.result.ToString(), errorResponse.message, true);
+            highScoresTableMessage.GetComponent<TextMeshProUGUI>().text = "Error fetching data!";
         }
 
     }
