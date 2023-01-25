@@ -11,17 +11,26 @@ using System;
 public class APIRequestHandler : MonoBehaviour
 {
     private const string DEV_URL = "http://127.0.0.1/api/v1/";
+    private const string PR_URL = "https://app.7599-fiuba-cs.net/api/v1/"; // DOWN TEMPORARILY
     private const string QA_URL = "https://app-qa.7599-fiuba-cs.net/api/v1/";
-    private const string PR_URL = "https://fiuba-pr-7599-cs-app-server.herokuapp.com/api/v1/"; // DOWN TEMPORARILY
-    private const string HIGHSCORES_ROUTE = "highscores?start=0&limit=0&sort_column=[difficulty_level, achieved_level, gold_collected, time_elapsed]&sort_order=[-1,-1,-1,1]";
+    private const string HIGHSCORES_ROUTE = "highscores?start=0&limit=50&sort_column=difficulty_level,achieved_level,gold_collected,time_elapsed&sort_order=-1,-1,-1,1";
     private const string SESSIONS_ROUTE = "sessions";
     private const string RECOVERY_ROUTE = "recovery";
     private const string USERS_ROUTE = "users";
-    [SerializeField] private GameObject statusPanel;
-    [SerializeField] private GameObject closeButton;
+    //[SerializeField] private GameObject statusPanel;
+    //[SerializeField] private GameObject closeButton;
     [SerializeField] private GameObject loggedPanel;
     [SerializeField] private GameObject loginPanel;
+    [SerializeField] private GameObject highScoresEntryContainer;
+    [SerializeField] private GameObject highScoresEntryTemplate;
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Use this for initialisation
+        Debug.Log("APIRequestHandler Start!");
+        highScoresEntryTemplate.SetActive(false);
+    }
 
     public void CheckUsernameAlreadyTaken(){
         StartCoroutine(CheckUsernameRequest());
@@ -73,25 +82,25 @@ public class APIRequestHandler : MonoBehaviour
         Debug.Log("Elapsed Time: " + gameProgress.getTimeElapsed());
     }
 
-    private void ShowStatusMessage(string title, string message, bool shouldClose){
-        if(statusPanel == null) this.statusPanel = GameObject.Find("StatusPanel");
-        
-        TextMeshProUGUI statusTitle = this.statusPanel.transform.Find("StatusTitle").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI statusMsg = this.statusPanel.transform.Find("StatusMessage").GetComponent<TextMeshProUGUI>();
-        
-        statusTitle.SetText(title);
-        statusMsg.SetText(message);
+    //private void ShowStatusMessage(string title, string message, bool shouldClose){
+    //    if(statusPanel == null) this.statusPanel = GameObject.Find("StatusPanel");
+    //    
+    //    TextMeshProUGUI statusTitle = this.statusPanel.transform.Find("StatusTitle").GetComponent<TextMeshProUGUI>();
+    //    TextMeshProUGUI statusMsg = this.statusPanel.transform.Find("StatusMessage").GetComponent<TextMeshProUGUI>();
+    //    
+    //    statusTitle.SetText(title);
+    //    statusMsg.SetText(message);
+    //
+    //    statusPanel.SetActive(true);
+    //    
+    //    if(closeButton == null) this.closeButton = GameObject.Find("CloseButton");
+    //    closeButton.SetActive(shouldClose);
+    //}
 
-        statusPanel.SetActive(true);
-        
-        if(closeButton == null) this.closeButton = GameObject.Find("CloseButton");
-        closeButton.SetActive(shouldClose);
-    }
-
-    private void CloseStatusMessage(){
-        if(statusPanel == null) this.statusPanel = GameObject.Find("StatusPanel");
-        statusPanel.SetActive(false);
-    }
+    //private void CloseStatusMessage(){
+    //    if(statusPanel == null) this.statusPanel = GameObject.Find("StatusPanel");
+    //    statusPanel.SetActive(false);
+    //}
 
     private IEnumerator ShowHighScoresRequest(){
         
@@ -110,34 +119,40 @@ public class APIRequestHandler : MonoBehaviour
             PaginatedHighscoreResponseDTO paginatedHighscoreResponse = JsonConvert.DeserializeObject<PaginatedHighscoreResponseDTO>(responseDTO.getBody());
             List<HighScoreResultsDTO> highscoreResults = paginatedHighscoreResponse.getResults();
 
-            GameObject entryContainer = GameObject.Find("HighscoreEntryContainer");
-            GameObject entryTemplate = GameObject.Find("HighscoreEntryTemplate");
-            entryTemplate.SetActive(false);
-
             int i = 0;
             float templateHeight = 30f;
             foreach (var entry in highscoreResults)
             {
-
-                Transform entryTransform = Instantiate(entryTemplate.transform, entryContainer.transform);
+                Transform entryTransform = Instantiate(highScoresEntryTemplate.transform, highScoresEntryContainer.transform);
+                entryTransform.gameObject.tag = "HighScoreEntry";
                 RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
                 entryRectTransform.anchoredPosition = new Vector2(0, -templateHeight * i);
                 entryTransform.gameObject.SetActive(true);
 
                 int rank = i + 1;
                 string rankString = "";
-                switch (rank) {
-                    case 1:
-                        rankString = "1st";
-                        break;
-                    case 2:
-                        rankString = "2nd";
-                        break;
-                    case 3:
-                        rankString = "3rd";
+                switch(rank % 100)
+                {
+                    case 11:
+                    case 12:
+                    case 13:
+                        rankString = rank.ToString() + "th";
                         break;
                     default:
-                        rankString = rank.ToString() + "th";
+                        switch (rank % 10) {
+                            case 1:
+                                rankString = rank.ToString() + "st";
+                                break;
+                            case 2:
+                                rankString = rank.ToString() + "nd";
+                                break;
+                            case 3:
+                                rankString = rank.ToString() + "rd";
+                                break;
+                            default:
+                                rankString = rank.ToString() + "th";
+                                break;
+                        }
                         break;
                 }
 
@@ -154,7 +169,7 @@ public class APIRequestHandler : MonoBehaviour
         }
         else{
             ErrorAPIResponse errorResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
-            ShowStatusMessage(request.result.ToString(), errorResponse.message, true);
+            //ShowStatusMessage(request.result.ToString(), errorResponse.message, true);
         }
 
     }
