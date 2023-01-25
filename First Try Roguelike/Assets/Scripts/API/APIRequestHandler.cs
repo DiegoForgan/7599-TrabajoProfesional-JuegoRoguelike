@@ -134,6 +134,7 @@ public class APIRequestHandler : MonoBehaviour
                     entryTransform.gameObject.tag = "HighScoreEntry";
                     RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
                     entryRectTransform.anchoredPosition = new Vector2(0, -templateHeight * i);
+                    entryTransform.Find("Background").gameObject.SetActive(i % 2 == 1);
                     entryTransform.gameObject.SetActive(true);
 
                     int rank = i + 1;
