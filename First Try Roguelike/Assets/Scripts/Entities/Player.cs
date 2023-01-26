@@ -84,7 +84,7 @@ public class Player : Entity
         }
         // REMEMBER TO DESTROY THIS OBJECTS BECAUSE IT KEEPS LISTENING FOR THE INPUTS IN THE GAME MENU!!!!
         if(Input.GetKeyDown(KeyCode.N)) LoadNextLevel();
-        if(Input.GetKeyDown(KeyCode.K)) DestroyElement();
+        if(Input.GetKeyDown(KeyCode.K)) Die();
     }
 
     private void LoadNextLevel()
@@ -99,7 +99,8 @@ public class Player : Entity
         _hud.UpdateHealth(health);
     }
 
-    public override void DestroyElement(){
+    //Called by the animation event
+    public override void DestroyEntity(){
         Debug.Log("You were killed :(");
         GameManager.Instance.ShowGameOver();
         FindObjectOfType<AudioManager>().PlaySound("GameOverTheme");

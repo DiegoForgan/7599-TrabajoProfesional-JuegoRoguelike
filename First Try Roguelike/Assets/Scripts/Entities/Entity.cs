@@ -18,14 +18,18 @@ public abstract class Entity : MonoBehaviour, Collidable, Affectable
     public virtual void TakeDamage(int damage){
         health -= damage;
         //checks if entity is dead
-        if (health <= 0) DestroyElement();
+        if (health <= 0) Die();
         animator.setHurtAnimation();
     }
     
-    public virtual void DestroyElement()
+    protected virtual void Die()
     {
-        //Give time to play animation before destroying game object
         animator.setDeadAnimation();
+    }
+
+    // This will be called by the animation event
+    public virtual void DestroyEntity()
+    {
         Destroy(gameObject);
     }
 
