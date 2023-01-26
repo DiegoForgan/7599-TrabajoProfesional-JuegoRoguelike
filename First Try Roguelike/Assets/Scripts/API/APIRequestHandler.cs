@@ -219,7 +219,7 @@ public class APIRequestHandler : MonoBehaviour
             PlayerPrefs.SetString("username", loginResponse.getUsername());
             PlayerPrefs.Save();
             Debug.Log("Logged In!");
-            loginButton.GetComponent<Button>().interactable = false; 
+            loginButton.SetActive(false);
             highScoresButton.SetActive(true);
             loginPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
             loginPanel.SetActive(false);
@@ -275,7 +275,7 @@ public class APIRequestHandler : MonoBehaviour
                 PlayerPrefs.SetString("session_token", "");
                 PlayerPrefs.SetString("username", "");
                 PlayerPrefs.Save();
-                loginButton.GetComponent<Button>().interactable = true; 
+                loginButton.SetActive(true);
                 highScoresButton.SetActive(false);
                 loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
                 loggedPanel.SetActive(false);
@@ -286,7 +286,18 @@ public class APIRequestHandler : MonoBehaviour
             }
             else{
                 Debug.Log("Error");
-                //ShowStatusMessage("LogOut Error", serverResponse.message, true);    
+                // Storing user session data to use it on other API endpoints
+                PlayerPrefs.SetString("session_token", "");
+                PlayerPrefs.SetString("username", "");
+                PlayerPrefs.Save();
+                loginButton.SetActive(true);
+                highScoresButton.SetActive(false);
+                loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+                loggedPanel.SetActive(false);
+                loginPanel.SetActive(true);
+                loginPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+                //loginBtn.SetActive(true);
+                //logOutBtn.SetActive(false); 
             }
         }
     }

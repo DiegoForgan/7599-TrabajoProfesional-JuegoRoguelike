@@ -31,7 +31,7 @@ public class MainMenuManager : MonoBehaviour
             Debug.Log("tiene token");
             // ToDo: Check if the token is still valid!
             highScoresButton.SetActive(true);
-            loginButton.GetComponent<Button>().interactable = true;
+            loginButton.SetActive(false);
             loggedPanel.SetActive(true);
             loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
             GameObject.Find("LoggedUsername").GetComponent<TextMeshProUGUI>().SetText(sessionUser);
@@ -40,7 +40,7 @@ public class MainMenuManager : MonoBehaviour
         else {
             Debug.Log("no tiene token");
             highScoresButton.SetActive(false);
-            loginButton.GetComponent<Button>().interactable = true;
+            loginButton.SetActive(true);
         }
     }
 
