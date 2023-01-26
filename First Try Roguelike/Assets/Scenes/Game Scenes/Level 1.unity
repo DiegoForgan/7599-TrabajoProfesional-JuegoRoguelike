@@ -2886,7 +2886,7 @@ PrefabInstance:
     - target: {fileID: 1599317755424525843, guid: 659d309ae3496604586fa871cda588d8, type: 3}
       propertyPath: playerData
       value: 
-      objectReference: {fileID: 11400000, guid: fd6337c193290364ba743d47d79565b0, type: 2}
+      objectReference: {fileID: 11400000, guid: a7eb289393f08fb409a296f2f1d30f4b, type: 2}
     - target: {fileID: 1629891823526534352, guid: 659d309ae3496604586fa871cda588d8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -17.074228
