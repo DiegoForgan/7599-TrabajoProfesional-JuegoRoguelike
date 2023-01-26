@@ -10,6 +10,9 @@ public class CharactersAnimator : MonoBehaviour
     private GameObject currentDirectionGameObject;
     private int animatorDirection = 2;
     private Vector2 previousDirection;
+    //This solution kind of sucks because it relies on this boolean to not trigger another animation
+    //This is neccesary in order to let the death animation finish and therefore run the event function
+    private bool isDead = false;
 
     public void ResetRigs()
     {
@@ -18,13 +21,16 @@ public class CharactersAnimator : MonoBehaviour
         currentDirectionGameObject = customizableCharacter.DownRig;
         currentDirectionGameObject.SetActive(true);
         animator.SetFloat("Direction", animatorDirection);
+        isDead = false;
     }
     public void HandleMovementAnimation(Vector2 direction, float currentSpeed)
     {
+        if (isDead) return;
         HandleDirectionAnimation(direction);
         HandleSpeed(direction, currentSpeed);
     }
     public void SetShowWeapon(bool shouldShowWeapon) {
+        if (isDead) return;
         animator.SetBool("Showing Weapon", shouldShowWeapon);
     }
     private void HandleSpeed(Vector2 direction, float currentSpeed) {
@@ -70,25 +76,36 @@ public class CharactersAnimator : MonoBehaviour
     }
     internal void setAttackAnimation()
     {
+        if (isDead) return;
         animator.SetTrigger("Attack 1");
     }
     internal void setSpellCastingAnimation()
     {
+        if (isDead) return;
         animator.SetTrigger("Spell");
     } 
     internal void setHurtAnimation()
     {
+        if (isDead) return;
         animator.SetTrigger("Hurt");
     }
     internal void setDeadAnimation()
     {
+        if (isDead) return;
+        isDead = true;
         animator.SetTrigger("Die");
     }
     internal void SetSpellCastingWithStaffAnimation()
     {
+        if (isDead) return;
         animator.SetTrigger("Stab");
     }
-    internal IEnumerator SetArrowThrowingAnimation()
+    internal void SetArrowThrowingAnimation()
+    {
+        if (isDead) return;
+        StartCoroutine(ArrowThrowingAnimation());
+    }
+    private IEnumerator ArrowThrowingAnimation()
     {
         // enter animator to enter bow load state
         animator.SetTrigger("Bow Load");

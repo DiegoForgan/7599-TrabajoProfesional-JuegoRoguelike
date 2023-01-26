@@ -100,8 +100,7 @@ public class Player : Entity
     }
 
     //Called by the animation event
-    public override void DestroyEntity(){
-        Debug.Log("You were killed :(");
+    protected override void DestroyEntity(){
         GameManager.Instance.ShowGameOver();
         FindObjectOfType<AudioManager>().PlaySound("GameOverTheme");
         Destroy(gameObject);

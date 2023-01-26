@@ -18,7 +18,12 @@ public abstract class Entity : MonoBehaviour, Collidable, Affectable
     public virtual void TakeDamage(int damage){
         health -= damage;
         //checks if entity is dead
-        if (health <= 0) Die();
+        if (health <= 0)
+        {
+            health = 0;
+            Die();
+        }
+        // Dark magic, don´t ask => probably i will forget how i did this
         animator.setHurtAnimation();
     }
     
@@ -27,8 +32,13 @@ public abstract class Entity : MonoBehaviour, Collidable, Affectable
         animator.setDeadAnimation();
     }
 
+    public void ExecuteAfterDeathAnimation()
+    {
+        DestroyEntity();
+    }
+
     // This will be called by the animation event
-    public virtual void DestroyEntity()
+    protected virtual void DestroyEntity()
     {
         Destroy(gameObject);
     }
