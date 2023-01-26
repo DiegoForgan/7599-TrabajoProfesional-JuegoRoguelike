@@ -35,8 +35,7 @@ public class ArcherEnemy : Enemy
 
     public override void Attack()
     {
-        Debug.Log("Throwing arrow from archer enemy");
-        StartCoroutine(animator.SetArrowThrowingAnimation());
+        animator.SetArrowThrowingAnimation();
         shootArrow();
     }
 
