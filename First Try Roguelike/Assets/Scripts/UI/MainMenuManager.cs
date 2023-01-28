@@ -12,7 +12,9 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject loginButton;
     [SerializeField] private GameObject highScoresTableMessage;
     [SerializeField] private GameObject highScoresEntryTemplate;
+    [SerializeField] private GameObject devSettingsPanel;
     [SerializeField] private GameObject aboutVersionField;
+
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +36,7 @@ public class MainMenuManager : MonoBehaviour
         // Checking for saved session
         if (SessionManager.IsUserLoggedIn()) {
 
-            Debug.Log("tiene token");
+            Debug.Log("No session token found");
             // ToDo: Check if the token is still valid!
             highScoresButton.SetActive(true);
             loginButton.SetActive(false);
@@ -44,7 +46,7 @@ public class MainMenuManager : MonoBehaviour
 
         }
         else {
-            Debug.Log("no tiene token");
+            Debug.Log("Session token found");
             highScoresButton.SetActive(false);
             loginButton.SetActive(true);
         }
@@ -59,8 +61,9 @@ public class MainMenuManager : MonoBehaviour
         
     }
 
+    // Resets the highscores table
+    // Clears results, and writes initial loading message
     public void ClearHighScoresTable() {
-        Debug.Log("Clearing HighScoresTable");
 
         highScoresTableMessage.GetComponent<TextMeshProUGUI>().text = "Loading Highscores, please wait...";
         var highscoreResults = GameObject.FindGameObjectsWithTag("HighScoreEntry");
@@ -79,8 +82,79 @@ public class MainMenuManager : MonoBehaviour
         loginFormAnimator.SetTrigger("ShowOrHide");
     }
 
+    // Settings
+    // Applies current settings to UI elements
+    public void LoadBasicSettings(GameObject settingsMenu)
+    { 
+        Toggle devModeToggle = settingsMenu.gameObject.transform.Find("DeveloperModeOn/DeveloperModeOnToggle").GetComponent<Toggle>();
+        devModeToggle.isOn = SettingsManager.GetDeveloperModeOn();
+        ShowDeveloperModeSettings(devModeToggle);
+        if (devModeToggle.isOn)
+        {
+            LoadDeveloperModeSettings(settingsMenu);
+        }
+    }
+    public void LoadDeveloperModeSettings(GameObject settingsMenu)
+    {
+        // Find root GameObject for the developer settings
+        Transform rootObject = settingsMenu.gameObject.transform.Find("DeveloperSettings/ScrollView/Viewport/Content/Panel");
+        
+        // Apply values to each toggle
+        Toggle qaToggle = rootObject.Find("UseQaServersOn/UseQaServersOnToggle").GetComponent<Toggle>();
+        qaToggle.isOn = SettingsManager.GetUseQaServersOn();
+        Toggle nextLevelToggle = rootObject.Find("LoadNextLevelOn/LoadNextLevelOnToggle").GetComponent<Toggle>();
+        nextLevelToggle.isOn = SettingsManager.GetLoadNextLevelOn();
+        Toggle regenerateDungeonToggle = rootObject.Find("RegenerateDungeonOn/RegenerateDungeonOnToggle").GetComponent<Toggle>();
+        regenerateDungeonToggle.isOn = SettingsManager.GetRegenerateDungeonOn();
+        Toggle killEnemiesToggle = rootObject.Find("KillEnemiesOn/KillEnemiesOnToggle").GetComponent<Toggle>();
+        killEnemiesToggle.isOn = SettingsManager.GetKillEnemiesOn();
+        Toggle regenerateHealthToggle = rootObject.Find("RegenerateHealthOn/RegenerateHealthOnToggle").GetComponent<Toggle>();
+        regenerateHealthToggle.isOn = SettingsManager.GetRegenerateHealthOn();
+        Toggle regenerateManaToggle = rootObject.Find("RegenerateManaOn/RegenerateManaOnToggle").GetComponent<Toggle>();
+        regenerateManaToggle.isOn = SettingsManager.GetRegenerateManaOn();
+        Toggle levelDumpToggle = rootObject.Find("LevelDumpOn/LevelDumpOnToggle").GetComponent<Toggle>();
+        levelDumpToggle.isOn = SettingsManager.GetLevelDumpOn();
+        Toggle showInfoToggle = rootObject.Find("ShowInfoOn/ShowInfoOnToggle").GetComponent<Toggle>();
+        showInfoToggle.isOn = SettingsManager.GetShowInfoOn();
+    }
+    // Persists all settings
+    public void UpdateSettings() { SettingsManager.PersistSettings(); }
+    // Updates SettingsManager based on UI selection
+    public void UpdateDeveloperModeToggle(GameObject settingsMenu)
+    {
+        Toggle devModeToggle = settingsMenu.gameObject.transform.Find("DeveloperModeOn/DeveloperModeOnToggle").GetComponent<Toggle>();
+        SettingsManager.SetDeveloperModeOn(devModeToggle.isOn);
+        if (devModeToggle.isOn)
+        {
+            LoadDeveloperModeSettings(settingsMenu);
+        }
+    }
+    public void UpdateUseQAServersToggle(Toggle toggleControl) { SettingsManager.SetUseQaServersOn(toggleControl.isOn); }
+    public void UpdateLoadNextLevelToggle(Toggle toggleControl) { SettingsManager.SetLoadNextLevelOn(toggleControl.isOn); }
+    public void UpdateRegenerateDungeonToggle(Toggle toggleControl) { SettingsManager.SetRegenerateDungeonOn(toggleControl.isOn); }
+    public void UpdateKillEnemiesToggle(Toggle toggleControl) { SettingsManager.SetKillEnemiesOn(toggleControl.isOn); }
+    public void UpdateRegenerateHealthToggle(Toggle toggleControl) { SettingsManager.SetRegenerateHealthOn(toggleControl.isOn); }
+    public void UpdateRegenerateManaToggle(Toggle toggleControl) { SettingsManager.SetRegenerateManaOn(toggleControl.isOn); }
+    public void UpdateLevelDumpToggle(Toggle toggleControl) { SettingsManager.SetLevelDumpOn(toggleControl.isOn); }
+    public void UpdateShowInfoToggle(Toggle toggleControl) { SettingsManager.SetShowInfoOn(toggleControl.isOn); }
+    // Shows or hides developer settings from UI
+    public void ShowDeveloperModeSettings(Toggle toggleControl)
+    {
+        if (toggleControl.isOn)
+        {
+            devSettingsPanel.gameObject.SetActive(true);
+        }
+        else
+        {
+            devSettingsPanel.gameObject.SetActive(false);
+        }
+    }
+
+    // Saves user data and quits the game
     public void ExitGame() { 
-        // Save session data before exiting the application
+        // Saves user settings befor exiting the application
+        SettingsManager.PersistSettings();
+        // Saves session data before exiting the application
         SessionManager.PersistSession();
         Application.Quit();
     }
