@@ -53,7 +53,7 @@ public class APIRequestHandler : MonoBehaviour
     }
 
     public void UserLogOut(){
-        if (IsUserLoggedIn()) StartCoroutine(UserLogOutRequest());
+        if (SessionManager.IsUserLoggedIn()) StartCoroutine(UserLogOutRequest());
         else Debug.LogWarning("Cant logout user because is already logged out!");
     }
 
@@ -62,16 +62,16 @@ public class APIRequestHandler : MonoBehaviour
     }
 
     public void GetUserGameProgress() {
-        if (IsUserLoggedIn()) StartCoroutine(GetGameProgress());
+        if (SessionManager.IsUserLoggedIn()) StartCoroutine(GetGameProgress());
         else Debug.LogWarning("User Session not found, cant get progress");
     }
 
     private IEnumerator GetGameProgress()
     {
-        UnityWebRequest request = UnityWebRequest.Get(QA_URL + USERS_ROUTE + "/" + PlayerPrefs.GetString("username")+"/gameprogress");
+        UnityWebRequest request = UnityWebRequest.Get(QA_URL + USERS_ROUTE + "/" + SessionManager.GetSessionUsername() + "/gameprogress");
         
         request.SetRequestHeader("Accept", "application/json");
-        request.SetRequestHeader("X-Auth-Token", PlayerPrefs.GetString("session_token"));
+        request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
         
         yield return request.SendWebRequest();
         
@@ -110,7 +110,7 @@ public class APIRequestHandler : MonoBehaviour
         
         UnityWebRequest request = UnityWebRequest.Get(QA_URL+HIGHSCORES_ROUTE);
         
-        request.SetRequestHeader("X-Auth-Token", PlayerPrefs.GetString("session_token"));
+        request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
         request.SetRequestHeader("Accept", "application/json");
 
         yield return request.SendWebRequest();
@@ -215,9 +215,7 @@ public class APIRequestHandler : MonoBehaviour
             // Formatting data to JSON.
             LoginResponseDTO loginResponse = JsonConvert.DeserializeObject<LoginResponseDTO>(responseDTO.getBody());
             // Storing user session data to use it on other API endpoints
-            PlayerPrefs.SetString("session_token", loginResponse.getSessionToken());
-            PlayerPrefs.SetString("username", loginResponse.getUsername());
-            PlayerPrefs.Save();
+            SessionManager.SetSession(loginResponse.getSessionToken(), loginResponse.getUsername());
             Debug.Log("Logged In!");
             loginButton.SetActive(false);
             highScoresButton.SetActive(true);
@@ -244,19 +242,15 @@ public class APIRequestHandler : MonoBehaviour
         GameObject.Find("LoggedUsername").GetComponent<TextMeshProUGUI>().SetText(loginResponse.getUsername());
     }
 
-    private bool IsUserLoggedIn(){
-        return PlayerPrefs.GetString("session_token") != "";
-    }
-
     private IEnumerator UserLogOutRequest(){
         // The UnityWebRequest library its pretty tricky, for POST method you should start with PUT and then change it on the next lines
         // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
-        if(IsUserLoggedIn()){
+        if(SessionManager.IsUserLoggedIn()){
         
-            UnityWebRequest request = UnityWebRequest.Get(QA_URL+SESSIONS_ROUTE+"/"+PlayerPrefs.GetString("session_token"));
+            UnityWebRequest request = UnityWebRequest.Get(QA_URL+SESSIONS_ROUTE+"/"+SessionManager.GetSessionToken());
             request.method = UnityWebRequest.kHttpVerbDELETE;
         
-            request.SetRequestHeader("X-Auth-Token", PlayerPrefs.GetString("session_token"));
+            request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
             request.SetRequestHeader("Accept", "application/json");
         
             yield return request.SendWebRequest();
@@ -267,38 +261,24 @@ public class APIRequestHandler : MonoBehaviour
             // Show data to the user to reflect the result of the request
             Debug.Log(serverResponse.code);
             Debug.Log(serverResponse.message);
-            
         
             if (request.result == UnityWebRequest.Result.Success){
                 Debug.Log("Success");
-                // Storing user session data to use it on other API endpoints
-                PlayerPrefs.SetString("session_token", "");
-                PlayerPrefs.SetString("username", "");
-                PlayerPrefs.Save();
-                loginButton.SetActive(true);
-                highScoresButton.SetActive(false);
-                loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
-                loggedPanel.SetActive(false);
-                loginPanel.SetActive(true);
-                loginPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
-                //loginBtn.SetActive(true);
-                //logOutBtn.SetActive(false);
             }
             else{
                 Debug.Log("Error");
-                // Storing user session data to use it on other API endpoints
-                PlayerPrefs.SetString("session_token", "");
-                PlayerPrefs.SetString("username", "");
-                PlayerPrefs.Save();
-                loginButton.SetActive(true);
-                highScoresButton.SetActive(false);
-                loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
-                loggedPanel.SetActive(false);
-                loginPanel.SetActive(true);
-                loginPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
-                //loginBtn.SetActive(true);
-                //logOutBtn.SetActive(false); 
             }
+
+            // Storing user session data to use it on other API endpoints
+            SessionManager.ClearSession();
+            loginButton.SetActive(true);
+            highScoresButton.SetActive(false);
+            loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+            loggedPanel.SetActive(false);
+            loginPanel.SetActive(true);
+            loginPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+            //loginBtn.SetActive(true);
+            //logOutBtn.SetActive(false);
         }
     }
 

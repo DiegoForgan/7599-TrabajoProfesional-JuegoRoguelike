@@ -23,10 +23,15 @@ public class MainMenuManager : MonoBehaviour
         // Set the version in the "About" screen
         aboutVersionField.GetComponent<TextMeshProUGUI>().text = "v" + Application.version + " - PREVIEW ONLY";
 
+        // Loading settings from saved values
+        // Assigns defaults if not present
+        SettingsManager.InitializeSettings();
+
+        // Loading session from saved values
+        // Assigns defaults if not present
+        SessionManager.InitializeSession();
         // Checking for saved session
-        var sessionToken = PlayerPrefs.GetString("session_token", null);
-        var sessionUser = PlayerPrefs.GetString("username", null);
-        if (sessionToken != null && sessionToken != "") {
+        if (SessionManager.IsUserLoggedIn()) {
 
             Debug.Log("tiene token");
             // ToDo: Check if the token is still valid!
@@ -34,7 +39,7 @@ public class MainMenuManager : MonoBehaviour
             loginButton.SetActive(false);
             loggedPanel.SetActive(true);
             loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
-            GameObject.Find("LoggedUsername").GetComponent<TextMeshProUGUI>().SetText(sessionUser);
+            GameObject.Find("LoggedUsername").GetComponent<TextMeshProUGUI>().SetText(SessionManager.GetSessionUsername());
 
         }
         else {
@@ -53,6 +58,7 @@ public class MainMenuManager : MonoBehaviour
     public void ClearHighScoresTable() {
         Debug.Log("Clearing HighScoresTable");
 
+        highScoresTableMessage.GetComponent<TextMeshProUGUI>().text = "Loading Highscores, please wait...";
         var highscoreResults = GameObject.FindGameObjectsWithTag("HighScoreEntry");
         foreach(var entry in highscoreResults) {
             Destroy(entry);
@@ -70,6 +76,8 @@ public class MainMenuManager : MonoBehaviour
     }
 
     public void ExitGame() { 
+        // Save session data before exiting the application
+        SessionManager.PersistSession();
         Application.Quit();
     }
 }
