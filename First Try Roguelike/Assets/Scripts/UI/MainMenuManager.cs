@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,9 +5,10 @@ using TMPro;
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private Animator loginFormAnimator;
-    [SerializeField] private GameObject loggedPanel;
     [SerializeField] private GameObject highScoresButton;
     [SerializeField] private GameObject loginButton;
+    [SerializeField] private GameObject loginPanel;
+    [SerializeField] private GameObject loggedPanel;
     [SerializeField] private GameObject highScoresTableMessage;
     [SerializeField] private GameObject highScoresEntryTemplate;
     [SerializeField] private GameObject devSettingsPanel;
@@ -29,7 +28,6 @@ public class MainMenuManager : MonoBehaviour
         // Loading settings from saved values
         // Assigns defaults if not present
         SettingsManager.InitializeSettings();
-        Debug.Log(SettingsManager.GetSoundVolume());
 
         // Loading session from saved values
         // Assigns defaults if not present
@@ -37,7 +35,7 @@ public class MainMenuManager : MonoBehaviour
         // Checking for saved session
         if (SessionManager.IsUserLoggedIn()) {
 
-            Debug.Log("No session token found");
+            Debug.Log("Session token found");
             // ToDo: Check if the token is still valid!
             highScoresButton.SetActive(true);
             loginButton.SetActive(false);
@@ -47,7 +45,7 @@ public class MainMenuManager : MonoBehaviour
 
         }
         else {
-            Debug.Log("Session token found");
+            Debug.Log("No session token found");
             highScoresButton.SetActive(false);
             loginButton.SetActive(true);
         }
@@ -76,11 +74,14 @@ public class MainMenuManager : MonoBehaviour
         highScoresTableMessage.SetActive(true);
     }
 
+    // Starts a new game!
+    // Loads first cinematic scene
     public void StartNewGame() {
         Debug.Log("Starting new game");
         LevelLoader.Instance.LoadNextLevel();
     }
 
+    // Toggles the log in panel in the main menu screen
     public void ShowOrHideLoginForm() {
         loginFormAnimator.SetTrigger("ShowOrHide");
     }
@@ -91,7 +92,6 @@ public class MainMenuManager : MonoBehaviour
     {
         Slider volumeSlider = settingsMenu.gameObject.transform.Find("SoundVolume/SoundVolumeSlider").GetComponent<Slider>();
         volumeSlider.value = SettingsManager.GetSoundVolume();
-        Debug.Log(SettingsManager.GetSoundVolume());
         
         Slider difficultySlider = settingsMenu.gameObject.transform.Find("StartingDifficulty/StartingDifficultySlider").GetComponent<Slider>();
         difficultySlider.value = SettingsManager.GetStartingDifficulty();
@@ -128,7 +128,7 @@ public class MainMenuManager : MonoBehaviour
         showInfoToggle.isOn = SettingsManager.GetShowInfoOn();
     }
     // Persists all settings
-    public void UpdateSettings() { SettingsManager.PersistSettings(); Debug.Log(SettingsManager.GetSoundVolume()); }
+    public void UpdateSettings() { SettingsManager.PersistSettings(); }
     // Updates SettingsManager based on UI selection
     public void UpdateSoundVolumeSlider(GameObject sliderContainer)
     { 
@@ -137,8 +137,6 @@ public class MainMenuManager : MonoBehaviour
 
         TextMeshProUGUI sliderValue = sliderContainer.gameObject.transform.Find("SoundVolumeSliderValue").GetComponent<TextMeshProUGUI>();
         sliderValue.text = SettingsManager.GetSoundVolume().ToString();
-
-        Debug.Log(SettingsManager.GetSoundVolume());
     }
     public void UpdateStartingDifficultySlider(GameObject sliderContainer)
     {
@@ -175,6 +173,38 @@ public class MainMenuManager : MonoBehaviour
         else
         {
             devSettingsPanel.gameObject.SetActive(false);
+        }
+    }
+
+    // Hides all session related main menu UI elements
+    public void HideSessionControls()
+    {
+        if (SessionManager.IsUserLoggedIn())
+        {
+            loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+
+        }
+        else
+        {
+            loginButton.SetActive(false);
+            // Using screen width and panel position to determine weather it is showing or not
+            if (loginPanel.transform.position.x < Screen.width)
+            {
+                loginFormAnimator.SetTrigger("ShowOrHide");
+            }
+        }
+    }
+
+    // Shows all session related main menu UI elements
+    public void ShowSessionControls()
+    {
+        if (SessionManager.IsUserLoggedIn())
+        {
+            loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+        }
+        else
+        {
+            loginButton.SetActive(true);
         }
     }
 

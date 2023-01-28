@@ -216,20 +216,21 @@ public class APIRequestHandler : MonoBehaviour
             loginButton.SetActive(false);
             highScoresButton.SetActive(true);
             loginPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
-            loginPanel.SetActive(false);
             loggedPanel.SetActive(true);
             loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
             setLoggedPanel(loginResponse);            
         }
         else{
             Debug.Log("Error");
+            // Resseting username and password fields
+            GameObject.Find("UsernameInputField").GetComponent<TMP_InputField>().text = "";
+            GameObject.Find("PasswordInputField").GetComponent<TMP_InputField>().text = "";
             // Formatting data to JSON.
             APIErrorResponseDTO errorResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
             // Show data to the user to reflect the result of the request
             Debug.Log(errorResponse.getCode());
             Debug.Log(errorResponse.getMessage());
             Debug.Log(errorResponse.getData());
-            //ShowStatusMessage("Login Error", errorResponse.message, true);
         }
     }
 
@@ -271,10 +272,10 @@ public class APIRequestHandler : MonoBehaviour
             highScoresButton.SetActive(false);
             loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
             loggedPanel.SetActive(false);
-            loginPanel.SetActive(true);
             loginPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
-            //loginBtn.SetActive(true);
-            //logOutBtn.SetActive(false);
+            // Resseting username and password fields
+            GameObject.Find("UsernameInputField").GetComponent<TMP_InputField>().text = "";
+            GameObject.Find("PasswordInputField").GetComponent<TMP_InputField>().text = "";
         }
     }
 
