@@ -30,10 +30,6 @@ public class APIRequestHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Use this for initialisation
-        Debug.Log("APIRequestHandler Start!");
-        // Hide row template for Highscores table
-        highScoresEntryTemplate.SetActive(false);
     }
 
     public void CheckUsernameAlreadyTaken(){

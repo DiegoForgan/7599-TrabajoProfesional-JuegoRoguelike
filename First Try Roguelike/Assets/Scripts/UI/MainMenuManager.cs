@@ -11,6 +11,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject highScoresButton;
     [SerializeField] private GameObject loginButton;
     [SerializeField] private GameObject highScoresTableMessage;
+    [SerializeField] private GameObject highScoresEntryTemplate;
     [SerializeField] private GameObject aboutVersionField;
 
     // Start is called before the first frame update
@@ -47,6 +48,9 @@ public class MainMenuManager : MonoBehaviour
             highScoresButton.SetActive(false);
             loginButton.SetActive(true);
         }
+
+        // Hide the highscores entry template from the table
+        highScoresEntryTemplate.SetActive(false);
     }
 
     // Update is called once per frame
