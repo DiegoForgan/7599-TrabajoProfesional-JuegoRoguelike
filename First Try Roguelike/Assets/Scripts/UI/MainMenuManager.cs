@@ -29,6 +29,7 @@ public class MainMenuManager : MonoBehaviour
         // Loading settings from saved values
         // Assigns defaults if not present
         SettingsManager.InitializeSettings();
+        Debug.Log(SettingsManager.GetSoundVolume());
 
         // Loading session from saved values
         // Assigns defaults if not present
@@ -90,6 +91,7 @@ public class MainMenuManager : MonoBehaviour
     {
         Slider volumeSlider = settingsMenu.gameObject.transform.Find("SoundVolume/SoundVolumeSlider").GetComponent<Slider>();
         volumeSlider.value = SettingsManager.GetSoundVolume();
+        Debug.Log(SettingsManager.GetSoundVolume());
         
         Slider difficultySlider = settingsMenu.gameObject.transform.Find("StartingDifficulty/StartingDifficultySlider").GetComponent<Slider>();
         difficultySlider.value = SettingsManager.GetStartingDifficulty();
@@ -126,7 +128,7 @@ public class MainMenuManager : MonoBehaviour
         showInfoToggle.isOn = SettingsManager.GetShowInfoOn();
     }
     // Persists all settings
-    public void UpdateSettings() { SettingsManager.PersistSettings(); }
+    public void UpdateSettings() { SettingsManager.PersistSettings(); Debug.Log(SettingsManager.GetSoundVolume()); }
     // Updates SettingsManager based on UI selection
     public void UpdateSoundVolumeSlider(GameObject sliderContainer)
     { 
@@ -135,14 +137,16 @@ public class MainMenuManager : MonoBehaviour
 
         TextMeshProUGUI sliderValue = sliderContainer.gameObject.transform.Find("SoundVolumeSliderValue").GetComponent<TextMeshProUGUI>();
         sliderValue.text = SettingsManager.GetSoundVolume().ToString();
+
+        Debug.Log(SettingsManager.GetSoundVolume());
     }
     public void UpdateStartingDifficultySlider(GameObject sliderContainer)
     {
         Slider sliderControl = sliderContainer.gameObject.transform.Find("StartingDifficultySlider").GetComponent<Slider>();
-        SettingsManager.SetSoundVolume((int)sliderControl.value);
+        SettingsManager.SetStartingDifficulty((int)sliderControl.value);
 
         TextMeshProUGUI sliderValue = sliderContainer.gameObject.transform.Find("StartingDifficultySliderValue").GetComponent<TextMeshProUGUI>();
-        sliderValue.text = SettingsManager.GetSoundVolume().ToString();
+        sliderValue.text = SettingsManager.GetStartingDifficulty().ToString();
     }
     public void UpdateDeveloperModeToggle(GameObject settingsMenu)
     {
