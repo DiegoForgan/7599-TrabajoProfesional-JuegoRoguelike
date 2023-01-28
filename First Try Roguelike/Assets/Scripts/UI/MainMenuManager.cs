@@ -50,9 +50,6 @@ public class MainMenuManager : MonoBehaviour
             highScoresButton.SetActive(false);
             loginButton.SetActive(true);
         }
-
-        // Hide the highscores entry template from the table
-        highScoresEntryTemplate.SetActive(false);
     }
 
     // Update is called once per frame
@@ -65,11 +62,16 @@ public class MainMenuManager : MonoBehaviour
     // Clears results, and writes initial loading message
     public void ClearHighScoresTable() {
 
+        // Hide the highscores entry template from the table
+        highScoresEntryTemplate.SetActive(false);
+        // Reset initial table message
         highScoresTableMessage.GetComponent<TextMeshProUGUI>().text = "Loading Highscores, please wait...";
+        // Delete old entries
         var highscoreResults = GameObject.FindGameObjectsWithTag("HighScoreEntry");
         foreach(var entry in highscoreResults) {
             Destroy(entry);
         }
+        // Enable table
         highScoresTableMessage.SetActive(true);
     }
 
@@ -85,7 +87,13 @@ public class MainMenuManager : MonoBehaviour
     // Settings
     // Applies current settings to UI elements
     public void LoadBasicSettings(GameObject settingsMenu)
-    { 
+    {
+        Slider volumeSlider = settingsMenu.gameObject.transform.Find("SoundVolume/SoundVolumeSlider").GetComponent<Slider>();
+        volumeSlider.value = SettingsManager.GetSoundVolume();
+        
+        Slider difficultySlider = settingsMenu.gameObject.transform.Find("StartingDifficulty/StartingDifficultySlider").GetComponent<Slider>();
+        difficultySlider.value = SettingsManager.GetStartingDifficulty();
+
         Toggle devModeToggle = settingsMenu.gameObject.transform.Find("DeveloperModeOn/DeveloperModeOnToggle").GetComponent<Toggle>();
         devModeToggle.isOn = SettingsManager.GetDeveloperModeOn();
         ShowDeveloperModeSettings(devModeToggle);
@@ -120,6 +128,22 @@ public class MainMenuManager : MonoBehaviour
     // Persists all settings
     public void UpdateSettings() { SettingsManager.PersistSettings(); }
     // Updates SettingsManager based on UI selection
+    public void UpdateSoundVolumeSlider(GameObject sliderContainer)
+    { 
+        Slider sliderControl = sliderContainer.gameObject.transform.Find("SoundVolumeSlider").GetComponent<Slider>();
+        SettingsManager.SetSoundVolume((int)sliderControl.value);
+
+        TextMeshProUGUI sliderValue = sliderContainer.gameObject.transform.Find("SoundVolumeSliderValue").GetComponent<TextMeshProUGUI>();
+        sliderValue.text = SettingsManager.GetSoundVolume().ToString();
+    }
+    public void UpdateStartingDifficultySlider(GameObject sliderContainer)
+    {
+        Slider sliderControl = sliderContainer.gameObject.transform.Find("StartingDifficultySlider").GetComponent<Slider>();
+        SettingsManager.SetSoundVolume((int)sliderControl.value);
+
+        TextMeshProUGUI sliderValue = sliderContainer.gameObject.transform.Find("StartingDifficultySliderValue").GetComponent<TextMeshProUGUI>();
+        sliderValue.text = SettingsManager.GetSoundVolume().ToString();
+    }
     public void UpdateDeveloperModeToggle(GameObject settingsMenu)
     {
         Toggle devModeToggle = settingsMenu.gameObject.transform.Find("DeveloperModeOn/DeveloperModeOnToggle").GetComponent<Toggle>();
