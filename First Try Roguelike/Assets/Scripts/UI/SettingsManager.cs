@@ -5,18 +5,18 @@ public static class SettingsManager
 {
     // Default values
     // General settings
-    private const int defaultSoundVolume = 75;
-    private const int defaultStartingDifficulty = 5;
+    private const int DEFAULT_SOUND_VOLUME = 75;
+    private const int DEFAULT_STARTING_DIFFICULTY = 5;
     // Developer mode
-    private const bool defaultDeveloperModeOn = false;
-    private const bool defaultUseQaServersOn = false;
-    private const bool defaultRegenerateDungeonOn = false;
-    private const bool defaultLoadNextLevelOn = false;
-    private const bool defaultKillEnemiesOn = false;
-    private const bool defaultRegenerateHealthOn = false;
-    private const bool defaultRegenerateManaOn = false;
-    private const bool defaultLevelDumpOn = false;
-    private const bool defaultShowInfoOn = false;
+    private const bool DEFAULT_DEVELOPER_MODE_ON = false;
+    private const bool DEFAULT_USE_QA_SERVERS_ON = false;
+    private const bool DEFAULT_REGENERATE_DUNGEON_ON = false;
+    private const bool DEFAULT_LOAD_NEXT_LEVEL_ON = false;
+    private const bool DEFAULT_KILL_ENEMIES_ON = false;
+    private const bool DEFAULT_REGENERATE_HEALTH_ON = false;
+    private const bool DEFAULT_REGENERATE_MANA_ON = false;
+    private const bool DEFAULT_LEVEL_DUMP_ON = false;
+    private const bool DEFAULT_SHOW_INFO_ON = false;
 
     // Current values
     // General settings
@@ -37,20 +37,20 @@ public static class SettingsManager
     // If not found, assigns default
     public static void InitializeSettings()
     {
-        soundVolume = PlayerPrefs.GetInt("settings_soundvolume", defaultSoundVolume);
-        startingDifficulty = PlayerPrefs.GetInt("settings_startingdif", defaultStartingDifficulty);
+        soundVolume = PlayerPrefs.GetInt("settings_soundvolume", DEFAULT_SOUND_VOLUME);
+        startingDifficulty = PlayerPrefs.GetInt("settings_startingdif", DEFAULT_STARTING_DIFFICULTY);
         // Booleans cannot be stored as PlayerPrefs, so ints are used
         // 0 = false, 1 = true
         // These inline IFs translate boolean values to ints and viceversa during initialization
-        developerModeOn = (PlayerPrefs.GetInt("settings_developeron", (defaultDeveloperModeOn == true ? 1 : 0)) == 1 ? true : false);
-        useQaServersOn = (PlayerPrefs.GetInt("settings_useqaservon", (defaultUseQaServersOn == true ? 1 : 0)) == 1 ? true : false);
-        regenerateDungeonOn = (PlayerPrefs.GetInt("settings_redungeonon", (defaultRegenerateDungeonOn == true ? 1 : 0)) == 1 ? true : false);
-        loadNextLevelOn = (PlayerPrefs.GetInt("settings_loadnextlon", (defaultLoadNextLevelOn == true ? 1 : 0)) == 1 ? true : false);
-        killEnemiesOn = (PlayerPrefs.GetInt("settings_killenemion", (defaultKillEnemiesOn == true ? 1 : 0)) == 1 ? true : false);
-        regenerateHealthOn = (PlayerPrefs.GetInt("settings_reghealthon", (defaultRegenerateHealthOn == true ? 1 : 0)) == 1 ? true : false);
-        regenerateManaOn = (PlayerPrefs.GetInt("settings_regeemanaon", (defaultRegenerateManaOn == true ? 1 : 0)) == 1 ? true : false);
-        levelDumpOn = (PlayerPrefs.GetInt("settings_leveldumpon", (defaultLevelDumpOn == true ? 1 : 0)) == 1 ? true : false);
-        showInfoOn = (PlayerPrefs.GetInt("settings_showinforon", (defaultShowInfoOn == true ? 1 : 0)) == 1 ? true : false);
+        developerModeOn = (PlayerPrefs.GetInt("settings_developeron", (DEFAULT_DEVELOPER_MODE_ON == true ? 1 : 0)) == 1 ? true : false);
+        useQaServersOn = (PlayerPrefs.GetInt("settings_useqaservon", (DEFAULT_USE_QA_SERVERS_ON == true ? 1 : 0)) == 1 ? true : false);
+        regenerateDungeonOn = (PlayerPrefs.GetInt("settings_redungeonon", (DEFAULT_REGENERATE_DUNGEON_ON == true ? 1 : 0)) == 1 ? true : false);
+        loadNextLevelOn = (PlayerPrefs.GetInt("settings_loadnextlon", (DEFAULT_LOAD_NEXT_LEVEL_ON == true ? 1 : 0)) == 1 ? true : false);
+        killEnemiesOn = (PlayerPrefs.GetInt("settings_killenemion", (DEFAULT_KILL_ENEMIES_ON == true ? 1 : 0)) == 1 ? true : false);
+        regenerateHealthOn = (PlayerPrefs.GetInt("settings_reghealthon", (DEFAULT_REGENERATE_HEALTH_ON == true ? 1 : 0)) == 1 ? true : false);
+        regenerateManaOn = (PlayerPrefs.GetInt("settings_regeemanaon", (DEFAULT_REGENERATE_MANA_ON == true ? 1 : 0)) == 1 ? true : false);
+        levelDumpOn = (PlayerPrefs.GetInt("settings_leveldumpon", (DEFAULT_LEVEL_DUMP_ON == true ? 1 : 0)) == 1 ? true : false);
+        showInfoOn = (PlayerPrefs.GetInt("settings_showinforon", (DEFAULT_SHOW_INFO_ON == true ? 1 : 0)) == 1 ? true : false);
     }
 
     // Saves all current settings values to PlayerPrefs

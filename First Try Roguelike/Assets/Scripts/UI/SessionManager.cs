@@ -4,8 +4,8 @@ using UnityEngine;
 public static class SessionManager
 {
     // Default values
-    private const string defaultSessionToken = "";
-    private const string defaultSessionUsername = "";
+    private const string DEFAULT_SESSION_TOKEN = "";
+    private const string DEFAULT_SESSION_USERNAME = "";
 
     // Current values
     // Session
@@ -16,8 +16,8 @@ public static class SessionManager
     // If not found, assigns default
     public static void InitializeSession()
     {
-        sessionToken = PlayerPrefs.GetString("session_token", defaultSessionToken);
-        sessionUsername = PlayerPrefs.GetString("session_username", defaultSessionUsername);
+        sessionToken = PlayerPrefs.GetString("session_token", DEFAULT_SESSION_TOKEN);
+        sessionUsername = PlayerPrefs.GetString("session_username", DEFAULT_SESSION_USERNAME);
     }
 
     // Saves all current session values to PlayerPrefs
@@ -31,7 +31,7 @@ public static class SessionManager
 
     // Returns if there is a user logged in
     // Session must be checked against server, as the token may be exired!
-    public static bool IsUserLoggedIn() { return (sessionToken != defaultSessionToken); }
+    public static bool IsUserLoggedIn() { return (sessionToken != DEFAULT_SESSION_TOKEN); }
 
     // Sets session state with opened in session 
     public static void SetSession(string newSessionToken, string newSessionUsername)
@@ -43,8 +43,8 @@ public static class SessionManager
     // Sets session state for no user logged in
     public static void ClearSession()
     {
-        sessionToken = defaultSessionToken;
-        sessionUsername = defaultSessionUsername;
+        sessionToken = DEFAULT_SESSION_TOKEN;
+        sessionUsername = DEFAULT_SESSION_USERNAME;
     }
 
     // Getters
