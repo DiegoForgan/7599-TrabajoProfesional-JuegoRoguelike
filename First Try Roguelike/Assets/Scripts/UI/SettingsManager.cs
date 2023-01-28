@@ -100,7 +100,7 @@ public static class SettingsManager
     // Setters
     // Sets the current value for setting "Sound Volume"
     public static void SetSoundVolume(int newSoundVolume) { soundVolume = newSoundVolume; }
-    // Sets the current value for setting "Starting Difficulty" and saves settings
+    // Sets the current value for setting "Starting Difficulty"
     public static void SetStartingDifficulty(int newStartingDifficulty) { startingDifficulty = newStartingDifficulty; }
     // Sets the current value for setting "Developer Mode ON"
     public static void SetDeveloperModeOn(bool newDeveloperModeOn) { developerModeOn = newDeveloperModeOn; }
@@ -120,5 +120,4 @@ public static class SettingsManager
     public static void SetLevelDumpOn(bool newLevelDumpOn) { levelDumpOn = newLevelDumpOn; }
     // Sets the current value for setting "Show Info ON"
     public static void SetShowInfoOn(bool newShowInfoOn) { showInfoOn = newShowInfoOn; }
-
 }
