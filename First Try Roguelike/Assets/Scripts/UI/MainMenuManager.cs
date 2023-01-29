@@ -265,12 +265,17 @@ public class MainMenuManager : MonoBehaviour
         loginButton.SetActive(true);
     }
 
-    // Saves user data and quits the game
-    public void ExitGame() { 
-        // Saves user settings befor exiting the application
+    // Saves all user data to disk
+    private void PersistAll() {
+        // Saves user settings
         SettingsManager.PersistSettings();
-        // Saves session data before exiting the application
+        // Saves session data
         SessionManager.PersistSession();
+    }
+
+    // Saves user data and quits the game
+    public void ExitGame() {  
+        PersistAll();
         Application.Quit();
     }
 }
