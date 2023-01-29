@@ -284,7 +284,21 @@ public class APIRequestHandler : MonoBehaviour
         // The UnityWebRequest library its pretty tricky, for POST method you should start with PUT and then change it on the next lines
         // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
         if(SessionManager.IsUserLoggedIn()){
-        
+
+            // Getting data from the UI
+            Transform loggedInPanelContainer = loggedPanel.gameObject.transform.Find("LoggedInPanelContainer");
+            Transform loggedInMessageContainer = loggedPanel.gameObject.transform.Find("LoggedInMessageContainer");
+            Transform loggedInMessage = loggedInMessageContainer.Find("LoggedInMessage");
+            Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
+            Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
+
+            loggedInPanelContainer.gameObject.SetActive(false);
+            loggedInMessage.GetComponent<TMP_Text>().text = "Logging out of your account\nplease wait...";
+            loggedInMessage.gameObject.SetActive(true);
+            loggedInSpinner.gameObject.SetActive(true);
+            loggedInCloseButton.gameObject.SetActive(false);
+            loggedInMessageContainer.gameObject.SetActive(true);
+
             UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+SESSIONS_ROUTE+"/"+SessionManager.GetSessionToken());
             request.method = UnityWebRequest.kHttpVerbDELETE;
         
@@ -314,6 +328,9 @@ public class APIRequestHandler : MonoBehaviour
             loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
             loggedPanel.SetActive(false);
             loginPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+            // Resetting loggedin panel
+            loggedInPanelContainer.gameObject.SetActive(true);
+            loggedInMessageContainer.gameObject.SetActive(false);
             // Resseting username and password fields
             GameObject.Find("UsernameInputField").GetComponent<TMP_InputField>().text = "";
             GameObject.Find("PasswordInputField").GetComponent<TMP_InputField>().text = "";
