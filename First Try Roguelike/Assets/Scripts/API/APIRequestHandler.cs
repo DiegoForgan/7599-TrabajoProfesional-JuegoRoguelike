@@ -92,7 +92,7 @@ public class APIRequestHandler : MonoBehaviour
         UnityWebRequestResponseDTO responseDTO = new(request);
         showResponseData(responseDTO);
         
-        if (responseDTO.getResult() != UnityWebRequest.Result.Success)
+        if (responseDTO.getResult() == UnityWebRequest.Result.Success)
         {
             // Session is still valid, and now is renwed
             Debug.Log("Valid session");
