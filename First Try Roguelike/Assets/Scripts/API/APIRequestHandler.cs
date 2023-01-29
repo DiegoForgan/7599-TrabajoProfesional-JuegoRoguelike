@@ -231,7 +231,7 @@ public class APIRequestHandler : MonoBehaviour
         loginFormContainer.Find("UsernameInputField").GetComponent<TMP_InputField>().text = "";
         loginFormContainer.Find("PasswordInputField").GetComponent<TMP_InputField>().text = "";
         if (responseDTO.getResult() == UnityWebRequest.Result.Success){
-            
+            Debug.Log("Success");
             // Formatting data to JSON.
             LoginResponseDTO loginResponse = JsonConvert.DeserializeObject<LoginResponseDTO>(responseDTO.getBody());
             // Storing user session data to use it on other API endpoints
@@ -250,11 +250,17 @@ public class APIRequestHandler : MonoBehaviour
         else{
             Debug.Log("Error");
             // Formatting data to JSON.
-            APIErrorResponseDTO errorResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
-            // Show data to the user to reflect the result of the request
-            Debug.Log(errorResponse.getCode());
-            Debug.Log(errorResponse.getMessage());
-            Debug.Log(errorResponse.getData());
+            try {
+                APIErrorResponseDTO errorResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
+                // Show data to the user to reflect the result of the request
+                Debug.Log(errorResponse.getCode());
+                Debug.Log(errorResponse.getMessage());
+                Debug.Log(errorResponse.getData());
+            }
+            catch
+            {
+                Debug.LogWarning("This server is not sending the correct messages!");
+            }
             // Show error message in panel
             if (request.responseCode == 400 || request.responseCode == 401)
             {
