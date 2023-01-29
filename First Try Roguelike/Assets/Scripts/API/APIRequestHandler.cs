@@ -43,7 +43,9 @@ public class APIRequestHandler : MonoBehaviour
     public void CheckUsernameAlreadyTaken(){
         StartCoroutine(CheckUsernameRequest());
     }
-
+    public void CheckValidSession(){
+        StartCoroutine(CheckValidSessionRequest());
+    }
     public void RegisterNewUser(){
         StartCoroutine(RegisterNewUserRequest());
     }
@@ -68,6 +70,70 @@ public class APIRequestHandler : MonoBehaviour
     public void GetUserGameProgress() {
         if (SessionManager.IsUserLoggedIn()) StartCoroutine(GetGameProgress());
         else Debug.LogWarning("User Session not found, cant get progress");
+    }
+
+    private IEnumerator CheckValidSessionRequest()
+    {
+        // Getting data from the UI
+        Transform loggedInPanelContainer = loggedPanel.gameObject.transform.Find("LoggedInPanelContainer");
+        Transform loggedInUsername = loggedInPanelContainer.Find("LoggedUsername");
+        Transform loggedInMessageContainer = loggedPanel.gameObject.transform.Find("LoggedInMessageContainer");
+        Transform loggedInMessage = loggedInMessageContainer.Find("LoggedInMessage");
+        Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
+        Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
+
+        UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+"/sessions/"+SessionManager.GetSessionToken());
+        
+        request.SetRequestHeader("Accept", "application/json");
+        request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
+        
+        yield return request.SendWebRequest();
+
+        UnityWebRequestResponseDTO responseDTO = new(request);
+        showResponseData(responseDTO);
+        
+        if (responseDTO.getResult() != UnityWebRequest.Result.Success)
+        {
+            // Session is still valid, and now is renwed
+            Debug.Log("Valid session");
+
+            // Setting up logged in panel
+            loggedInMessageContainer.gameObject.SetActive(false);
+            loggedInMessage.GetComponent<TMP_Text>().text = "Logging out of your account\nplease wait...";
+            loggedInMessage.gameObject.SetActive(true);
+            loggedInSpinner.gameObject.SetActive(true);
+            loggedInCloseButton.gameObject.SetActive(false);
+            loggedInUsername.GetComponent<TMP_Text>().text = SessionManager.GetSessionUsername();
+            loggedInPanelContainer.gameObject.SetActive(true);
+
+            // Change UI element status
+            highScoresButton.SetActive(true);
+            loginButton.SetActive(false);
+        }
+        else
+        {
+            // Session is no longer valid, show error message
+            Debug.Log("Invalid session!");
+            setloggedInPanelExpiredSession();
+        }
+    }
+
+    // Configures the logged in panel to show a session expired message
+    // Should be called from all API requests that error our due to expired session
+    private void setloggedInPanelExpiredSession()
+    {
+        // Getting data from the UI
+        Transform loggedInMessageContainer = loggedPanel.gameObject.transform.Find("LoggedInMessageContainer");
+        Transform loggedInMessage = loggedInMessageContainer.Find("LoggedInMessage");
+        Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
+        Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
+
+        // Setting up logged in panel
+        loggedInMessageContainer.gameObject.SetActive(true);
+        loggedInMessage.GetComponent<TMP_Text>().text = "ERROR\nyour session has expired";
+        loggedInMessage.gameObject.SetActive(true);
+        loggedInSpinner.gameObject.SetActive(false);
+        loggedInCloseButton.gameObject.SetActive(true);
     }
 
     private IEnumerator GetGameProgress()

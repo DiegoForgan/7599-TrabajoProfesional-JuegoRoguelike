@@ -4,6 +4,7 @@ using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
+    private APIRequestHandler apiRequestHandler;
     [SerializeField] private Animator loginFormAnimator;
     [SerializeField] private GameObject highScoresButton;
     [SerializeField] private GameObject loginButton;
@@ -14,13 +15,15 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject devSettingsPanel;
     [SerializeField] private GameObject aboutVersionField;
 
-
     // Start is called before the first frame update
     void Start()
     {
         // Use this for initialisation
         Debug.Log("MainMenuManager Start!");
         Debug.Log("Application Version : " + Application.version);
+
+        // Add a reference to the APIRequestHandler to MainMenuManager
+        apiRequestHandler = GameObject.FindObjectOfType(typeof(APIRequestHandler)) as APIRequestHandler;
 
         // Set the version in the "About" screen
         aboutVersionField.GetComponent<TextMeshProUGUI>().text = "v" + Application.version + " - PREVIEW ONLY";
@@ -34,15 +37,28 @@ public class MainMenuManager : MonoBehaviour
         SessionManager.InitializeSession();
         // Checking for saved session
         if (SessionManager.IsUserLoggedIn()) {
-
             Debug.Log("Session token found");
-            // ToDo: Check if the token is still valid!
-            highScoresButton.SetActive(true);
-            loginButton.SetActive(false);
-            loggedPanel.SetActive(true);
-            loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
-            GameObject.Find("LoggedUsername").GetComponent<TextMeshProUGUI>().SetText(SessionManager.GetSessionUsername());
 
+            // Getting data from the UI
+            Transform loggedInPanelContainer = loggedPanel.gameObject.transform.Find("LoggedInPanelContainer");
+            Transform loggedInMessageContainer = loggedPanel.gameObject.transform.Find("LoggedInMessageContainer");
+            Transform loggedInMessage = loggedInMessageContainer.Find("LoggedInMessage");
+            Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
+            Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
+
+            // Setting up logged in panel
+            loggedPanel.SetActive(true);
+            loggedInPanelContainer.gameObject.SetActive(false);
+            loggedInMessage.GetComponent<TMP_Text>().text = "Validating your session\nplease wait...";
+            loggedInMessage.gameObject.SetActive(true);
+            loggedInSpinner.gameObject.SetActive(true);
+            loggedInCloseButton.gameObject.SetActive(false);
+            loggedInMessageContainer.gameObject.SetActive(true);
+
+            loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+
+            // Check the session
+            apiRequestHandler.CheckValidSession();
         }
         else {
             Debug.Log("No session token found");
@@ -229,6 +245,33 @@ public class MainMenuManager : MonoBehaviour
         loginMessage.GetComponent<TMP_Text>().text = "Logging into your account\nplease wait...";
         loginSpinner.gameObject.SetActive(true);
         loginCloseButton.gameObject.SetActive(false);
+    }
+
+    // Closes ERROR message in logged in pane
+    public void CloseLoggedInError() {
+        // Getting data from the UI
+        Transform loggedInPanelContainer = loggedPanel.gameObject.transform.Find("LoggedInPanelContainer");
+        Transform loggedInUsername = loggedInPanelContainer.Find("LoggedUsername");
+        Transform loggedInMessageContainer = loggedPanel.gameObject.transform.Find("LoggedInMessageContainer");
+        Transform loggedInMessage = loggedInMessageContainer.Find("LoggedInMessage");
+        Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
+        Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
+
+        // Resetting logged in panel
+        loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
+        loggedInMessageContainer.gameObject.SetActive(false);
+        loggedInMessage.GetComponent<TMP_Text>().text = "Logging out of your account\nplease wait...";
+        loggedInMessage.gameObject.SetActive(true);
+        loggedInSpinner.gameObject.SetActive(true);
+        loggedInCloseButton.gameObject.SetActive(false);        
+        loggedInUsername.GetComponent<TMP_Text>().text = "";
+        loggedInPanelContainer.gameObject.SetActive(true);
+
+        // Clear the session details
+        SessionManager.ClearSession();
+        
+        // Change UI element status
+        loginButton.SetActive(true);
     }
 
     // Saves user data and quits the game
