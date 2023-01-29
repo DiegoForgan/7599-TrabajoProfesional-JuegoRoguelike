@@ -4,7 +4,7 @@ using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
-    private APIRequestHandler apiRequestHandler;
+    [SerializeField] private APIRequestHandler apiRequestHandler;
     [SerializeField] private Animator loginFormAnimator;
     [SerializeField] private GameObject highScoresButton;
     [SerializeField] private GameObject loginButton;
@@ -21,9 +21,6 @@ public class MainMenuManager : MonoBehaviour
         // Use this for initialisation
         Debug.Log("MainMenuManager Start!");
         Debug.Log("Application Version : " + Application.version);
-
-        // Add a reference to the APIRequestHandler to MainMenuManager
-        apiRequestHandler = GameObject.FindObjectOfType(typeof(APIRequestHandler)) as APIRequestHandler;
 
         // Set the version in the "About" screen
         aboutVersionField.GetComponent<TextMeshProUGUI>().text = "v" + Application.version + " - PREVIEW ONLY";
