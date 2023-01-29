@@ -17,8 +17,6 @@ public class APIRequestHandler : MonoBehaviour
     private const string SESSIONS_ROUTE = "sessions";
     private const string RECOVERY_ROUTE = "recovery";
     private const string USERS_ROUTE = "users";
-    //[SerializeField] private GameObject statusPanel;
-    //[SerializeField] private GameObject closeButton;
     [SerializeField] private GameObject loggedPanel;
     [SerializeField] private GameObject loginPanel;
     [SerializeField] private GameObject highScoresButton;
@@ -103,6 +101,9 @@ public class APIRequestHandler : MonoBehaviour
     //}
 
     private IEnumerator ShowHighScoresRequest(){
+
+        Transform highScoresTableMessageText = highScoresTableMessage.gameObject.transform.Find("HighscoresTableMessageText");
+        Transform highScoresTableMessageSpinner = highScoresTableMessage.gameObject.transform.Find("HighscoresTableSpinner");
         
         UnityWebRequest request = UnityWebRequest.Get(QA_URL+HIGHSCORES_ROUTE);
         
@@ -120,7 +121,8 @@ public class APIRequestHandler : MonoBehaviour
             List<HighScoreResultsDTO> highscoreResults = paginatedHighscoreResponse.getResults();
 
             if (highscoreResults.Count == 0) {
-                highScoresTableMessage.GetComponent<TextMeshProUGUI>().text = "No Highscores found!";
+                highScoresTableMessageText.GetComponent<TextMeshProUGUI>().text = "No Highscores found!";
+                highScoresTableMessageSpinner.gameObject.SetActive(false);
             }
             else {
                 highScoresTableMessage.SetActive(false);
@@ -177,17 +179,27 @@ public class APIRequestHandler : MonoBehaviour
         else{
             ErrorAPIResponse errorResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
             //ShowStatusMessage(request.result.ToString(), errorResponse.message, true);
-            highScoresTableMessage.GetComponent<TextMeshProUGUI>().text = "Error fetching data!";
+            highScoresTableMessageText.GetComponent<TextMeshProUGUI>().text = "Error fetching data!";
+            highScoresTableMessageSpinner.gameObject.SetActive(false);
         }
 
     }
     
     private IEnumerator UserLoginRequest(){
-        
+
         // Getting data from the UI
-        string username = GameObject.Find("UsernameInputField").GetComponent<TMP_InputField>().text;
-        string password = GameObject.Find("PasswordInputField").GetComponent<TMP_InputField>().text;
-        
+        Transform loginFormContainer = loginPanel.gameObject.transform.Find("LoginFormContainer");
+        Transform loginMessageContainer = loginPanel.gameObject.transform.Find("LoginMessageContainer");
+        Transform loginMessage = loginMessageContainer.Find("LoginMessage");
+        Transform loginSpinner = loginMessageContainer.Find("LoginSpinner");
+        Transform loginCloseButton = loginMessageContainer.Find("LoginCloseButton");
+
+        string username = loginFormContainer.Find("UsernameInputField").GetComponent<TMP_InputField>().text;
+        string password = loginFormContainer.Find("PasswordInputField").GetComponent<TMP_InputField>().text;
+
+        loginFormContainer.gameObject.SetActive(false);
+        loginMessageContainer.gameObject.SetActive(true);
+
         // Formatting JSON string
         LoginRequestDTO loginRequest = new(username, password);
         string loginRequestJSON = JsonConvert.SerializeObject(loginRequest);
@@ -199,13 +211,15 @@ public class APIRequestHandler : MonoBehaviour
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Accept", "application/json");
         
-        //ShowStatusMessage("Login Status", "Logging into your account, please wait...", false);
         Debug.Log("Login Status: Logging into your account, please wait...");
         yield return request.SendWebRequest();
-        // CloseStatusMessage();
+
         UnityWebRequestResponseDTO responseDTO = new(request);
         showResponseData(responseDTO);
 
+        // Resseting username and password fields
+        loginFormContainer.Find("UsernameInputField").GetComponent<TMP_InputField>().text = "";
+        loginFormContainer.Find("PasswordInputField").GetComponent<TMP_InputField>().text = "";
         if (responseDTO.getResult() == UnityWebRequest.Result.Success){
             
             // Formatting data to JSON.
@@ -218,19 +232,30 @@ public class APIRequestHandler : MonoBehaviour
             loginPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
             loggedPanel.SetActive(true);
             loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
-            setLoggedPanel(loginResponse);            
+            // Resetting the form for next use
+            loginFormContainer.gameObject.SetActive(true);
+            loginMessageContainer.gameObject.SetActive(false);
+            setLoggedPanel(loginResponse);
         }
         else{
             Debug.Log("Error");
-            // Resseting username and password fields
-            GameObject.Find("UsernameInputField").GetComponent<TMP_InputField>().text = "";
-            GameObject.Find("PasswordInputField").GetComponent<TMP_InputField>().text = "";
             // Formatting data to JSON.
             APIErrorResponseDTO errorResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
             // Show data to the user to reflect the result of the request
             Debug.Log(errorResponse.getCode());
             Debug.Log(errorResponse.getMessage());
             Debug.Log(errorResponse.getData());
+            // Show error message in panel
+            if (request.responseCode == 400 || request.responseCode == 401)
+            {
+                loginMessage.GetComponent<TMP_Text>().text = "ERROR\nWrong user or password";
+            }
+            else
+            {
+                loginMessage.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
+            }
+            loginSpinner.gameObject.SetActive(false);
+            loginCloseButton.gameObject.SetActive(true);
         }
     }
 

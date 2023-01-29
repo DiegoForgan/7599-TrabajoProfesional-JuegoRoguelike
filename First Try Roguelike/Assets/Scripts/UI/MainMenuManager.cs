@@ -64,7 +64,9 @@ public class MainMenuManager : MonoBehaviour
         // Hide the highscores entry template from the table
         highScoresEntryTemplate.SetActive(false);
         // Reset initial table message
-        highScoresTableMessage.GetComponent<TextMeshProUGUI>().text = "Loading Highscores, please wait...";
+        Transform highScoresTableMessageText = highScoresTableMessage.gameObject.transform.Find("HighscoresTableMessageText");
+        Transform highScoresTableMessageSpinner = highScoresTableMessage.gameObject.transform.Find("HighscoresTableSpinner");
+        highScoresTableMessageText.GetComponent<TMP_Text>().text = "Loading Highscores, please wait...";
         // Delete old entries
         var highscoreResults = GameObject.FindGameObjectsWithTag("HighScoreEntry");
         foreach(var entry in highscoreResults) {
@@ -72,6 +74,8 @@ public class MainMenuManager : MonoBehaviour
         }
         // Enable table
         highScoresTableMessage.SetActive(true);
+        highScoresTableMessageText.gameObject.SetActive(true);
+        highScoresTableMessageSpinner.gameObject.SetActive(true);
     }
 
     // Starts a new game!
@@ -206,6 +210,25 @@ public class MainMenuManager : MonoBehaviour
         {
             loginButton.SetActive(true);
         }
+    }
+
+    // Closes ERROR message in login panel
+    public void CloseLoginError() {
+        // Getting data from the UI
+        Transform loginFormContainer = loginPanel.gameObject.transform.Find("LoginFormContainer");
+        Transform loginMessageContainer = loginPanel.gameObject.transform.Find("LoginMessageContainer");
+        Transform loginMessage = loginMessageContainer.Find("LoginMessage");
+        Transform loginSpinner = loginMessageContainer.Find("LoginSpinner");
+        Transform loginCloseButton = loginMessageContainer.Find("LoginCloseButton");
+
+        // Show login form again
+        loginFormContainer.gameObject.SetActive(true);
+        loginMessageContainer.gameObject.SetActive(false);
+
+        // Reset login message panel
+        loginMessage.GetComponent<TMP_Text>().text = "Logging into your account\nplease wait...";
+        loginSpinner.gameObject.SetActive(true);
+        loginCloseButton.gameObject.SetActive(false);
     }
 
     // Saves user data and quits the game
