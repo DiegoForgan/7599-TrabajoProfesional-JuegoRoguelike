@@ -6,11 +6,9 @@ using UnityEngine.UI;
 using TMPro;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System;
 
 public class APIRequestHandler : MonoBehaviour
 {
-    private const string DEV_URL = "http://127.0.0.1/api/v1/";
     private const string PR_URL = "https://app.7599-fiuba-cs.net/api/v1/"; // DOWN TEMPORARILY
     private const string QA_URL = "https://app-qa.7599-fiuba-cs.net/api/v1/";
     private const string HIGHSCORES_ROUTE = "highscores?start=0&limit=50&sort_column=difficulty_level,achieved_level,gold_collected,time_elapsed&sort_order=-1,-1,-1,1";
@@ -29,6 +27,18 @@ public class APIRequestHandler : MonoBehaviour
     void Start()
     {
     }
+
+    private string GetServerBaseURL()
+    {
+        if (SettingsManager.GetUseQaServersOn())
+        {
+            return QA_URL;
+        }
+        else
+        {
+            return PR_URL;
+        }
+    } 
 
     public void CheckUsernameAlreadyTaken(){
         StartCoroutine(CheckUsernameRequest());
@@ -62,7 +72,7 @@ public class APIRequestHandler : MonoBehaviour
 
     private IEnumerator GetGameProgress()
     {
-        UnityWebRequest request = UnityWebRequest.Get(QA_URL + USERS_ROUTE + "/" + SessionManager.GetSessionUsername() + "/gameprogress");
+        UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+USERS_ROUTE+"/"+SessionManager.GetSessionUsername()+"/gameprogress");
         
         request.SetRequestHeader("Accept", "application/json");
         request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
@@ -105,7 +115,7 @@ public class APIRequestHandler : MonoBehaviour
         Transform highScoresTableMessageText = highScoresTableMessage.gameObject.transform.Find("HighscoresTableMessageText");
         Transform highScoresTableMessageSpinner = highScoresTableMessage.gameObject.transform.Find("HighscoresTableSpinner");
         
-        UnityWebRequest request = UnityWebRequest.Get(QA_URL+HIGHSCORES_ROUTE);
+        UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+HIGHSCORES_ROUTE);
         
         request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
         request.SetRequestHeader("Accept", "application/json");
@@ -206,7 +216,7 @@ public class APIRequestHandler : MonoBehaviour
      
         // The UnityWebRequest library its pretty tricky, for POST method you should start with PUT and then change it on the next lines
         // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
-        UnityWebRequest request = UnityWebRequest.Put(QA_URL+SESSIONS_ROUTE, loginRequestJSON);
+        UnityWebRequest request = UnityWebRequest.Put(GetServerBaseURL()+SESSIONS_ROUTE, loginRequestJSON);
         request.method = UnityWebRequest.kHttpVerbPOST;
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Accept", "application/json");
@@ -269,7 +279,7 @@ public class APIRequestHandler : MonoBehaviour
         // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
         if(SessionManager.IsUserLoggedIn()){
         
-            UnityWebRequest request = UnityWebRequest.Get(QA_URL+SESSIONS_ROUTE+"/"+SessionManager.GetSessionToken());
+            UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+SESSIONS_ROUTE+"/"+SessionManager.GetSessionToken());
             request.method = UnityWebRequest.kHttpVerbDELETE;
         
             request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
@@ -312,7 +322,7 @@ public class APIRequestHandler : MonoBehaviour
         PasswordRecoveryRequestDTO passwordRecoveryDTO = new(username);
         string passwordRecoveryBody = JsonConvert.SerializeObject(passwordRecoveryDTO);
         
-        UnityWebRequest request = UnityWebRequest.Put(QA_URL+RECOVERY_ROUTE, passwordRecoveryBody);
+        UnityWebRequest request = UnityWebRequest.Put(GetServerBaseURL()+RECOVERY_ROUTE, passwordRecoveryBody);
         request.method = UnityWebRequest.kHttpVerbPOST;
         
         request.SetRequestHeader("Content-Type", "application/json");
@@ -356,7 +366,7 @@ public class APIRequestHandler : MonoBehaviour
         }
         Debug.Log("Checking if username is already taken...");
         // Preparing the GET request
-        UnityWebRequest request = UnityWebRequest.Get(QA_URL+USERS_ROUTE+"/"+userToCheck+"/exists");
+        UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+USERS_ROUTE+"/"+userToCheck+"/exists");
         yield return request.SendWebRequest();
         UnityWebRequestResponseDTO responseDTO = new(request.result, request.responseCode, request.downloadHandler.text);
         showResponseData(responseDTO);
@@ -404,7 +414,7 @@ public class APIRequestHandler : MonoBehaviour
         string registerDataJson = GetJsonStringRegisterData();
         // The UnityWebRequest library its pretty tricky, for POST method you should start with PUT and then change it on the next lines
         // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
-        UnityWebRequest request = UnityWebRequest.Put(QA_URL+USERS_ROUTE, registerDataJson);
+        UnityWebRequest request = UnityWebRequest.Put(GetServerBaseURL()+USERS_ROUTE, registerDataJson);
         request.method = UnityWebRequest.kHttpVerbPOST;
         
         request.SetRequestHeader("Content-Type", "application/json");
