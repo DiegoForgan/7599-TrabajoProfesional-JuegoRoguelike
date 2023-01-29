@@ -67,12 +67,6 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // Resets the highscores table
     // Clears results, and writes initial loading message
     public void ClearHighScoresTable() {

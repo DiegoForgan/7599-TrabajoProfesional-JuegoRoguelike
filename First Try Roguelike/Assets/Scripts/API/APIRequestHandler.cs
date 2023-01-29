@@ -23,11 +23,6 @@ public class APIRequestHandler : MonoBehaviour
     [SerializeField] private GameObject highScoresEntryContainer;
     [SerializeField] private GameObject highScoresEntryTemplate;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
     private string GetServerBaseURL()
     {
         if (SettingsManager.GetUseQaServersOn())
