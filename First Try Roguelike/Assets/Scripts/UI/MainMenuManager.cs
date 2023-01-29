@@ -94,7 +94,7 @@ public class MainMenuManager : MonoBehaviour
 
     // Toggles the log in panel in the main menu screen
     public void ShowOrHideLoginForm() {
-        loginFormAnimator.SetTrigger("ShowOrHide");
+       loginFormAnimator.SetTrigger("ShowOrHide");
     }
 
     // Settings
@@ -201,7 +201,7 @@ public class MainMenuManager : MonoBehaviour
             // Using screen width and panel position to determine weather it is showing or not
             if (loginPanel.transform.position.x < Screen.width)
             {
-                loginFormAnimator.SetTrigger("ShowOrHide");
+                ShowOrHideLoginForm();
             }
         }
     }
