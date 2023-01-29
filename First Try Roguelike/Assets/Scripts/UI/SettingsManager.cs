@@ -8,8 +8,8 @@ public static class SettingsManager
     private const int DEFAULT_SOUND_VOLUME = 75;
     private const int DEFAULT_STARTING_DIFFICULTY = 5;
     // Developer mode
-    private const bool DEFAULT_DEVELOPER_MODE_ON = false;
-    private const bool DEFAULT_USE_QA_SERVERS_ON = false;
+    private const bool DEFAULT_DEVELOPER_MODE_ON = true;
+    private const bool DEFAULT_USE_QA_SERVERS_ON = true;
     private const bool DEFAULT_REGENERATE_DUNGEON_ON = false;
     private const bool DEFAULT_LOAD_NEXT_LEVEL_ON = false;
     private const bool DEFAULT_KILL_ENEMIES_ON = false;
