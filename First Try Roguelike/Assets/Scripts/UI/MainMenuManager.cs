@@ -4,6 +4,7 @@ using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
+    private static bool initDone = false;
     [SerializeField] private APIRequestHandler apiRequestHandler;
     [SerializeField] private Animator loginFormAnimator;
     [SerializeField] private GameObject highScoresButton;
@@ -25,13 +26,20 @@ public class MainMenuManager : MonoBehaviour
         // Set the version in the "About" screen
         aboutVersionField.GetComponent<TextMeshProUGUI>().text = "v" + Application.version + " - PREVIEW ONLY";
 
-        // Loading settings from saved values
-        // Assigns defaults if not present
-        SettingsManager.InitializeSettings();
+        // We need to initialize managers only the scene loads for the first time
+        // This is done using a static property
+        if (!initDone) {
+            // Loading settings from saved values
+            // Assigns defaults if not present
+            SettingsManager.InitializeSettings();
 
-        // Loading session from saved values
-        // Assigns defaults if not present
-        SessionManager.InitializeSession();
+            // Loading session from saved values
+            // Assigns defaults if not present
+            SessionManager.InitializeSession();
+
+            // Mark game as initialized
+            initDone = true;
+        }
         // Checking for saved session
         if (SessionManager.IsUserLoggedIn()) {
             Debug.Log("Session token found");
