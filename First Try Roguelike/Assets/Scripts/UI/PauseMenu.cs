@@ -2,10 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : ToMainMenuUI
+public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
-    public GameObject PauseMenuUI;
+    [SerializeField] private GameObject PauseMenuUI;
 
     // Update is called once per frame
     void Update()
@@ -34,8 +34,6 @@ public class PauseMenu : ToMainMenuUI
         // Restore normal flow of time
         Time.timeScale = 1f;
         GameIsPaused = false;
-        // When returning to main menu, all preserved instances must be destroyed
-        DestroyAllPreservedInstances();
         PauseMenuUI.SetActive(false);
         //Scene one is our main menu scene
         SceneManager.LoadScene(1);

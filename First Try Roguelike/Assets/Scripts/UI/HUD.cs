@@ -17,7 +17,6 @@ public class HUD : MonoBehaviour
             return;
         }
         
-        //DontDestroyOnLoad(gameObject);
     }
     public void InitHUD(int maxHealth, int maxMana, int currentGold, int currentKeys){
         _playerStatusHUD.initializePlayerStatus(maxHealth,maxMana);

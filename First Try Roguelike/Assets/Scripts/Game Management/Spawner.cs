@@ -1,13 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public abstract class Spawner : MonoBehaviour
 {
+    private List<GameObject> spawned = new List<GameObject>();
+    
     internal int getRandomSpawnNumberBasedOnDifficulty(int difficultyLevel, int boost)
     {
-        return Random.Range(difficultyLevel, difficultyLevel + boost);
+        // Because random is exclusive on max but inclusive on min
+        int maxValue = difficultyLevel + boost + 1;
+        return Random.Range(difficultyLevel, maxValue);
     }
 
     internal void spawnPrefabsOnDungeonByBoost(Dungeon dungeon, int difficultyLevel, GameObject prefab, int boostValue)
@@ -30,8 +32,23 @@ public abstract class Spawner : MonoBehaviour
     private void spawnPrefabOnRandomPosition(Dungeon dungeon, GameObject prefab)
     {
         Vector3Int spawnPosition = (Vector3Int)dungeon.GetRandomFloorPosition();
-        Instantiate(prefab, spawnPosition, Quaternion.identity);
+        addGameObjectToList(Instantiate(prefab, spawnPosition, Quaternion.identity));
     } 
 
     public abstract void Spawn(int difficultyLevel, Dungeon currentDungeon);
+
+    private void addGameObjectToList(GameObject newSpawn)
+    {
+        spawned.Add(newSpawn);
+    }
+
+    public void destroyAllSpawedObjects()
+    {
+        if (spawned == null) return;
+        
+        foreach (GameObject spawn in spawned)
+        {
+            Destroy(spawn);
+        }
+    }
 }

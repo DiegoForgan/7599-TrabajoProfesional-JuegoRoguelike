@@ -2729,6 +2729,7 @@ GameObject:
   - component: {fileID: 569511442}
   - component: {fileID: 569511444}
   - component: {fileID: 569511443}
+  - component: {fileID: 569511445}
   m_Layer: 5
   m_Name: GameOverMenu
   m_TagString: Untagged
@@ -2796,6 +2797,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 569511441}
   m_CullTransparentMesh: 1
+--- !u!114 &569511445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569511441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94532c3d3b069054db7af22de2a37578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _GameOverUI: {fileID: 0}
 --- !u!1 &581454328
 GameObject:
   m_ObjectHideFlags: 0
@@ -4126,9 +4140,9 @@ PrefabInstance:
       value: -22.628494
       objectReference: {fileID: 0}
     - target: {fileID: 1599317755424525843, guid: 659d309ae3496604586fa871cda588d8, type: 3}
-      propertyPath: playerData
+      propertyPath: _hud
       value: 
-      objectReference: {fileID: 11400000, guid: a7eb289393f08fb409a296f2f1d30f4b, type: 2}
+      objectReference: {fileID: 1374051962}
     - target: {fileID: 1629891823526534352, guid: 659d309ae3496604586fa871cda588d8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -17.074228
@@ -6580,7 +6594,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1324102177}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 569511445}
+        m_TargetAssemblyTypeName: GameOverMenu, Assembly-CSharp
+        m_MethodName: TryAgain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1324102177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8840,7 +8866,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1837550797}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 569511445}
+        m_TargetAssemblyTypeName: GameOverMenu, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1837550797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10362,6 +10400,10 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 2370704341437052030, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
+      propertyPath: hud
+      value: 
+      objectReference: {fileID: 1374051960}
+    - target: {fileID: 2370704341437052030, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
       propertyPath: _hud
       value: 
       objectReference: {fileID: 1374051962}
@@ -10381,6 +10423,18 @@ PrefabInstance:
       propertyPath: dungeonGenerator
       value: 
       objectReference: {fileID: 1121592819}
+    - target: {fileID: 2370704341437052030, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
+      propertyPath: cinematics.Array.data[0]
+      value: 
+      objectReference: {fileID: 229693128}
+    - target: {fileID: 2370704341437052030, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
+      propertyPath: cinematics.Array.data[1]
+      value: 
+      objectReference: {fileID: 901317141}
+    - target: {fileID: 2370704341437052030, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
+      propertyPath: cinematics.Array.data[2]
+      value: 
+      objectReference: {fileID: 1836563093}
     - target: {fileID: 2370704341437052031, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -10425,31 +10479,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8129409485682839176, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
+      propertyPath: ogresBoost
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2370704341410252541, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
---- !u!1 &2370704341495874937 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2370704341437052029, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
-  m_PrefabInstance: {fileID: 2370704341495874936}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2370704341495874938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2370704341495874937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55c0d97f287e45349b9046a249977595, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ogrePrefab: {fileID: 4733504212952526192, guid: 80716d64b22127f4fbc0776a79c22bec, type: 3}
-  goblinPrefab: {fileID: 4939747943407780155, guid: f59e6b8c9e737d54085f9cf89a266eaa, type: 3}
-  archerPrefab: {fileID: 3019000847415835507, guid: c072b1102b7c64e4db0698823b782c6c, type: 3}
-  darkWitchPrefab: {fileID: 8280887873811152406, guid: 3459eafaec8e15f4f979a90a4ebbf710, type: 3}
-  ogresBoost: 1
-  goblinsBoost: 2
-  archersBoost: 3
-  darkWitchesBoost: 4

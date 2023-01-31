@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class ItemSpawner : Spawner
 {
@@ -19,9 +17,9 @@ public class ItemSpawner : Spawner
     [SerializeField] private GameObject manaItemPrefab;
     [SerializeField] private GameObject goldItemPrefab;
     [SerializeField] private GameObject keyItemPrefab;
-    
+  
     public override void Spawn(int difficultyLevel, Dungeon currentDungeon)
-    {
+    {   
         spawnPrefabsOnDungeonByBoost(currentDungeon, difficultyLevel, healthItemPrefab, healthItemBoost);
         spawnPrefabsOnDungeonByBoost(currentDungeon, difficultyLevel, manaItemPrefab, manaItemBoost);
         spawnPrefabsOnDungeonByAmount(currentDungeon, goldItemPrefab, GOLD_AMOUNT);

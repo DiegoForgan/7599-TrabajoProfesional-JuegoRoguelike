@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -8,7 +9,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private HUD _hud;
     [SerializeField] private DungeonGeneratorManager dungeonGenerator;
-    //[SerializeField] private Dungeon currentDungeon;
+    [SerializeField] private GameObject[] cinematics;
+    [SerializeField] private GameObject hud;
     
     private ItemSpawner itemSpawner;
     private EnemySpawner enemySpawner;
@@ -17,29 +19,31 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance{ get{ return gameManager; } }
     private void Awake()
     {
-        //GetGameManagerReferences();
-
         if (gameManager == null) gameManager = this;
         else
         {
             Destroy(gameObject);
             return;
         }
-        //DontDestroyOnLoad(gameObject);
         GetGameManagerReferences();
+    }
+
+    private void Start()
+    {   
+        LevelLoader.Instance.StartGameLoop();       
     }
 
     private void GetGameManagerReferences()
     {
-        //dungeonGenerator = GetComponentInChildren<DungeonGeneratorManager>();
         itemSpawner = GetComponent<ItemSpawner>();
         enemySpawner = GetComponent<EnemySpawner>();
-        Debug.Log(SettingsManager.GetStartingDifficulty());
         difficultyLevel = SettingsManager.GetStartingDifficulty();
     }
 
     public void CreateNewDungeon()
     {
+        //erases all gameObjects previously Spawned
+        destroyAllSpawns();
         // Places the tiles on the tilemap to create the dungeon layout
         GenerateDungeonByName("Random");
         // Sets the position of the main player inside the dungeon
@@ -54,6 +58,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Placing Items on the current dungeon!");
         itemSpawner.Spawn(difficultyLevel,dungeonGenerator.GetDungeon());
+
     }
 
     private void PlaceEnemiesOnDungeon()
@@ -102,14 +107,39 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoadNextLevel(){
-        //LevelLoader.Instance.LoadNextScene();
         LevelLoader.Instance.LoadNextLevel();
     }
 
-    //public void SetNewTileMap(Dungeon activeDungeon, Tilemap floor, Tilemap walls)
-    /*{
-        currentDungeon = activeDungeon;
-        TilemapVisualizer tilemapVisualizer = dungeonGenerator.GetComponent<TilemapVisualizer>();
-        tilemapVisualizer.SetTilemaps(floor,walls);
-    }*/
+    internal void SetCinematicScene(int currentLevel)
+    {
+        destroyAllSpawns();
+        player.SetActive(false);
+        hud.SetActive(false);
+        if (currentLevel == 0) cinematics[0].SetActive(true);
+        else if (currentLevel == 6) cinematics[1].SetActive(true);
+        else cinematics[2].SetActive(true);
+    }
+
+    private void destroyAllSpawns()
+    {
+        itemSpawner.destroyAllSpawedObjects();
+        enemySpawner.destroyAllSpawedObjects();
+    }
+
+    internal void CreateNewLevel(int currentLevel)
+    {
+        disableAllCinematics();
+        player.SetActive(true);
+        hud.SetActive(true);
+        CreateNewDungeon();
+    }
+
+    private void disableAllCinematics()
+    {
+        if (cinematics == null) return;
+        foreach (var cinematic in cinematics)
+        {
+            cinematic.SetActive(false);
+        }
+    }
 }
