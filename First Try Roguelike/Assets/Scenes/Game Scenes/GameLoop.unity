@@ -2809,7 +2809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94532c3d3b069054db7af22de2a37578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _GameOverUI: {fileID: 0}
+  _GameOverUI: {fileID: 569511441}
 --- !u!1 &581454328
 GameObject:
   m_ObjectHideFlags: 0
