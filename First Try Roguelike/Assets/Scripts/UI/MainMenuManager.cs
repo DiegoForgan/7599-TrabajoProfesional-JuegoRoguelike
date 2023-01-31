@@ -111,9 +111,13 @@ public class MainMenuManager : MonoBehaviour
     {
         Slider volumeSlider = settingsMenu.gameObject.transform.Find("SoundVolume/SoundVolumeSlider").GetComponent<Slider>();
         volumeSlider.value = SettingsManager.GetSoundVolume();
-        
+        TextMeshProUGUI volumeSliderValue = settingsMenu.gameObject.transform.Find("SoundVolume/SoundVolumeSliderValue").GetComponent<TextMeshProUGUI>();
+        volumeSliderValue.text = SettingsManager.GetSoundVolume().ToString();
+
         Slider difficultySlider = settingsMenu.gameObject.transform.Find("StartingDifficulty/StartingDifficultySlider").GetComponent<Slider>();
         difficultySlider.value = SettingsManager.GetStartingDifficulty();
+        TextMeshProUGUI difficultySliderValue = settingsMenu.gameObject.transform.Find("StartingDifficulty/StartingDifficultySliderValue").GetComponent<TextMeshProUGUI>();
+        difficultySliderValue.text = SettingsManager.GetStartingDifficulty().ToString();
 
         Toggle devModeToggle = settingsMenu.gameObject.transform.Find("DeveloperModeOn/DeveloperModeOnToggle").GetComponent<Toggle>();
         devModeToggle.isOn = SettingsManager.GetDeveloperModeOn();
