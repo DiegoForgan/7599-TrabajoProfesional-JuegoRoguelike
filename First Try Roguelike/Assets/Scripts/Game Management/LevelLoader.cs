@@ -17,11 +17,11 @@ public class LevelLoader : MonoBehaviour
         
         if (levelLoader == null) {
             // Initialize player prefs in case they not exist
-            if(!PlayerPrefs.HasKey("session_token")) {
-                PlayerPrefs.SetString("session_token", "");
-                PlayerPrefs.SetString("username", "");
-                PlayerPrefs.Save();
-            }
+            //if(!PlayerPrefs.HasKey("session_token")) {
+            //    PlayerPrefs.SetString("session_token", "");
+            //    PlayerPrefs.SetString("username", "");
+            //    PlayerPrefs.Save();
+            //}
             levelLoader = this;
         }
         else

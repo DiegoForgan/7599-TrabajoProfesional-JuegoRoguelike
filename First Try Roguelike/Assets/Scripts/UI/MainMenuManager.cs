@@ -4,6 +4,7 @@ using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
+    private static bool initDone = false;
     [SerializeField] private APIRequestHandler apiRequestHandler;
     [SerializeField] private Animator loginFormAnimator;
     [SerializeField] private GameObject highScoresButton;
@@ -25,13 +26,20 @@ public class MainMenuManager : MonoBehaviour
         // Set the version in the "About" screen
         aboutVersionField.GetComponent<TextMeshProUGUI>().text = "v" + Application.version + " - PREVIEW ONLY";
 
-        // Loading settings from saved values
-        // Assigns defaults if not present
-        SettingsManager.InitializeSettings();
+        // We need to initialize managers only the scene loads for the first time
+        // This is done using a static property
+        if (!initDone) {
+            // Loading settings from saved values
+            // Assigns defaults if not present
+            SettingsManager.InitializeSettings();
 
-        // Loading session from saved values
-        // Assigns defaults if not present
-        SessionManager.InitializeSession();
+            // Loading session from saved values
+            // Assigns defaults if not present
+            SessionManager.InitializeSession();
+
+            // Mark game as initialized
+            initDone = true;
+        }
         // Checking for saved session
         if (SessionManager.IsUserLoggedIn()) {
             Debug.Log("Session token found");
@@ -103,9 +111,13 @@ public class MainMenuManager : MonoBehaviour
     {
         Slider volumeSlider = settingsMenu.gameObject.transform.Find("SoundVolume/SoundVolumeSlider").GetComponent<Slider>();
         volumeSlider.value = SettingsManager.GetSoundVolume();
-        
+        TextMeshProUGUI volumeSliderValue = settingsMenu.gameObject.transform.Find("SoundVolume/SoundVolumeSliderValue").GetComponent<TextMeshProUGUI>();
+        volumeSliderValue.text = SettingsManager.GetSoundVolume().ToString();
+
         Slider difficultySlider = settingsMenu.gameObject.transform.Find("StartingDifficulty/StartingDifficultySlider").GetComponent<Slider>();
         difficultySlider.value = SettingsManager.GetStartingDifficulty();
+        TextMeshProUGUI difficultySliderValue = settingsMenu.gameObject.transform.Find("StartingDifficulty/StartingDifficultySliderValue").GetComponent<TextMeshProUGUI>();
+        difficultySliderValue.text = SettingsManager.GetStartingDifficulty().ToString();
 
         Toggle devModeToggle = settingsMenu.gameObject.transform.Find("DeveloperModeOn/DeveloperModeOnToggle").GetComponent<Toggle>();
         devModeToggle.isOn = SettingsManager.GetDeveloperModeOn();
