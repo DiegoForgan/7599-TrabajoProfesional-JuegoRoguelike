@@ -19,7 +19,7 @@ public class GameOverMenu : ToMainMenuUI
             return;
         }
         // Maintain this object through all the life of the game
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
     public void TryAgain(){
         Time.timeScale = 1f;

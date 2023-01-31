@@ -16,7 +16,7 @@ public class SpellDatabase : MonoBehaviour
         }
       
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     //Searches for the desired spell on the database and returns all the data if found

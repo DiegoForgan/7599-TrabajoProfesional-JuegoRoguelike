@@ -10,10 +10,6 @@ public class SimpleRandomWalkDungeonGenerator : AbstractDungeonGenerator
 {
     [SerializeField] protected RandomWalkData randomWalkParameters;
     
-    private void Awake() {
-        tilemapVisualizer = GetComponent<TilemapVisualizer>();
-    }
-    
     //private void Start() {
     //    RunProceduralGeneration();
     //}

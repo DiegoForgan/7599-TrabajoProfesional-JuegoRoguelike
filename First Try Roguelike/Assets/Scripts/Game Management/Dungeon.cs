@@ -8,10 +8,6 @@ public class Dungeon : MonoBehaviour
     [SerializeField] private Tilemap floor;
     [SerializeField] private Tilemap walls;
     
-    private void Awake() {
-        GameManager.Instance.SetNewTileMap(this, floor, walls);   
-    }
-
     private void Start() {
         GameManager.Instance.CreateNewDungeon();
     }

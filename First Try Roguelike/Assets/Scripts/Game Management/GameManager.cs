@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -9,18 +5,19 @@ public class GameManager : MonoBehaviour
 {   
     public static GameManager gameManager;
     [SerializeField] private GameObject gameOverUI;
-    private DungeonGeneratorManager dungeonGenerator;
-    private Dungeon currentDungeon;
+    [SerializeField] private GameObject player;
+    [SerializeField] private HUD _hud;
+    [SerializeField] private DungeonGeneratorManager dungeonGenerator;
+    //[SerializeField] private Dungeon currentDungeon;
+    
     private ItemSpawner itemSpawner;
     private EnemySpawner enemySpawner;
-    private GameObject player;
-    [SerializeField] HUD _hud;
-    [SerializeField] int difficultyLevel;
-    private const int INITIAL_DIFFICULTY_LEVEL = 5;
+    private int difficultyLevel;
+    
     public static GameManager Instance{ get{ return gameManager; } }
     private void Awake()
     {
-        GetGameManagerReferences();
+        //GetGameManagerReferences();
 
         if (gameManager == null) gameManager = this;
         else
@@ -28,16 +25,17 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
+        GetGameManagerReferences();
     }
 
     private void GetGameManagerReferences()
     {
-        dungeonGenerator = GetComponentInChildren<DungeonGeneratorManager>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        //dungeonGenerator = GetComponentInChildren<DungeonGeneratorManager>();
         itemSpawner = GetComponent<ItemSpawner>();
         enemySpawner = GetComponent<EnemySpawner>();
-        difficultyLevel = INITIAL_DIFFICULTY_LEVEL;
+        Debug.Log(SettingsManager.GetStartingDifficulty());
+        difficultyLevel = SettingsManager.GetStartingDifficulty();
     }
 
     public void CreateNewDungeon()
@@ -55,19 +53,19 @@ public class GameManager : MonoBehaviour
     private void PlaceItemsOnDungeon()
     {
         Debug.Log("Placing Items on the current dungeon!");
-        itemSpawner.Spawn(difficultyLevel,currentDungeon);
+        itemSpawner.Spawn(difficultyLevel,dungeonGenerator.GetDungeon());
     }
 
     private void PlaceEnemiesOnDungeon()
     {
         Debug.Log("Placing enemies on dungeon!");
-        enemySpawner.Spawn(difficultyLevel, currentDungeon);
+        enemySpawner.Spawn(difficultyLevel, dungeonGenerator.GetDungeon());
     }
 
     // Searches on the new created floor Tilemap, a location where the player can be spawned
     private void PlacePlayerOnDungeon()
     {
-        Vector2Int playerPosition = currentDungeon.GetRandomFloorPosition();
+        Vector2Int playerPosition = dungeonGenerator.GetRandomFloorPositionOnDungeon();
         player.transform.position = new Vector3(playerPosition.x,playerPosition.y,player.transform.position.z);
     }
 
@@ -104,13 +102,14 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoadNextLevel(){
+        //LevelLoader.Instance.LoadNextScene();
         LevelLoader.Instance.LoadNextLevel();
     }
 
-    public void SetNewTileMap(Dungeon activeDungeon, Tilemap floor, Tilemap walls)
-    {
+    //public void SetNewTileMap(Dungeon activeDungeon, Tilemap floor, Tilemap walls)
+    /*{
         currentDungeon = activeDungeon;
         TilemapVisualizer tilemapVisualizer = dungeonGenerator.GetComponent<TilemapVisualizer>();
         tilemapVisualizer.SetTilemaps(floor,walls);
-    }
+    }*/
 }

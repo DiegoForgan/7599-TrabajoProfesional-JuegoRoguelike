@@ -26,7 +26,7 @@ public class Player : Entity
             return;
         }
         // Maintain this object through all the life of the game
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     private void GetPlayerReferences()

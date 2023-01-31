@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class LevelLoader : MonoBehaviour
     
     [SerializeField] private Animator transition;
     [SerializeField] private float waitTime = 1f;
+    private int lastSceneIndex;
 
     private void Awake() {
         
@@ -28,31 +30,41 @@ public class LevelLoader : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
+        lastSceneIndex = SceneManager.sceneCountInBuildSettings;
     }
-
     public int GetCurrentSceneIndex(){
         return SceneManager.GetActiveScene().buildIndex;
     }
-
     public string GetCurrentSceneName(){
         return SceneManager.GetActiveScene().name;
     }
-
-    public void LoadNextLevel(){
-        int index = 0;
-        if (SceneManager.GetActiveScene().name == "Story 3 - Ending") index = 0;
-        else index = SceneManager.GetActiveScene().buildIndex+1;
-        StartCoroutine(LoadLevel(index));
+    public bool IsLastScene()
+    {
+        return GetCurrentSceneIndex() == lastSceneIndex;
     }
-
-    public void LoadLevelBySceneName(string sceneName){
+    public void LoadNextScene(){
+        int index = IsLastScene() ? 0 : GetCurrentSceneIndex() + 1;
+        StartCoroutine(LoadSceneByIndex(index));
+    }
+    public void LoadNextSceneByName(string name)
+    {
+        StartCoroutine(LoadSceneByName(name));
+    }
+    IEnumerator LoadSceneByName(string sceneName){
+        transition.SetTrigger("Start");
+        yield return new WaitForSeconds(waitTime);
+        transition.SetTrigger("End");
         SceneManager.LoadScene(sceneName);
     }
-
-    IEnumerator LoadLevel(int levelIndex){
+    IEnumerator LoadSceneByIndex(int levelIndex){
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(waitTime);
         transition.SetTrigger("End");
         SceneManager.LoadScene(levelIndex);
-    }   
+    }
+
+    internal void LoadNextLevel()
+    {
+        Debug.Log("Advancing to new level!");
+    }
 }
