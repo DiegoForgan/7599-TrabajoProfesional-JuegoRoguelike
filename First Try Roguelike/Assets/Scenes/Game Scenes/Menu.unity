@@ -9185,7 +9185,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 669294481}
   toggleTransition: 1
   graphic: {fileID: 1809663548}
@@ -16736,7 +16736,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1243857581}
   toggleTransition: 1
   graphic: {fileID: 194039819}
@@ -21879,7 +21879,7 @@ GameObject:
   - component: {fileID: 2078112664}
   - component: {fileID: 2078112663}
   m_Layer: 5
-  m_Name: CinematicText
+  m_Name: AboutText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21925,11 +21925,25 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "This is the RPG-PCG game Escape From NODNOL. Developed as part of course
-    75.99 - Trabajo Profesional en Ingenier\xEDa en Inform\xE1tica.\n\nFacultad de
-    Ingenier\xEDa, Universidad de Buenos Aires.\n\nDeveloped by:\nJuan Manuel Gonzalez
-    (juagonzalez@fi.uba.ar)\nDiego Martins Forgan (dforgan@fi.uba.ar)\n\nTutor:\nLeandro
-    Ferrigno (lferrigno@fi.uba.ar)"
+  m_text: 'This is the RPG-PCG game Escape From NODNOL. Developed as part of course
+    75.99 - Trabajo Profesional en Ingenieria en Informatica.
+
+
+    Facultad de Ingenieria,
+    Universidad de Buenos Aires.
+
+
+    Developed by:
+
+    Juan Manuel Gonzalez (juagonzalez@fi.uba.ar)
+
+    Diego
+    Martins Forgan (dforgan@fi.uba.ar)
+
+
+    Tutor:
+
+    Leandro Ferrigno (lferrigno@fi.uba.ar)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 91abe01dea11e5f4c8c32980edd4dfa9, type: 2}
   m_sharedMaterial: {fileID: 1598404662159808678, guid: 91abe01dea11e5f4c8c32980edd4dfa9, type: 2}
