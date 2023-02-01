@@ -17,6 +17,8 @@ public class APIRequestHandler : MonoBehaviour
     private const string USERS_ROUTE = "users";
     [SerializeField] private GameObject loggedPanel;
     [SerializeField] private GameObject loginPanel;
+    [SerializeField] private GameObject newGameButton;
+
     [SerializeField] private GameObject highScoresButton;
     [SerializeField] private GameObject loginButton;
     [SerializeField] private GameObject highScoresTableMessage;
@@ -77,6 +79,10 @@ public class APIRequestHandler : MonoBehaviour
         Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
         Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
 
+        // Disabling "New Game" and "High Scores" button
+        newGameButton.GetComponent<Button>().interactable = false;
+        highScoresButton.GetComponent<Button>().interactable = false;
+
         UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+"/sessions/"+SessionManager.GetSessionToken());
         
         request.SetRequestHeader("Accept", "application/json");
@@ -86,7 +92,11 @@ public class APIRequestHandler : MonoBehaviour
 
         UnityWebRequestResponseDTO responseDTO = new(request);
         showResponseData(responseDTO);
-        
+
+        // Enabling "New Game" and "High Scores" button
+        newGameButton.GetComponent<Button>().interactable = true;
+        highScoresButton.GetComponent<Button>().interactable = true;
+
         if (responseDTO.getResult() == UnityWebRequest.Result.Success)
         {
             // Session is still valid, and now is renwed
@@ -270,7 +280,9 @@ public class APIRequestHandler : MonoBehaviour
 
         loginFormContainer.gameObject.SetActive(false);
         loginMessageContainer.gameObject.SetActive(true);
-
+        // Disabling "New Game" button
+        newGameButton.GetComponent<Button>().interactable = false;
+    
         // Formatting JSON string
         LoginRequestDTO loginRequest = new(username, password);
         string loginRequestJSON = JsonConvert.SerializeObject(loginRequest);
@@ -291,6 +303,8 @@ public class APIRequestHandler : MonoBehaviour
         // Resseting username and password fields
         loginFormContainer.Find("UsernameInputField").GetComponent<TMP_InputField>().text = "";
         loginFormContainer.Find("PasswordInputField").GetComponent<TMP_InputField>().text = "";
+        // Enbaling "New Game" button
+        newGameButton.GetComponent<Button>().interactable = true;
         if (responseDTO.getResult() == UnityWebRequest.Result.Success){
             Debug.Log("Success");
             // Formatting data to JSON.
@@ -353,6 +367,10 @@ public class APIRequestHandler : MonoBehaviour
             Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
             Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
 
+            // Disabling "New Game" and "High Scores" button
+            newGameButton.GetComponent<Button>().interactable = false;
+            highScoresButton.GetComponent<Button>().interactable = false;
+
             loggedInPanelContainer.gameObject.SetActive(false);
             loggedInMessage.GetComponent<TMP_Text>().text = "Logging out of your account\nplease wait...";
             loggedInMessage.gameObject.SetActive(true);
@@ -374,7 +392,11 @@ public class APIRequestHandler : MonoBehaviour
             // Show data to the user to reflect the result of the request
             Debug.Log(serverResponse.code);
             Debug.Log(serverResponse.message);
-        
+
+            // Enabling "New Game" and "High Scores" button
+            newGameButton.GetComponent<Button>().interactable = true;
+            highScoresButton.GetComponent<Button>().interactable = true;
+
             if (request.result == UnityWebRequest.Result.Success){
                 Debug.Log("Success");
             }
