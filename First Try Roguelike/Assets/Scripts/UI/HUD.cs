@@ -22,7 +22,7 @@ public class HUD : MonoBehaviour
         _playerStatusHUD.initializePlayerStatus(maxHealth,maxMana);
         _collectablesStatusHUD.initializeCollectablesStatus(currentGold, currentKeys);
         _spellHUD.initializeSpellHUD();
-        _levelDifficultyHUD.restartLevelAndDifficulty();
+        //_levelDifficultyHUD.restartLevelAndDifficulty();
     }
 
     public void UpdateHealth(int health){
