@@ -19,7 +19,7 @@ public class LevelLoader : MonoBehaviour
 
     private int lastSceneIndex;
     private int currentLevel;
-    private bool isCinematic = false;
+    public static bool isCinematic = false;
     private bool gamestarted = false;
 
     private void Awake() {
@@ -79,7 +79,7 @@ public class LevelLoader : MonoBehaviour
             || currentLevel == FINAL_CINEMATIC_INDEX
             );
         if (isCinematic) GameManager.Instance.SetCinematicScene(currentLevel);
-        else GameManager.Instance.CreateNewLevel(currentLevel);
+        else GameManager.Instance.CreateNewLevel();
     }
 
     internal void StartGameLoop()

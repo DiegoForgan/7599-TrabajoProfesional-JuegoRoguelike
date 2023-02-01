@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyLongRangeMovement : EnemyMovement
 {
     protected override Vector2 getNewPosition() {
-        // TODO: Fix bug if player dies, currentplayertransform is null
         Vector2 appliedMovement = Vector2.zero;
         float playerEnemyDistance = Vector2.Distance(transform.position, currentPlayerTransform.position);
         if (playerEnemyDistance > attackingDistance) appliedMovement = movement;

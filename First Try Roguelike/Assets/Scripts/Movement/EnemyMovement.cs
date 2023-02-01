@@ -50,7 +50,9 @@ public class EnemyMovement : EntityMovement
     private void FixedUpdate()
     {
         if (!CanMove()) return;
-        Vector2 newPosition = getNewPosition();
+        Vector2 newPosition;
+        if (currentPlayerTransform == null) newPosition = Vector2.zero;
+        else newPosition = getNewPosition();
         moveEnemy(newPosition);
     }
 

@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     private ItemSpawner itemSpawner;
     private EnemySpawner enemySpawner;
     private int difficultyLevel;
+    private int level;
     
     public static GameManager Instance{ get{ return gameManager; } }
     private void Awake()
@@ -30,7 +31,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {   
-        LevelLoader.Instance.StartGameLoop();       
+        LevelLoader.Instance.StartGameLoop();
+        level = 0;
+        _hud.UpdateDifficulty(difficultyLevel);
     }
 
     private void GetGameManagerReferences()
@@ -126,11 +129,13 @@ public class GameManager : MonoBehaviour
         enemySpawner.destroyAllSpawedObjects();
     }
 
-    internal void CreateNewLevel(int currentLevel)
+    internal void CreateNewLevel()
     {
+        level++;
         disableAllCinematics();
         player.SetActive(true);
         hud.SetActive(true);
+        _hud.UpdateLevelName("Level - " + level);
         CreateNewDungeon();
     }
 

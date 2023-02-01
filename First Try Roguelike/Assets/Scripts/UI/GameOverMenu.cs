@@ -21,6 +21,10 @@ public class GameOverMenu : MonoBehaviour
 
     public void QuitGame(){
         Debug.Log("Quitting Game...");
+        // Saves user settings
+        SettingsManager.PersistSettings();
+        // Saves session data
+        SessionManager.PersistSession();
         Application.Quit();
     }
 }

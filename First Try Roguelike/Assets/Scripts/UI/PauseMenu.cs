@@ -10,6 +10,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (LevelLoader.isCinematic) return;
         if(Input.GetKeyDown(KeyCode.Escape)){
             if(GameIsPaused) Resume();
             else Pause();
@@ -43,6 +44,10 @@ public class PauseMenu : MonoBehaviour
 
     public void QuitGame(){
         Debug.Log("Quitting Game...");
+        // Saves user settings
+        SettingsManager.PersistSettings();
+        // Saves session data
+        SessionManager.PersistSession();
         Application.Quit();
     }
 }
