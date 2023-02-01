@@ -97,7 +97,7 @@ public class MainMenuManager : MonoBehaviour
     // Loads first cinematic scene
     public void StartNewGame() {
         Debug.Log("Starting new game");
-        LevelLoader.Instance.LoadNextLevel();
+        LevelLoader.Instance.LoadNextScene();
     }
 
     // Toggles the log in panel in the main menu screen

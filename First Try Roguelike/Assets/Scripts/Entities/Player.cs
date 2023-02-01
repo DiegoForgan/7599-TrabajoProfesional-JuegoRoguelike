@@ -8,7 +8,7 @@ public class Player : Entity
     private int mana;
     private int keys;
     private int gold;
-    private HUD _hud;
+    [SerializeField] private HUD _hud;
     private PlayerMovementController _playerMovement;
     private WeaponManagement _weaponManagement;
     private bool canOpenDoor;
@@ -25,17 +25,14 @@ public class Player : Entity
             Destroy(gameObject);
             return;
         }
-        // Maintain this object through all the life of the game
-        DontDestroyOnLoad(gameObject);
     }
 
     private void GetPlayerReferences()
     {
-        _hud = GameObject.Find("HUD").GetComponent<HUD>();
         _playerMovement = GetComponent<PlayerMovementController>();
         _weaponManagement = GetComponent<WeaponManagement>();
         animator = GetComponent<CharactersAnimator>();
-        Debug.Log("Animator reference from player");
+        animator.SetShowWeapon(true);
     }
 
     internal void DisableKeyAction()

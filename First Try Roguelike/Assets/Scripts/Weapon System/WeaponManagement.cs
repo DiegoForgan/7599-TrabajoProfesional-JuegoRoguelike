@@ -92,7 +92,7 @@ public class WeaponManagement : MonoBehaviour
                 if (playerCanAffordSpellWithCost(currentManaCost))
                 {
                     _player.SpendMana(currentManaCost);
-                    CastSpell();
+                    //CastSpell();
                     animator.setSpellCastingAnimation();
                     nextAttackTime = Time.time + 1f / attackRate;
                 }
@@ -123,7 +123,7 @@ public class WeaponManagement : MonoBehaviour
     }
 
     //Creates a proyectile based on the current selected spell by the user
-    private void CastSpell()
+    public void CastSpell()
     {
         //Instantiate the proyectile prefab
         GameObject spellProyectile = Instantiate(currentSpell.proyectilePrefab,_attackPoint.position,_attackPoint.rotation);

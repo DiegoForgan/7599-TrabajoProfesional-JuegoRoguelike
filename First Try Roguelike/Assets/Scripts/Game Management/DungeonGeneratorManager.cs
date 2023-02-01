@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class DungeonGeneratorManager : MonoBehaviour
 {
+    [SerializeField] private Dungeon dungeon;
     private AbstractDungeonGenerator randomWalkGenerator;
     private AbstractDungeonGenerator corridorFirstGenerator;
     private AbstractDungeonGenerator roomFirstGenerator;
@@ -48,5 +49,15 @@ public class DungeonGeneratorManager : MonoBehaviour
         int selectedAlgorithm = Random.Range(0,algorithmsList.Count);
         algorithmsList[selectedAlgorithm].GenerateDungeon();
         ShowGenerationMessage(algorithmsList[selectedAlgorithm].GetAlgorithmName());
+    }
+
+    internal Vector2Int GetRandomFloorPositionOnDungeon()
+    {
+        return dungeon.GetRandomFloorPosition();
+    }
+
+    internal Dungeon GetDungeon()
+    {
+        return dungeon;
     }
 }

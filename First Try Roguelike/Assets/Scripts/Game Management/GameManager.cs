@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -9,39 +6,47 @@ public class GameManager : MonoBehaviour
 {   
     public static GameManager gameManager;
     [SerializeField] private GameObject gameOverUI;
-    private DungeonGeneratorManager dungeonGenerator;
-    private Dungeon currentDungeon;
+    [SerializeField] private GameObject player;
+    [SerializeField] private HUD _hud;
+    [SerializeField] private DungeonGeneratorManager dungeonGenerator;
+    [SerializeField] private GameObject[] cinematics;
+    [SerializeField] private GameObject hud;
+    
     private ItemSpawner itemSpawner;
     private EnemySpawner enemySpawner;
-    private GameObject player;
-    [SerializeField] HUD _hud;
-    [SerializeField] int difficultyLevel;
-    private const int INITIAL_DIFFICULTY_LEVEL = 5;
+    private int difficultyLevel;
+    private int level;
+    
     public static GameManager Instance{ get{ return gameManager; } }
     private void Awake()
     {
-        GetGameManagerReferences();
-
         if (gameManager == null) gameManager = this;
         else
         {
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
+        GetGameManagerReferences();
+    }
+
+    private void Start()
+    {   
+        LevelLoader.Instance.StartGameLoop();
+        level = 0;
+        _hud.UpdateDifficulty(difficultyLevel);
     }
 
     private void GetGameManagerReferences()
     {
-        dungeonGenerator = GetComponentInChildren<DungeonGeneratorManager>();
-        player = GameObject.FindGameObjectWithTag("Player");
         itemSpawner = GetComponent<ItemSpawner>();
         enemySpawner = GetComponent<EnemySpawner>();
-        difficultyLevel = INITIAL_DIFFICULTY_LEVEL;
+        difficultyLevel = SettingsManager.GetStartingDifficulty();
     }
 
     public void CreateNewDungeon()
     {
+        //erases all gameObjects previously Spawned
+        destroyAllSpawns();
         // Places the tiles on the tilemap to create the dungeon layout
         GenerateDungeonByName("Random");
         // Sets the position of the main player inside the dungeon
@@ -55,19 +60,20 @@ public class GameManager : MonoBehaviour
     private void PlaceItemsOnDungeon()
     {
         Debug.Log("Placing Items on the current dungeon!");
-        itemSpawner.Spawn(difficultyLevel,currentDungeon);
+        itemSpawner.Spawn(difficultyLevel,dungeonGenerator.GetDungeon());
+
     }
 
     private void PlaceEnemiesOnDungeon()
     {
         Debug.Log("Placing enemies on dungeon!");
-        enemySpawner.Spawn(difficultyLevel, currentDungeon);
+        enemySpawner.Spawn(difficultyLevel, dungeonGenerator.GetDungeon());
     }
 
     // Searches on the new created floor Tilemap, a location where the player can be spawned
     private void PlacePlayerOnDungeon()
     {
-        Vector2Int playerPosition = currentDungeon.GetRandomFloorPosition();
+        Vector2Int playerPosition = dungeonGenerator.GetRandomFloorPositionOnDungeon();
         player.transform.position = new Vector3(playerPosition.x,playerPosition.y,player.transform.position.z);
     }
 
@@ -107,10 +113,38 @@ public class GameManager : MonoBehaviour
         LevelLoader.Instance.LoadNextLevel();
     }
 
-    public void SetNewTileMap(Dungeon activeDungeon, Tilemap floor, Tilemap walls)
+    internal void SetCinematicScene(int currentLevel)
     {
-        currentDungeon = activeDungeon;
-        TilemapVisualizer tilemapVisualizer = dungeonGenerator.GetComponent<TilemapVisualizer>();
-        tilemapVisualizer.SetTilemaps(floor,walls);
+        destroyAllSpawns();
+        player.SetActive(false);
+        hud.SetActive(false);
+        if (currentLevel == 0) cinematics[0].SetActive(true);
+        else if (currentLevel == 6) cinematics[1].SetActive(true);
+        else cinematics[2].SetActive(true);
+    }
+
+    private void destroyAllSpawns()
+    {
+        itemSpawner.destroyAllSpawedObjects();
+        enemySpawner.destroyAllSpawedObjects();
+    }
+
+    internal void CreateNewLevel()
+    {
+        level++;
+        disableAllCinematics();
+        player.SetActive(true);
+        hud.SetActive(true);
+        _hud.UpdateLevelName("Level - " + level);
+        CreateNewDungeon();
+    }
+
+    private void disableAllCinematics()
+    {
+        if (cinematics == null) return;
+        foreach (var cinematic in cinematics)
+        {
+            cinematic.SetActive(false);
+        }
     }
 }

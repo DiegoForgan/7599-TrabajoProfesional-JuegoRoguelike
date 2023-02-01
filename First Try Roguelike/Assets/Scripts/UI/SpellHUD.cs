@@ -6,28 +6,42 @@ using UnityEngine.UI;
 
 public class SpellHUD : MonoBehaviour
 {
+    //Spell HUD components
     [SerializeField] TextMeshProUGUI spellName;
     [SerializeField] TextMeshProUGUI spellCost;
     [SerializeField] TextMeshProUGUI spellDamage;
     [SerializeField] Image spellAvatar;
+
+    [Space]
+    //Spell Effects HUD components
     private Dictionary<EffectType,GameObject> spellEffects;
+    [SerializeField] private GameObject NoEffect;
+    [SerializeField] private GameObject BurnEffect;
+    [SerializeField] private GameObject FreezeEffect;
+    [SerializeField] private GameObject PoisonEffect;
+
+    //Constants and Defaults
+    private const string DEFAULT_SPELL_NAME = "";
+    private const string DEFAULT_SPELL_COST = "0";
+    private const string DEFAULT_SPELL_DAMAGE = "0";
+    private const EffectType DEFAULT_SPELL_EFFECT = EffectType.None;
 
     private void Awake()
     {
         spellEffects = new Dictionary<EffectType, GameObject>();
         // Add here more effects if created
-        spellEffects.Add(EffectType.None, GameObject.Find("NoEffect"));
-        spellEffects.Add(EffectType.Burn, GameObject.Find("BurnEffect"));
-        spellEffects.Add(EffectType.Freeze, GameObject.Find("FreezeEffect"));
-        spellEffects.Add(EffectType.Poison, GameObject.Find("PoisonEffect"));
+        spellEffects.Add(EffectType.None, NoEffect);
+        spellEffects.Add(EffectType.Burn, BurnEffect);
+        spellEffects.Add(EffectType.Freeze, FreezeEffect);
+        spellEffects.Add(EffectType.Poison, PoisonEffect);
     }
 
     internal void initializeSpellHUD()
     {
-        spellName.SetText("");
-        spellCost.SetText("0");
-        spellDamage.SetText("0");
-        this.setSpellEffect(EffectType.None);
+        spellName.SetText(DEFAULT_SPELL_NAME);
+        spellCost.SetText(DEFAULT_SPELL_COST);
+        spellDamage.SetText(DEFAULT_SPELL_DAMAGE);
+        this.setSpellEffect(DEFAULT_SPELL_EFFECT);
     }
 
     internal void updateSpellHUD(SpellData currentSpell)
