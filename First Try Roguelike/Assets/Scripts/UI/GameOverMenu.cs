@@ -25,6 +25,9 @@ public class GameOverMenu : MonoBehaviour
         SettingsManager.PersistSettings();
         // Saves session data
         SessionManager.PersistSession();
+        // Saves gameprogress data
+        GameProgressManager.PersistGameProgress();
+
         Application.Quit();
     }
 }

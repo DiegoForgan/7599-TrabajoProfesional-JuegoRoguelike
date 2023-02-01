@@ -48,6 +48,9 @@ public class PauseMenu : MonoBehaviour
         SettingsManager.PersistSettings();
         // Saves session data
         SessionManager.PersistSession();
+        // Saves gameprogress data
+        GameProgressManager.PersistGameProgress();
+
         Application.Quit();
     }
 }

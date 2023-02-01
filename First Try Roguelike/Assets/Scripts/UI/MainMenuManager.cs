@@ -37,6 +37,10 @@ public class MainMenuManager : MonoBehaviour
             // Assigns defaults if not present
             SessionManager.InitializeSession();
 
+            // Loading gameprogress from saved values
+            // Assigns defaults if not present
+            GameProgressManager.InitializeGameProgress();
+
             // Mark game as initialized
             initDone = true;
         }
@@ -283,6 +287,8 @@ public class MainMenuManager : MonoBehaviour
         SettingsManager.PersistSettings();
         // Saves session data
         SessionManager.PersistSession();
+        // Saves gameprogress data
+        GameProgressManager.PersistGameProgress();
     }
 
     // Saves user data and quits the game
