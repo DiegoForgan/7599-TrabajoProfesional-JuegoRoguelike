@@ -52,7 +52,17 @@ public class APIRequestHandler : MonoBehaviour
     }
 
     public void UserLogin(){
-        StartCoroutine(UserLoginRequest());
+
+        // Getting data from the UI
+        Transform loginFormContainer = loginPanel.gameObject.transform.Find("LoginFormContainer");
+
+        string username = loginFormContainer.Find("UsernameInputField").GetComponent<TMP_InputField>().text;
+        string password = loginFormContainer.Find("PasswordInputField").GetComponent<TMP_InputField>().text;
+
+        // Only make request if user has entered BOTH username and pwd
+        if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password)) {
+            StartCoroutine(UserLoginRequest());
+        }
     }
 
     public void UserLogOut(){
