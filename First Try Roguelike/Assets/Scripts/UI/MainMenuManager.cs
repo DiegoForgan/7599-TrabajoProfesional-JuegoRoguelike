@@ -293,6 +293,8 @@ public class MainMenuManager : MonoBehaviour
 
     // Saves user data and quits the game
     public void ExitGame() {  
+        Debug.Log("Quitting Game...");
+
         PersistAll();
         Application.Quit();
     }
