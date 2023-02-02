@@ -8208,6 +8208,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616562681}
   m_CullTransparentMesh: 1
+--- !u!114 &623944393 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5707212675731776259, guid: bcff3c65c25ad6f458bb210fd0de46f2, type: 3}
+  m_PrefabInstance: {fileID: 383675022}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c84556de72f5f140bdedeeca835f2e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &664521711
 GameObject:
   m_ObjectHideFlags: 0
@@ -8760,7 +8771,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press ''K'' to intantly kill all visible enemies:'
+  m_text: 'Press ''K'' to intantly kill yourself:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 91abe01dea11e5f4c8c32980edd4dfa9, type: 2}
   m_sharedMaterial: {fileID: 1598404662159808678, guid: 91abe01dea11e5f4c8c32980edd4dfa9, type: 2}
@@ -14310,7 +14321,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press ''M'' to enable infinite mana:'
+  m_text: 'Press ''M'' to recharge 100% mana:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 91abe01dea11e5f4c8c32980edd4dfa9, type: 2}
   m_sharedMaterial: {fileID: 1598404662159808678, guid: 91abe01dea11e5f4c8c32980edd4dfa9, type: 2}
@@ -16407,7 +16418,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press ''H'' to enable invulnerable mode:'
+  m_text: 'Press ''H'' to recharge 100% health:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 91abe01dea11e5f4c8c32980edd4dfa9, type: 2}
   m_sharedMaterial: {fileID: 1598404662159808678, guid: 91abe01dea11e5f4c8c32980edd4dfa9, type: 2}
@@ -21542,6 +21553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   apiRequestHandler: {fileID: 1576393647}
+  audioManager: {fileID: 623944393}
   loginFormAnimator: {fileID: 135847861}
   highScoresButton: {fileID: 477648789}
   loginButton: {fileID: 1045564888}

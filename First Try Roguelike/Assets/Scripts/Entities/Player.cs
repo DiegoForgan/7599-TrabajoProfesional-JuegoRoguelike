@@ -74,14 +74,44 @@ public class Player : Entity
     }
 
     private void Update() {
+
+        // Level completion condition
         if(canOpenDoor && Input.GetKeyDown(KeyCode.E)){
             SpendKey();
             DisableKeyAction();
             LoadNextLevel();
         }
-        // REMEMBER TO DESTROY THIS OBJECTS BECAUSE IT KEEPS LISTENING FOR THE INPUTS IN THE GAME MENU!!!!
-        if(Input.GetKeyDown(KeyCode.N)) LoadNextLevel();
-        if(Input.GetKeyDown(KeyCode.K)) Die();
+
+        // Developer mode settings
+        // REMEMBER TO DESTROY THESE OBJECTS BECAUSE THEY KEEP LISTENING FOR THE INPUTS IN THE GAME MENU!!!!
+        // Skip level 'N'
+        if(Input.GetKeyDown(KeyCode.N)) {
+            if (SettingsManager.GetLoadNextLevelOn()) {
+                LoadNextLevel();
+            }
+        }
+
+        // Suicide mode 'K'
+        if(Input.GetKeyDown(KeyCode.K)) { 
+            if (SettingsManager.GetKillEnemiesOn()) {
+                Die();
+            }
+        }
+
+        // Regenerate Health 'H'
+        if(Input.GetKeyDown(KeyCode.H)) {
+            if (SettingsManager.GetRegenerateHealthOn()) {
+                AddHealth(maxHealth);
+            }
+        }
+
+        // Regenerate Mana 'M'
+        if(Input.GetKeyDown(KeyCode.M)) {
+            if (SettingsManager.GetRegenerateHealthOn()) {
+                AddMana(maxMana);
+            }
+        }
+
     }
 
     private void LoadNextLevel()
