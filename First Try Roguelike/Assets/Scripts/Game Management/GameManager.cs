@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     
     private ItemSpawner itemSpawner;
     private EnemySpawner enemySpawner;
+    private DoorSpawner doorSpawner;
     private int difficultyLevel;
     private int level;
     
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
     {
         itemSpawner = GetComponent<ItemSpawner>();
         enemySpawner = GetComponent<EnemySpawner>();
+        doorSpawner = GetComponent<DoorSpawner>();
         difficultyLevel = SettingsManager.GetStartingDifficulty();
     }
 
@@ -55,13 +57,19 @@ public class GameManager : MonoBehaviour
         PlaceItemsOnDungeon();
         // This method will place the enemies on the dungeon to challenge the main player on its quest
         PlaceEnemiesOnDungeon();
+        // This method will place the door on the dungeon to escape from it once you got the key
+        PlaceDungeonDoor();
+    }
+
+    private void PlaceDungeonDoor()
+    {
+        doorSpawner.Spawn(difficultyLevel, dungeonGenerator.GetDungeon());
     }
 
     private void PlaceItemsOnDungeon()
     {
         Debug.Log("Placing Items on the current dungeon!");
         itemSpawner.Spawn(difficultyLevel,dungeonGenerator.GetDungeon());
-
     }
 
     private void PlaceEnemiesOnDungeon()
@@ -128,6 +136,7 @@ public class GameManager : MonoBehaviour
     {
         itemSpawner.destroyAllSpawedObjects();
         enemySpawner.destroyAllSpawedObjects();
+        doorSpawner.destroyAllSpawedObjects();
     }
 
     internal void CreateNewLevel()
