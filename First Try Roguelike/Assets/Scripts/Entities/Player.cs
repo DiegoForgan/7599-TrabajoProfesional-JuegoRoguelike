@@ -76,18 +76,18 @@ public class Player : Entity
     private void Update() {
 
         // Level completion condition
-        if(canOpenDoor && Input.GetKeyDown(KeyCode.E)){
-            SpendKey();
-            DisableKeyAction();
-            LoadNextLevel();
+        if(canOpenDoor && Input.GetKeyDown(KeyCode.E))
+        {
+            OpenDungeonDoor();
         }
 
         // Developer mode settings
         // REMEMBER TO DESTROY THESE OBJECTS BECAUSE THEY KEEP LISTENING FOR THE INPUTS IN THE GAME MENU!!!!
         // Skip level 'N'
-        if(Input.GetKeyDown(KeyCode.N)) {
+        if (Input.GetKeyDown(KeyCode.N)) {
             if (SettingsManager.GetLoadNextLevelOn()) {
-                LoadNextLevel();
+
+                OpenDungeonDoor();
             }
         }
 
@@ -112,6 +112,13 @@ public class Player : Entity
             }
         }
 
+    }
+
+    private void OpenDungeonDoor()
+    {
+        SpendKey();
+        DisableKeyAction();
+        LoadNextLevel();
     }
 
     private void LoadNextLevel()
@@ -164,6 +171,7 @@ public class Player : Entity
     }
 
     public void SpendKey(){
+        if (keys == 0) return;
         keys = keys-1;
         _hud.UpdateKeys(keys);
     }
