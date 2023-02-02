@@ -77,14 +77,15 @@ public class GameManager : MonoBehaviour
         player.transform.position = new Vector3(playerPosition.x,playerPosition.y,player.transform.position.z);
     }
 
-    
+    // Developer Mode Settings
+    // Generate New Dungeon In Place 'SPACE'
     private void Update() {
         if(Input.GetKeyDown(KeyCode.Space)){
-            CreateNewDungeon();
+            if (SettingsManager.GetRegenerateDungeonOn()) {
+                CreateNewDungeon();
+            }
         }
     }
-
-   
 
     //Creates a new dungeon based on the name given by the string. If no compatible name, it uses a random one.
     public void GenerateDungeonByName(string algorithm){

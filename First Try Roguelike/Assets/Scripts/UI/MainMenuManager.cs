@@ -5,6 +5,7 @@ using TMPro;
 public class MainMenuManager : MonoBehaviour
 {
     private static bool initDone = false;
+    private AudioManager audioManager;
     [SerializeField] private APIRequestHandler apiRequestHandler;
     [SerializeField] private Animator loginFormAnimator;
     [SerializeField] private GameObject highScoresButton;
@@ -40,6 +41,14 @@ public class MainMenuManager : MonoBehaviour
             // Mark game as initialized
             initDone = true;
         }
+
+        // Add a reference to the AudioManager to MainMenuManager
+        // I need to do this since we are destroying the previoud object when the scene loads
+        audioManager = GameObject.FindObjectOfType(typeof(AudioManager)) as AudioManager;
+        // Set initial audio volume
+        // Every time the scene loads, as the object is destroyed and then re-instanced!
+        audioManager.UpdateVolume((float)SettingsManager.GetSoundVolume());
+
         // Checking for saved session
         if (SessionManager.IsUserLoggedIn()) {
             Debug.Log("Session token found");
@@ -160,6 +169,8 @@ public class MainMenuManager : MonoBehaviour
 
         TextMeshProUGUI sliderValue = sliderContainer.gameObject.transform.Find("SoundVolumeSliderValue").GetComponent<TextMeshProUGUI>();
         sliderValue.text = SettingsManager.GetSoundVolume().ToString();
+
+        audioManager.UpdateVolume(sliderControl.value);
     }
     public void UpdateStartingDifficultySlider(GameObject sliderContainer)
     {
