@@ -10,9 +10,11 @@ namespace Controllers
         public KeyCode attackButton = KeyCode.Mouse0;
         public KeyCode blockButton = KeyCode.Mouse1;
         public KeyCode abilityButton = KeyCode.Space;
+        public KeyCode potionButton = KeyCode.X;
         public IAttack attackComponent;
         public Block block;
         public HeavyAttack heavyAttack;
+        public Potion potion;
         private MovableKinematic _movement;
         private bool _couldBlock;
         private bool _hasAnAbility;
@@ -51,7 +53,15 @@ namespace Controllers
             {
                 heavyAttack.Perform();
             }
+//            else if (_hasAnAbility && IsKeyUp(abilityButton))
+//            {
+//                heavyAttack.Cancel();
+//            }
             
+            if (IsKeyDown(potionButton))
+            {
+                potion.Use();
+            }
         }
 
         private bool IsKeyDown(KeyCode key)
