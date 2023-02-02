@@ -18,7 +18,8 @@ public class DungeonGeneratorManager : MonoBehaviour
         corridorFirstGenerator = GetComponent<CorridorFirstDungeonGenerator>();
         roomFirstGenerator = GetComponent<RoomFirstDungeonGenerator>();
         algorithmsList = new List<AbstractDungeonGenerator>();
-        algorithmsList.Add(randomWalkGenerator);
+        //We won't be using pure random walk levels, as they affect playability
+        //algorithmsList.Add(randomWalkGenerator);
         algorithmsList.Add(corridorFirstGenerator);
         algorithmsList.Add(roomFirstGenerator);    
     }
