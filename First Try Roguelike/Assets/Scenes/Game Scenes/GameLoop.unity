@@ -965,6 +965,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 151503374}
   m_CullTransparentMesh: 1
+--- !u!1 &159882506 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2370704341437052029, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
+  m_PrefabInstance: {fileID: 2370704341495874936}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &159882507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159882506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2911369272754047b934351ef95fe1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorPrefab: {fileID: 1836766741585443731, guid: 3b30d06701138db488137cd7425a9857, type: 3}
 --- !u!1 &163814584
 GameObject:
   m_ObjectHideFlags: 0
