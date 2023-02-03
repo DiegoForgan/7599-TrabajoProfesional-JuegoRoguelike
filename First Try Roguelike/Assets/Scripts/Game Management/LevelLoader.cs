@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -78,6 +79,16 @@ public class LevelLoader : MonoBehaviour
             || currentLevel == SECOND_CINEMATIC_INDEX 
             || currentLevel == FINAL_CINEMATIC_INDEX
             );
+        StartCoroutine(executeTransition());
+    }
+
+    IEnumerator executeTransition() {
+        if (currentLevel != 0)
+        {
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(waitTime);
+            transition.SetTrigger("End");
+        }
         if (isCinematic) GameManager.Instance.SetCinematicScene(currentLevel);
         else GameManager.Instance.CreateNewLevel();
     }
