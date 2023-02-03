@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2370704341437052029
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2370704341437052031}
+  - component: {fileID: 2370704341437052030}
+  - component: {fileID: 2370704341437052016}
+  - component: {fileID: 8129409485682839176}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2370704341437052031
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2370704341437052029}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2370704341437052030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2370704341437052029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04834b0ff1c90934898bd91cb0a14745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOverUI: {fileID: 0}
+  player: {fileID: 0}
+  _hud: {fileID: 0}
+  dungeonGenerator: {fileID: 0}
+  cinematics:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  hud: {fileID: 0}
+--- !u!114 &2370704341437052016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2370704341437052029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dac4a4ae6cd47734bb49f2f9ff770858, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthItemBoost: 5
+  manaItemBoost: 5
+  healthItemPrefab: {fileID: 7479973813308445106, guid: 0c1674ea5d7307d468c0001ee7e3ded5, type: 3}
+  manaItemPrefab: {fileID: 4589661409625407582, guid: a8ff2fd46b1a0864e97b7927c4c2ac4c, type: 3}
+  goldItemPrefab: {fileID: 375938732945670204, guid: 2d0ce7b3703a87342ae3f5f90dc305d1, type: 3}
+  keyItemPrefab: {fileID: 953363336382739608, guid: 9dfd4639d9a19ad4a82cf3a97d8eec5b, type: 3}
+--- !u!114 &8129409485682839176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2370704341437052029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55c0d97f287e45349b9046a249977595, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ogrePrefab: {fileID: 4733504212952526192, guid: 80716d64b22127f4fbc0776a79c22bec, type: 3}
+  goblinPrefab: {fileID: 4939747943407780155, guid: f59e6b8c9e737d54085f9cf89a266eaa, type: 3}
+  archerPrefab: {fileID: 3019000847415835507, guid: c072b1102b7c64e4db0698823b782c6c, type: 3}
+  darkWitchPrefab: {fileID: 8280887873811152406, guid: 3459eafaec8e15f4f979a90a4ebbf710, type: 3}
+  ogresBoost: 1
+  goblinsBoost: 2
+  archersBoost: 3
+  darkWitchesBoost: 4

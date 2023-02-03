@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Hair 5
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 0}
+  _category: {fileID: 11400000, guid: 19d705561eb77b14c93af83cd27a2126, type: 2}
+  _spriteSets:
+  - _downSprite: {fileID: 21300000, guid: 232722eafafc3734186f11ae08e10017, type: 3}
+    _sideSprite: {fileID: 21300000, guid: 55378ddd7adbce94ea1351adf7fc2374, type: 3}
+    _upSprite: {fileID: 21300000, guid: e66a8876533b6ef499914d4861272207, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: 0dfac89fab1c68a4eaf431f9d942ec81,
+      type: 2}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 21300000, guid: 0a308113a8f8a154eb63fcecb3f07fa3, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 6f619bd50ea3ac9469965808b59d2a6b, type: 3}
+      _upSprite: {fileID: 21300000, guid: dada7628df3cf594bb344805f7617ef1, type: 3}
+    - _downSprite: {fileID: 21300000, guid: e90b5518ff94eba4c9ee947ae39e62cc, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 95c45d47672fab14ab0a0c2961d3c290, type: 3}
+      _upSprite: {fileID: 21300000, guid: 9b2ae4f0adbbebe419d0daa4c7551944, type: 3}
+    - _downSprite: {fileID: 0}
+      _sideSprite: {fileID: 0}
+      _upSprite: {fileID: 0}
+  _locationsToHide: []
+  _slotPriority: 0
+  _canBeTinted: 1
+  _canDetailsBeTinted: 1
+  _useMainColorForDetail: 1

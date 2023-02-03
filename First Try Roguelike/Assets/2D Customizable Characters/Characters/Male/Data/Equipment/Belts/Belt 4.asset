@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Belt 4
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 09a2ded741544fa43964690155fc9b66, type: 3}
+  _category: {fileID: 11400000, guid: d5dc1342e3dbee948884dc0214112c6f, type: 2}
+  _spriteSets:
+  - _downSprite: {fileID: 21300000, guid: 09a2ded741544fa43964690155fc9b66, type: 3}
+    _sideSprite: {fileID: 21300000, guid: e4a1bcd10933ef24183b04dd67bf7a1f, type: 3}
+    _upSprite: {fileID: 21300000, guid: 5dba9670be21ac34987361177b6be3be, type: 3}
+    _customizationLocation: {fileID: 11400000, guid: 457b41cacb5d692499a268437550c753,
+      type: 2}
+    _detailSpriteSets:
+    - _downSprite: {fileID: 21300000, guid: a3ad2818a01074145b90854a27e844f1, type: 3}
+      _sideSprite: {fileID: 21300000, guid: 4a887d0c10af4954b801dde7771f244e, type: 3}
+      _upSprite: {fileID: 0}
+    - _downSprite: {fileID: 21300000, guid: 1cd420cbaeb4b4d459ac1d4d37cd6b92, type: 3}
+      _sideSprite: {fileID: 21300000, guid: ca36504c87eda044dad56edc8929b17e, type: 3}
+      _upSprite: {fileID: 21300000, guid: b6b8036ce96995c44825c2b80d6b9659, type: 3}
+    - _downSprite: {fileID: 0}
+      _sideSprite: {fileID: 0}
+      _upSprite: {fileID: 0}
+  _locationsToHide: []
+  _slotPriority: 0
+  _canBeTinted: 0
+  _canDetailsBeTinted: 1
+  _useMainColorForDetail: 0

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b6d4b6443e491941ba0e074e0b8eaea, type: 3}
+  m_Name: FireSpellStats
+  m_EditorClassIdentifier: 
+  name: Fire Spell
+  description: Beware this spell as it may burn you alive.
+  damage: 2
+  manaCost: 3
+  proyectilePrefab: {fileID: 550155997358378777, guid: 6029275556bd6df4594670c8ded51222, type: 3}
+  proyectileForce: 10
+  avatar: {fileID: 21300000, guid: 2c04f4986ebc72e48a8b0c3eb2e42db2, type: 3}
+  effect: {fileID: 11400000, guid: d38bb60be8afbf54da642897c930979b, type: 2}

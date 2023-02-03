@@ -1,0 +1,19 @@
+{
+    "name": "2DCustomizableCharacters.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:847a7d24f6ea372468fb9b9144a3aa72",
+        "GUID:2cb6a2f7cc8cbf44690699625ceb4fce"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34fba06d743f4aeea16806b76e238f2f, type: 3}
+  m_Name: Glasses 2
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 0e71faf1e43d23f4dbd205e9e73a3089, type: 3}
+  _category: {fileID: 11400000, guid: e1c94f8eb2b917c4f98517e2a7744e96, type: 2}
+  _spriteSets:
+  - _customizationLocation: {fileID: 11400000, guid: eb5de071cb8480740b963c32c93bdae8,
+      type: 2}
+    _downSprite: {fileID: 21300000, guid: 0e71faf1e43d23f4dbd205e9e73a3089, type: 3}
+    _sideSprite: {fileID: 21300000, guid: cecb6fc3975c2e1468b34981682b6714, type: 3}
+    _upSprite: {fileID: 0}
+    _detailSpriteSets: []
+  _locationsToHide: []
+  _slotPriority: 0
+  _canBeTinted: 1
+  _canDetailsBeTinted: 1
+  _canBeHidden: 1

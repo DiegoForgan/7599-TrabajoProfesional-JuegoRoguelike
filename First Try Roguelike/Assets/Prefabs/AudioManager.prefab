@@ -50,8 +50,68 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     source: {fileID: 0}
+  - name: GameOverTheme
+    clip: {fileID: 8300000, guid: 817644a43b8205141b524a4156338bb0, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   - name: HealthPickup
-    clip: {fileID: 8300000, guid: 61b07aced5766354f8bf2dad083748c2, type: 3}
+    clip: {fileID: 8300000, guid: 230ca10496c806c40a4e2221a871609f, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ManaPickup
+    clip: {fileID: 8300000, guid: a4ff48dbb6ab1c14b9b886ba4941c931, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: KeyPickup
+    clip: {fileID: 8300000, guid: 891ff1a0b13c5d440aec39eff4043f37, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: GoldPickup
+    clip: {fileID: 8300000, guid: a34f543da4cc14c44a559e007c0724e3, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: NoMana
+    clip: {fileID: 8300000, guid: 5fb2e83168c5e7b4bb6be3a910587e10, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Basic Spell
+    clip: {fileID: 8300000, guid: 8f73a3492af83a54bb69b2299d5cf559, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Fire Spell
+    clip: {fileID: 8300000, guid: a965e91f6c77e6945afa734e3bfa6cc3, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Poison Spell
+    clip: {fileID: 8300000, guid: 1926760c76de0ec48b497054c7ec3225, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Explosion
+    clip: {fileID: 8300000, guid: ac2b7f96f1e9046128da7d7684ced90a, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Hammer Throw
+    clip: {fileID: 8300000, guid: 1926760c76de0ec48b497054c7ec3225, type: 3}
     volume: 1
     pitch: 1
     loop: 0
