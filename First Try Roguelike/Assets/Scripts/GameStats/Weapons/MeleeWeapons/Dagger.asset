@@ -15,4 +15,4 @@ MonoBehaviour:
   name: Dagger
   description: "A goblin\xB4s preferred defense"
   damage: 1
-  range: 0.4
+  range: 0.6
