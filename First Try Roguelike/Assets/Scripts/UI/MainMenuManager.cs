@@ -9,6 +9,7 @@ public class MainMenuManager : MonoBehaviour
     private AudioManager audioManager;
     [SerializeField] private APIRequestHandler apiRequestHandler;
     [SerializeField] private Animator loginFormAnimator;
+    [SerializeField] private GameObject gameProgessBadge;
     [SerializeField] private GameObject newGameButton;
     [SerializeField] private GameObject continueButton;
     [SerializeField] private GameObject highScoresButton;
@@ -89,6 +90,17 @@ public class MainMenuManager : MonoBehaviour
 
         // Set interactability of "Continue" button
         continueButton.GetComponent<Button>().interactable = GameProgressManager.PlayerCanContinue();
+
+        // Set the game progress badge
+        UpdateGameProgressBadge();
+    }
+
+    // Updates the Game Progress level and difficulty shown on the main menu
+    private void UpdateGameProgressBadge() {
+        Transform gameProgressLevel = gameProgessBadge.gameObject.transform.Find("LevelFlag/CurrentLevelText");
+        Transform gameProgressDifficulty = gameProgessBadge.gameObject.transform.Find("DifficultyFlag/CurrentDifficultyLevelText");
+        gameProgressLevel.GetComponent<TMP_Text>().text = "LEVEL - " + GameProgressManager.GetNextLevel().ToString();
+        gameProgressDifficulty.GetComponent<TMP_Text>().text = GameProgressManager.getDifficultyLevel().ToString();
     }
 
     // Resets the highscores table
@@ -189,6 +201,13 @@ public class MainMenuManager : MonoBehaviour
 
         TextMeshProUGUI sliderValue = sliderContainer.gameObject.transform.Find("StartingDifficultySliderValue").GetComponent<TextMeshProUGUI>();
         sliderValue.text = SettingsManager.GetStartingDifficulty().ToString();
+
+        // If the player can't continue we have to update the starting difficulty in the game progress class
+        if (!GameProgressManager.PlayerCanContinue())
+        {
+            GameProgressManager.ResetGameProgress();
+            UpdateGameProgressBadge();
+        }
     }
     public void UpdateDeveloperModeToggle(GameObject settingsMenu)
     {

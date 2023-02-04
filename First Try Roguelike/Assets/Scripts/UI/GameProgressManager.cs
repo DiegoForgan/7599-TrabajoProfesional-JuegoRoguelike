@@ -36,7 +36,7 @@ public static class GameProgressManager
     }
 
     // Resets gameprogess to initial values 
-    public static void ResetGameProgress(string newSessionToken, string newSessionUsername)
+    public static void ResetGameProgress()
     {
         nextLevel = DEFAULT_NEXT_LEVEL;
         difficultyLevel = SettingsManager.GetStartingDifficulty();
