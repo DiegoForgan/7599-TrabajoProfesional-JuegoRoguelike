@@ -18,8 +18,11 @@ public class APIRequestHandler : MonoBehaviour
     [SerializeField] private GameObject loggedPanel;
     [SerializeField] private GameObject loginPanel;
     [SerializeField] private GameObject newGameButton;
-
+    [SerializeField] private GameObject continueButton;
     [SerializeField] private GameObject highScoresButton;
+    [SerializeField] private GameObject howToPlayButton;
+    [SerializeField] private GameObject settingsButton;
+    [SerializeField] private GameObject aboutButton;
     [SerializeField] private GameObject loginButton;
     [SerializeField] private GameObject highScoresTableMessage;
     [SerializeField] private GameObject highScoresEntryContainer;
@@ -89,9 +92,10 @@ public class APIRequestHandler : MonoBehaviour
         Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
         Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
 
-        // Disabling "New Game" and "High Scores" button
-        newGameButton.GetComponent<Button>().interactable = false;
+        // Disabling "High Scores" button
         highScoresButton.GetComponent<Button>().interactable = false;
+        // Disabling menu navigation
+        SessionDisableMainControls();
 
         UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+"/sessions/"+SessionManager.GetSessionToken());
         
@@ -129,26 +133,53 @@ public class APIRequestHandler : MonoBehaviour
         {
             // Session is no longer valid, show error message
             Debug.Log("Invalid session!");
-            setloggedInPanelExpiredSession();
+            SetloggedInPanelError("ERROR\nyour session has expired");
         }
+        // Session check process done
+        // Enabling menu navigation
+        SessionEnableMainControls();
     }
 
     // Configures the logged in panel to show a session expired message
     // Should be called from all API requests that error our due to expired session
-    private void setloggedInPanelExpiredSession()
+    private void SetloggedInPanelError(string message)
     {
         // Getting data from the UI
+        Transform loggedInPanelContainer = loggedPanel.gameObject.transform.Find("LoggedInPanelContainer");
         Transform loggedInMessageContainer = loggedPanel.gameObject.transform.Find("LoggedInMessageContainer");
         Transform loggedInMessage = loggedInMessageContainer.Find("LoggedInMessage");
         Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
         Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
 
         // Setting up logged in panel
+        loggedInPanelContainer.gameObject.SetActive(false);
         loggedInMessageContainer.gameObject.SetActive(true);
-        loggedInMessage.GetComponent<TMP_Text>().text = "ERROR\nyour session has expired";
+        loggedInMessage.GetComponent<TMP_Text>().text = message;
         loggedInMessage.gameObject.SetActive(true);
         loggedInSpinner.gameObject.SetActive(false);
         loggedInCloseButton.gameObject.SetActive(true);
+    }
+
+    // Disables navigation during session operations in the main screen (login/logout)
+    private void SessionDisableMainControls() {
+
+        newGameButton.GetComponent<Button>().interactable = false;
+        continueButton.GetComponent<Button>().interactable = false;
+        howToPlayButton.GetComponent<Button>().interactable = false;
+        settingsButton.GetComponent<Button>().interactable = false;
+        aboutButton.GetComponent<Button>().interactable = false;
+        loginButton.GetComponent<Button>().interactable = false;
+    }
+
+    // Enables navigation during session operations in the main screen (login/logout)
+    private void SessionEnableMainControls() {
+
+        newGameButton.GetComponent<Button>().interactable = true;
+        continueButton.GetComponent<Button>().interactable = GameProgressManager.PlayerCanContinue();
+        howToPlayButton.GetComponent<Button>().interactable = true;
+        settingsButton.GetComponent<Button>().interactable = true;
+        aboutButton.GetComponent<Button>().interactable = true;
+        loginButton.GetComponent<Button>().interactable = true;
     }
 
     private IEnumerator GetGameProgress()
@@ -269,11 +300,17 @@ public class APIRequestHandler : MonoBehaviour
         }
         else{
             ErrorAPIResponse errorResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
-            //ShowStatusMessage(request.result.ToString(), errorResponse.message, true);
             highScoresTableMessageText.GetComponent<TextMeshProUGUI>().text = "Error fetching data!";
             highScoresTableMessageSpinner.gameObject.SetActive(false);
+            // If the result was "Unauthorized", we show the session expired message in the logged in panel
+            if (request.responseCode == 401)
+            {
+                SetloggedInPanelError("ERROR\nyour session has expired");
+            }
+            else {
+                SetloggedInPanelError("ERROR\nPlease try again later");
+            }
         }
-
     }
     
     private IEnumerator UserLoginRequest(){
@@ -290,9 +327,9 @@ public class APIRequestHandler : MonoBehaviour
 
         loginFormContainer.gameObject.SetActive(false);
         loginMessageContainer.gameObject.SetActive(true);
-        // Disabling "New Game" button
-        newGameButton.GetComponent<Button>().interactable = false;
-    
+        // Disabling menu navigation
+        SessionDisableMainControls();
+
         // Formatting JSON string
         LoginRequestDTO loginRequest = new(username, password);
         string loginRequestJSON = JsonConvert.SerializeObject(loginRequest);
@@ -358,6 +395,9 @@ public class APIRequestHandler : MonoBehaviour
             loginSpinner.gameObject.SetActive(false);
             loginCloseButton.gameObject.SetActive(true);
         }
+        // Login process done
+        // Enabling menu navigation
+        SessionEnableMainControls();
     }
 
     private void setLoggedPanel(LoginResponseDTO loginResponse)
@@ -377,9 +417,10 @@ public class APIRequestHandler : MonoBehaviour
             Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
             Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
 
-            // Disabling "New Game" and "High Scores" button
-            newGameButton.GetComponent<Button>().interactable = false;
+            // Disabling "High Scores" button
             highScoresButton.GetComponent<Button>().interactable = false;
+            // Disabling menu navigation
+            SessionDisableMainControls();
 
             loggedInPanelContainer.gameObject.SetActive(false);
             loggedInMessage.GetComponent<TMP_Text>().text = "Logging out of your account\nplease wait...";
@@ -403,9 +444,11 @@ public class APIRequestHandler : MonoBehaviour
             Debug.Log(serverResponse.code);
             Debug.Log(serverResponse.message);
 
-            // Enabling "New Game" and "High Scores" button
-            newGameButton.GetComponent<Button>().interactable = true;
+            // Enabling "High Scores" button
             highScoresButton.GetComponent<Button>().interactable = true;
+            // Logout process done
+            // Enabling menu navigation
+            SessionEnableMainControls();
 
             if (request.result == UnityWebRequest.Result.Success){
                 Debug.Log("Success");
@@ -416,6 +459,7 @@ public class APIRequestHandler : MonoBehaviour
 
             // Storing user session data to use it on other API endpoints
             SessionManager.ClearSession();
+            loginButton.GetComponent<Button>().interactable = true;
             loginButton.SetActive(true);
             highScoresButton.SetActive(false);
             loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
@@ -556,6 +600,4 @@ public class APIRequestHandler : MonoBehaviour
         Debug.LogWarning("Status Code: " + response.getCode());
         Debug.LogWarning("Response: " + response.getBody());
     }
-
-   
 }

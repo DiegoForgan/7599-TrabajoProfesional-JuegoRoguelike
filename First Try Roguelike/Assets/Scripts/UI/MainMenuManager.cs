@@ -5,9 +5,12 @@ using TMPro;
 public class MainMenuManager : MonoBehaviour
 {
     private static bool initDone = false;
+    private bool loginPanelWasShowing = false;
     private AudioManager audioManager;
     [SerializeField] private APIRequestHandler apiRequestHandler;
     [SerializeField] private Animator loginFormAnimator;
+    [SerializeField] private GameObject newGameButton;
+    [SerializeField] private GameObject continueButton;
     [SerializeField] private GameObject highScoresButton;
     [SerializeField] private GameObject loginButton;
     [SerializeField] private GameObject loginPanel;
@@ -83,6 +86,9 @@ public class MainMenuManager : MonoBehaviour
             highScoresButton.SetActive(false);
             loginButton.SetActive(true);
         }
+
+        // Set interactability of "Continue" button
+        continueButton.GetComponent<Button>().interactable = GameProgressManager.PlayerCanContinue();
     }
 
     // Resets the highscores table
@@ -228,6 +234,7 @@ public class MainMenuManager : MonoBehaviour
             // Using screen width and panel position to determine weather it is showing or not
             if (loginPanel.transform.position.x < Screen.width)
             {
+                loginPanelWasShowing = true;
                 ShowOrHideLoginForm();
             }
         }
@@ -243,6 +250,10 @@ public class MainMenuManager : MonoBehaviour
         else
         {
             loginButton.SetActive(true);
+            if (loginPanelWasShowing) {
+                loginPanelWasShowing = false;
+                ShowOrHideLoginForm();
+            }
         }
     }
 
