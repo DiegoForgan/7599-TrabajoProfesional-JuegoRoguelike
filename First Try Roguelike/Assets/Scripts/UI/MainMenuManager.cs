@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -124,9 +125,33 @@ public class MainMenuManager : MonoBehaviour
         highScoresTableMessageSpinner.gameObject.SetActive(true);
     }
 
+    // Verifies if the user wants to start a new game
+    public void StartNewGameConfirm() {
+
+        if (GameProgressManager.PlayerCanContinue())
+        {
+            // Ask the user via a confirmation dialog if they want to lose their game progress
+            QuestionDialogUI.Instance.ShowQuestion(
+                "WARNING",
+                "All your saved progress will be lost. Are you sure?",
+                "Yes!",
+                "Cancel",
+                () => {
+                    // User clicked yes, we start a new game
+                    StartNewGame();
+                },
+                // If the user cancels, we just close the dialog
+                () => {}
+            );
+        }
+        else {
+            StartNewGame();
+        }
+    }
+
     // Starts a new game!
     // Loads first cinematic scene
-    public void StartNewGame() {
+    private void StartNewGame() {
         Debug.Log("Starting new game");
         LevelLoader.Instance.LoadNextScene();
     }
@@ -333,10 +358,30 @@ public class MainMenuManager : MonoBehaviour
     }
 
     // Saves user data and quits the game
-    public void ExitGame() {  
-        Debug.Log("Quitting Game...");
+    public void ExitGame() {
 
-        PersistAll();
-        Application.Quit();
+        var exitMessages = new List<string> {
+            "Your quest is not finished!",
+            "The people of Nodnol need you!",
+            "Nilbud is still at large!",
+            "Ordanel is cold in his cell!",
+            "Don't be such a wuss!"
+        };
+
+        // Ask the user via a confirmation dialog if they want to quit
+        QuestionDialogUI.Instance.ShowQuestion(
+            "QUIT?",
+            "How dare you quit. " + exitMessages[Random.Range(0,(exitMessages.Count-1))],
+            "I'm scared",
+            "Fight on!",
+            () => {
+                // User clicked yes, we quit the game
+                Debug.Log("Quitting Game...");
+                PersistAll();
+                Application.Quit();
+            },
+            // If the user cancels, we just close the dialog
+            () => {}
+        );
     }
 }
