@@ -72,7 +72,37 @@ public class APIRequestHandler : MonoBehaviour
     // Sends a request to open a new FIUBA CloudSync account
     // Performs field validations, but they should also be done client side
     public void RegisterNewUser(){
-        StartCoroutine(RegisterNewUserRequest());
+
+        // Getting data from the UI
+        // Username
+        Transform usernameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/UsernameInputField");
+        Transform usernameOK = usernameInput.Find("UsernameOK");
+        // Password
+        Transform passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform passwordOK = passwordInput.Find("PasswordOK");
+        // Password validation
+        Transform passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
+        Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
+        // First Name
+        Transform firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
+        Transform firstNameOK = firstNameInput.Find("FirstNameValidationOK");
+        // Last Name
+        Transform lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
+        Transform lastNameOK = lastNameInput.Find("LastNameValidationOK");
+        // Email
+        Transform emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
+        Transform emailOK = emailInput.Find("EmailValidationOK");
+
+        // We can only make the request if there are no errors in the form
+        if (usernameOK.gameObject.activeSelf &&
+            passwordOK.gameObject.activeSelf &&
+            passwordValidationOK.gameObject.activeSelf &&
+            firstNameOK.gameObject.activeSelf &&
+            lastNameOK.gameObject.activeSelf &&
+            emailOK.gameObject.activeSelf)
+        {
+            StartCoroutine(RegisterNewUserRequest());
+        }
     }
     // Sends a password reset request
     // Performs username field validation, but it should also be done client side
@@ -632,7 +662,7 @@ public class APIRequestHandler : MonoBehaviour
 
         // When registering a new user, the default avatar is set
         bool isUrl = true;
-        string avatarUrl = DEFAULT_AVATAR_URL + newFirstName + "+" + newLastName;
+        string avatarUrl = DEFAULT_AVATAR_URL + newFirstName.Replace(" ", string.Empty) + "+" + newLastName.Replace(" ", string.Empty);
  
         // Custom DTO class for registration
         RegisterNewUserRequestDTO registerNewUserRequestDTO = new(newUsername,newPassword,newFirstName,newLastName,new(newEmail,newPhone),new(isUrl,avatarUrl));
@@ -645,10 +675,31 @@ public class APIRequestHandler : MonoBehaviour
     // Implements the POST request to register a new user
     private IEnumerator RegisterNewUserRequest(){
         Debug.Log("Registering new user to the game...");
-        string registerDataJson = GetJsonStringRegisterData();
+        // Getting data from the UI
+        // Form container
+        Transform formContainer = registerMenu.gameObject.transform.Find("RegisterFormContainer");
+        // Status
+        Transform statusContainer = registerMenu.gameObject.transform.Find("StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        Transform statusSuccess = statusContainer.Find("StatusSuccess");
+        Transform statusError = statusContainer.Find("StatusError");
+        Transform statusText = statusContainer.Find("StatusText");
+
+        backButton.gameObject.GetComponent<Button>().interactable = false;
+        // Setting form container
+        formContainer.gameObject.SetActive(false);
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(true);
+        statusSuccess.gameObject.SetActive(false);
+        statusError.gameObject.SetActive(false);
+        statusText.gameObject.GetComponent<TMP_Text>().text = "Sending your request\nplease wait...";
+        // Setting status container
+        statusContainer.gameObject.SetActive(true);
 
         // The UnityWebRequest library its pretty tricky, for POST method you should start with PUT and then change it on the next lines
         // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
+        string registerDataJson = GetJsonStringRegisterData();
         UnityWebRequest request = UnityWebRequest.Put(GetServerBaseURL()+USERS_ROUTE, registerDataJson);
         request.method = UnityWebRequest.kHttpVerbPOST;
         
@@ -656,18 +707,57 @@ public class APIRequestHandler : MonoBehaviour
         request.SetRequestHeader("Accept", "application/json");
         
         yield return request.SendWebRequest();
-        
+
+        UnityWebRequestResponseDTO responseDTO = new(request);
+        // Show data to the user to reflect the result of the request
+        showResponseData(responseDTO);
+
         //Response handling
-        if(request.result == UnityWebRequest.Result.ProtocolError){
-            Debug.Log("Missing data to fullfill the request or User already exists");
-        }
-        else if(request.result == UnityWebRequest.Result.Success){
+        if (request.responseCode == 201){
             Debug.Log("Success");
+            statusText.gameObject.GetComponent<TMP_Text>().text = "SUCCESS! Welcome to FIUBA CloudSync\nyou may login now...";
+            statusSuccess.gameObject.SetActive(true);
         }
-        else Debug.Log(request.result);
-        Debug.Log("Status Code: " + request.responseCode);
-        Debug.Log("Response: " + request.downloadHandler.text);
-        Debug.Log(request.result);
+        else{
+            Debug.Log("Error");
+            statusError.gameObject.SetActive(true);
+            // Formatting data to JSON.
+            try {
+                APIErrorResponseDTO errorResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
+
+                // Show error message in panel
+                if (request.responseCode == 400)
+                {
+                    switch(errorResponse.getCode()) 
+                    {
+                    case -5:
+                        statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\n" + errorResponse.getMessage();
+                        break;
+                    case -6:
+                        statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\n" + errorResponse.getMessage();
+                        break;
+                    default:
+                        statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\n Bad request. This should not happen, please contact support!";
+                        break;
+                    }
+                }
+                else
+                {
+                    statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
+                }
+            }
+            catch
+            {
+                Debug.LogWarning("This server is not sending the correct messages!");
+                statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
+            }
+        }
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(false);
+        // Registration process done
+        // Enabling menu navigation
+        backButton.gameObject.GetComponent<Button>().interactable = true;
     }
 
     private void showResponseData(UnityWebRequestResponseDTO response) {

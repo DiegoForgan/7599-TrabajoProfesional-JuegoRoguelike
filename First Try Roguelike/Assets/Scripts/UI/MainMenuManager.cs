@@ -427,6 +427,8 @@ public class MainMenuManager : MonoBehaviour
         // Status
         Transform statusContainer = registerMenu.gameObject.transform.Find("StatusContainer");
         Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        Transform statusSuccess = statusContainer.Find("StatusSuccess");
+        Transform statusError = statusContainer.Find("StatusError");
         Transform statusText = statusContainer.Find("StatusText");
 
         // Register form
@@ -467,7 +469,277 @@ public class MainMenuManager : MonoBehaviour
         statusContainer.gameObject.SetActive(false);
         // Resetting status elements
         statusSpinner.gameObject.SetActive(true);
+        statusSuccess.gameObject.SetActive(false);
+        statusError.gameObject.SetActive(false);
         statusText.gameObject.GetComponent<TMP_Text>().text = "Sending your request\nplease wait...";
+    }
+
+    // Clear methods for register form
+    // Username
+    public void RegisterClearUsername() {
+        // Getting data from the UI
+        // Username
+        Transform usernameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/UsernameInputField");
+        Transform usernameValidationText = usernameInput.Find("UsernameValidationText");
+        Transform usernameOK = usernameInput.Find("UsernameOK");
+        Transform usernameSpinner = usernameInput.Find("UsernameSpinner");
+
+        // If there is an error, we clear the field
+        if (!FormDataValidation.IsValidUsername(usernameInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            usernameInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            usernameSpinner.gameObject.SetActive(false);
+            usernameValidationText.gameObject.SetActive(false);
+            usernameOK.gameObject.SetActive(false);
+        }
+    }
+    // Password
+    public void RegisterClearPassword() {
+
+        // Getting data from the UI
+        // Password
+        Transform passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform passwordHintText = passwordInput.Find("PasswordHintText");
+        Transform passwordValidationText = passwordInput.Find("PasswordValidationText");
+        Transform passwordOK = passwordInput.Find("PasswordOK");
+        // Password validation
+        Transform passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
+        Transform passwordValidationValidationText = passwordValidationInput.Find("PasswordValidationValidationText");
+        Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
+
+        string password = passwordInput.gameObject.GetComponent<TMP_InputField>().text;
+
+        // If there is an error, we clear the field
+        if (!FormDataValidation.IsValidPassword(password))
+        {
+            passwordInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            passwordHintText.gameObject.SetActive(true);
+            passwordValidationText.gameObject.SetActive(false);
+            passwordOK.gameObject.SetActive(false);
+
+            passwordValidationInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            passwordValidationValidationText.gameObject.SetActive(false);
+            passwordValidationOK.gameObject.SetActive(false);
+        }
+    }
+    // Email
+    public void RegisterClearEmail() {
+        // Getting data from the UI
+        // Email
+        Transform emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
+        Transform emailValidationText = emailInput.Find("EmailValidationText");
+        Transform emailOK = emailInput.Find("EmailValidationOK");
+        Transform emailSpinner = emailInput.Find("EmailSpinner");
+
+        // If there is an error, we clear the field
+        if (!FormDataValidation.IsValidEmail(emailInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            emailInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            emailSpinner.gameObject.SetActive(false);
+            emailValidationText.gameObject.SetActive(false);
+            emailOK.gameObject.SetActive(false);
+        }
+    }
+    // First Name
+    public void RegisterClearFirstName() {
+        // Getting data from the UI
+        // First Name
+        Transform firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
+        Transform firstNameValidationText = firstNameInput.Find("FirstNameValidationText");
+        Transform firstNameOK = firstNameInput.Find("FirstNameValidationOK");
+
+        // If there is an error, we clear the field
+        if (!FormDataValidation.IsValidName(firstNameInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            firstNameInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            firstNameValidationText.gameObject.SetActive(false);
+            firstNameOK.gameObject.SetActive(false);
+        }
+    }
+    // Last Name
+    public void RegisterClearLastName() {
+        // Getting data from the UI
+        // Last Name
+        Transform lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
+        Transform lastNameValidationText = lastNameInput.Find("LastNameValidationText");
+        Transform lastNameOK = lastNameInput.Find("LastNameValidationOK");
+
+        // If there is an error, we clear the field
+        if (!FormDataValidation.IsValidName(lastNameInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            lastNameInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            lastNameValidationText.gameObject.SetActive(false);
+            lastNameOK.gameObject.SetActive(false);
+        }
+    }
+
+    // Validate methods for register form
+    // Username
+    public void RegisterValidateUsername() {
+        // Getting data from the UI
+        // Username
+        Transform usernameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/UsernameInputField");
+        Transform usernameValidationText = usernameInput.Find("UsernameValidationText");
+        Transform usernameOK = usernameInput.Find("UsernameOK");
+        Transform usernameSpinner = usernameInput.Find("UsernameSpinner");
+
+        // Validating the username field
+        if (FormDataValidation.IsValidUsername(usernameInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            usernameValidationText.gameObject.SetActive(false);
+            usernameSpinner.gameObject.SetActive(false);
+            usernameOK.gameObject.SetActive(true);
+        }
+        else
+        {
+            usernameValidationText.gameObject.SetActive(true);
+            usernameSpinner.gameObject.SetActive(false);
+            usernameOK.gameObject.SetActive(false);
+        }    
+    }
+    // Password
+    public void RegisterValidatePassword() {
+
+        // Getting data from the UI
+        // Password
+        Transform passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform passwordHintText = passwordInput.Find("PasswordHintText");
+        Transform passwordValidationText = passwordInput.Find("PasswordValidationText");
+        Transform passwordOK = passwordInput.Find("PasswordOK");
+        // Password validation
+        Transform passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
+        Transform passwordValidationValidationText = passwordValidationInput.Find("PasswordValidationValidationText");
+        Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
+
+        string password = passwordInput.gameObject.GetComponent<TMP_InputField>().text;
+        string passwordValidation = passwordValidationInput.gameObject.GetComponent<TMP_InputField>().text;
+
+        // Validating the password field, and the confirmation
+        if (FormDataValidation.IsValidPassword(password))
+        {
+            passwordHintText.gameObject.SetActive(true);
+            passwordValidationText.gameObject.SetActive(false);
+            passwordOK.gameObject.SetActive(true);
+
+            if (password == passwordValidation)
+            {
+                passwordValidationValidationText.gameObject.SetActive(false);
+                passwordValidationOK.gameObject.SetActive(true);
+            }
+            else
+            {
+                passwordValidationValidationText.gameObject.SetActive(true);
+                passwordValidationOK.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            passwordHintText.gameObject.SetActive(false);
+            passwordValidationText.gameObject.SetActive(true);
+            passwordOK.gameObject.SetActive(false);
+
+            passwordValidationInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            passwordValidationValidationText.gameObject.SetActive(false);
+            passwordValidationOK.gameObject.SetActive(false);
+        }
+    }
+    public void RegisterValidatePasswordValidation() {
+
+        // Getting data from the UI
+        // Password
+        Transform passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform passwordHintText = passwordInput.Find("PasswordHintText");
+        Transform passwordValidationText = passwordInput.Find("PasswordValidationText");
+        Transform passwordOK = passwordInput.Find("PasswordOK");
+        // Password validation
+        Transform passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
+        Transform passwordValidationValidationText = passwordValidationInput.Find("PasswordValidationValidationText");
+        Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
+
+        string password = passwordInput.gameObject.GetComponent<TMP_InputField>().text;
+        string passwordValidation = passwordValidationInput.gameObject.GetComponent<TMP_InputField>().text;
+
+        // Validating the password field, and the confirmation
+        if (FormDataValidation.IsValidPassword(password))
+        {
+            passwordHintText.gameObject.SetActive(true);
+            passwordValidationText.gameObject.SetActive(false);
+            passwordOK.gameObject.SetActive(true);
+
+            if (password == passwordValidation)
+            {
+                passwordValidationValidationText.gameObject.SetActive(false);
+                passwordValidationOK.gameObject.SetActive(true);
+            }
+            else
+            {
+                passwordValidationValidationText.gameObject.SetActive(true);
+                passwordValidationOK.gameObject.SetActive(false);
+            }
+        }
+    }    
+    // Email
+    public void RegisterValidateEmail() {
+        // Getting data from the UI
+        // Email
+        Transform emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
+        Transform emailValidationText = emailInput.Find("EmailValidationText");
+        Transform emailOK = emailInput.Find("EmailValidationOK");
+        Transform emailSpinner = emailInput.Find("EmailSpinner");
+
+        // Validating the email field
+        if (FormDataValidation.IsValidEmail(emailInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            emailValidationText.gameObject.SetActive(false);
+            emailSpinner.gameObject.SetActive(false);
+            emailOK.gameObject.SetActive(true);
+        }
+        else
+        {
+            emailValidationText.gameObject.SetActive(true);
+            emailSpinner.gameObject.SetActive(false);
+            emailOK.gameObject.SetActive(false);
+        }   
+    }
+    // First Name
+    public void RegisterValidateFirstName() {
+        // Getting data from the UI
+        // First Name
+        Transform firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
+        Transform firstNameValidationText = firstNameInput.Find("FirstNameValidationText");
+        Transform firstNameOK = firstNameInput.Find("FirstNameValidationOK");
+
+        // Validating the first name field
+        if (FormDataValidation.IsValidName(firstNameInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            firstNameValidationText.gameObject.SetActive(false);
+            firstNameOK.gameObject.SetActive(true);
+        }
+        else
+        {
+            firstNameValidationText.gameObject.SetActive(true);
+            firstNameOK.gameObject.SetActive(false);
+        }    
+    }
+    // Last Name
+    public void RegisterValidateLastName() {
+        // Getting data from the UI
+        // Last Name
+        Transform lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
+        Transform lastNameValidationText = lastNameInput.Find("LastNameValidationText");
+        Transform lastNameOK = lastNameInput.Find("LastNameValidationOK");
+
+        // Validating the last name field
+        if (FormDataValidation.IsValidName(lastNameInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            lastNameValidationText.gameObject.SetActive(false);
+            lastNameOK.gameObject.SetActive(true);
+        }
+        else
+        {
+            lastNameValidationText.gameObject.SetActive(true);
+            lastNameOK.gameObject.SetActive(false);
+        }    
     }
 
     // Saves user data and quits the game
