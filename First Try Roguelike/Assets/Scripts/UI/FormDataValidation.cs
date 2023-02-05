@@ -1,7 +1,4 @@
 using System.Text.RegularExpressions;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 // Use this class to validate data input into forms
 // Using same definitions as FIUBA CloudSync WebAdmin
