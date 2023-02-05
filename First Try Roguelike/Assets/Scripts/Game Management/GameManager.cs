@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     private DoorSpawner doorSpawner;
     private int difficultyLevel;
     private int level;
+
+    private const string proyectileTag = "proyectile";
     
     public static GameManager Instance{ get{ return gameManager; } }
     private void Awake()
@@ -137,6 +139,17 @@ public class GameManager : MonoBehaviour
         itemSpawner.destroyAllSpawedObjects();
         enemySpawner.destroyAllSpawedObjects();
         doorSpawner.destroyAllSpawedObjects();
+        destroyProyectilesCasted();
+    }
+
+    private void destroyProyectilesCasted()
+    {
+        GameObject[] proyectilesActiveOnScene = GameObject.FindGameObjectsWithTag(proyectileTag);
+        if (proyectilesActiveOnScene.Length == 0) return;
+        foreach (var proyectile in proyectilesActiveOnScene)
+        {
+            Destroy(proyectile);
+        }
     }
 
     internal void CreateNewLevel()
