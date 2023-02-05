@@ -7,14 +7,26 @@ using TMPro;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
+// This class handles the communication with the FIUBA CloudSync API
+// Temporarily, it also controls the Main Menu UI after an async call is resolved
+// TODO: separate Request and UI handling responsibilites 
+// ---
+// API technical documuentation: https://github.com/juanmg0511/7599-TrabajoProfesional-CloudSync-AppServer/wiki/Dise%C3%B1o:-Servidor-Flask-(API)
+// OpenAPI 3.0 specification: https://app-qa.7599-fiuba-cs.net/api/v1/swagger-ui/
 public class APIRequestHandler : MonoBehaviour
 {
-    private const string PR_URL = "https://app.7599-fiuba-cs.net/api/v1/"; // DOWN TEMPORARILY
+    // Resources and Routes 
+    // The PR environment of FIUBA CloudSync is not online for the develepment process
+    // Use the "Use QA Servers" in the Developer mode settings
+    private const string PR_URL = "https://app.7599-fiuba-cs.net/api/v1/";
     private const string QA_URL = "https://app-qa.7599-fiuba-cs.net/api/v1/";
+    private const string DEFAULT_AVATAR_URL = "https://ui-avatars.com/api/?background=1A82E2&color=FFFFFF&size=256&name=";
     private const string HIGHSCORES_ROUTE = "highscores?start=0&limit=50&sort_column=difficulty_level,achieved_level,gold_collected,time_elapsed&sort_order=-1,-1,-1,1";
     private const string SESSIONS_ROUTE = "sessions";
     private const string RECOVERY_ROUTE = "recovery";
     private const string USERS_ROUTE = "users";
+
+    // UI objects references
     [SerializeField] private GameObject loggedPanel;
     [SerializeField] private GameObject loginPanel;
     [SerializeField] private GameObject newGameButton;
@@ -30,6 +42,9 @@ public class APIRequestHandler : MonoBehaviour
     [SerializeField] private GameObject highScoresEntryTemplate;
     [SerializeField] private GameObject resetPasswordMenu;
 
+
+    // Returns the base URL to use, depending on the configured setting
+    // Use the "Use QA Servers" in the Developer mode settings to use QA environment
     private string GetServerBaseURL()
     {
         if (SettingsManager.GetUseQaServersOn())
@@ -42,16 +57,24 @@ public class APIRequestHandler : MonoBehaviour
         }
     } 
 
+
+    // Operations to the API
+    // Verifies that a username or email is already registered
     public void CheckUsernameAlreadyTaken(){
         StartCoroutine(CheckUsernameRequest());
     }
+    // Checks if a session is still valid
+    // If it is, it extends it by one time delta (configurable in server)
     public void CheckValidSession(){
         StartCoroutine(CheckValidSessionRequest());
     }
+    // Sends a request to open a new FIUBA CloudSync account
+    // Performs field validations, but they should also be done client side
     public void RegisterNewUser(){
         StartCoroutine(RegisterNewUserRequest());
     }
-
+    // Sends a password reset request
+    // Performs username field validation, but it should also be done client side
     public void ForgotPassword(){
 
         // Getting data from the UI
@@ -69,7 +92,9 @@ public class APIRequestHandler : MonoBehaviour
             validationText.gameObject.SetActive(true);
         }        
     }
-
+    // Logs the user into the system
+    // A user can concurrently log in from multiple devices
+    // Returns a session object, with token
     public void UserLogin(){
 
         // Getting data from the UI
@@ -89,21 +114,25 @@ public class APIRequestHandler : MonoBehaviour
             inputPassword.GetComponent<TMP_InputField>().text = string.Empty;
         }
     }
-
+    // Logs the user out of the system
+    // If the request fails with "unauthorized", the session should be cleared in the client
     public void UserLogOut(){
         if (SessionManager.IsUserLoggedIn()) StartCoroutine(UserLogOutRequest());
         else Debug.LogWarning("Cant logout user because is already logged out!");
     }
-
+    // Fetches the highscores table from the servers
     public void ShowHighScores(){
         StartCoroutine(ShowHighScoresRequest());
     }
-
+    // Gets the user's game progress information
+    // This is used as a way to save the game and sync it with multiple devices
     public void GetUserGameProgress() {
         if (SessionManager.IsUserLoggedIn()) StartCoroutine(GetGameProgress());
         else Debug.LogWarning("User Session not found, cant get progress");
     }
 
+
+    // Async request and result handling implementation
     private IEnumerator CheckValidSessionRequest()
     {
         // Getting data from the UI
@@ -223,26 +252,6 @@ public class APIRequestHandler : MonoBehaviour
         Debug.Log("Difficulty Level: " + gameProgress.getDifficultyLevel());
         Debug.Log("Elapsed Time: " + gameProgress.getTimeElapsed());
     }
-
-    //private void ShowStatusMessage(string title, string message, bool shouldClose){
-    //    if(statusPanel == null) this.statusPanel = GameObject.Find("StatusPanel");
-    //    
-    //    TextMeshProUGUI statusTitle = this.statusPanel.transform.Find("StatusTitle").GetComponent<TextMeshProUGUI>();
-    //    TextMeshProUGUI statusMsg = this.statusPanel.transform.Find("StatusMessage").GetComponent<TextMeshProUGUI>();
-    //    
-    //    statusTitle.SetText(title);
-    //    statusMsg.SetText(message);
-    //
-    //    statusPanel.SetActive(true);
-    //    
-    //    if(closeButton == null) this.closeButton = GameObject.Find("CloseButton");
-    //    closeButton.SetActive(shouldClose);
-    //}
-
-    //private void CloseStatusMessage(){
-    //    if(statusPanel == null) this.statusPanel = GameObject.Find("StatusPanel");
-    //    statusPanel.SetActive(false);
-    //}
 
     private IEnumerator ShowHighScoresRequest(){
 
@@ -611,7 +620,7 @@ public class APIRequestHandler : MonoBehaviour
         if(newPhone == "") newPhone = "-1";
         // TO DO: Add custom Avatar support, in the meantime default avatar is set
         bool isUrl = true;
-        string avatarUrl = "https://ui-avatars.com/api/?background=1A82E2&color=FFFFFF&size=256&name="+newFirstName+"+"+newLastName;
+        string avatarUrl = DEFAULT_AVATAR_URL + newFirstName + "+" + newLastName;
         //TO DO: ADD missing info to the json -> Avatar and login service
         //return "{ \"username\": \""+newUsername+"\", \"password\": \""+newPassword+"\", \"first_name\": \""+newFirstName+"\", \"last_name\": \""+newLastName+"\", \"contact\": { \"email\": \""+newEmail+"\", \"phone\": \""+newPhone+"\" }, \"avatar\": { \"isUrl\": "+isUrl.ToString().ToLower()+", \"data\": \""+avatarUrl+"\" }}"; 
         RegisterNewUserRequestDTO registerNewUserRequestDTO = new(newUsername,newPassword,newFirstName,newLastName,new(newEmail,newPhone),new(isUrl,avatarUrl));
