@@ -7,6 +7,9 @@ public class MainMenuManager : MonoBehaviour
 {
     private static bool initDone = false;
     private bool loginPanelWasShowing = false;
+    // Use this to mark if the user beat level 10, at any difficulty level
+    // This is used so that the final message can be shown!
+    private static bool finishedGame = false;
     private AudioManager audioManager;
     [SerializeField] private APIRequestHandler apiRequestHandler;
     [SerializeField] private Animator loginFormAnimator;
@@ -22,6 +25,13 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject devSettingsPanel;
     [SerializeField] private GameObject aboutVersionField;
     [SerializeField] private GameObject resetPasswordMenu;
+
+    // Setter for finishedGame: always sets to *true*
+    // Getter is not required, as it is handled internally
+    // Shoud be re-setted to false after excecuting post game actions!
+    void SetFinishedGame() {
+        finishedGame = true;
+    }
 
     // Start is called before the first frame update
     void Start()
