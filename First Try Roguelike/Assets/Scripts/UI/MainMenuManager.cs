@@ -366,10 +366,12 @@ public class MainMenuManager : MonoBehaviour
         Transform statusContainer = resetPasswordMenu.gameObject.transform.Find("StatusContainer");
         Transform statusSpinner = statusContainer.Find("StatusSpinner");
         TMP_InputField usernameInputFieldComponent = usernameInputField.GetComponent<TMP_InputField>();
+        Transform validationText = usernameInputField.gameObject.transform.Find("UsernameValidationText");
         TMP_Text statusText = statusContainer.Find("StatusText").GetComponent<TMP_Text>();
         Button sendButton = resetPasswordMenu.gameObject.transform.Find("SendButton").GetComponent<Button>();
 
         usernameInputField.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        validationText.gameObject.SetActive(false);
         usernameInputFieldComponent.interactable = true;
         sendButton.interactable = true;
         statusContainer.gameObject.SetActive(false);

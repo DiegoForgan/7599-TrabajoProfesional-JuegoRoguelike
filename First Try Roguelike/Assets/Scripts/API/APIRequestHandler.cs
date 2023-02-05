@@ -558,6 +558,7 @@ public class APIRequestHandler : MonoBehaviour
             catch
             {
                 Debug.LogWarning("This server is not sending the correct messages!");
+                statusText.text = "ERROR\nPlease try again later";
             }
         }
     }
