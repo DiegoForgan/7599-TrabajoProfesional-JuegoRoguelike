@@ -22,6 +22,7 @@ public class APIRequestHandler : MonoBehaviour
     [SerializeField] private GameObject highScoresButton;
     [SerializeField] private GameObject howToPlayButton;
     [SerializeField] private GameObject settingsButton;
+    [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject aboutButton;
     [SerializeField] private GameObject loginButton;
     [SerializeField] private GameObject highScoresTableMessage;
@@ -507,6 +508,7 @@ public class APIRequestHandler : MonoBehaviour
         statusContainer.gameObject.SetActive(true);
         usernameInputFieldComponent.interactable = false;
         sendButton.interactable = false;
+        backButton.gameObject.GetComponent<Button>().interactable = false;
 
         PasswordRecoveryRequestDTO passwordRecoveryDTO = new(username);
         string passwordRecoveryBody = JsonConvert.SerializeObject(passwordRecoveryDTO);
@@ -523,6 +525,7 @@ public class APIRequestHandler : MonoBehaviour
         showResponseData(responseDTO);
 
         statusSpinner.gameObject.SetActive(false);
+        backButton.gameObject.GetComponent<Button>().interactable = true;
         if (responseDTO.getResult() == UnityWebRequest.Result.Success){
             Debug.Log("Success");
             // Formatting data to JSON.
