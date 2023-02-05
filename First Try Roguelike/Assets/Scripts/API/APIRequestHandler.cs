@@ -27,6 +27,7 @@ public class APIRequestHandler : MonoBehaviour
     [SerializeField] private GameObject highScoresTableMessage;
     [SerializeField] private GameObject highScoresEntryContainer;
     [SerializeField] private GameObject highScoresEntryTemplate;
+    [SerializeField] private GameObject resetPasswordMenu;
 
     private string GetServerBaseURL()
     {
@@ -51,7 +52,21 @@ public class APIRequestHandler : MonoBehaviour
     }
 
     public void ForgotPassword(){
-        StartCoroutine(ForgotPasswordRequest());
+
+        // Getting data from the UI
+        Transform usernameInputField = resetPasswordMenu.gameObject.transform.Find("UsernameInputField");
+
+        string username = usernameInputField.gameObject.GetComponent<TMP_InputField>().text;
+        Transform validationText = usernameInputField.gameObject.transform.Find("UsernameValidationText");
+
+        // Only make request if user has entered a valid email address
+        if (!string.IsNullOrWhiteSpace(username) && FormDataValidation.IsValidUsername(username)) {
+            validationText.gameObject.SetActive(false);
+            StartCoroutine(ForgotPasswordRequest());
+        }
+        else {
+            validationText.gameObject.SetActive(true);
+        }        
     }
 
     public void UserLogin(){
@@ -476,9 +491,23 @@ public class APIRequestHandler : MonoBehaviour
 
     private IEnumerator ForgotPasswordRequest(){
         // Getting data from the UI
-        string username = GameObject.Find("UserNameForgotInputField").GetComponent<TMP_InputField>().text;
-        //TextMeshProUGUI mailSentUI = GameObject.Find("MailSentMsg").GetComponent<TextMeshProUGUI>();
- 
+        Transform usernameInputField = resetPasswordMenu.gameObject.transform.Find("UsernameInputField");
+
+        string username = usernameInputField.gameObject.GetComponent<TMP_InputField>().text;
+        Transform validationText = usernameInputField.gameObject.transform.Find("UsernameValidationText");
+        Transform statusContainer = resetPasswordMenu.gameObject.transform.Find("StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        TMP_InputField usernameInputFieldComponent = usernameInputField.GetComponent<TMP_InputField>();
+        TMP_Text statusText = statusContainer.Find("StatusText").GetComponent<TMP_Text>();
+        Button sendButton = resetPasswordMenu.gameObject.transform.Find("SendButton").GetComponent<Button>();
+
+        // Setting initial status for form
+        statusText.text = "Sending your request\nplease wait...";
+        statusSpinner.gameObject.SetActive(true);
+        statusContainer.gameObject.SetActive(true);
+        usernameInputFieldComponent.interactable = false;
+        sendButton.interactable = false;
+
         PasswordRecoveryRequestDTO passwordRecoveryDTO = new(username);
         string passwordRecoveryBody = JsonConvert.SerializeObject(passwordRecoveryDTO);
         
@@ -493,25 +522,35 @@ public class APIRequestHandler : MonoBehaviour
         UnityWebRequestResponseDTO responseDTO = new(request);
         showResponseData(responseDTO);
 
+        statusSpinner.gameObject.SetActive(false);
         if (responseDTO.getResult() == UnityWebRequest.Result.Success){
             Debug.Log("Success");
             // Formatting data to JSON.
             PasswordRecoveryResponseDTO passwordRecoveryResponse = JsonConvert.DeserializeObject<PasswordRecoveryResponseDTO>(responseDTO.getBody());
             // Masks the current user recovery email address address@hosting.com => *****ss@hosting.com
             string input = passwordRecoveryResponse.getEmail();
-            string pattern = @".(?=.*..@)";     //@"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
+            string pattern = @".(?=.*..@)";
             string maskedEmail = Regex.Replace(input, pattern, m => new string('*', m.Length));
             // Shows the user the correct UI
-            //mailSentUI.SetText("Recovery mail sent to: "+maskedEmail+"\n Check your account to complete the process");
+            statusText.text = "Recovery mail sent to: " + maskedEmail + "\n Check your account to complete the process!";
         }
         else{
-            // Shows the user the correct UI
-            //mailSentUI.SetText("Invalid Username");
-            //Debug.Log("Result: " + request.result);
-            //Debug.Log("Status Code: " + request.responseCode);
-            //Debug.Log("Response: " + request.downloadHandler.text);
+            usernameInputField.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            usernameInputFieldComponent.interactable = true;
+            sendButton.interactable = true;
+            try {
+                APIErrorResponseDTO errorResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
+                // Show data to the user to reflect the result of the request
+                Debug.Log(errorResponse.getCode());
+                Debug.Log(errorResponse.getMessage());
+                Debug.Log(errorResponse.getData());
+                statusText.text = errorResponse.getMessage();
+            }
+            catch
+            {
+                Debug.LogWarning("This server is not sending the correct messages!");
+            }
         }
-
     }
 
     private IEnumerator CheckUsernameRequest(){

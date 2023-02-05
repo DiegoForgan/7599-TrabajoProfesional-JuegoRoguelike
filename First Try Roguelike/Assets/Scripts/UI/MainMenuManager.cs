@@ -21,6 +21,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject highScoresEntryTemplate;
     [SerializeField] private GameObject devSettingsPanel;
     [SerializeField] private GameObject aboutVersionField;
+    [SerializeField] private GameObject resetPasswordMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -355,6 +356,25 @@ public class MainMenuManager : MonoBehaviour
         SessionManager.PersistSession();
         // Saves gameprogress data
         GameProgressManager.PersistGameProgress();
+    }
+
+    // Resets the "Reset Password" main menu screen
+    public void ResetPasswordMenuForm() {
+        // Getting data from the UI      
+        Transform usernameInputField = resetPasswordMenu.gameObject.transform.Find("UsernameInputField");
+
+        Transform statusContainer = resetPasswordMenu.gameObject.transform.Find("StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        TMP_InputField usernameInputFieldComponent = usernameInputField.GetComponent<TMP_InputField>();
+        TMP_Text statusText = statusContainer.Find("StatusText").GetComponent<TMP_Text>();
+        Button sendButton = resetPasswordMenu.gameObject.transform.Find("SendButton").GetComponent<Button>();
+
+        usernameInputField.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        usernameInputFieldComponent.interactable = true;
+        sendButton.interactable = true;
+        statusContainer.gameObject.SetActive(false);
+        statusSpinner.gameObject.SetActive(true);
+        statusText.text = "Sending your request\nplease wait...";
     }
 
     // Saves user data and quits the game
