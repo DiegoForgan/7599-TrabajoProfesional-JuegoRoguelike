@@ -40,6 +40,7 @@ public class APIRequestHandler : MonoBehaviour
     [SerializeField] private GameObject highScoresTableMessage;
     [SerializeField] private GameObject highScoresEntryContainer;
     [SerializeField] private GameObject highScoresEntryTemplate;
+    [SerializeField] private GameObject registerMenu;
     [SerializeField] private GameObject resetPasswordMenu;
 
 
@@ -609,27 +610,43 @@ public class APIRequestHandler : MonoBehaviour
         else Debug.Log("Request resulted in unknown error");
     }
 
+    // Generates a json object from the register form
+    // Ready to be posted to the server
     private string GetJsonStringRegisterData(){
         // Getting all register data from input fields (maybe should optimize this!)
-        string newUsername = GameObject.Find("UserNameInputField").GetComponent<TMP_InputField>().text;
-        string newPassword = GameObject.Find("PasswordInputField").GetComponent<TMP_InputField>().text;
-        string newFirstName = GameObject.Find("FirstNameInputField").GetComponent<TMP_InputField>().text;
-        string newLastName = GameObject.Find("LastNameInputField").GetComponent<TMP_InputField>().text;
-        string newEmail = GameObject.Find("EmailInputField").GetComponent<TMP_InputField>().text;
-        string newPhone = GameObject.Find("PhoneInputField").GetComponent<TMP_InputField>().text;
-        if(newPhone == "") newPhone = "-1";
-        // TO DO: Add custom Avatar support, in the meantime default avatar is set
+        Transform usernameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/UsernameInputField");
+        Transform passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
+        Transform lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
+        Transform emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
+
+        string newUsername = usernameInput.gameObject.GetComponent<TMP_InputField>().text;
+        string newPassword = passwordInput.gameObject.GetComponent<TMP_InputField>().text;
+        string newFirstName = firstNameInput.gameObject.GetComponent<TMP_InputField>().text;
+        string newLastName = lastNameInput.gameObject.GetComponent<TMP_InputField>().text;
+        string newEmail = emailInput.gameObject.GetComponent<TMP_InputField>().text;
+
+        // We are not using the phone property, but the server validates in
+        // A placeholder is sent
+        string newPhone = "555 5555";
+
+        // When registering a new user, the default avatar is set
         bool isUrl = true;
         string avatarUrl = DEFAULT_AVATAR_URL + newFirstName + "+" + newLastName;
-        //TO DO: ADD missing info to the json -> Avatar and login service
-        //return "{ \"username\": \""+newUsername+"\", \"password\": \""+newPassword+"\", \"first_name\": \""+newFirstName+"\", \"last_name\": \""+newLastName+"\", \"contact\": { \"email\": \""+newEmail+"\", \"phone\": \""+newPhone+"\" }, \"avatar\": { \"isUrl\": "+isUrl.ToString().ToLower()+", \"data\": \""+avatarUrl+"\" }}"; 
+ 
+        // Custom DTO class for registration
         RegisterNewUserRequestDTO registerNewUserRequestDTO = new(newUsername,newPassword,newFirstName,newLastName,new(newEmail,newPhone),new(isUrl,avatarUrl));
+
+        // Login service is not used, so it is not included in the message
+        // As we include a username and password, the server assumes *false* 
         return JsonConvert.SerializeObject(registerNewUserRequestDTO);
     }
 
+    // Implements the POST request to register a new user
     private IEnumerator RegisterNewUserRequest(){
         Debug.Log("Registering new user to the game...");
         string registerDataJson = GetJsonStringRegisterData();
+
         // The UnityWebRequest library its pretty tricky, for POST method you should start with PUT and then change it on the next lines
         // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
         UnityWebRequest request = UnityWebRequest.Put(GetServerBaseURL()+USERS_ROUTE, registerDataJson);

@@ -24,6 +24,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject highScoresEntryTemplate;
     [SerializeField] private GameObject devSettingsPanel;
     [SerializeField] private GameObject aboutVersionField;
+    [SerializeField] private GameObject registerMenu;
     [SerializeField] private GameObject resetPasswordMenu;
 
     // Setter for finishedGame: always sets to *true*
@@ -387,6 +388,86 @@ public class MainMenuManager : MonoBehaviour
         statusContainer.gameObject.SetActive(false);
         statusSpinner.gameObject.SetActive(true);
         statusText.text = "Sending your request\nplease wait...";
+    }
+
+    // Resets the "Register" main menu screen
+    public void ResetRegisterMenuForm() {
+        // Getting data from the UI
+        // Form container
+        Transform formContainer = registerMenu.gameObject.transform.Find("RegisterFormContainer");
+        // Submit button
+        Transform submitButton = registerMenu.gameObject.transform.Find("RegisterFormContainer/SubmitButton");
+        // Username
+        Transform usernameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/UsernameInputField");
+        Transform usernameValidationText = usernameInput.Find("UsernameValidationText");
+        Transform usernameOK = usernameInput.Find("UsernameOK");
+        Transform usernameSpinner = usernameInput.Find("UsernameSpinner");
+        // Password
+        Transform passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform passwordHintText = passwordInput.Find("PasswordHintText");
+        Transform passwordValidationText = passwordInput.Find("PasswordValidationText");
+        Transform passwordOK = passwordInput.Find("PasswordOK");
+        // Password validation
+        Transform passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
+        Transform passwordValidationValidationText = passwordValidationInput.Find("PasswordValidationValidationText");
+        Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
+        // First Name
+        Transform firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
+        Transform firstNameValidationText = firstNameInput.Find("FirstNameValidationText");
+        Transform firstNameOK = firstNameInput.Find("FirstNameValidationOK");
+        // Last Name
+        Transform lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
+        Transform lastNameValidationText = lastNameInput.Find("LastNameValidationText");
+        Transform lastNameOK = lastNameInput.Find("LastNameValidationOK");
+        // Email
+        Transform emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
+        Transform emailValidationText = emailInput.Find("EmailValidationText");
+        Transform emailOK = emailInput.Find("EmailValidationOK");
+        Transform emailSpinner = emailInput.Find("EmailSpinner");
+        // Status
+        Transform statusContainer = registerMenu.gameObject.transform.Find("StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        Transform statusText = statusContainer.Find("StatusText");
+
+        // Register form
+        // Resetting submit button
+        submitButton.gameObject.GetComponent<Button>().interactable = true;
+        // Resetting form fields
+        // Reset username field
+        usernameInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        usernameValidationText.gameObject.SetActive(false);
+        usernameOK.gameObject.SetActive(false);
+        usernameSpinner.gameObject.SetActive(false);
+        // Reset password field
+        passwordInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        passwordHintText.gameObject.SetActive(true);
+        passwordValidationText.gameObject.SetActive(false);
+        passwordOK.gameObject.SetActive(false);
+        // Reset password validation field
+        passwordValidationInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        passwordValidationValidationText.gameObject.SetActive(false);
+        passwordValidationOK.gameObject.SetActive(false);
+        // Reset first name field
+        firstNameInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        firstNameValidationText.gameObject.SetActive(false);
+        firstNameOK.gameObject.SetActive(false);
+        // Reset last name field
+        lastNameInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        lastNameValidationText.gameObject.SetActive(false);
+        lastNameOK.gameObject.SetActive(false);
+        // Reset email field
+        emailInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        emailValidationText.gameObject.SetActive(false);
+        emailOK.gameObject.SetActive(false);
+        emailSpinner.gameObject.SetActive(false);
+        // Resetting form container
+        formContainer.gameObject.SetActive(true);
+        // Status
+        // Resetting status container
+        statusContainer.gameObject.SetActive(false);
+        // Resetting status elements
+        statusSpinner.gameObject.SetActive(true);
+        statusText.gameObject.GetComponent<TMP_Text>().text = "Sending your request\nplease wait...";
     }
 
     // Saves user data and quits the game
