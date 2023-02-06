@@ -18,7 +18,14 @@ public class GameManager : MonoBehaviour
     private int difficultyLevel;
     private int level;
 
+    //CONSTANTS
     private const string proyectileTag = "proyectile";
+    private const int FINAL_LEVEL = 10;
+    //ALGORITHM NAMES CONSTANTS
+    private const string RANDOM_WALK_ALGORITHM = "randomwalk";
+    private const string CORRIDOR_FIRST_ALGORITHM = "corridorfirst";
+    private const string ROOM_FIRST_ALGORITHM = "roomfirst";
+    private const string RANDOM_ALGORITHM = "Random";
     
     public static GameManager Instance{ get{ return gameManager; } }
     private void Awake()
@@ -52,7 +59,7 @@ public class GameManager : MonoBehaviour
         //erases all gameObjects previously Spawned
         destroyAllSpawns();
         // Places the tiles on the tilemap to create the dungeon layout
-        GenerateDungeonByName("Random");
+        GenerateDungeonByName(RANDOM_ALGORITHM);
         // Sets the position of the main player inside the dungeon
         PlacePlayerOnDungeon();
         // Instantiates the items that will be available on the dungeon created
@@ -61,6 +68,20 @@ public class GameManager : MonoBehaviour
         PlaceEnemiesOnDungeon();
         // This method will place the door on the dungeon to escape from it once you got the key
         PlaceDungeonDoor();
+    }
+
+    private void CreateFinalBossDungeon()
+    {
+        //erases all gameObjects previously Spawned
+        destroyAllSpawns();
+        // Places the tiles on the tilemap to create the dungeon layout
+        GenerateDungeonByName(RANDOM_WALK_ALGORITHM);
+        // Sets the position of the main player inside the dungeon
+        PlacePlayerOnDungeon();
+        // Instantiates the items that will be available on the dungeon created
+        PlaceBossLevelItemsOnDungeon();
+        // This method will place the final boss on the dungeon to challenge the main player on its quest
+        PlaceFinalBossOnDungeon();  
     }
 
     private void PlaceDungeonDoor()
@@ -74,10 +95,22 @@ public class GameManager : MonoBehaviour
         itemSpawner.Spawn(difficultyLevel,dungeonGenerator.GetDungeon());
     }
 
+    private void PlaceBossLevelItemsOnDungeon()
+    {
+        Debug.Log("Placing boss level items");
+        itemSpawner.SpawnOnlyHealthAndMana(difficultyLevel, dungeonGenerator.GetDungeon());
+    }
+
     private void PlaceEnemiesOnDungeon()
     {
         Debug.Log("Placing enemies on dungeon!");
         enemySpawner.Spawn(difficultyLevel, dungeonGenerator.GetDungeon());
+    }
+
+    private void PlaceFinalBossOnDungeon()
+    {
+        Debug.Log("Placing Final Boss on dungeon!");
+        enemySpawner.SpawnFinalBoss(difficultyLevel, dungeonGenerator.GetDungeon());
     }
 
     // Searches on the new created floor Tilemap, a location where the player can be spawned
@@ -100,13 +133,13 @@ public class GameManager : MonoBehaviour
     //Creates a new dungeon based on the name given by the string. If no compatible name, it uses a random one.
     public void GenerateDungeonByName(string algorithm){
         switch(algorithm.ToLower()){
-            case("randomwalk"):
+            case(RANDOM_WALK_ALGORITHM):
                 dungeonGenerator.GenerateRandomWalkDungeon();
                 break;
-            case("corridorfirst"):
+            case(CORRIDOR_FIRST_ALGORITHM):
                 dungeonGenerator.GenerateCorridorFirstDungeon();
                 break;
-            case("roomfirst"):
+            case(ROOM_FIRST_ALGORITHM):
                 dungeonGenerator.GenerateRoomFirstDungeon();
                 break;
             default:
@@ -159,8 +192,11 @@ public class GameManager : MonoBehaviour
         player.SetActive(true);
         hud.SetActive(true);
         _hud.UpdateLevelName("Level - " + level);
-        CreateNewDungeon();
+        if (level == FINAL_LEVEL) CreateFinalBossDungeon();
+        else CreateNewDungeon();
     }
+
+    
 
     private void disableAllCinematics()
     {
