@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Net;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -9,7 +10,7 @@ using System.Collections.Generic;
 
 // This class handles the communication with the FIUBA CloudSync API
 // Temporarily, it also controls the Main Menu UI after an async call is resolved
-// TODO: separate Request and UI handling responsibilites 
+// TODO: separate Request and UI handling responsibilities 
 // ---
 // API technical documuentation: https://github.com/juanmg0511/7599-TrabajoProfesional-CloudSync-AppServer/wiki/Dise%C3%B1o:-Servidor-Flask-(API)
 // OpenAPI 3.0 specification: https://app-qa.7599-fiuba-cs.net/api/v1/swagger-ui/
@@ -25,6 +26,7 @@ public class APIRequestHandler : MonoBehaviour
     private const string SESSIONS_ROUTE = "sessions";
     private const string RECOVERY_ROUTE = "recovery";
     private const string USERS_ROUTE = "users";
+    private const string EMAIL_MASK_REGEX = @".(?=.*..@)";
 
     // UI objects references
     [SerializeField] private GameObject loggedPanel;
@@ -365,7 +367,7 @@ public class APIRequestHandler : MonoBehaviour
             highScoresTableMessageText.GetComponent<TextMeshProUGUI>().text = "Error fetching data!";
             highScoresTableMessageSpinner.gameObject.SetActive(false);
             // If the result was "Unauthorized", we show the session expired message in the logged in panel
-            if (request.responseCode == 401)
+            if (request.responseCode == (long)HttpStatusCode.Unauthorized)
             {
                 SetloggedInPanelError("ERROR\nyour session has expired");
             }
@@ -446,7 +448,7 @@ public class APIRequestHandler : MonoBehaviour
                 Debug.LogWarning("This server is not sending the correct messages!");
             }
             // Show error message in panel
-            if (request.responseCode == 400 || request.responseCode == 401)
+            if (request.responseCode == (long)HttpStatusCode.BadRequest || request.responseCode == (long)HttpStatusCode.Unauthorized)
             {
                 loginMessage.GetComponent<TMP_Text>().text = "ERROR\nWrong user or password";
             }
@@ -578,8 +580,7 @@ public class APIRequestHandler : MonoBehaviour
             PasswordRecoveryResponseDTO passwordRecoveryResponse = JsonConvert.DeserializeObject<PasswordRecoveryResponseDTO>(responseDTO.getBody());
             // Masks the current user recovery email address address@hosting.com => *****ss@hosting.com
             string input = passwordRecoveryResponse.getEmail();
-            string pattern = @".(?=.*..@)";
-            string maskedEmail = Regex.Replace(input, pattern, m => new string('*', m.Length));
+            string maskedEmail = Regex.Replace(input, EMAIL_MASK_REGEX, m => new string('*', m.Length));
             // Shows the user the correct UI
             statusText.text = "Recovery mail sent to: " + maskedEmail + "\n Check your account to complete the process!";
         }
@@ -713,7 +714,7 @@ public class APIRequestHandler : MonoBehaviour
         showResponseData(responseDTO);
 
         //Response handling
-        if (request.responseCode == 201){
+        if (request.responseCode == (long)HttpStatusCode.Created){
             Debug.Log("Success");
             statusText.gameObject.GetComponent<TMP_Text>().text = "SUCCESS! Welcome to FIUBA CloudSync\nyou may login now...";
             statusSuccess.gameObject.SetActive(true);
@@ -726,7 +727,7 @@ public class APIRequestHandler : MonoBehaviour
                 APIErrorResponseDTO errorResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
 
                 // Show error message in panel
-                if (request.responseCode == 400)
+                if (request.responseCode == (long)HttpStatusCode.BadRequest)
                 {
                     switch(errorResponse.getCode()) 
                     {
