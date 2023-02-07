@@ -42,9 +42,11 @@ public class APIRequestHandler : MonoBehaviour
     [SerializeField] private GameObject highScoresTableMessage;
     [SerializeField] private GameObject highScoresEntryContainer;
     [SerializeField] private GameObject highScoresEntryTemplate;
+    [SerializeField] private GameObject lowerButtonRow;
+    [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject registerMenu;
     [SerializeField] private GameObject resetPasswordMenu;
-
+    [SerializeField] private GameObject profileMenu;
 
     // Returns the base URL to use, depending on the configured setting
     // Use the "Use QA Servers" in the Developer mode settings to use QA environment
@@ -154,14 +156,53 @@ public class APIRequestHandler : MonoBehaviour
         else Debug.LogWarning("Cant logout user because is already logged out!");
     }
     // Fetches the highscores table from the servers
-    public void ShowHighScores(){
-        StartCoroutine(ShowHighScoresRequest());
+    public void GetHighScores(){
+        StartCoroutine(GetHighScoresRequest());
     }
-    // Gets the user's game progress information
-    // This is used as a way to save the game and sync it with multiple devices
-    public void GetUserGameProgress() {
-        if (SessionManager.IsUserLoggedIn()) StartCoroutine(GetGameProgress());
-        else Debug.LogWarning("User Session not found, cant get progress");
+    // Get the user's profile information
+    public void GetUserProfile() {
+        // Getting data from the UI
+        // Form modes
+        Transform displayMode = profileMenu.gameObject.transform.Find("DisplayMode");
+        Transform editMode = profileMenu.gameObject.transform.Find("EditMode");
+        Transform closeAccount = profileMenu.gameObject.transform.Find("CloseAccount");
+
+        // Setting default mode
+        displayMode.gameObject.SetActive(true);
+        editMode.gameObject.SetActive(false);
+        closeAccount.gameObject.SetActive(false);
+
+        // Fetch the data
+        StartCoroutine(GetUserProfileRequest());
+        StartCoroutine(GetUserGameProgressProfileRequest());
+        StartCoroutine(GetUserHighScoresProfileRequest());        
+    }
+    // Get the user's profile information
+    public void CloseUserAccount() {
+        // Getting data from the UI
+        // Form modes
+        Transform displayMode = profileMenu.gameObject.transform.Find("DisplayMode");
+        Transform editMode = profileMenu.gameObject.transform.Find("EditMode");
+        Transform closeAccount = profileMenu.gameObject.transform.Find("CloseAccount");
+
+        // Setting default mode
+        displayMode.gameObject.SetActive(true);
+        editMode.gameObject.SetActive(false);
+        closeAccount.gameObject.SetActive(false);
+
+        // Ask the user via a confirmation dialog if they want to close the account
+        QuestionDialogUI.Instance.ShowConfirm(
+            "GOODBYE?",
+            "You are about to close your account. This action cannot be undone!",
+            "OK",
+            "Cancel",
+            () => {
+                // User clicked yes, we close their account
+                StartCoroutine(CloseUserAccountRequest());
+            },
+            // If the user cancels, we just close the dialog
+            () => {}
+        );
     }
 
 
@@ -266,7 +307,7 @@ public class APIRequestHandler : MonoBehaviour
         loginButton.GetComponent<Button>().interactable = true;
     }
 
-    private IEnumerator GetGameProgress()
+    private IEnumerator GetGameProgressRequest()
     {
         UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+USERS_ROUTE+"/"+SessionManager.GetSessionUsername()+"/gameprogress");
         
@@ -286,7 +327,7 @@ public class APIRequestHandler : MonoBehaviour
         Debug.Log("Elapsed Time: " + gameProgress.getTimeElapsed());
     }
 
-    private IEnumerator ShowHighScoresRequest(){
+    private IEnumerator GetHighScoresRequest(){
 
         Transform highScoresTableMessageText = highScoresTableMessage.gameObject.transform.Find("HighscoresTableMessageText");
         Transform highScoresTableMessageSpinner = highScoresTableMessage.gameObject.transform.Find("HighscoresTableSpinner");
@@ -376,7 +417,7 @@ public class APIRequestHandler : MonoBehaviour
             }
         }
     }
-    
+
     private IEnumerator UserLoginRequest(){
 
         // Getting data from the UI
@@ -759,6 +800,280 @@ public class APIRequestHandler : MonoBehaviour
         // Registration process done
         // Enabling menu navigation
         backButton.gameObject.GetComponent<Button>().interactable = true;
+    }
+
+    private IEnumerator GetUserProfileRequest(){
+        Debug.Log("Getting your profile information...");
+        // Getting data from the UI
+        // Profile sections
+        Transform profileSection = profileMenu.gameObject.transform.Find("DisplayMode/ScrollView/Viewport/Content/ProfileSection");
+        // Fields to update
+        Transform dataContainer = profileMenu.gameObject.transform.Find("DisplayMode/ScrollView/Viewport/Content/ProfileSection/Data");
+        Transform usernameField = profileSection.Find("Data/UsernameData");
+        Transform firstNameField = profileSection.Find("Data/FirstNameData");
+        Transform lastNameField = profileSection.Find("Data/LastNameData");
+        Transform emailField = profileSection.Find("Data/EmailData");
+        // Status
+        Transform statusContainer = profileMenu.gameObject.transform.Find("DisplayMode/ScrollView/Viewport/Content/ProfileSection/StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        Transform statusSuccess = statusContainer.Find("StatusSuccess");
+        Transform statusError = statusContainer.Find("StatusError");
+        Transform statusText = statusContainer.Find("StatusText");
+
+        // Form
+        dataContainer.gameObject.SetActive(false);
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(true);
+        statusSuccess.gameObject.SetActive(false);
+        statusError.gameObject.SetActive(false);
+        statusText.gameObject.GetComponent<TMP_Text>().text = "Loading your details\nplease wait...";
+        // Setting status container
+        statusContainer.gameObject.SetActive(true);
+    
+        UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+USERS_ROUTE+'/'+SessionManager.GetSessionUsername());
+        
+        request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
+        request.SetRequestHeader("Accept", "application/json");
+
+        yield return request.SendWebRequest();
+
+        Debug.Log("Done!");
+        UnityWebRequestResponseDTO responseDTO = new(request);
+        showResponseData(responseDTO);
+
+       //Response handling
+        if (request.responseCode == (long)HttpStatusCode.OK){
+            Debug.Log("Success");
+            RegisterNewUserRequestDTO profileResponse = JsonConvert.DeserializeObject<RegisterNewUserRequestDTO>(responseDTO.getBody());
+
+            usernameField.gameObject.GetComponent<TMP_Text>().text = profileResponse.username;
+            firstNameField.gameObject.GetComponent<TMP_Text>().text = profileResponse.first_name;
+            lastNameField.gameObject.GetComponent<TMP_Text>().text = profileResponse.last_name;
+            emailField.gameObject.GetComponent<TMP_Text>().text = profileResponse.contact.email;
+
+            dataContainer.gameObject.SetActive(true);
+            statusContainer.gameObject.SetActive(false);          
+        }
+        else{
+            Debug.Log("Error");
+            statusError.gameObject.SetActive(true);
+            statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
+            SetloggedInPanelError("ERROR\nPlease try again later");
+        }
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(false);
+    }
+
+    private IEnumerator GetUserGameProgressProfileRequest()
+    {
+        // Getting data from the UI
+        // Profile sections
+        Transform profileSection = profileMenu.gameObject.transform.Find("DisplayMode/ScrollView/Viewport/Content/GameProgressSection");
+        // Fields to update
+        Transform dataContainer = profileMenu.gameObject.transform.Find("DisplayMode/ScrollView/Viewport/Content/GameProgressSection/Data");
+        Transform nextLevelField = profileSection.Find("Data/NextLevelData");
+        Transform difficultyLevelField = profileSection.Find("Data/DifficultyLevelData");
+        Transform goldCollectedField = profileSection.Find("Data/GoldCollectedData");
+        Transform timeElapsedField = profileSection.Find("Data/TimeElapsedData");        
+        // Status
+        Transform statusContainer = profileMenu.gameObject.transform.Find("DisplayMode/ScrollView/Viewport/Content/GameProgressSection/StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        Transform statusSuccess = statusContainer.Find("StatusSuccess");
+        Transform statusError = statusContainer.Find("StatusError");
+        Transform statusText = statusContainer.Find("StatusText");
+
+        // Form
+        dataContainer.gameObject.SetActive(false);
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(true);
+        statusSuccess.gameObject.SetActive(false);
+        statusError.gameObject.SetActive(false);
+        statusText.gameObject.GetComponent<TMP_Text>().text = "Loading your details\nplease wait...";
+        // Setting status container
+        statusContainer.gameObject.SetActive(true);
+
+        UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+USERS_ROUTE+"/"+SessionManager.GetSessionUsername()+"/gameprogress");
+        
+        request.SetRequestHeader("Accept", "application/json");
+        request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
+        
+        yield return request.SendWebRequest();
+        
+        UnityWebRequestResponseDTO responseDTO = new(request);
+        showResponseData(responseDTO);
+
+       //Response handling
+        if (request.responseCode == (long)HttpStatusCode.OK){
+            Debug.Log("Success");
+
+            GameProgressResponseDTO gameProgress = JsonConvert.DeserializeObject<GameProgressResponseDTO>(responseDTO.getBody());
+        
+            nextLevelField.gameObject.GetComponent<TMP_Text>().text = gameProgress.getNextLevel().ToString();
+            difficultyLevelField.gameObject.GetComponent<TMP_Text>().text = gameProgress.getDifficultyLevel().ToString();
+            goldCollectedField.gameObject.GetComponent<TMP_Text>().text = gameProgress.getGoldCollected().ToString();
+            timeElapsedField.gameObject.GetComponent<TMP_Text>().text = gameProgress.getTimeElapsed();      
+
+            statusContainer.gameObject.SetActive(false);
+            dataContainer.gameObject.SetActive(true);
+        }
+        else{
+            Debug.Log("Error");
+            statusError.gameObject.SetActive(true);
+            statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
+            SetloggedInPanelError("ERROR\nPlease try again later");
+        }
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(false);
+    }
+
+    private IEnumerator GetUserHighScoresProfileRequest(){
+        // Getting data from the UI
+        // Profile sections
+        Transform profileSection = profileMenu.gameObject.transform.Find("DisplayMode/ScrollView/Viewport/Content/HighscoresSection");
+        // Fields to update
+        Transform dataContainer = profileMenu.gameObject.transform.Find("DisplayMode/ScrollView/Viewport/Content/HighscoresSection/Data");
+        Transform levelField = profileSection.Find("Data/NextLevelData");
+        Transform difficultyLevelField = profileSection.Find("Data/DifficultyLevelData");
+        Transform goldCollectedField = profileSection.Find("Data/GoldCollectedData");
+        Transform timeElapsedField = profileSection.Find("Data/TimeElapsedData");
+        // Status
+        Transform statusContainer = profileMenu.gameObject.transform.Find("DisplayMode/ScrollView/Viewport/Content/HighscoresSection/StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        Transform statusSuccess = statusContainer.Find("StatusSuccess");
+        Transform statusError = statusContainer.Find("StatusError");
+        Transform statusText = statusContainer.Find("StatusText");
+
+        // Form
+        dataContainer.gameObject.SetActive(false);
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(true);
+        statusSuccess.gameObject.SetActive(false);
+        statusError.gameObject.SetActive(false);
+        statusText.gameObject.GetComponent<TMP_Text>().text = "Loading your details\nplease wait...";
+        // Setting status container
+        statusContainer.gameObject.SetActive(true);        
+
+        UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+USERS_ROUTE+'/'+SessionManager.GetSessionUsername()+'/'+HIGHSCORES_ROUTE);
+        
+        request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
+        request.SetRequestHeader("Accept", "application/json");
+
+        yield return request.SendWebRequest();
+
+        UnityWebRequestResponseDTO responseDTO = new(request);
+        showResponseData(responseDTO);
+
+       //Response handling
+        if (request.responseCode == (long)HttpStatusCode.OK){
+            Debug.Log("Success");
+
+            PaginatedHighscoreResponseDTO paginatedHighscoreResponse = JsonConvert.DeserializeObject<PaginatedHighscoreResponseDTO>(responseDTO.getBody());
+            List<HighScoreResultsDTO> highscoreResults = paginatedHighscoreResponse.getResults();
+
+            if (highscoreResults.Count > 0)
+            {
+                Debug.Log(highscoreResults[0]);
+                levelField.gameObject.GetComponent<TMP_Text>().text = highscoreResults[0].getAchievedLevel().ToString();
+                difficultyLevelField.gameObject.GetComponent<TMP_Text>().text = highscoreResults[0].getDifficultyLevel().ToString();
+                goldCollectedField.gameObject.GetComponent<TMP_Text>().text = highscoreResults[0].getGoldCollected().ToString();
+                timeElapsedField.gameObject.GetComponent<TMP_Text>().text = highscoreResults[0].getTimeElapsed();      
+            
+                statusContainer.gameObject.SetActive(false);
+                dataContainer.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("El usurio" + SessionManager.GetSessionUsername() + "no tiene highscores");
+                statusSuccess.gameObject.SetActive(true);
+                statusText.gameObject.GetComponent<TMP_Text>().text = "No highscores found!\nGo fight Nilbud...";
+            }
+        }
+        else{
+            Debug.Log("Error");
+            statusError.gameObject.SetActive(true);
+            statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
+            SetloggedInPanelError("ERROR\nPlease try again later");
+        }
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(false);
+    }
+
+    private IEnumerator CloseUserAccountRequest() {
+        // The UnityWebRequest library its pretty tricky, for POST method you should start with PUT and then change it on the next lines
+        // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
+
+        // Getting data from the UI
+        // Form modes
+        Transform displayMode = profileMenu.gameObject.transform.Find("DisplayMode");
+        Transform editMode = profileMenu.gameObject.transform.Find("EditMode");
+        Transform closeAccount = profileMenu.gameObject.transform.Find("CloseAccount");
+        // Status
+        Transform statusContainer = profileMenu.gameObject.transform.Find("CloseAccount/StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        Transform statusSuccess = statusContainer.Find("StatusSuccess");
+        Transform statusError = statusContainer.Find("StatusError");
+        Transform statusText = statusContainer.Find("StatusText");
+        // Logged in panel
+        Transform loggedInPanelContainer = loggedPanel.gameObject.transform.Find("LoggedInPanelContainer");
+        Transform loggedInMessageContainer = loggedPanel.gameObject.transform.Find("LoggedInMessageContainer");
+
+        // Setting default mode
+        displayMode.gameObject.SetActive(false);
+        editMode.gameObject.SetActive(false);
+        closeAccount.gameObject.SetActive(true);
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(true);
+        statusSuccess.gameObject.SetActive(false);
+        statusError.gameObject.SetActive(false);
+        statusText.gameObject.GetComponent<TMP_Text>().text = "Closing your account\nplease wait...";
+        // Setting status container
+        statusContainer.gameObject.SetActive(true);        
+
+        backButton.gameObject.GetComponent<Button>().interactable = false;
+        UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+USERS_ROUTE+"/"+SessionManager.GetSessionUsername());
+        request.method = UnityWebRequest.kHttpVerbDELETE;
+        
+        request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
+        request.SetRequestHeader("Accept", "application/json");
+        
+        yield return request.SendWebRequest();
+        UnityWebRequestResponseDTO responseDTO = new(request);
+        showResponseData(responseDTO);
+
+        APIErrorResponseDTO serverResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
+        backButton.gameObject.GetComponent<Button>().interactable = true;
+        if (request.responseCode == (long)HttpStatusCode.OK){
+            Debug.Log("Success");
+            // Storing user session data to use it on other API endpoints
+            SessionManager.ClearSession();
+            // Showing status on screen
+            statusSuccess.gameObject.SetActive(true);
+            statusText.gameObject.GetComponent<TMP_Text>().text = "Sad to see you go!\nyour account has been closed...";
+            // Configuring UI
+            highScoresButton.SetActive(false);
+            // Resetting loggedin panel
+            loggedInPanelContainer.gameObject.SetActive(true);
+            loggedInMessageContainer.gameObject.SetActive(false);
+            // Resseting username and password fields
+            GameObject.Find("UsernameInputField").GetComponent<TMP_InputField>().text = "";
+            GameObject.Find("PasswordInputField").GetComponent<TMP_InputField>().text = "";
+        }
+        else{
+            Debug.Log("Error");
+            statusError.gameObject.SetActive(true);
+            statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
+            SetloggedInPanelError("ERROR\nPlease try again later");
+        }
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(false);
     }
 
     private void showResponseData(UnityWebRequestResponseDTO response) {
