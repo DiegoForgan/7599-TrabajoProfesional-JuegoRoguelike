@@ -142,7 +142,27 @@ public class APIRequestHandler : MonoBehaviour
 
         // Only make request if user has entered BOTH username and pwd
         if (!string.IsNullOrWhiteSpace(username) && FormDataValidation.IsValidUsername(username) && !string.IsNullOrWhiteSpace(password)) {
-            StartCoroutine(UserLoginRequest());
+            if (GameProgressManager.PlayerCanContinue())
+            {
+                // Ask the user via a confirmation dialog if they want to quit
+                QuestionDialogUI.Instance.ShowConfirm(
+                    "WARNING!",
+                    "All your offline progress will be lost. Are you sure?",
+                    "Yes",
+                    "Cancel",
+                    () => {
+                        // User clicked yes, we login
+                        StartCoroutine(UserLoginRequest());
+                },
+                    // If the user cancels, we just close the dialog
+                    () => {}
+                );
+            }
+            else
+            {
+                // The user has no offline progress, log in directly
+                StartCoroutine(UserLoginRequest());
+            }
         }
         else {
             inputUsername.GetComponent<TMP_InputField>().text = string.Empty;
