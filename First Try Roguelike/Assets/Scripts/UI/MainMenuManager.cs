@@ -26,6 +26,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject aboutVersionField;
     [SerializeField] private GameObject registerMenu;
     [SerializeField] private GameObject resetPasswordMenu;
+    [SerializeField] private GameObject profileMenu;
 
     // Setter for finishedGame: always sets to *true*
     // Getter is not required, as it is handled internally
@@ -143,7 +144,7 @@ public class MainMenuManager : MonoBehaviour
         if (GameProgressManager.PlayerCanContinue())
         {
             // Ask the user via a confirmation dialog if they want to lose their game progress
-            QuestionDialogUI.Instance.ShowQuestion(
+            QuestionDialogUI.Instance.ShowConfirm(
                 "WARNING",
                 "All your saved progress will be lost. Are you sure?",
                 "Yes!",
@@ -754,7 +755,7 @@ public class MainMenuManager : MonoBehaviour
         };
 
         // Ask the user via a confirmation dialog if they want to quit
-        QuestionDialogUI.Instance.ShowQuestion(
+        QuestionDialogUI.Instance.ShowConfirm(
             "QUIT?",
             "How dare you quit. " + exitMessages[Random.Range(0,(exitMessages.Count-1))],
             "I'm scared",
