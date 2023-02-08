@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Newtonsoft.Json;
 
 // This class is used to manage a user's Game Progress data
 // Use Stopwatch class to measure time and export to TimeSpan objects for use with this class
@@ -104,5 +105,22 @@ public static class GameProgressManager
     public static void ResetTimeElapsed()
     {
         timeElapsed = FormatTimeSpanAsString(TimeSpan.Zero);
+    }
+
+    // Generates a json object for an empty gameprogress record
+    // Ready to be posted to the server
+    public static string GetJsonStringUpdateGameProgress(string newUsername){
+ 
+        // Custom DTO class for registration
+        // Id and dates are sent as nulls
+        UpdateGameProgressRequestDTO updateGameProgressRequestDTO = new(
+            DEFAULT_NEXT_LEVEL,
+            SettingsManager.GetStartingDifficulty(),
+            DEFAULT_GOLD_COLLECTED,
+            FormatTimeSpanAsString(TimeSpan.Zero)
+        );
+
+        // Generate the output
+        return JsonConvert.SerializeObject(updateGameProgressRequestDTO);
     }
 }
