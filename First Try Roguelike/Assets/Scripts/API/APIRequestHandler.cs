@@ -21,8 +21,9 @@ public class APIRequestHandler : MonoBehaviour
     // Use the "Use QA Servers" in the Developer mode settings
     private const string PR_URL = "https://app.7599-fiuba-cs.net/api/v1/";
     private const string QA_URL = "https://app-qa.7599-fiuba-cs.net/api/v1/";
-    private const string DEFAULT_AVATAR_URL = "https://ui-avatars.com/api/?background=1A82E2&color=FFFFFF&size=256&name=";
+    private const string DEFAULT_AVATAR_URL = "https://ui-avatars.com/api/?background=321FDB&color=FFFFFF&size=512&name=";
     private const string HIGHSCORES_ROUTE = "highscores?start=0&limit=50&sort_column=difficulty_level,achieved_level,gold_collected,time_elapsed&sort_order=-1,-1,-1,1";
+    private const string GAMEPROGRESS_ROUTE = "gameprogress";
     private const string SESSIONS_ROUTE = "sessions";
     private const string RECOVERY_ROUTE = "recovery";
     private const string USERS_ROUTE = "users";
@@ -185,30 +186,48 @@ public class APIRequestHandler : MonoBehaviour
         // Form modes
         Transform displayMode = profileMenu.gameObject.transform.Find("DisplayMode");
         Transform editMode = profileMenu.gameObject.transform.Find("EditMode");
-        Transform closeAccount = profileMenu.gameObject.transform.Find("CloseAccount");
+        Transform changeAvatar = profileMenu.gameObject.transform.Find("ChangeAvatar");
+        Transform changePassword = profileMenu.gameObject.transform.Find("ChangePassword");
+        Transform operationStatus = profileMenu.gameObject.transform.Find("OperationStatus");
+        // Action Buttons
+        Transform editModeButton = displayMode.gameObject.transform.Find("ActionPanel/EditProfileButton");
+        Transform changeAvatarButton = displayMode.gameObject.transform.Find("ActionPanel/ChangeAvatarButton");
+        Transform changePasswordButton = displayMode.gameObject.transform.Find("ActionPanel/ChangePasswordButton");
+        Transform closeAccountButton = displayMode.gameObject.transform.Find("ActionPanel/CloseAccountButton");
 
         // Setting default mode
         displayMode.gameObject.SetActive(true);
+        changeAvatar.gameObject.SetActive(false);
+        changePassword.gameObject.SetActive(false);
         editMode.gameObject.SetActive(false);
-        closeAccount.gameObject.SetActive(false);
+        operationStatus.gameObject.SetActive(false);
+
+        editModeButton.GetComponent<Button>().interactable = false;
+        changeAvatarButton.GetComponent<Button>().interactable = false;
+        changePasswordButton.GetComponent<Button>().interactable = false;
+        closeAccountButton.GetComponent<Button>().interactable = false;
 
         // Fetch the data
         StartCoroutine(GetUserProfileRequest());
         StartCoroutine(GetUserGameProgressProfileRequest());
         StartCoroutine(GetUserHighScoresProfileRequest());        
     }
-    // Get the user's profile information
+    // Close the user's account
     public void CloseUserAccount() {
         // Getting data from the UI
         // Form modes
         Transform displayMode = profileMenu.gameObject.transform.Find("DisplayMode");
         Transform editMode = profileMenu.gameObject.transform.Find("EditMode");
-        Transform closeAccount = profileMenu.gameObject.transform.Find("CloseAccount");
+        Transform changeAvatar = profileMenu.gameObject.transform.Find("ChangeAvatar");
+        Transform changePassword = profileMenu.gameObject.transform.Find("ChangePassword");
+        Transform operationStatus = profileMenu.gameObject.transform.Find("OperationStatus");
 
         // Setting default mode
         displayMode.gameObject.SetActive(true);
+        changeAvatar.gameObject.SetActive(false);
+        changePassword.gameObject.SetActive(false);
         editMode.gameObject.SetActive(false);
-        closeAccount.gameObject.SetActive(false);
+        operationStatus.gameObject.SetActive(false);
 
         // Ask the user via a confirmation dialog if they want to close the account
         QuestionDialogUI.Instance.ShowConfirm(
@@ -224,7 +243,51 @@ public class APIRequestHandler : MonoBehaviour
             () => {}
         );
     }
+    // Change the user's avatar
+    public void ChangeUserAvatar() {
 
+        StartCoroutine(ChangeUserAvatarRequest());
+    }
+    // Change the user's password
+    public void ChangeUserPassword() {
+        // Getting data from the UI
+        // Form modes
+        Transform changePassword = profileMenu.gameObject.transform.Find("ChangePassword");
+        // Password
+        Transform passwordInput = changePassword.gameObject.transform.Find("ChangePasswordFormContainer/PasswordInputField");
+        Transform passwordOK = passwordInput.Find("PasswordOK");
+        // Password validation
+        Transform passwordValidationInput = changePassword.gameObject.transform.Find("ChangePasswordFormContainer/PasswordValidationInputField");
+        Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
+
+        // We can only make the request if there are no errors in the form
+        if (passwordOK.gameObject.activeSelf &&
+            passwordValidationOK.gameObject.activeSelf)
+        {
+            StartCoroutine(ChangeUserPasswordRequest());
+        }
+    }
+    // Update the user's details
+    public void UpdateUser() {
+        // Getting data from the UI
+        // Email
+        Transform emailInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/EmailInputField");
+        Transform emailOK = emailInput.Find("EmailValidationOK");
+        // First Name
+        Transform firstNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/FirstNameInputField");
+        Transform firstNameOK = firstNameInput.Find("FirstNameValidationOK");
+        // Last Name
+        Transform lastNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/LastNameInputField");
+        Transform lastNameOK = lastNameInput.Find("LastNameValidationOK");
+
+        // We can only make the request if there are no errors in the form
+        if (emailOK.gameObject.activeSelf &&
+            firstNameOK.gameObject.activeSelf &&
+            lastNameOK.gameObject.activeSelf)
+        {
+            StartCoroutine(UpdateUserRequest());
+        }
+    }
 
     // Async request and result handling implementation
     private IEnumerator CheckValidSessionRequest()
@@ -329,7 +392,7 @@ public class APIRequestHandler : MonoBehaviour
 
     private IEnumerator GetGameProgressRequest()
     {
-        UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+USERS_ROUTE+"/"+SessionManager.GetSessionUsername()+"/gameprogress");
+        UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+USERS_ROUTE+"/"+SessionManager.GetSessionUsername()+"/"+GAMEPROGRESS_ROUTE);
         
         request.SetRequestHeader("Accept", "application/json");
         request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
@@ -351,6 +414,8 @@ public class APIRequestHandler : MonoBehaviour
 
         Transform highScoresTableMessageText = highScoresTableMessage.gameObject.transform.Find("HighscoresTableMessageText");
         Transform highScoresTableMessageSpinner = highScoresTableMessage.gameObject.transform.Find("HighscoresTableSpinner");
+        Transform highScoresTableMessageSucess = highScoresTableMessage.gameObject.transform.Find("HighscoresTableSuccess");
+        Transform highScoresTableMessageFailure = highScoresTableMessage.gameObject.transform.Find("HighscoresTableError");
         
         UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+HIGHSCORES_ROUTE);
         
@@ -370,6 +435,7 @@ public class APIRequestHandler : MonoBehaviour
             if (highscoreResults.Count == 0) {
                 highScoresTableMessageText.GetComponent<TextMeshProUGUI>().text = "No Highscores found!";
                 highScoresTableMessageSpinner.gameObject.SetActive(false);
+                highScoresTableMessageSucess.gameObject.SetActive(true);
             }
             else {
                 highScoresTableMessage.SetActive(false);
@@ -427,6 +493,8 @@ public class APIRequestHandler : MonoBehaviour
             ErrorAPIResponse errorResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
             highScoresTableMessageText.GetComponent<TextMeshProUGUI>().text = "Error fetching data!";
             highScoresTableMessageSpinner.gameObject.SetActive(false);
+            highScoresTableMessageFailure.gameObject.SetActive(true);
+
             // If the result was "Unauthorized", we show the session expired message in the logged in panel
             if (request.responseCode == (long)HttpStatusCode.Unauthorized)
             {
@@ -839,6 +907,11 @@ public class APIRequestHandler : MonoBehaviour
         Transform statusSuccess = statusContainer.Find("StatusSuccess");
         Transform statusError = statusContainer.Find("StatusError");
         Transform statusText = statusContainer.Find("StatusText");
+        // Action Buttons
+        Transform editModeButton = profileMenu.gameObject.transform.Find("DisplayMode/ActionPanel/EditProfileButton");
+        Transform changeAvatarButton = profileMenu.gameObject.transform.Find("DisplayMode/ActionPanel/ChangeAvatarButton");
+        Transform changePasswordButton = profileMenu.gameObject.transform.Find("DisplayMode/ActionPanel/ChangePasswordButton");
+        Transform closeAccountButton = profileMenu.gameObject.transform.Find("DisplayMode/ActionPanel/CloseAccountButton");
 
         // Form
         dataContainer.gameObject.SetActive(false);
@@ -862,7 +935,7 @@ public class APIRequestHandler : MonoBehaviour
         UnityWebRequestResponseDTO responseDTO = new(request);
         showResponseData(responseDTO);
 
-       //Response handling
+       // Response handling
         if (request.responseCode == (long)HttpStatusCode.OK){
             Debug.Log("Success");
             RegisterNewUserRequestDTO profileResponse = JsonConvert.DeserializeObject<RegisterNewUserRequestDTO>(responseDTO.getBody());
@@ -871,6 +944,12 @@ public class APIRequestHandler : MonoBehaviour
             firstNameField.gameObject.GetComponent<TMP_Text>().text = profileResponse.first_name;
             lastNameField.gameObject.GetComponent<TMP_Text>().text = profileResponse.last_name;
             emailField.gameObject.GetComponent<TMP_Text>().text = profileResponse.contact.email;
+
+            editModeButton.GetComponent<Button>().interactable = true;
+            // Re-enable after implementing feature
+            // changeAvatarButton.GetComponent<Button>().interactable = true;
+            changePasswordButton.GetComponent<Button>().interactable = true;
+            closeAccountButton.GetComponent<Button>().interactable = true;
 
             dataContainer.gameObject.SetActive(true);
             statusContainer.gameObject.SetActive(false);          
@@ -915,7 +994,7 @@ public class APIRequestHandler : MonoBehaviour
         // Setting status container
         statusContainer.gameObject.SetActive(true);
 
-        UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+USERS_ROUTE+"/"+SessionManager.GetSessionUsername()+"/gameprogress");
+        UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+USERS_ROUTE+"/"+SessionManager.GetSessionUsername()+"/"+GAMEPROGRESS_ROUTE);
         
         request.SetRequestHeader("Accept", "application/json");
         request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
@@ -942,8 +1021,13 @@ public class APIRequestHandler : MonoBehaviour
         else{
             Debug.Log("Error");
             statusError.gameObject.SetActive(true);
-            statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
-            SetloggedInPanelError("ERROR\nPlease try again later");
+            if (request.responseCode == (long)HttpStatusCode.NotFound){
+                statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nNo game progress record found";
+            }
+            else {
+                statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
+                SetloggedInPanelError("ERROR\nPlease try again later");
+            }
         }
         // Status
         // Setting status elements
@@ -1032,9 +1116,11 @@ public class APIRequestHandler : MonoBehaviour
         // Form modes
         Transform displayMode = profileMenu.gameObject.transform.Find("DisplayMode");
         Transform editMode = profileMenu.gameObject.transform.Find("EditMode");
-        Transform closeAccount = profileMenu.gameObject.transform.Find("CloseAccount");
+        Transform changeAvatar = profileMenu.gameObject.transform.Find("ChangeAvatar");
+        Transform changePassword = profileMenu.gameObject.transform.Find("ChangePassword");
+        Transform operationStatus = profileMenu.gameObject.transform.Find("OperationStatus");
         // Status
-        Transform statusContainer = profileMenu.gameObject.transform.Find("CloseAccount/StatusContainer");
+        Transform statusContainer = profileMenu.gameObject.transform.Find("OperationStatus/StatusContainer");
         Transform statusSpinner = statusContainer.Find("StatusSpinner");
         Transform statusSuccess = statusContainer.Find("StatusSuccess");
         Transform statusError = statusContainer.Find("StatusError");
@@ -1046,7 +1132,9 @@ public class APIRequestHandler : MonoBehaviour
         // Setting default mode
         displayMode.gameObject.SetActive(false);
         editMode.gameObject.SetActive(false);
-        closeAccount.gameObject.SetActive(true);
+        changeAvatar.gameObject.SetActive(false);
+        changePassword.gameObject.SetActive(false);
+        operationStatus.gameObject.SetActive(true);
         // Status
         // Setting status elements
         statusSpinner.gameObject.SetActive(true);
@@ -1095,6 +1183,251 @@ public class APIRequestHandler : MonoBehaviour
         // Setting status elements
         statusSpinner.gameObject.SetActive(false);
     }
+
+    // Generates a json object from the update prodfile form
+    // Ready to be posted to the server
+    private string GetJsonStringUpdateUserData(){
+        // Getting all input fields
+        Transform emailInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/EmailInputField");
+        Transform firstNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/FirstNameInputField");
+        Transform lastNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/LastNameInputField");
+
+        // We are not using the phone property, but the server validates in
+        // A placeholder is sent
+        string newPhone = "555 5555";
+
+        // Placeholders used for testing
+        string newFirstName = firstNameInput.gameObject.GetComponent<TMP_InputField>().text;
+        string newLastName = lastNameInput.gameObject.GetComponent<TMP_InputField>().text;
+        string newEmail = emailInput.gameObject.GetComponent<TMP_InputField>().text;
+ 
+        // Custom DTO class for update
+        UpdateUserRequestDTO updateUserRequestDTO = new(newFirstName,newLastName,new(newEmail,newPhone));
+        // We return the serialized object 
+        return JsonConvert.SerializeObject(updateUserRequestDTO);
+    }
+
+    // Sends the request to update a user, in the profile screen 
+    private IEnumerator UpdateUserRequest(){
+        Debug.Log("Updating your user details!...");
+        // Getting data from the UI
+        // Form modes
+        Transform displayMode = profileMenu.gameObject.transform.Find("DisplayMode");
+        Transform editMode = profileMenu.gameObject.transform.Find("EditMode");
+        Transform changeAvatar = profileMenu.gameObject.transform.Find("ChangeAvatar");
+        Transform changePassword = profileMenu.gameObject.transform.Find("ChangePassword");
+        Transform operationStatus = profileMenu.gameObject.transform.Find("OperationStatus");
+        // Status
+        Transform statusContainer = profileMenu.gameObject.transform.Find("OperationStatus/StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        Transform statusSuccess = statusContainer.Find("StatusSuccess");
+        Transform statusError = statusContainer.Find("StatusError");
+        Transform statusText = statusContainer.Find("StatusText");
+        // Logged in panel
+        Transform loggedInPanelContainer = loggedPanel.gameObject.transform.Find("LoggedInPanelContainer");
+        Transform loggedInMessageContainer = loggedPanel.gameObject.transform.Find("LoggedInMessageContainer");
+
+        // Setting default mode
+        displayMode.gameObject.SetActive(false);
+        editMode.gameObject.SetActive(false);
+        changeAvatar.gameObject.SetActive(false);
+        changePassword.gameObject.SetActive(false);
+        operationStatus.gameObject.SetActive(true);
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(true);
+        statusSuccess.gameObject.SetActive(false);
+        statusError.gameObject.SetActive(false);
+        statusText.gameObject.GetComponent<TMP_Text>().text = "Updating your profile\nplease wait...";
+        // Setting status container
+        statusContainer.gameObject.SetActive(true);        
+        backButton.gameObject.GetComponent<Button>().interactable = false;
+
+        string updateUserDataJson = GetJsonStringUpdateUserData();
+        UnityWebRequest request = UnityWebRequest.Put(GetServerBaseURL()+USERS_ROUTE+"/"+SessionManager.GetSessionUsername(), updateUserDataJson);
+
+        request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Accept", "application/json");
+        
+        yield return request.SendWebRequest();
+
+        UnityWebRequestResponseDTO responseDTO = new(request);
+        // Show data to the user to reflect the result of the request
+        showResponseData(responseDTO);
+
+        backButton.gameObject.GetComponent<Button>().interactable = true;
+        if (request.responseCode == (long)HttpStatusCode.OK){
+            Debug.Log("Success");
+            // Showing status on screen
+            statusSuccess.gameObject.SetActive(true);
+            statusText.gameObject.GetComponent<TMP_Text>().text = "Success!\nyour profile has been updated...";
+        }
+        else{
+            Debug.Log("Error");
+            statusError.gameObject.SetActive(true);
+            // Formatting data to JSON.
+            try {
+                APIErrorResponseDTO errorResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
+
+                // Show error message in panel
+                if (request.responseCode == (long)HttpStatusCode.BadRequest)
+                {
+                    switch(errorResponse.getCode()) 
+                    {
+                    case -4:
+                        statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\n" + errorResponse.getMessage();
+                        break;
+                    default:
+                        statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\n Bad request. This should not happen, please contact support!";
+                        break;
+                    }
+                }
+                else
+                {
+                    statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
+                }
+            }
+            catch
+            {
+                Debug.LogWarning("This server is not sending the correct messages!");
+                statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
+            }
+        }
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(false);
+        Debug.Log("Done!");
+   }
+
+    // Generates a json object from the change avatar form
+    // Ready to be posted to the server
+    private string GetJsonStringChangeAvatarData(){
+        // Getting all input fields
+        // TODO: read form
+
+        // The new avatar
+        bool isUrl = true;
+        string avatarUrl = "https://ui-avatars.com/api/?background=321FDB&color=FFFFFF&size=512&name=Z+Z";
+
+        // Custom DTO class for avatar change
+        ChangeUserAvatarRequestDTO changeUserAvatarRequestDTO = new(new(isUrl,avatarUrl));
+        // We return the serialized object 
+        return JsonConvert.SerializeObject(changeUserAvatarRequestDTO);
+    }
+
+    // Sends the request to reset an avatar, in the profile screen 
+   private IEnumerator ChangeUserAvatarRequest(){
+        Debug.Log("Changing your avatar!...");
+
+        // The UnityWebRequest library its pretty tricky, for PATCH method you should start with PUT and then change it on the next lines
+        // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
+        string changeAvatarDataJson = GetJsonStringChangeAvatarData();
+        UnityWebRequest request = UnityWebRequest.Put(GetServerBaseURL()+USERS_ROUTE+"/"+SessionManager.GetSessionUsername(), changeAvatarDataJson);
+        // A hack of a hack, you need to hardcode the verb name to make this work
+        // In 2023...
+        request.method = "PATCH";
+
+        request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Accept", "application/json");
+        
+        yield return request.SendWebRequest();
+
+        UnityWebRequestResponseDTO responseDTO = new(request);
+        // Show data to the user to reflect the result of the request
+        showResponseData(responseDTO);
+
+        Debug.Log("Done!");
+   }
+
+    // Generates a json object from the change password form
+    // Ready to be posted to the server
+    private string GetJsonStringChangePasswordData(){
+        // Getting data from the UI
+        // Form modes
+        Transform changePassword = profileMenu.gameObject.transform.Find("ChangePassword");
+        // Source field
+        Transform passwordInput = changePassword.gameObject.transform.Find("ChangePasswordFormContainer/PasswordInputField");
+
+        // Custom DTO class for password reset
+        string newPassword = passwordInput.gameObject.GetComponent<TMP_InputField>().text;
+        ChangeUserPasswordRequestDTO changeUserPasswordRequestDTO = new(newPassword);
+        // We return the serialized object 
+        return JsonConvert.SerializeObject(changeUserPasswordRequestDTO);
+    }
+
+    // Sends the request to reset a password, in the profile screen 
+    private IEnumerator ChangeUserPasswordRequest(){
+        Debug.Log("Changing your password!...");
+        // Getting data from the UI
+        // Form modes
+        Transform displayMode = profileMenu.gameObject.transform.Find("DisplayMode");
+        Transform editMode = profileMenu.gameObject.transform.Find("EditMode");
+        Transform changeAvatar = profileMenu.gameObject.transform.Find("ChangeAvatar");
+        Transform changePassword = profileMenu.gameObject.transform.Find("ChangePassword");
+        Transform operationStatus = profileMenu.gameObject.transform.Find("OperationStatus");
+        // Status
+        Transform statusContainer = profileMenu.gameObject.transform.Find("OperationStatus/StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        Transform statusSuccess = statusContainer.Find("StatusSuccess");
+        Transform statusError = statusContainer.Find("StatusError");
+        Transform statusText = statusContainer.Find("StatusText");
+        // Logged in panel
+        Transform loggedInPanelContainer = loggedPanel.gameObject.transform.Find("LoggedInPanelContainer");
+        Transform loggedInMessageContainer = loggedPanel.gameObject.transform.Find("LoggedInMessageContainer");
+
+        // Setting default mode
+        displayMode.gameObject.SetActive(false);
+        editMode.gameObject.SetActive(false);
+        changeAvatar.gameObject.SetActive(false);
+        changePassword.gameObject.SetActive(false);
+        operationStatus.gameObject.SetActive(true);
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(true);
+        statusSuccess.gameObject.SetActive(false);
+        statusError.gameObject.SetActive(false);
+        statusText.gameObject.GetComponent<TMP_Text>().text = "Changing your password\nplease wait...";
+        // Setting status container
+        statusContainer.gameObject.SetActive(true);        
+        backButton.gameObject.GetComponent<Button>().interactable = false;
+
+        // The UnityWebRequest library its pretty tricky, for PATCH method you should start with PUT and then change it on the next lines
+        // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
+        string changePasswordDataJson = GetJsonStringChangePasswordData();
+        UnityWebRequest request = UnityWebRequest.Put(GetServerBaseURL()+USERS_ROUTE+"/"+SessionManager.GetSessionUsername(), changePasswordDataJson);
+        // A hack of a hack, you need to hardcode the verb name to make this work
+        // In 2023...
+        request.method = "PATCH";
+
+        request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Accept", "application/json");
+        
+        yield return request.SendWebRequest();
+
+        UnityWebRequestResponseDTO responseDTO = new(request);
+        // Show data to the user to reflect the result of the request
+        showResponseData(responseDTO);
+
+        backButton.gameObject.GetComponent<Button>().interactable = true;
+        if (request.responseCode == (long)HttpStatusCode.OK){
+            Debug.Log("Success");
+            // Showing status on screen
+            statusSuccess.gameObject.SetActive(true);
+            statusText.gameObject.GetComponent<TMP_Text>().text = "Success!\nyour password has been changed...";
+        }
+        else{
+            Debug.Log("Error");
+            statusError.gameObject.SetActive(true);
+            statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
+        }
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(false);
+        Debug.Log("Done!");
+   }
 
     private void showResponseData(UnityWebRequestResponseDTO response) {
         Debug.LogWarning("Result: " + response.getResult());

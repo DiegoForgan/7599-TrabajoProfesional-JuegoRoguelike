@@ -126,6 +126,8 @@ public class MainMenuManager : MonoBehaviour
         // Reset initial table message
         Transform highScoresTableMessageText = highScoresTableMessage.gameObject.transform.Find("HighscoresTableMessageText");
         Transform highScoresTableMessageSpinner = highScoresTableMessage.gameObject.transform.Find("HighscoresTableSpinner");
+        Transform highScoresTableMessageSucess = highScoresTableMessage.gameObject.transform.Find("HighscoresTableSuccess");
+        Transform highScoresTableMessageFailure = highScoresTableMessage.gameObject.transform.Find("HighscoresTableError");
         highScoresTableMessageText.GetComponent<TMP_Text>().text = "Loading Highscores, please wait...";
         // Delete old entries
         var highscoreResults = GameObject.FindGameObjectsWithTag("HighScoreEntry");
@@ -136,6 +138,8 @@ public class MainMenuManager : MonoBehaviour
         highScoresTableMessage.SetActive(true);
         highScoresTableMessageText.gameObject.SetActive(true);
         highScoresTableMessageSpinner.gameObject.SetActive(true);
+        highScoresTableMessageSucess.gameObject.SetActive(false);
+        highScoresTableMessageFailure.gameObject.SetActive(false);
     }
 
     // Verifies if the user wants to start a new game
@@ -495,16 +499,22 @@ public class MainMenuManager : MonoBehaviour
         }
     }
     // Password
-    public void RegisterClearPassword() {
+    public void RegisterClearPassword(string mode) {
 
         // Getting data from the UI
         // Password
-        Transform passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform passwordInput = null;
+        passwordInput = profileMenu.gameObject.transform.Find("ChangePassword/ChangePasswordFormContainer/PasswordInputField");
+        if (mode=="register")
+            passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
         Transform passwordHintText = passwordInput.Find("PasswordHintText");
         Transform passwordValidationText = passwordInput.Find("PasswordValidationText");
         Transform passwordOK = passwordInput.Find("PasswordOK");
         // Password validation
-        Transform passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
+        Transform passwordValidationInput = null;
+        passwordValidationInput = profileMenu.gameObject.transform.Find("ChangePassword/ChangePasswordFormContainer/PasswordValidationInputField");
+        if (mode=="register")
+            passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
         Transform passwordValidationValidationText = passwordValidationInput.Find("PasswordValidationValidationText");
         Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
 
@@ -524,10 +534,13 @@ public class MainMenuManager : MonoBehaviour
         }
     }
     // Email
-    public void RegisterClearEmail() {
+    public void RegisterClearEmail(string mode) {
         // Getting data from the UI
         // Email
-        Transform emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
+        Transform emailInput = null;
+        emailInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/EmailInputField");
+        if (mode=="register")
+            emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
         Transform emailValidationText = emailInput.Find("EmailValidationText");
         Transform emailOK = emailInput.Find("EmailValidationOK");
         Transform emailSpinner = emailInput.Find("EmailSpinner");
@@ -542,10 +555,13 @@ public class MainMenuManager : MonoBehaviour
         }
     }
     // First Name
-    public void RegisterClearFirstName() {
+    public void RegisterClearFirstName(string mode) {
         // Getting data from the UI
         // First Name
-        Transform firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
+        Transform firstNameInput = null;
+        firstNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/FirstNameInputField");
+        if (mode=="register")
+            firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
         Transform firstNameValidationText = firstNameInput.Find("FirstNameValidationText");
         Transform firstNameOK = firstNameInput.Find("FirstNameValidationOK");
 
@@ -558,10 +574,13 @@ public class MainMenuManager : MonoBehaviour
         }
     }
     // Last Name
-    public void RegisterClearLastName() {
+    public void RegisterClearLastName(string mode) {
         // Getting data from the UI
         // Last Name
-        Transform lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
+        Transform lastNameInput = null;
+        lastNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/LastNameInputField");
+        if (mode=="register")
+            lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
         Transform lastNameValidationText = lastNameInput.Find("LastNameValidationText");
         Transform lastNameOK = lastNameInput.Find("LastNameValidationOK");
 
@@ -599,16 +618,22 @@ public class MainMenuManager : MonoBehaviour
         }    
     }
     // Password
-    public void RegisterValidatePassword() {
+    public void RegisterValidatePassword(string mode) {
 
         // Getting data from the UI
         // Password
-        Transform passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform passwordInput = null;
+        passwordInput = profileMenu.gameObject.transform.Find("ChangePassword/ChangePasswordFormContainer/PasswordInputField");
+        if (mode=="register")
+            passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
         Transform passwordHintText = passwordInput.Find("PasswordHintText");
         Transform passwordValidationText = passwordInput.Find("PasswordValidationText");
         Transform passwordOK = passwordInput.Find("PasswordOK");
         // Password validation
-        Transform passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
+        Transform passwordValidationInput = null;
+        passwordValidationInput = profileMenu.gameObject.transform.Find("ChangePassword/ChangePasswordFormContainer/PasswordValidationInputField");
+        if (mode=="register")
+            passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
         Transform passwordValidationValidationText = passwordValidationInput.Find("PasswordValidationValidationText");
         Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
 
@@ -644,16 +669,22 @@ public class MainMenuManager : MonoBehaviour
             passwordValidationOK.gameObject.SetActive(false);
         }
     }
-    public void RegisterValidatePasswordValidation() {
+    public void RegisterValidatePasswordValidation(string mode) {
 
         // Getting data from the UI
         // Password
-        Transform passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform passwordInput = null;
+        passwordInput = profileMenu.gameObject.transform.Find("ChangePassword/ChangePasswordFormContainer/PasswordInputField");
+        if (mode=="register")
+            passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
         Transform passwordHintText = passwordInput.Find("PasswordHintText");
         Transform passwordValidationText = passwordInput.Find("PasswordValidationText");
         Transform passwordOK = passwordInput.Find("PasswordOK");
         // Password validation
-        Transform passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
+        Transform passwordValidationInput = null;
+        passwordValidationInput = profileMenu.gameObject.transform.Find("ChangePassword/ChangePasswordFormContainer/PasswordValidationInputField");
+        if (mode=="register")
+            passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
         Transform passwordValidationValidationText = passwordValidationInput.Find("PasswordValidationValidationText");
         Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
 
@@ -680,10 +711,13 @@ public class MainMenuManager : MonoBehaviour
         }
     }    
     // Email
-    public void RegisterValidateEmail() {
+    public void RegisterValidateEmail(string mode) {
         // Getting data from the UI
         // Email
-        Transform emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
+        Transform emailInput = null;
+        emailInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/EmailInputField");
+        if (mode=="register")
+            emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
         Transform emailValidationText = emailInput.Find("EmailValidationText");
         Transform emailOK = emailInput.Find("EmailValidationOK");
         Transform emailSpinner = emailInput.Find("EmailSpinner");
@@ -703,10 +737,13 @@ public class MainMenuManager : MonoBehaviour
         }   
     }
     // First Name
-    public void RegisterValidateFirstName() {
+    public void RegisterValidateFirstName(string mode) {
         // Getting data from the UI
         // First Name
-        Transform firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
+        Transform firstNameInput = null;
+        firstNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/FirstNameInputField");
+        if (mode=="register")
+            firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
         Transform firstNameValidationText = firstNameInput.Find("FirstNameValidationText");
         Transform firstNameOK = firstNameInput.Find("FirstNameValidationOK");
 
@@ -723,10 +760,13 @@ public class MainMenuManager : MonoBehaviour
         }    
     }
     // Last Name
-    public void RegisterValidateLastName() {
+    public void RegisterValidateLastName(string mode) {
         // Getting data from the UI
         // Last Name
-        Transform lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
+        Transform lastNameInput = null;
+        lastNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/LastNameInputField");
+        if (mode=="register")
+            lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
         Transform lastNameValidationText = lastNameInput.Find("LastNameValidationText");
         Transform lastNameOK = lastNameInput.Find("LastNameValidationOK");
 
@@ -741,6 +781,90 @@ public class MainMenuManager : MonoBehaviour
             lastNameValidationText.gameObject.SetActive(true);
             lastNameOK.gameObject.SetActive(false);
         }    
+    }
+
+    // Navigates to profile action
+    // actionToOpen must be either
+    // "edit": to open the profile details edit form
+    // "avatar": to open the change avatar form
+    // "password": to open the change password form
+    public void OpenProfileAction(string actionToOpen) {
+
+        // Getting data from the UI
+        // Form modes
+        Transform displayMode = profileMenu.gameObject.transform.Find("DisplayMode");
+        Transform editMode = profileMenu.gameObject.transform.Find("EditMode");
+        Transform changeAvatar = profileMenu.gameObject.transform.Find("ChangeAvatar");
+        Transform changePassword = profileMenu.gameObject.transform.Find("ChangePassword");
+        Transform operationStatus = profileMenu.gameObject.transform.Find("OperationStatus");
+        // Only for edit profile mode
+        // Source fields
+        Transform profileSection = profileMenu.gameObject.transform.Find("DisplayMode/ScrollView/Viewport/Content/ProfileSection");
+        Transform emailField = profileSection.Find("Data/EmailData");
+        Transform firstNameField = profileSection.Find("Data/FirstNameData");
+        Transform lastNameField = profileSection.Find("Data/LastNameData");
+        // Fields to update
+        Transform emailInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/EmailInputField");
+        Transform firstNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/FirstNameInputField");
+        Transform lastNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/LastNameInputField");
+        // Only for change password mode
+        Transform passwordInput = changePassword.gameObject.transform.Find("ChangePasswordFormContainer/PasswordInputField");
+        Transform passwordHintText = passwordInput.Find("PasswordHintText");
+        Transform passwordValidationText = passwordInput.Find("PasswordValidationText");
+        Transform passwordOK = passwordInput.Find("PasswordOK");
+        Transform passwordValidationInput = changePassword.gameObject.transform.Find("ChangePasswordFormContainer/PasswordValidationInputField");
+        Transform passwordValidationValidationText = passwordValidationInput.Find("PasswordValidationValidationText");
+        Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
+
+        // Setting default mode
+        displayMode.gameObject.SetActive(false);
+        if (actionToOpen == "edit") {
+            emailInput.gameObject.GetComponent<TMP_InputField>().text = emailField.gameObject.GetComponent<TMP_Text>().text;
+            firstNameInput.gameObject.GetComponent<TMP_InputField>().text = firstNameField.gameObject.GetComponent<TMP_Text>().text;
+            lastNameInput.gameObject.GetComponent<TMP_InputField>().text = lastNameField.gameObject.GetComponent<TMP_Text>().text;
+            RegisterValidateEmail("profile");
+            RegisterValidateFirstName("profile");
+            RegisterValidateLastName("profile");
+            editMode.gameObject.SetActive(true);
+        }
+        else
+            editMode.gameObject.SetActive(false);
+        if (actionToOpen == "password") {
+            passwordHintText.gameObject.SetActive(true);
+            passwordValidationText.gameObject.SetActive(false);
+            passwordOK.gameObject.SetActive(false);
+            passwordValidationValidationText.gameObject.SetActive(false);
+            passwordValidationOK.gameObject.SetActive(false);
+            passwordInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            passwordValidationInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            changePassword.gameObject.SetActive(true);
+        }
+        else
+            changePassword.gameObject.SetActive(false);
+        if (actionToOpen == "avatar")
+            changeAvatar.gameObject.SetActive(true);
+        else
+            changeAvatar.gameObject.SetActive(false);
+        operationStatus.gameObject.SetActive(false);
+    }
+
+    // Goes back to main profile screen
+    public void CancelProfileAction() {
+
+        // Getting data from the UI
+        // Form modes
+        Transform displayMode = profileMenu.gameObject.transform.Find("DisplayMode");
+        Transform editMode = profileMenu.gameObject.transform.Find("EditMode");
+        Transform changeAvatar = profileMenu.gameObject.transform.Find("ChangeAvatar");
+        Transform changePassword = profileMenu.gameObject.transform.Find("ChangePassword");
+        Transform operationStatus = profileMenu.gameObject.transform.Find("OperationStatus");
+
+        // Setting default mode
+        displayMode.gameObject.SetActive(true);
+        changeAvatar.gameObject.SetActive(false);
+        changePassword.gameObject.SetActive(false);
+        editMode.gameObject.SetActive(false);
+        operationStatus.gameObject.SetActive(false);
     }
 
     // Saves user data and quits the game
