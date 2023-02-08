@@ -182,4 +182,6 @@ public class Player : Entity
         gold += goldGranted;
         _hud.UpdateGold(gold);
     }
+
+    public int GetMaxMana() { return maxMana; }
 }

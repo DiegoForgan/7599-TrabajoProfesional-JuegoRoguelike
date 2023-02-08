@@ -13,6 +13,8 @@ public abstract class Entity : MonoBehaviour, Collidable, Affectable
     public int GetHealth(){
         return health;
     }
+
+    public int GetMaxHealth() { return maxHealth; }
     
     //Implementing "Collidable" interface method
     public virtual void TakeDamage(int damage){
