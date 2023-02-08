@@ -36,7 +36,7 @@ public static class GameProgressManager
     }
 
     // Resets gameprogess to initial values 
-    public static void ResetGameProgress(string newSessionToken, string newSessionUsername)
+    public static void ResetGameProgress()
     {
         nextLevel = DEFAULT_NEXT_LEVEL;
         difficultyLevel = SettingsManager.GetStartingDifficulty();
@@ -47,7 +47,7 @@ public static class GameProgressManager
     public static bool PlayerCanContinue() {
 
         TimeSpan ts = TimeSpan.Parse(timeElapsed);
-        return ((nextLevel > DEFAULT_NEXT_LEVEL) || ((nextLevel == DEFAULT_NEXT_LEVEL) && (ts > TimeSpan.Zero)));
+        return ts > TimeSpan.Zero;
     }
 
     // Saves all current session values to PlayerPrefs

@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager gameManager;
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private GameObject player;
+    [SerializeField] private Player playerComponent;
     [SerializeField] private HUD _hud;
     [SerializeField] private DungeonGeneratorManager dungeonGenerator;
     [SerializeField] private GameObject[] cinematics;
@@ -192,8 +193,17 @@ public class GameManager : MonoBehaviour
         player.SetActive(true);
         hud.SetActive(true);
         _hud.UpdateLevelName("Level - " + level);
+
         if (level == FINAL_LEVEL) CreateFinalBossDungeon();
         else CreateNewDungeon();
+
+        rechargePlayerManaAndHealth();
+    }
+
+    private void rechargePlayerManaAndHealth()
+    {
+        playerComponent.AddHealth(playerComponent.GetMaxHealth());
+        playerComponent.AddMana(playerComponent.GetMaxMana());
     }
 
     

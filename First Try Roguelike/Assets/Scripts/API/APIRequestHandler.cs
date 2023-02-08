@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Net;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -7,24 +8,46 @@ using TMPro;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
+// This class handles the communication with the FIUBA CloudSync API
+// Temporarily, it also controls the Main Menu UI after an async call is resolved
+// TODO: separate Request and UI handling responsibilities 
+// ---
+// API technical documuentation: https://github.com/juanmg0511/7599-TrabajoProfesional-CloudSync-AppServer/wiki/Dise%C3%B1o:-Servidor-Flask-(API)
+// OpenAPI 3.0 specification: https://app-qa.7599-fiuba-cs.net/api/v1/swagger-ui/
 public class APIRequestHandler : MonoBehaviour
 {
-    private const string PR_URL = "https://app.7599-fiuba-cs.net/api/v1/"; // DOWN TEMPORARILY
+    // Resources and Routes 
+    // The PR environment of FIUBA CloudSync is not online for the develepment process
+    // Use the "Use QA Servers" in the Developer mode settings
+    private const string PR_URL = "https://app.7599-fiuba-cs.net/api/v1/";
     private const string QA_URL = "https://app-qa.7599-fiuba-cs.net/api/v1/";
+    private const string DEFAULT_AVATAR_URL = "https://ui-avatars.com/api/?background=1A82E2&color=FFFFFF&size=256&name=";
     private const string HIGHSCORES_ROUTE = "highscores?start=0&limit=50&sort_column=difficulty_level,achieved_level,gold_collected,time_elapsed&sort_order=-1,-1,-1,1";
     private const string SESSIONS_ROUTE = "sessions";
     private const string RECOVERY_ROUTE = "recovery";
     private const string USERS_ROUTE = "users";
+    private const string EMAIL_MASK_REGEX = @".(?=.*..@)";
+
+    // UI objects references
     [SerializeField] private GameObject loggedPanel;
     [SerializeField] private GameObject loginPanel;
     [SerializeField] private GameObject newGameButton;
-
+    [SerializeField] private GameObject continueButton;
     [SerializeField] private GameObject highScoresButton;
+    [SerializeField] private GameObject howToPlayButton;
+    [SerializeField] private GameObject settingsButton;
+    [SerializeField] private GameObject backButton;
+    [SerializeField] private GameObject aboutButton;
     [SerializeField] private GameObject loginButton;
     [SerializeField] private GameObject highScoresTableMessage;
     [SerializeField] private GameObject highScoresEntryContainer;
     [SerializeField] private GameObject highScoresEntryTemplate;
+    [SerializeField] private GameObject registerMenu;
+    [SerializeField] private GameObject resetPasswordMenu;
 
+
+    // Returns the base URL to use, depending on the configured setting
+    // Use the "Use QA Servers" in the Developer mode settings to use QA environment
     private string GetServerBaseURL()
     {
         if (SettingsManager.GetUseQaServersOn())
@@ -37,48 +60,112 @@ public class APIRequestHandler : MonoBehaviour
         }
     } 
 
+
+    // Operations to the API
+    // Verifies that a username or email is already registered
     public void CheckUsernameAlreadyTaken(){
         StartCoroutine(CheckUsernameRequest());
     }
+    // Checks if a session is still valid
+    // If it is, it extends it by one time delta (configurable in server)
     public void CheckValidSession(){
         StartCoroutine(CheckValidSessionRequest());
     }
+    // Sends a request to open a new FIUBA CloudSync account
+    // Performs field validations, but they should also be done client side
     public void RegisterNewUser(){
-        StartCoroutine(RegisterNewUserRequest());
-    }
 
+        // Getting data from the UI
+        // Username
+        Transform usernameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/UsernameInputField");
+        Transform usernameOK = usernameInput.Find("UsernameOK");
+        // Password
+        Transform passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform passwordOK = passwordInput.Find("PasswordOK");
+        // Password validation
+        Transform passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
+        Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
+        // First Name
+        Transform firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
+        Transform firstNameOK = firstNameInput.Find("FirstNameValidationOK");
+        // Last Name
+        Transform lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
+        Transform lastNameOK = lastNameInput.Find("LastNameValidationOK");
+        // Email
+        Transform emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
+        Transform emailOK = emailInput.Find("EmailValidationOK");
+
+        // We can only make the request if there are no errors in the form
+        if (usernameOK.gameObject.activeSelf &&
+            passwordOK.gameObject.activeSelf &&
+            passwordValidationOK.gameObject.activeSelf &&
+            firstNameOK.gameObject.activeSelf &&
+            lastNameOK.gameObject.activeSelf &&
+            emailOK.gameObject.activeSelf)
+        {
+            StartCoroutine(RegisterNewUserRequest());
+        }
+    }
+    // Sends a password reset request
+    // Performs username field validation, but it should also be done client side
     public void ForgotPassword(){
-        StartCoroutine(ForgotPasswordRequest());
-    }
 
+        // Getting data from the UI
+        Transform usernameInputField = resetPasswordMenu.gameObject.transform.Find("UsernameInputField");
+
+        string username = usernameInputField.gameObject.GetComponent<TMP_InputField>().text;
+        Transform validationText = usernameInputField.gameObject.transform.Find("UsernameValidationText");
+
+        // Only make request if user has entered a valid email address
+        if (!string.IsNullOrWhiteSpace(username) && FormDataValidation.IsValidUsername(username)) {
+            validationText.gameObject.SetActive(false);
+            StartCoroutine(ForgotPasswordRequest());
+        }
+        else {
+            validationText.gameObject.SetActive(true);
+        }        
+    }
+    // Logs the user into the system
+    // A user can concurrently log in from multiple devices
+    // Returns a session object, with token
     public void UserLogin(){
 
         // Getting data from the UI
         Transform loginFormContainer = loginPanel.gameObject.transform.Find("LoginFormContainer");
+        Transform inputUsername = loginFormContainer.Find("UsernameInputField");
+        Transform inputPassword = loginFormContainer.Find("PasswordInputField");
 
-        string username = loginFormContainer.Find("UsernameInputField").GetComponent<TMP_InputField>().text;
-        string password = loginFormContainer.Find("PasswordInputField").GetComponent<TMP_InputField>().text;
+        string username = inputUsername.GetComponent<TMP_InputField>().text;
+        string password = inputPassword.GetComponent<TMP_InputField>().text;
 
         // Only make request if user has entered BOTH username and pwd
-        if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password)) {
+        if (!string.IsNullOrWhiteSpace(username) && FormDataValidation.IsValidUsername(username) && !string.IsNullOrWhiteSpace(password)) {
             StartCoroutine(UserLoginRequest());
         }
+        else {
+            inputUsername.GetComponent<TMP_InputField>().text = string.Empty;
+            inputPassword.GetComponent<TMP_InputField>().text = string.Empty;
+        }
     }
-
+    // Logs the user out of the system
+    // If the request fails with "unauthorized", the session should be cleared in the client
     public void UserLogOut(){
         if (SessionManager.IsUserLoggedIn()) StartCoroutine(UserLogOutRequest());
         else Debug.LogWarning("Cant logout user because is already logged out!");
     }
-
+    // Fetches the highscores table from the servers
     public void ShowHighScores(){
         StartCoroutine(ShowHighScoresRequest());
     }
-
+    // Gets the user's game progress information
+    // This is used as a way to save the game and sync it with multiple devices
     public void GetUserGameProgress() {
         if (SessionManager.IsUserLoggedIn()) StartCoroutine(GetGameProgress());
         else Debug.LogWarning("User Session not found, cant get progress");
     }
 
+
+    // Async request and result handling implementation
     private IEnumerator CheckValidSessionRequest()
     {
         // Getting data from the UI
@@ -89,9 +176,10 @@ public class APIRequestHandler : MonoBehaviour
         Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
         Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
 
-        // Disabling "New Game" and "High Scores" button
-        newGameButton.GetComponent<Button>().interactable = false;
+        // Disabling "High Scores" button
         highScoresButton.GetComponent<Button>().interactable = false;
+        // Disabling menu navigation
+        SessionDisableMainControls();
 
         UnityWebRequest request = UnityWebRequest.Get(GetServerBaseURL()+"/sessions/"+SessionManager.GetSessionToken());
         
@@ -129,26 +217,53 @@ public class APIRequestHandler : MonoBehaviour
         {
             // Session is no longer valid, show error message
             Debug.Log("Invalid session!");
-            setloggedInPanelExpiredSession();
+            SetloggedInPanelError("ERROR\nyour session has expired");
         }
+        // Session check process done
+        // Enabling menu navigation
+        SessionEnableMainControls();
     }
 
     // Configures the logged in panel to show a session expired message
     // Should be called from all API requests that error our due to expired session
-    private void setloggedInPanelExpiredSession()
+    private void SetloggedInPanelError(string message)
     {
         // Getting data from the UI
+        Transform loggedInPanelContainer = loggedPanel.gameObject.transform.Find("LoggedInPanelContainer");
         Transform loggedInMessageContainer = loggedPanel.gameObject.transform.Find("LoggedInMessageContainer");
         Transform loggedInMessage = loggedInMessageContainer.Find("LoggedInMessage");
         Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
         Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
 
         // Setting up logged in panel
+        loggedInPanelContainer.gameObject.SetActive(false);
         loggedInMessageContainer.gameObject.SetActive(true);
-        loggedInMessage.GetComponent<TMP_Text>().text = "ERROR\nyour session has expired";
+        loggedInMessage.GetComponent<TMP_Text>().text = message;
         loggedInMessage.gameObject.SetActive(true);
         loggedInSpinner.gameObject.SetActive(false);
         loggedInCloseButton.gameObject.SetActive(true);
+    }
+
+    // Disables navigation during session operations in the main screen (login/logout)
+    private void SessionDisableMainControls() {
+
+        newGameButton.GetComponent<Button>().interactable = false;
+        continueButton.GetComponent<Button>().interactable = false;
+        howToPlayButton.GetComponent<Button>().interactable = false;
+        settingsButton.GetComponent<Button>().interactable = false;
+        aboutButton.GetComponent<Button>().interactable = false;
+        loginButton.GetComponent<Button>().interactable = false;
+    }
+
+    // Enables navigation during session operations in the main screen (login/logout)
+    private void SessionEnableMainControls() {
+
+        newGameButton.GetComponent<Button>().interactable = true;
+        continueButton.GetComponent<Button>().interactable = GameProgressManager.PlayerCanContinue();
+        howToPlayButton.GetComponent<Button>().interactable = true;
+        settingsButton.GetComponent<Button>().interactable = true;
+        aboutButton.GetComponent<Button>().interactable = true;
+        loginButton.GetComponent<Button>().interactable = true;
     }
 
     private IEnumerator GetGameProgress()
@@ -170,26 +285,6 @@ public class APIRequestHandler : MonoBehaviour
         Debug.Log("Difficulty Level: " + gameProgress.getDifficultyLevel());
         Debug.Log("Elapsed Time: " + gameProgress.getTimeElapsed());
     }
-
-    //private void ShowStatusMessage(string title, string message, bool shouldClose){
-    //    if(statusPanel == null) this.statusPanel = GameObject.Find("StatusPanel");
-    //    
-    //    TextMeshProUGUI statusTitle = this.statusPanel.transform.Find("StatusTitle").GetComponent<TextMeshProUGUI>();
-    //    TextMeshProUGUI statusMsg = this.statusPanel.transform.Find("StatusMessage").GetComponent<TextMeshProUGUI>();
-    //    
-    //    statusTitle.SetText(title);
-    //    statusMsg.SetText(message);
-    //
-    //    statusPanel.SetActive(true);
-    //    
-    //    if(closeButton == null) this.closeButton = GameObject.Find("CloseButton");
-    //    closeButton.SetActive(shouldClose);
-    //}
-
-    //private void CloseStatusMessage(){
-    //    if(statusPanel == null) this.statusPanel = GameObject.Find("StatusPanel");
-    //    statusPanel.SetActive(false);
-    //}
 
     private IEnumerator ShowHighScoresRequest(){
 
@@ -269,11 +364,17 @@ public class APIRequestHandler : MonoBehaviour
         }
         else{
             ErrorAPIResponse errorResponse = JsonUtility.FromJson<ErrorAPIResponse>(request.downloadHandler.text);
-            //ShowStatusMessage(request.result.ToString(), errorResponse.message, true);
             highScoresTableMessageText.GetComponent<TextMeshProUGUI>().text = "Error fetching data!";
             highScoresTableMessageSpinner.gameObject.SetActive(false);
+            // If the result was "Unauthorized", we show the session expired message in the logged in panel
+            if (request.responseCode == (long)HttpStatusCode.Unauthorized)
+            {
+                SetloggedInPanelError("ERROR\nyour session has expired");
+            }
+            else {
+                SetloggedInPanelError("ERROR\nPlease try again later");
+            }
         }
-
     }
     
     private IEnumerator UserLoginRequest(){
@@ -290,9 +391,9 @@ public class APIRequestHandler : MonoBehaviour
 
         loginFormContainer.gameObject.SetActive(false);
         loginMessageContainer.gameObject.SetActive(true);
-        // Disabling "New Game" button
-        newGameButton.GetComponent<Button>().interactable = false;
-    
+        // Disabling menu navigation
+        SessionDisableMainControls();
+
         // Formatting JSON string
         LoginRequestDTO loginRequest = new(username, password);
         string loginRequestJSON = JsonConvert.SerializeObject(loginRequest);
@@ -347,7 +448,7 @@ public class APIRequestHandler : MonoBehaviour
                 Debug.LogWarning("This server is not sending the correct messages!");
             }
             // Show error message in panel
-            if (request.responseCode == 400 || request.responseCode == 401)
+            if (request.responseCode == (long)HttpStatusCode.BadRequest || request.responseCode == (long)HttpStatusCode.Unauthorized)
             {
                 loginMessage.GetComponent<TMP_Text>().text = "ERROR\nWrong user or password";
             }
@@ -358,6 +459,9 @@ public class APIRequestHandler : MonoBehaviour
             loginSpinner.gameObject.SetActive(false);
             loginCloseButton.gameObject.SetActive(true);
         }
+        // Login process done
+        // Enabling menu navigation
+        SessionEnableMainControls();
     }
 
     private void setLoggedPanel(LoginResponseDTO loginResponse)
@@ -377,9 +481,10 @@ public class APIRequestHandler : MonoBehaviour
             Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
             Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
 
-            // Disabling "New Game" and "High Scores" button
-            newGameButton.GetComponent<Button>().interactable = false;
+            // Disabling "High Scores" button
             highScoresButton.GetComponent<Button>().interactable = false;
+            // Disabling menu navigation
+            SessionDisableMainControls();
 
             loggedInPanelContainer.gameObject.SetActive(false);
             loggedInMessage.GetComponent<TMP_Text>().text = "Logging out of your account\nplease wait...";
@@ -403,9 +508,11 @@ public class APIRequestHandler : MonoBehaviour
             Debug.Log(serverResponse.code);
             Debug.Log(serverResponse.message);
 
-            // Enabling "New Game" and "High Scores" button
-            newGameButton.GetComponent<Button>().interactable = true;
+            // Enabling "High Scores" button
             highScoresButton.GetComponent<Button>().interactable = true;
+            // Logout process done
+            // Enabling menu navigation
+            SessionEnableMainControls();
 
             if (request.result == UnityWebRequest.Result.Success){
                 Debug.Log("Success");
@@ -416,6 +523,7 @@ public class APIRequestHandler : MonoBehaviour
 
             // Storing user session data to use it on other API endpoints
             SessionManager.ClearSession();
+            loginButton.GetComponent<Button>().interactable = true;
             loginButton.SetActive(true);
             highScoresButton.SetActive(false);
             loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
@@ -432,9 +540,24 @@ public class APIRequestHandler : MonoBehaviour
 
     private IEnumerator ForgotPasswordRequest(){
         // Getting data from the UI
-        string username = GameObject.Find("UserNameForgotInputField").GetComponent<TMP_InputField>().text;
-        //TextMeshProUGUI mailSentUI = GameObject.Find("MailSentMsg").GetComponent<TextMeshProUGUI>();
- 
+        Transform usernameInputField = resetPasswordMenu.gameObject.transform.Find("UsernameInputField");
+
+        string username = usernameInputField.gameObject.GetComponent<TMP_InputField>().text;
+        Transform validationText = usernameInputField.gameObject.transform.Find("UsernameValidationText");
+        Transform statusContainer = resetPasswordMenu.gameObject.transform.Find("StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        TMP_InputField usernameInputFieldComponent = usernameInputField.GetComponent<TMP_InputField>();
+        TMP_Text statusText = statusContainer.Find("StatusText").GetComponent<TMP_Text>();
+        Button sendButton = resetPasswordMenu.gameObject.transform.Find("SendButton").GetComponent<Button>();
+
+        // Setting initial status for form
+        statusText.text = "Sending your request\nplease wait...";
+        statusSpinner.gameObject.SetActive(true);
+        statusContainer.gameObject.SetActive(true);
+        usernameInputFieldComponent.interactable = false;
+        sendButton.interactable = false;
+        backButton.gameObject.GetComponent<Button>().interactable = false;
+
         PasswordRecoveryRequestDTO passwordRecoveryDTO = new(username);
         string passwordRecoveryBody = JsonConvert.SerializeObject(passwordRecoveryDTO);
         
@@ -449,25 +572,36 @@ public class APIRequestHandler : MonoBehaviour
         UnityWebRequestResponseDTO responseDTO = new(request);
         showResponseData(responseDTO);
 
+        statusSpinner.gameObject.SetActive(false);
+        backButton.gameObject.GetComponent<Button>().interactable = true;
         if (responseDTO.getResult() == UnityWebRequest.Result.Success){
             Debug.Log("Success");
             // Formatting data to JSON.
             PasswordRecoveryResponseDTO passwordRecoveryResponse = JsonConvert.DeserializeObject<PasswordRecoveryResponseDTO>(responseDTO.getBody());
             // Masks the current user recovery email address address@hosting.com => *****ss@hosting.com
             string input = passwordRecoveryResponse.getEmail();
-            string pattern = @".(?=.*..@)";     //@"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
-            string maskedEmail = Regex.Replace(input, pattern, m => new string('*', m.Length));
+            string maskedEmail = Regex.Replace(input, EMAIL_MASK_REGEX, m => new string('*', m.Length));
             // Shows the user the correct UI
-            //mailSentUI.SetText("Recovery mail sent to: "+maskedEmail+"\n Check your account to complete the process");
+            statusText.text = "Recovery mail sent to: " + maskedEmail + "\n Check your account to complete the process!";
         }
         else{
-            // Shows the user the correct UI
-            //mailSentUI.SetText("Invalid Username");
-            //Debug.Log("Result: " + request.result);
-            //Debug.Log("Status Code: " + request.responseCode);
-            //Debug.Log("Response: " + request.downloadHandler.text);
+            usernameInputField.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            usernameInputFieldComponent.interactable = true;
+            sendButton.interactable = true;
+            try {
+                APIErrorResponseDTO errorResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
+                // Show data to the user to reflect the result of the request
+                Debug.Log(errorResponse.getCode());
+                Debug.Log(errorResponse.getMessage());
+                Debug.Log(errorResponse.getData());
+                statusText.text = errorResponse.getMessage();
+            }
+            catch
+            {
+                Debug.LogWarning("This server is not sending the correct messages!");
+                statusText.text = "ERROR\nPlease try again later";
+            }
         }
-
     }
 
     private IEnumerator CheckUsernameRequest(){
@@ -507,29 +641,66 @@ public class APIRequestHandler : MonoBehaviour
         else Debug.Log("Request resulted in unknown error");
     }
 
+    // Generates a json object from the register form
+    // Ready to be posted to the server
     private string GetJsonStringRegisterData(){
         // Getting all register data from input fields (maybe should optimize this!)
-        string newUsername = GameObject.Find("UserNameInputField").GetComponent<TMP_InputField>().text;
-        string newPassword = GameObject.Find("PasswordInputField").GetComponent<TMP_InputField>().text;
-        string newFirstName = GameObject.Find("FirstNameInputField").GetComponent<TMP_InputField>().text;
-        string newLastName = GameObject.Find("LastNameInputField").GetComponent<TMP_InputField>().text;
-        string newEmail = GameObject.Find("EmailInputField").GetComponent<TMP_InputField>().text;
-        string newPhone = GameObject.Find("PhoneInputField").GetComponent<TMP_InputField>().text;
-        if(newPhone == "") newPhone = "-1";
-        // TO DO: Add custom Avatar support, in the meantime default avatar is set
+        Transform usernameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/UsernameInputField");
+        Transform passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
+        Transform lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
+        Transform emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
+
+        string newUsername = usernameInput.gameObject.GetComponent<TMP_InputField>().text;
+        string newPassword = passwordInput.gameObject.GetComponent<TMP_InputField>().text;
+        string newFirstName = firstNameInput.gameObject.GetComponent<TMP_InputField>().text;
+        string newLastName = lastNameInput.gameObject.GetComponent<TMP_InputField>().text;
+        string newEmail = emailInput.gameObject.GetComponent<TMP_InputField>().text;
+
+        // We are not using the phone property, but the server validates in
+        // A placeholder is sent
+        string newPhone = "555 5555";
+
+        // When registering a new user, the default avatar is set
         bool isUrl = true;
-        string avatarUrl = "https://ui-avatars.com/api/?background=1A82E2&color=FFFFFF&size=256&name="+newFirstName+"+"+newLastName;
-        //TO DO: ADD missing info to the json -> Avatar and login service
-        //return "{ \"username\": \""+newUsername+"\", \"password\": \""+newPassword+"\", \"first_name\": \""+newFirstName+"\", \"last_name\": \""+newLastName+"\", \"contact\": { \"email\": \""+newEmail+"\", \"phone\": \""+newPhone+"\" }, \"avatar\": { \"isUrl\": "+isUrl.ToString().ToLower()+", \"data\": \""+avatarUrl+"\" }}"; 
+        string avatarUrl = DEFAULT_AVATAR_URL + newFirstName.Replace(" ", string.Empty) + "+" + newLastName.Replace(" ", string.Empty);
+ 
+        // Custom DTO class for registration
         RegisterNewUserRequestDTO registerNewUserRequestDTO = new(newUsername,newPassword,newFirstName,newLastName,new(newEmail,newPhone),new(isUrl,avatarUrl));
+
+        // Login service is not used, so it is not included in the message
+        // As we include a username and password, the server assumes *false* 
         return JsonConvert.SerializeObject(registerNewUserRequestDTO);
     }
 
+    // Implements the POST request to register a new user
     private IEnumerator RegisterNewUserRequest(){
         Debug.Log("Registering new user to the game...");
-        string registerDataJson = GetJsonStringRegisterData();
+        // Getting data from the UI
+        // Form container
+        Transform formContainer = registerMenu.gameObject.transform.Find("RegisterFormContainer");
+        // Status
+        Transform statusContainer = registerMenu.gameObject.transform.Find("StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        Transform statusSuccess = statusContainer.Find("StatusSuccess");
+        Transform statusError = statusContainer.Find("StatusError");
+        Transform statusText = statusContainer.Find("StatusText");
+
+        backButton.gameObject.GetComponent<Button>().interactable = false;
+        // Setting form container
+        formContainer.gameObject.SetActive(false);
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(true);
+        statusSuccess.gameObject.SetActive(false);
+        statusError.gameObject.SetActive(false);
+        statusText.gameObject.GetComponent<TMP_Text>().text = "Sending your request\nplease wait...";
+        // Setting status container
+        statusContainer.gameObject.SetActive(true);
+
         // The UnityWebRequest library its pretty tricky, for POST method you should start with PUT and then change it on the next lines
         // Implementation based on the tutorial found at https://manuelotheo.com/uploading-raw-json-data-through-unitywebrequest/
+        string registerDataJson = GetJsonStringRegisterData();
         UnityWebRequest request = UnityWebRequest.Put(GetServerBaseURL()+USERS_ROUTE, registerDataJson);
         request.method = UnityWebRequest.kHttpVerbPOST;
         
@@ -537,18 +708,57 @@ public class APIRequestHandler : MonoBehaviour
         request.SetRequestHeader("Accept", "application/json");
         
         yield return request.SendWebRequest();
-        
+
+        UnityWebRequestResponseDTO responseDTO = new(request);
+        // Show data to the user to reflect the result of the request
+        showResponseData(responseDTO);
+
         //Response handling
-        if(request.result == UnityWebRequest.Result.ProtocolError){
-            Debug.Log("Missing data to fullfill the request or User already exists");
-        }
-        else if(request.result == UnityWebRequest.Result.Success){
+        if (request.responseCode == (long)HttpStatusCode.Created){
             Debug.Log("Success");
+            statusText.gameObject.GetComponent<TMP_Text>().text = "SUCCESS! Welcome to FIUBA CloudSync\nyou may login now...";
+            statusSuccess.gameObject.SetActive(true);
         }
-        else Debug.Log(request.result);
-        Debug.Log("Status Code: " + request.responseCode);
-        Debug.Log("Response: " + request.downloadHandler.text);
-        Debug.Log(request.result);
+        else{
+            Debug.Log("Error");
+            statusError.gameObject.SetActive(true);
+            // Formatting data to JSON.
+            try {
+                APIErrorResponseDTO errorResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
+
+                // Show error message in panel
+                if (request.responseCode == (long)HttpStatusCode.BadRequest)
+                {
+                    switch(errorResponse.getCode()) 
+                    {
+                    case -5:
+                        statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\n" + errorResponse.getMessage();
+                        break;
+                    case -6:
+                        statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\n" + errorResponse.getMessage();
+                        break;
+                    default:
+                        statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\n Bad request. This should not happen, please contact support!";
+                        break;
+                    }
+                }
+                else
+                {
+                    statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
+                }
+            }
+            catch
+            {
+                Debug.LogWarning("This server is not sending the correct messages!");
+                statusText.gameObject.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
+            }
+        }
+        // Status
+        // Setting status elements
+        statusSpinner.gameObject.SetActive(false);
+        // Registration process done
+        // Enabling menu navigation
+        backButton.gameObject.GetComponent<Button>().interactable = true;
     }
 
     private void showResponseData(UnityWebRequestResponseDTO response) {
@@ -556,6 +766,4 @@ public class APIRequestHandler : MonoBehaviour
         Debug.LogWarning("Status Code: " + response.getCode());
         Debug.LogWarning("Response: " + response.getBody());
     }
-
-   
 }

@@ -2310,6 +2310,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9137872561484633660, guid: 659d309ae3496604586fa871cda588d8, type: 3}
   m_PrefabInstance: {fileID: 818961103}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &459984276 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1599317755424525843, guid: 659d309ae3496604586fa871cda588d8, type: 3}
+  m_PrefabInstance: {fileID: 818961103}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386465787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f5c82e09100da4e85e5cff7d683699, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &487287964
 GameObject:
   m_ObjectHideFlags: 0
@@ -10437,6 +10448,10 @@ PrefabInstance:
       propertyPath: currentDungeon
       value: 
       objectReference: {fileID: 1008060599}
+    - target: {fileID: 2370704341437052030, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
+      propertyPath: playerComponent
+      value: 
+      objectReference: {fileID: 459984276}
     - target: {fileID: 2370704341437052030, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
       propertyPath: dungeonGenerator
       value: 
