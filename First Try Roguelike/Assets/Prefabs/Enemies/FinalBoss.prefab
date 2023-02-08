@@ -4694,22 +4694,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1277342587166365409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8435554210619151997}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a234dd4ec5e26e649aedd58d67bf078a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 29fd1a29d3b80bf45a2ad4570034da26, type: 2}
-  healthBar: {fileID: 4775026926410840740}
-  _renderer: {fileID: 2489245247378122881}
---- !u!114 &1565145353577291066
+--- !u!114 &1074376395844593384
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4718,12 +4703,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 8435554210619151997}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8727a9ee29467d1429a9f671b4913c2d, type: 3}
+  m_Script: {fileID: 11500000, guid: bf53463f39b82e942aca295a8826abdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementTolerance: 0.3
-  _renderer: {fileID: 2489245247378122881}
---- !u!114 &3441966170542415899
+--- !u!114 &1277342587166365409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8435554210619151997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a234dd4ec5e26e649aedd58d67bf078a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeEnemy: {fileID: 3676977707394120634}
+  enemyMovement: {fileID: 5576749895281775739}
+  spellCasterEnemy: {fileID: 1737876300219129951}
+  enemyLongRangeMovement: {fileID: 6374213751445942070}
+  enemy: {fileID: 0}
+--- !u!114 &1737876300219129951
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4737,6 +4737,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 29fd1a29d3b80bf45a2ad4570034da26, type: 2}
   healthBar: {fileID: 4775026926410840740}
+  _renderer: {fileID: 2489245247378122881}
+--- !u!114 &3676977707394120634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8435554210619151997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc89b8d1f3b8a7e48a6f3bb336d6f845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: 29fd1a29d3b80bf45a2ad4570034da26, type: 2}
+  healthBar: {fileID: 4775026926410840740}
+  _renderer: {fileID: 2489245247378122881}
+--- !u!114 &5576749895281775739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8435554210619151997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a54bef701e690174c88c31c7c83ae1d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementTolerance: 0.3
   _renderer: {fileID: 2489245247378122881}
 --- !u!114 &6288935614902266011
 MonoBehaviour:
@@ -4752,6 +4781,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   customizableCharacter: {fileID: 8967750155644058392}
   animator: {fileID: 5370908988269828976}
+--- !u!114 &6374213751445942070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8435554210619151997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8727a9ee29467d1429a9f671b4913c2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementTolerance: 0.3
+  _renderer: {fileID: 2489245247378122881}
 --- !u!114 &8967750155644058392 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1203780825325970955, guid: 608c0779f62abf14fa0e9a99b676398b, type: 3}
