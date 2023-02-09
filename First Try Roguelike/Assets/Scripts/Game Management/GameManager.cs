@@ -206,6 +206,12 @@ public class GameManager : MonoBehaviour
         playerComponent.AddMana(playerComponent.GetMaxMana());
     }
 
+    private void rechargePlayerManaAndHealth()
+    {
+        playerComponent.AddHealth(playerComponent.GetMaxHealth());
+        playerComponent.AddMana(playerComponent.GetMaxMana());
+    }
+
     
 
     private void disableAllCinematics()
