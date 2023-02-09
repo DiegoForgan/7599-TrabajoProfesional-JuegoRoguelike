@@ -107,7 +107,14 @@ public class FinalBossEnemy : MeleeEnemy
         if (currentBossState == FinalBossState.SpellCasterAttacker) ExecuteSpellCastingAttack();
         
         nextAttackTime = Time.time + 1f / attackRate;
-    }   
+    }
+
+    //Called by the animation event
+    protected override void DestroyEntity()
+    {
+        GameManager.Instance.LoadNextLevel();
+        Destroy(gameObject);
+    }
 } 
 
 
