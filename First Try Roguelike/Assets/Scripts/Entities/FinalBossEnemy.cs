@@ -3,45 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FinalBossEnemy : MonoBehaviour
+public enum FinalBossState { MeleeAttacker, SpellCasterAttacker }
+
+public class FinalBossEnemy : MeleeEnemy
 {
-    [SerializeField] private MeleeEnemy meleeEnemy;
-    [SerializeField] private EnemyMovement enemyMovement;
-    [SerializeField] private SpellCasterEnemy spellCasterEnemy;
-    [SerializeField] private EnemyLongRangeMovement enemyLongRangeMovement;
-    [SerializeField] private Enemy enemy;
-
-    private enum FinalBossState { MeleeAttacker, SpellCasterAttacker}
-
+    private FinalBossMovement _finalBossMovement;
     private FinalBossState currentBossState;
     private const float FINAL_BOSS_STATE_THRESHOLD = 0.5f;
+    private float rangeDistance;
 
-    private void Start()
+    private void Awake()
     {
-        currentBossState = FinalBossState.SpellCasterAttacker;
-    }
-
-    private void Update()
-    {
-        SetScriptsBasedOnBossState();
-        UpdateBossState();
-    }
-
-    private void UpdateBossState()
-    {
-        Debug.Log("Nilbud Remaining Health Percentage: " + GetEnemyRemainingHealthPercentage() * 100);
-        if (GetEnemyRemainingHealthPercentage() < FINAL_BOSS_STATE_THRESHOLD) setBossState(FinalBossState.MeleeAttacker);
-    }
-
-    private float GetEnemyRemainingHealthPercentage()
-    {
-        return enemy.GetHealth() / enemy.GetMaxHealth();
-    }
-
-    private void SetScriptsBasedOnBossState()
-    {
-        if (currentBossState == FinalBossState.MeleeAttacker) EnableMeleeScripts();
-        else if (currentBossState == FinalBossState.SpellCasterAttacker) EnableSpellCastingScripts();
+        //_enemySpriteRenderer = GetComponent<SpriteRenderer>();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        meleeWeapon = GetComponent<MeleeWeapon>();
+        _finalBossMovement = GetComponent<FinalBossMovement>();
+        _attackPoint = transform.Find("AttackPoint");
+        animator = GetComponent<CharactersAnimator>();
+        if (!playerTransform) Debug.LogError("No player Transform aquired!");
+        if (!_attackPoint) Debug.LogError("No attack point found!");
+        if (!_finalBossMovement) Debug.LogError("No movement component found!");
     }
 
     private void setBossState(FinalBossState newState)
@@ -50,20 +31,83 @@ public class FinalBossEnemy : MonoBehaviour
         currentBossState = newState;
     }
 
-    private void EnableSpellCastingScripts()
+    public void Start()
     {
-        meleeEnemy.enabled = false;
-        enemyMovement.enabled = false;
-        spellCasterEnemy.enabled = true;
-        enemyLongRangeMovement.enabled = true;
+        setBossState(FinalBossState.SpellCasterAttacker);
+        InitHealth();
+        meleeWeapon.SetWeaponData(enemyData.availableMeleeWeapon);
+        //Creates a copy of the list to prevent changes on the Scriptable Object
+        availableSpells = new List<SpellData>(enemyData.availableSpell);
+        //distance has to be tweaked in order to respond to the attacking point
+        float distance = Vector2.Distance(transform.position, _attackPoint.position) + enemyData.availableMeleeWeapon.range;
+        rangeDistance = enemyData.attackDistance;
+        //Passing movement data to corresponding component
+        InitAllMovementStats(distance, rangeDistance);
     }
 
-    private void EnableMeleeScripts()
+    private void InitAllMovementStats(float distance, float rangeDistance)
     {
-        meleeEnemy.enabled = true;
-        enemyMovement.enabled = true;
-        spellCasterEnemy.enabled = false;
-        enemyLongRangeMovement.enabled = false;
+        //Passing movement data to corresponding component
+        _finalBossMovement.SetMovementSpeed(enemyData.movementSpeed);
+        _finalBossMovement.SetPlayerTransform(playerTransform);
+        SetAttackingParameters(enemyData.attackRate, distance);
+        _finalBossMovement.SetAttackingDistance(distance);
+        _finalBossMovement.SetRangeDistance(rangeDistance);
     }
-}
+
+    private bool IsAbleToAttack(FinalBossState state)
+    {
+        //Checks if player is at the distance required for enemy to attack
+        float playerEnemyDistance = Vector2.Distance(transform.position, playerTransform.position);
+        
+        bool result = false;
+
+        if (state == FinalBossState.MeleeAttacker) 
+            result = _renderer.isVisible && (playerEnemyDistance <= attackDistance) && (Time.time >= nextAttackTime);
+        else if (state == FinalBossState.SpellCasterAttacker)
+            result = _renderer.isVisible && (playerEnemyDistance <= rangeDistance) && (Time.time >= nextAttackTime);
+        
+        return result;
+    }
+
+    private void ExecuteSpellCastingAttack()
+    {
+        Debug.Log("Spell casting from SPELL CASTER CLASS");
+        animator.SetSpellCastingWithStaffAnimation();
+        CastRandomSpell();
+    }
+
+    private void ExecuteMeleeAttack()
+    {
+        Debug.Log("Attacking from Melee atacker class");
+        meleeWeapon.AttackPlayer(_attackPoint);
+        animator.setAttackAnimation();
+    }
+
+    private float GetEnemyRemainingHealthPercentage()
+    {
+        return (float)GetHealth() / GetMaxHealth();
+    }
+
+    private void SetBossStateBasedOnRemainingHealthPercentage()
+    {
+        Debug.Log("Nilbud Remaining Health Percentage: " + GetEnemyRemainingHealthPercentage() * 100);
+        currentBossState = (GetEnemyRemainingHealthPercentage() < FINAL_BOSS_STATE_THRESHOLD) ? FinalBossState.MeleeAttacker : FinalBossState.SpellCasterAttacker;
+        _finalBossMovement.UpdateBossState(currentBossState);
+    }
+
+    private void Update()
+    {
+        SetBossStateBasedOnRemainingHealthPercentage();
+
+        if (playerTransform.Equals(null)) return;
+        if (!IsAbleToAttack(currentBossState)) return;
+
+        if (currentBossState == FinalBossState.MeleeAttacker) ExecuteMeleeAttack();
+        if (currentBossState == FinalBossState.SpellCasterAttacker) ExecuteSpellCastingAttack();
+        
+        nextAttackTime = Time.time + 1f / attackRate;
+    }   
+} 
+
 

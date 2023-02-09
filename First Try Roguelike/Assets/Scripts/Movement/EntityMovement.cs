@@ -23,14 +23,6 @@ public abstract class EntityMovement : MonoBehaviour
     public float GetMovementSpeed(){
         return movementSpeed;
     }
-    
-    protected void LookToPosition(Vector2 positionToLook)
-    {
-        Vector2 lookDirection = positionToLook - _rigidBody.position;
-        float angle = Mathf.Atan2(lookDirection.y,lookDirection.x) * Mathf.Rad2Deg - 90f;
-
-        _rigidBody.rotation = angle;
-    }
 
     protected Vector2 GetMovementDirection(Vector2 movement)
     {

@@ -4718,27 +4718,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a234dd4ec5e26e649aedd58d67bf078a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeEnemy: {fileID: 3676977707394120634}
-  enemyMovement: {fileID: 5576749895281775739}
-  spellCasterEnemy: {fileID: 1737876300219129951}
-  enemyLongRangeMovement: {fileID: 6374213751445942070}
-  enemy: {fileID: 0}
---- !u!114 &1737876300219129951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8435554210619151997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b14faf66cad03a4cb86ecb11db39fcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 29fd1a29d3b80bf45a2ad4570034da26, type: 2}
   healthBar: {fileID: 4775026926410840740}
   _renderer: {fileID: 2489245247378122881}
---- !u!114 &3676977707394120634
+--- !u!114 &3610537843507641276
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4747,26 +4730,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8435554210619151997}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc89b8d1f3b8a7e48a6f3bb336d6f845, type: 3}
+  m_Script: {fileID: 11500000, guid: bf53463f39b82e942aca295a8826abdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 29fd1a29d3b80bf45a2ad4570034da26, type: 2}
-  healthBar: {fileID: 4775026926410840740}
-  _renderer: {fileID: 2489245247378122881}
---- !u!114 &5576749895281775739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8435554210619151997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a54bef701e690174c88c31c7c83ae1d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementTolerance: 0.3
-  _renderer: {fileID: 2489245247378122881}
 --- !u!114 &6288935614902266011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4781,7 +4747,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   customizableCharacter: {fileID: 8967750155644058392}
   animator: {fileID: 5370908988269828976}
---- !u!114 &6374213751445942070
+--- !u!114 &7175073764965764834
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4790,7 +4756,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8435554210619151997}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8727a9ee29467d1429a9f671b4913c2d, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ad36915ae47de84daed08a70e5c08ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   movementTolerance: 0.3
