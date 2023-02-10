@@ -36,7 +36,7 @@ public class QuestionDialogUI : MonoBehaviour
         noButton.onClick.RemoveAllListeners();
     }
 
-    public void ShowQuestion(string newDialogTitle, string newQuestionText, string newYesButtonText, string newNoButtonText, Action yesAction, Action noAction) {
+    public void ShowConfirm(string newDialogTitle, string newQuestionText, string newYesButtonText, string newNoButtonText, Action yesAction, Action noAction) {
         gameObject.SetActive(true);
 
         dialogTitle.text = newDialogTitle;
@@ -51,5 +51,18 @@ public class QuestionDialogUI : MonoBehaviour
             Hide();
             noAction();
         });
+    }
+
+    public void ShowAlert(string newDialogTitle, string newQuestionText, string newOKButtonText) {
+        gameObject.SetActive(true);
+
+        dialogTitle.text = newDialogTitle;
+        questionText.text = newQuestionText;
+        yesButtonText.text = newOKButtonText;
+        yesButton.onClick.AddListener(() => {
+            noButton.gameObject.SetActive(true);
+            Hide();
+        });
+        noButton.gameObject.SetActive(false);
     }
 }
