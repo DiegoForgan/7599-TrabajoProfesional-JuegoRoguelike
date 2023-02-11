@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         doorSpawner = GetComponent<DoorSpawner>();
         // We need to get the starting level and difficulty from
         // the game progress manager
-        startingLevel = 5;//(LO USO COMO EL ULTIMO LEVEL TERMINADO) => GameProgressManager.GetNextLevel()-1;
+        startingLevel = GameProgressManager.GetNextLevel() - 1;
         difficultyLevel = GameProgressManager.GetDifficultyLevel();
     }
 
