@@ -97,7 +97,7 @@ public class LevelLoader : MonoBehaviour
     {
         gamestarted = true;
         currentLevel = DEFAULT_STARTING_LEVEL;
-        LoadResumedLevel();
+        LoadNextLevel();
     }
 
     private void LoadResumedLevel()
