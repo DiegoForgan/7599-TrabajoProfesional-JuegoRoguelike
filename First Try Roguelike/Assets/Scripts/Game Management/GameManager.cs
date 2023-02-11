@@ -23,11 +23,13 @@ public class GameManager : MonoBehaviour
     //CONSTANTS
     private const string proyectileTag = "proyectile";
     private const int FINAL_LEVEL = 10;
+    
     //ALGORITHM NAMES CONSTANTS
     private const string RANDOM_WALK_ALGORITHM = "randomwalk";
     private const string CORRIDOR_FIRST_ALGORITHM = "corridorfirst";
     private const string ROOM_FIRST_ALGORITHM = "roomfirst";
     private const string RANDOM_ALGORITHM = "Random";
+
     
     public static GameManager Instance{ get{ return gameManager; } }
     private void Awake()
@@ -42,9 +44,10 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start()
-    {   
-        LevelLoader.Instance.StartGameLoop();
+    {
         level = startingLevel;
+        if (level == 0) LevelLoader.Instance.StartGameLoop();
+        else LevelLoader.Instance.ResumeGameplay(level);
         _hud.UpdateDifficulty(difficultyLevel);
     }
 
@@ -55,7 +58,7 @@ public class GameManager : MonoBehaviour
         doorSpawner = GetComponent<DoorSpawner>();
         // We need to get the starting level and difficulty from
         // the game progress manager
-        startingLevel = GameProgressManager.GetNextLevel() - 1;
+        startingLevel = 5;//(LO USO COMO EL ULTIMO LEVEL TERMINADO) => GameProgressManager.GetNextLevel()-1;
         difficultyLevel = GameProgressManager.GetDifficultyLevel();
     }
 

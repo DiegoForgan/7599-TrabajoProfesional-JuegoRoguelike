@@ -97,7 +97,20 @@ public class LevelLoader : MonoBehaviour
     {
         gamestarted = true;
         currentLevel = DEFAULT_STARTING_LEVEL;
-        LoadNextLevel();
+        LoadResumedLevel();
+    }
+
+    private void LoadResumedLevel()
+    {
+        isCinematic = (
+            currentLevel == FIRST_CINEMATIC_INDEX
+            || currentLevel == SECOND_CINEMATIC_INDEX
+            || currentLevel == FINAL_CINEMATIC_INDEX
+            );
+        //StartCoroutine(executeTransition());
+        if (isCinematic) GameManager.Instance.SetCinematicScene(currentLevel);
+        else GameManager.Instance.CreateNewLevel();
+        Debug.Log("current level: " + currentLevel);
     }
 
     private void Update()
@@ -112,5 +125,18 @@ public class LevelLoader : MonoBehaviour
             }
             else this.LoadNextLevel();
         }
+    }
+
+    internal void ResumeGameplay(int level)
+    {
+        gamestarted = true;
+        currentLevel = parseGameLevelToLevelLoaderLevel(level+1);
+        LoadResumedLevel();
+    }
+
+    private int parseGameLevelToLevelLoaderLevel(int level)
+    {
+        if (level <= 5 && level >= 1) return level;
+        else return level + 1;
     }
 }
