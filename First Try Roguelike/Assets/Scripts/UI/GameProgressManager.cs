@@ -65,11 +65,11 @@ public static class GameProgressManager
     // Returns the current value for "Next Level"
     public static int GetNextLevel() { return nextLevel; }
     // Returns the current value for setting "Difficulty Level"
-    public static int getDifficultyLevel() { return difficultyLevel; }
+    public static int GetDifficultyLevel() { return difficultyLevel; }
     // Returns the current value for setting "Gold Collected"
-    public static int getGoldCollected() { return goldCollected; }
+    public static int GetGoldCollected() { return goldCollected; }
     // Returns the current value for setting "Time Elapsed"
-    public static string getTimeElapsed() { return timeElapsed; }
+    public static string GetTimeElapsed() { return timeElapsed; }
 
     // Setters
     // Sets the current value for "Next Level"

@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private EnemySpawner enemySpawner;
     private DoorSpawner doorSpawner;
     private int difficultyLevel;
+    private int startingLevel;
     private int level;
 
     //CONSTANTS
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {   
         LevelLoader.Instance.StartGameLoop();
-        level = 0;
+        level = startingLevel;
         _hud.UpdateDifficulty(difficultyLevel);
     }
 
@@ -52,7 +53,10 @@ public class GameManager : MonoBehaviour
         itemSpawner = GetComponent<ItemSpawner>();
         enemySpawner = GetComponent<EnemySpawner>();
         doorSpawner = GetComponent<DoorSpawner>();
-        difficultyLevel = SettingsManager.GetStartingDifficulty();
+        // We need to get the starting level and difficulty from
+        // the game progress manager
+        startingLevel = GameProgressManager.GetNextLevel() - 1;
+        difficultyLevel = GameProgressManager.GetDifficultyLevel();
     }
 
     public void CreateNewDungeon()
