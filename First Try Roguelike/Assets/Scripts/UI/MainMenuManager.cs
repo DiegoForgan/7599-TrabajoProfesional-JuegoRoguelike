@@ -114,7 +114,7 @@ public class MainMenuManager : MonoBehaviour
         Transform gameProgressLevel = gameProgessBadge.gameObject.transform.Find("LevelFlag/CurrentLevelText");
         Transform gameProgressDifficulty = gameProgessBadge.gameObject.transform.Find("DifficultyFlag/CurrentDifficultyLevelText");
         gameProgressLevel.GetComponent<TMP_Text>().text = "LEVEL - " + GameProgressManager.GetNextLevel().ToString();
-        gameProgressDifficulty.GetComponent<TMP_Text>().text = GameProgressManager.getDifficultyLevel().ToString();
+        gameProgressDifficulty.GetComponent<TMP_Text>().text = GameProgressManager.GetDifficultyLevel().ToString();
     }
 
     // Resets the highscores table

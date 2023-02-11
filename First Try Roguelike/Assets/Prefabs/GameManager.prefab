@@ -89,6 +89,7 @@ MonoBehaviour:
   goblinPrefab: {fileID: 4939747943407780155, guid: f59e6b8c9e737d54085f9cf89a266eaa, type: 3}
   archerPrefab: {fileID: 3019000847415835507, guid: c072b1102b7c64e4db0698823b782c6c, type: 3}
   darkWitchPrefab: {fileID: 8280887873811152406, guid: 3459eafaec8e15f4f979a90a4ebbf710, type: 3}
+  finalBossPrefab: {fileID: 8435554210619151997, guid: 078e113260b3f704388e2eaf74738a96, type: 3}
   ogresBoost: 1
   goblinsBoost: 2
   archersBoost: 3

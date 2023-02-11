@@ -6,7 +6,7 @@ public abstract class Enemy : Entity
 {
     public EnemyData enemyData;
     [SerializeField] private HealthBarEnemies healthBar;
-    [SerializeField] private Renderer _renderer;
+    [SerializeField] protected Renderer _renderer;
     protected List<SpellData> availableSpells;
     protected MeleeWeapon meleeWeapon;
     //protected SpriteRenderer _enemySpriteRenderer;
