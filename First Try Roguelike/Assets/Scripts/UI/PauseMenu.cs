@@ -21,6 +21,7 @@ public class PauseMenu : MonoBehaviour
     {
         PauseMenuUI.SetActive(true);
         GameIsPaused = true;
+        GameManager.Instance.StopStopWatch();
         Time.timeScale = 0f;
     }
 
@@ -28,6 +29,7 @@ public class PauseMenu : MonoBehaviour
     {
         PauseMenuUI.SetActive(false);
         GameIsPaused = false;
+        GameManager.Instance.StartStopWatch();
         Time.timeScale = 1f;
     }
 

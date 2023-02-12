@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
-using UnityEngine.Tilemaps;
+using System;
+using System.Diagnostics;
 
 public class GameManager : MonoBehaviour
 {   
@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] cinematics;
     [SerializeField] private GameObject hud;
     
+    private Stopwatch stopWatch;
     private ItemSpawner itemSpawner;
     private EnemySpawner enemySpawner;
     private DoorSpawner doorSpawner;
@@ -41,6 +42,10 @@ public class GameManager : MonoBehaviour
             return;
         }
         GetGameManagerReferences();
+
+        // Initialize the stopwatch for counting elapsed time
+        stopWatch = new Stopwatch();
+        stopWatch.Reset();
     }
 
     private void Start()
@@ -49,6 +54,21 @@ public class GameManager : MonoBehaviour
         if (level == 0) LevelLoader.Instance.StartGameLoop();
         else LevelLoader.Instance.ResumeGameplay(level);
         _hud.UpdateDifficulty(difficultyLevel);
+    }
+
+    // Returns the current elapsed time in game
+    public TimeSpan GetTimeElapsed() {
+        return stopWatch.Elapsed;
+    }
+
+    // Starts counting time
+    public void StartStopWatch() {
+        stopWatch.Start();
+    }
+
+    // Stops counting time
+    public void StopStopWatch() {
+        stopWatch.Stop();
     }
 
     private void GetGameManagerReferences()
@@ -89,7 +109,7 @@ public class GameManager : MonoBehaviour
         // Instantiates the items that will be available on the dungeon created
         PlaceBossLevelItemsOnDungeon();
         // This method will place the final boss on the dungeon to challenge the main player on its quest
-        PlaceFinalBossOnDungeon();  
+        PlaceFinalBossOnDungeon();
     }
 
     private void PlaceDungeonDoor()
@@ -99,25 +119,25 @@ public class GameManager : MonoBehaviour
 
     private void PlaceItemsOnDungeon()
     {
-        Debug.Log("Placing Items on the current dungeon!");
+        UnityEngine.Debug.Log("Placing Items on the current dungeon!");
         itemSpawner.Spawn(difficultyLevel,dungeonGenerator.GetDungeon());
     }
 
     private void PlaceBossLevelItemsOnDungeon()
     {
-        Debug.Log("Placing boss level items");
+        UnityEngine.Debug.Log("Placing boss level items");
         itemSpawner.SpawnOnlyHealthAndMana(difficultyLevel, dungeonGenerator.GetDungeon());
     }
 
     private void PlaceEnemiesOnDungeon()
     {
-        Debug.Log("Placing enemies on dungeon!");
+        UnityEngine.Debug.Log("Placing enemies on dungeon!");
         enemySpawner.Spawn(difficultyLevel, dungeonGenerator.GetDungeon());
     }
 
     private void PlaceFinalBossOnDungeon()
     {
-        Debug.Log("Placing Final Boss on dungeon!");
+        UnityEngine.Debug.Log("Placing Final Boss on dungeon!");
         enemySpawner.SpawnFinalBoss(difficultyLevel, dungeonGenerator.GetDungeon());
     }
 
@@ -201,10 +221,17 @@ public class GameManager : MonoBehaviour
         hud.SetActive(true);
         _hud.UpdateLevelName("Level - " + level);
 
-        if (level == FINAL_LEVEL) CreateFinalBossDungeon();
+        if (IsFinalLevel()) CreateFinalBossDungeon();
         else CreateNewDungeon();
 
         rechargePlayerManaAndHealth();
+
+        // Start the stopwatch
+        GameManager.Instance.StartStopWatch();
+    }
+
+    public bool IsFinalLevel() {
+        return (level == FINAL_LEVEL);
     }
 
     private void rechargePlayerManaAndHealth()
