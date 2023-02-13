@@ -71,6 +71,11 @@ public class GameManager : MonoBehaviour
         stopWatch.Stop();
     }
 
+    // Resets timer to 0
+    public void ResetStopWatch() {
+        stopWatch.Reset();
+    }
+
     private void GetGameManagerReferences()
     {
         itemSpawner = GetComponent<ItemSpawner>();
@@ -227,6 +232,7 @@ public class GameManager : MonoBehaviour
         rechargePlayerManaAndHealth();
 
         // Start the stopwatch
+        GameManager.Instance.ResetStopWatch();
         GameManager.Instance.StartStopWatch();
     }
 
