@@ -19,6 +19,10 @@ public static class GameProgressManager
     // Since PlayerPrefs and the FIUBA CloudSync API store text, we use strings for storing and persisting this property
     // Time measurements must be passed to this class' setters as TimeSpan objects
     private static string timeElapsed;
+    // Use this to mark if the user beat level 10, at any difficulty level
+    // This is used so that the final message can be shown!
+    private static bool finishedGame = false;
+
 
     // Converts a TimeSpan object to a format compatible with the gameprogress format 
     private static string FormatTimeSpanAsString(TimeSpan timeToConvert) {
@@ -105,6 +109,28 @@ public static class GameProgressManager
     public static void ResetTimeElapsed()
     {
         timeElapsed = FormatTimeSpanAsString(TimeSpan.Zero);
+    }
+
+    // Logs game progress data
+    public static void LogGameProgressData() {
+
+        Debug.Log(
+            "GameProgress data\n" +
+            "  next_level: " + GameProgressManager.GetNextLevel() + "\n" +
+            "  difficulty_level: " + GameProgressManager.GetDifficultyLevel() + "\n" +
+            "  gold_collected: " + GameProgressManager.GetGoldCollected() + "\n" +
+            "  time_elapsed: " + GameProgressManager.GetTimeElapsed() + "\n"
+        );
+    }
+
+    // Setter for finishedGame: always sets to *true*
+    // Getter is not required, as it is handled internally
+    public static void SetFinishedGame() {
+        finishedGame = true;
+    }
+    // Shoud be re-setted to false after excecuting post game actions!
+    public static void ResetFinishedGame() {
+        finishedGame = false;
     }
 
     // Generates a json object for an empty gameprogress record

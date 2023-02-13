@@ -1,6 +1,5 @@
-using System;
 using UnityEngine;
-using UnityEngine.Tilemaps;
+using System;
 
 public class GameManager : MonoBehaviour
 {   
@@ -13,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] cinematics;
     [SerializeField] private GameObject hud;
     
+    private System.Diagnostics.Stopwatch stopWatch;
     private ItemSpawner itemSpawner;
     private EnemySpawner enemySpawner;
     private DoorSpawner doorSpawner;
@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour
             return;
         }
         GetGameManagerReferences();
+
+        // Initialize the stopwatch for counting elapsed time
+        stopWatch = new System.Diagnostics.Stopwatch();
+        stopWatch.Reset();
     }
 
     private void Start()
@@ -49,6 +53,26 @@ public class GameManager : MonoBehaviour
         if (level == 0) LevelLoader.Instance.StartGameLoop();
         else LevelLoader.Instance.ResumeGameplay(level);
         _hud.UpdateDifficulty(difficultyLevel);
+    }
+
+    // Returns the current elapsed time in game
+    public TimeSpan GetTimeElapsed() {
+        return stopWatch.Elapsed;
+    }
+
+    // Starts counting time
+    public void StartStopWatch() {
+        stopWatch.Start();
+    }
+
+    // Stops counting time
+    public void StopStopWatch() {
+        stopWatch.Stop();
+    }
+
+    // Resets timer to 0
+    public void ResetStopWatch() {
+        stopWatch.Reset();
     }
 
     private void GetGameManagerReferences()
@@ -89,7 +113,7 @@ public class GameManager : MonoBehaviour
         // Instantiates the items that will be available on the dungeon created
         PlaceBossLevelItemsOnDungeon();
         // This method will place the final boss on the dungeon to challenge the main player on its quest
-        PlaceFinalBossOnDungeon();  
+        PlaceFinalBossOnDungeon();
     }
 
     private void PlaceDungeonDoor()
@@ -201,10 +225,18 @@ public class GameManager : MonoBehaviour
         hud.SetActive(true);
         _hud.UpdateLevelName("Level - " + level);
 
-        if (level == FINAL_LEVEL) CreateFinalBossDungeon();
+        if (IsFinalLevel()) CreateFinalBossDungeon();
         else CreateNewDungeon();
 
         rechargePlayerManaAndHealth();
+
+        // Start the stopwatch
+        GameManager.Instance.ResetStopWatch();
+        GameManager.Instance.StartStopWatch();
+    }
+
+    public bool IsFinalLevel() {
+        return (level == FINAL_LEVEL);
     }
 
     private void rechargePlayerManaAndHealth()

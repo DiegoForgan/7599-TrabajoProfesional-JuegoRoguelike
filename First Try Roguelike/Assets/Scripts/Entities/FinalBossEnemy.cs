@@ -112,7 +112,20 @@ public class FinalBossEnemy : MeleeEnemy
     //Called by the animation event
     protected override void DestroyEntity()
     {
+        // Update game progress record
+        // Starts with the first level
+        GameProgressManager.SetNexLevel(1);
+        // Stop the stopwatch
+        GameManager.Instance.StopStopWatch();
+        TimeSpan ts = GameManager.Instance.GetTimeElapsed();
+        // Log elapsed time
+        GameProgressManager.AddTimeElapsed(ts);
+        // Set finished game flag
+        GameProgressManager.SetFinishedGame();
+
+        // Load next level
         GameManager.Instance.LoadNextLevel();
+
         Destroy(gameObject);
     }
 } 
