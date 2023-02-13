@@ -162,6 +162,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Exports the level map to a file, in the
+    // same directory as the main game files
+    public void DumpLevelToFile() {
+        dungeonGenerator.DumpLevelToFile();
+    }
+
     //Creates a new dungeon based on the name given by the string. If no compatible name, it uses a random one.
     public void GenerateDungeonByName(string algorithm){
         switch(algorithm.ToLower()){

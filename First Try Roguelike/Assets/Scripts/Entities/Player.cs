@@ -115,6 +115,12 @@ public class Player : Entity
             }
         }
 
+        // Dump level to text file 'X'
+        if(Input.GetKeyDown(KeyCode.X)) {
+            if (SettingsManager.GetLevelDumpOn()) {
+                GameManager.Instance.DumpLevelToFile();
+            }
+        }
     }
 
     private void OpenDungeonDoor()
