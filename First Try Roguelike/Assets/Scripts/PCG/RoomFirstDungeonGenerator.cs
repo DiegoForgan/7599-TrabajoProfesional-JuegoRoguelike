@@ -100,7 +100,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             else currentPosition += Vector2Int.down;
 
             //Add extra floor tile on the right to make corridor wider
-            corridor.Add(new Vector2Int(currentPosition.x + 1, currentPosition.y));
+            //corridor.Add(new Vector2Int(currentPosition.x + 1, currentPosition.y));
+            CreateVerticalCorridor(corridor, ref currentPosition);
             corridor.Add(currentPosition);
         }
         // Then we align the X axis
@@ -110,7 +111,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             else currentPosition += Vector2Int.left;
 
             //Add extra floor tile under the current one to make corridor wider
-            corridor.Add(new Vector2Int(currentPosition.x, currentPosition.y - 1));
+            //corridor.Add(new Vector2Int(currentPosition.x, currentPosition.y - 1));
+            CreateHorizontalCorridor(corridor, ref currentPosition);
             corridor.Add(currentPosition); 
         }
         

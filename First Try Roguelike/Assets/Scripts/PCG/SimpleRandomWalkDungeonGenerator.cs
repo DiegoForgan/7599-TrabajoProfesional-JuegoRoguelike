@@ -9,11 +9,12 @@ using Random = UnityEngine.Random;
 public class SimpleRandomWalkDungeonGenerator : AbstractDungeonGenerator
 {
     [SerializeField] protected RandomWalkData randomWalkParameters;
-    
+    [SerializeField] protected const int CORRIDOR_WIDTH = 3;
+
     //private void Start() {
     //    RunProceduralGeneration();
     //}
-    
+
     // PCG using the random walk algorithm which often results in a single dungeon room modified in size by the parameters defined on the editor
     protected override void RunProceduralGeneration()
     {
@@ -53,5 +54,21 @@ public class SimpleRandomWalkDungeonGenerator : AbstractDungeonGenerator
         }
 
         return path;
+    }
+
+    protected void CreateVerticalCorridor(ICollection<Vector2Int> corridor, ref Vector2Int currentPosition)
+    {
+        for (int i = 1; i <= CORRIDOR_WIDTH; i++)
+        {
+            corridor.Add(new Vector2Int(currentPosition.x + i, currentPosition.y));
+        }
+    }
+
+    protected void CreateHorizontalCorridor(ICollection<Vector2Int> corridor, ref Vector2Int currentPosition)
+    {
+        for (int i = 1; i <= CORRIDOR_WIDTH; i++)
+        {
+            corridor.Add(new Vector2Int(currentPosition.x, currentPosition.y - i));
+        }
     }
 }
