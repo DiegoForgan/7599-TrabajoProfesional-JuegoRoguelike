@@ -32,6 +32,8 @@ public class QuestionDialogUI : MonoBehaviour
 
     private void Hide() {
         gameObject.SetActive(false);
+        // Returns the 'yes' button to its default position
+        yesButton.transform.localPosition = new Vector3(135, -140, 0);
         yesButton.onClick.RemoveAllListeners();
         noButton.onClick.RemoveAllListeners();
     }
@@ -53,15 +55,19 @@ public class QuestionDialogUI : MonoBehaviour
         });
     }
 
-    public void ShowAlert(string newDialogTitle, string newQuestionText, string newOKButtonText) {
+    public void ShowAlert(string newDialogTitle, string newQuestionText, string newOKButtonText, Action yesAction) {
         gameObject.SetActive(true);
 
         dialogTitle.text = newDialogTitle;
         questionText.text = newQuestionText;
+        // If we are showing an 'alert' type of dialog, we need to center the 'yes' button
+        // Position is relative to anchorage, values taken from Unity Editor
+        yesButton.transform.localPosition = new Vector3(0, -140, 0);
         yesButtonText.text = newOKButtonText;
         yesButton.onClick.AddListener(() => {
             noButton.gameObject.SetActive(true);
             Hide();
+            yesAction();
         });
         noButton.gameObject.SetActive(false);
     }

@@ -10,6 +10,7 @@ public static class GameProgressManager
     // Default values
     private const int DEFAULT_NEXT_LEVEL = 1;
     private const int DEFAULT_GOLD_COLLECTED = 0;
+    private const int HIGHEST_DIFFICULTY_LEVEL = 10;
 
     // Current values
     // Game Progress
@@ -75,6 +76,8 @@ public static class GameProgressManager
     public static int GetGoldCollected() { return goldCollected; }
     // Returns the current value for setting "Time Elapsed"
     public static string GetTimeElapsed() { return timeElapsed; }
+    // Returns the current value for constant "HIGHEST_DIFFICULTY_LEVEL"
+    public static int GetHighestDifficultyLevel() { return HIGHEST_DIFFICULTY_LEVEL; }
 
     // Setters
     // Sets the current value for "Next Level"
@@ -124,13 +127,17 @@ public static class GameProgressManager
     }
 
     // Setter for finishedGame: always sets to *true*
-    // Getter is not required, as it is handled internally
+    // Used to signal a game where level 10 has been beat
     public static void SetFinishedGame() {
         finishedGame = true;
     }
     // Shoud be re-setted to false after excecuting post game actions!
     public static void ResetFinishedGame() {
         finishedGame = false;
+    }
+    // Query for game finished condition
+    public static bool IsFinishedGame() {
+        return finishedGame;
     }
 
     // Generates a json object for an empty gameprogress record
