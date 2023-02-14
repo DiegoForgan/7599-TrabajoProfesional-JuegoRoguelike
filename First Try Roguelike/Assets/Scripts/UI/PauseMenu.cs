@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -42,17 +41,5 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene(1);
         //This command plays the desired sound clip
         FindObjectOfType<AudioManager>().PlaySound("MainMenuTheme");
-    }
-
-    public void QuitGame(){
-        Debug.Log("Quitting Game...");
-        // Saves user settings
-        SettingsManager.PersistSettings();
-        // Saves session data
-        SessionManager.PersistSession();
-        // Saves gameprogress data
-        GameProgressManager.PersistGameProgress();
-
-        Application.Quit();
     }
 }

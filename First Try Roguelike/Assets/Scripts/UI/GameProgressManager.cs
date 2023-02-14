@@ -10,6 +10,7 @@ public static class GameProgressManager
     // Default values
     private const int DEFAULT_NEXT_LEVEL = 1;
     private const int DEFAULT_GOLD_COLLECTED = 0;
+    private const int LOWEST_DIFFICULTY_LEVEL = 1;
     private const int HIGHEST_DIFFICULTY_LEVEL = 10;
 
     // Current values
@@ -76,8 +77,12 @@ public static class GameProgressManager
     public static int GetGoldCollected() { return goldCollected; }
     // Returns the current value for setting "Time Elapsed"
     public static string GetTimeElapsed() { return timeElapsed; }
+    // Returns the current value for constant "LOWEST_DIFFICULTY_LEVEL"
+    public static int GetLowestDifficultyLevel() { return LOWEST_DIFFICULTY_LEVEL; }
     // Returns the current value for constant "HIGHEST_DIFFICULTY_LEVEL"
     public static int GetHighestDifficultyLevel() { return HIGHEST_DIFFICULTY_LEVEL; }
+    // Returns the current value for constant "DEFAULT_NEXT_LEVEL"
+    public static int GetDefaultNextLevel() { return DEFAULT_NEXT_LEVEL; }
 
     // Setters
     // Sets the current value for "Next Level"
