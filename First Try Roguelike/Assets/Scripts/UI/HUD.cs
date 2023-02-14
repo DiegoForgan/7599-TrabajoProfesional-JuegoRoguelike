@@ -7,6 +7,7 @@ public class HUD : MonoBehaviour
     [SerializeField] private PlayerStatusHUD _playerStatusHUD;
     [SerializeField] private CollectablesStatusHUD _collectablesStatusHUD;
     [SerializeField] private LevelDifficultyHUD _levelDifficultyHUD;
+    [SerializeField] private DeveloperModeHUD _developerModeHUD;
 
     public static HUD instance;
 
@@ -22,6 +23,7 @@ public class HUD : MonoBehaviour
         _playerStatusHUD.initializePlayerStatus(maxHealth,maxMana);
         _collectablesStatusHUD.initializeCollectablesStatus(currentGold, currentKeys);
         _spellHUD.initializeSpellHUD();
+        _developerModeHUD.initializeDeveloperModeHUD();
         //_levelDifficultyHUD.restartLevelAndDifficulty();
     }
 
