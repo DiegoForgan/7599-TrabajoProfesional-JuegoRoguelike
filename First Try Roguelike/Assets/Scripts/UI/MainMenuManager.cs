@@ -99,6 +99,11 @@ public class MainMenuManager : MonoBehaviour
         // Set the game progress badge
         GameProgressManager.LogGameProgressData();
         UpdateGameProgressBadge();
+
+        // Check if game is finished and show game ending message
+        if (GameProgressManager.IsFinishedGame()) {
+            ShowFinishedGameAlert();
+        }
     }
 
     // Updates the Game Progress level and difficulty shown on the main menu
@@ -107,6 +112,48 @@ public class MainMenuManager : MonoBehaviour
         Transform gameProgressDifficulty = gameProgessBadge.gameObject.transform.Find("DifficultyFlag/CurrentDifficultyLevelText");
         gameProgressLevel.GetComponent<TMP_Text>().text = "LEVEL - " + GameProgressManager.GetNextLevel().ToString();
         gameProgressDifficulty.GetComponent<TMP_Text>().text = GameProgressManager.GetDifficultyLevel().ToString();
+    }
+
+    private void ShowFinishedGameAlert() {
+
+        int currentDifficulty = GameProgressManager.GetDifficultyLevel();
+        int maxDifficulty = GameProgressManager.GetHighestDifficultyLevel();
+
+        // Set message to be shown on dialog
+        string endingText = "Congratulations! You have successfully escaped Nodnol! You have beat the game at difficulty level " + currentDifficulty + ". For a greater challenge, please play again, difficulty has been increased.";
+        if (currentDifficulty == maxDifficulty) {
+            endingText = "Congratulations! You have successfully escaped Nodnol! You have beat the game at its most challenging difficulty level (" + currentDifficulty + "). Please review your score, and if you’d like to improve it, you are welcome to try again!";
+        }
+
+        // Notify the user via an alert dialog that they've won the game
+        QuestionDialogUI.Instance.ShowAlert(
+            "Victory!",
+            endingText,
+            "OK",
+            () => {
+                // Actions to be performed ater game ends
+                // User clicked OK, we level up the game progress
+                if (currentDifficulty < GameProgressManager.GetHighestDifficultyLevel()) {
+                    GameProgressManager.SetDifficultyLevel(currentDifficulty+1);
+                }
+                else {
+                    // If the player won in level 10, the game goes back to the beginning
+                    GameProgressManager.ResetGameProgress();
+                }
+
+                // Set the game progress badge
+                // This needs to be *repeated* here because this runs *after* the user clicks the dialog button!
+                // ToDo: send to FIUBA CloudSync and post highscore.
+                GameProgressManager.LogGameProgressData();
+                UpdateGameProgressBadge();
+
+                // Set interactability of "Continue" button
+                continueButton.GetComponent<Button>().interactable = GameProgressManager.PlayerCanContinue();
+            }
+        );
+
+        // Clear finished game flag
+        GameProgressManager.ResetFinishedGame();
     }
 
     // Resets the highscores table
