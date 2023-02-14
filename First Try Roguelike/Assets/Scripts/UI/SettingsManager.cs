@@ -13,8 +13,8 @@ public static class SettingsManager
     private const bool DEFAULT_REGENERATE_DUNGEON_ON = false;
     private const bool DEFAULT_LOAD_NEXT_LEVEL_ON = false;
     private const bool DEFAULT_KILL_ENEMIES_ON = false;
-    private const bool DEFAULT_REGENERATE_HEALTH_ON = false;
-    private const bool DEFAULT_REGENERATE_MANA_ON = false;
+    private const bool DEFAULT_INFINITE_HEALTH_ON = false;
+    private const bool DEFAULT_INFINITE_MANA_ON = false;
     private const bool DEFAULT_LEVEL_DUMP_ON = false;
     private const bool DEFAULT_SHOW_INFO_ON = false;
 
@@ -28,8 +28,8 @@ public static class SettingsManager
     private static bool regenerateDungeonOn;
     private static bool loadNextLevelOn;
     private static bool killEnemiesOn;
-    private static bool regenerateHealthOn;
-    private static bool regenerateManaOn;
+    private static bool infiniteHealthOn;
+    private static bool infiniteManaOn;
     private static bool levelDumpOn;
     private static bool showInfoOn;
 
@@ -47,8 +47,8 @@ public static class SettingsManager
         regenerateDungeonOn = (PlayerPrefs.GetInt("settings_redungeonon", (DEFAULT_REGENERATE_DUNGEON_ON == true ? 1 : 0)) == 1 ? true : false);
         loadNextLevelOn = (PlayerPrefs.GetInt("settings_loadnextlon", (DEFAULT_LOAD_NEXT_LEVEL_ON == true ? 1 : 0)) == 1 ? true : false);
         killEnemiesOn = (PlayerPrefs.GetInt("settings_killenemion", (DEFAULT_KILL_ENEMIES_ON == true ? 1 : 0)) == 1 ? true : false);
-        regenerateHealthOn = (PlayerPrefs.GetInt("settings_reghealthon", (DEFAULT_REGENERATE_HEALTH_ON == true ? 1 : 0)) == 1 ? true : false);
-        regenerateManaOn = (PlayerPrefs.GetInt("settings_regeemanaon", (DEFAULT_REGENERATE_MANA_ON == true ? 1 : 0)) == 1 ? true : false);
+        infiniteHealthOn = (PlayerPrefs.GetInt("settings_reghealthon", (DEFAULT_INFINITE_HEALTH_ON == true ? 1 : 0)) == 1 ? true : false);
+        infiniteManaOn = (PlayerPrefs.GetInt("settings_regeemanaon", (DEFAULT_INFINITE_MANA_ON == true ? 1 : 0)) == 1 ? true : false);
         levelDumpOn = (PlayerPrefs.GetInt("settings_leveldumpon", (DEFAULT_LEVEL_DUMP_ON == true ? 1 : 0)) == 1 ? true : false);
         showInfoOn = (PlayerPrefs.GetInt("settings_showinforon", (DEFAULT_SHOW_INFO_ON == true ? 1 : 0)) == 1 ? true : false);
     }
@@ -63,8 +63,8 @@ public static class SettingsManager
         PlayerPrefs.SetInt("settings_redungeonon", (regenerateDungeonOn == true ? 1 : 0));
         PlayerPrefs.SetInt("settings_loadnextlon", (loadNextLevelOn == true ? 1 : 0));
         PlayerPrefs.SetInt("settings_killenemion", (killEnemiesOn == true ? 1 : 0));
-        PlayerPrefs.SetInt("settings_reghealthon", (regenerateHealthOn == true ? 1 : 0));
-        PlayerPrefs.SetInt("settings_regeemanaon", (regenerateManaOn == true ? 1 : 0));
+        PlayerPrefs.SetInt("settings_reghealthon", (infiniteHealthOn == true ? 1 : 0));
+        PlayerPrefs.SetInt("settings_regeemanaon", (infiniteManaOn == true ? 1 : 0));
         PlayerPrefs.SetInt("settings_leveldumpon", (levelDumpOn == true ? 1 : 0));
         PlayerPrefs.SetInt("settings_showinforon", (showInfoOn == true ? 1 : 0));
 
@@ -87,9 +87,9 @@ public static class SettingsManager
     // Returns the current value for setting "Kill Enemies ON"
     public static bool GetKillEnemiesOn() { return (developerModeOn && killEnemiesOn); }
     // Returns the current value for setting "Regenerate Health ON"
-    public static bool GetRegenerateHealthOn() { return (developerModeOn && regenerateHealthOn); }
+    public static bool GetInfiniteHealthOn() { return (developerModeOn && infiniteHealthOn); }
     // Returns the current value for setting "Regenerate Mana ON"
-    public static bool GetRegenerateManaOn() { return (developerModeOn && regenerateManaOn); }
+    public static bool GetInfiniteManaOn() { return (developerModeOn && infiniteManaOn); }
     // Returns the current value for setting "Level Dump ON"
     public static bool GetLevelDumpOn() { return (developerModeOn && levelDumpOn); }
     // Returns the current value for setting "Show Info ON"
@@ -111,9 +111,9 @@ public static class SettingsManager
     // Sets the current value for setting "Kill Enemies ON"
     public static void SetKillEnemiesOn(bool newKillEnemiesOn) { killEnemiesOn = newKillEnemiesOn; }
     // Sets the current value for setting "Regenerate Health ON"
-    public static void SetRegenerateHealthOn(bool newRegenerateHealthOn) { regenerateHealthOn = newRegenerateHealthOn; }
+    public static void SetInfiniteHealthOn(bool newInfiniteHealthOn) { infiniteHealthOn = newInfiniteHealthOn; }
     // Sets the current value for setting "Regenerate Mana ON"
-    public static void SetRegenerateManaOn(bool newRegenerateManaOn) { regenerateManaOn = newRegenerateManaOn; }
+    public static void SetInfiniteManaOn(bool newInfiniteManaOn) { infiniteManaOn = newInfiniteManaOn; }
     // Sets the current value for setting "Level Dump ON"
     public static void SetLevelDumpOn(bool newLevelDumpOn) { levelDumpOn = newLevelDumpOn; }
     // Sets the current value for setting "Show Info ON"
