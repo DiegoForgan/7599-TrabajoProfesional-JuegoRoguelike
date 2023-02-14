@@ -19,6 +19,10 @@ public class EnemySpawner : Spawner
 
     public override void Spawn(int difficultyLevel, Dungeon currentDungeon)
     {
+        ogrePrefab.gameObject.tag = "enemy";
+        goblinPrefab.gameObject.tag = "enemy";
+        archerPrefab.gameObject.tag = "enemy";
+        darkWitchPrefab.gameObject.tag = "enemy";
         spawnPrefabsOnDungeonByBoost(currentDungeon, difficultyLevel, ogrePrefab, ogresBoost);
         spawnPrefabsOnDungeonByBoost(currentDungeon, difficultyLevel, goblinPrefab, goblinsBoost);
         spawnPrefabsOnDungeonByBoost(currentDungeon, difficultyLevel, archerPrefab, archersBoost);
@@ -27,6 +31,8 @@ public class EnemySpawner : Spawner
 
     internal void SpawnFinalBoss(int difficultyLevel, Dungeon dungeon)
     {
+        finalBossPrefab.gameObject.tag = "enemy";
         spawnPrefabsOnDungeonByAmount(dungeon, finalBossPrefab, FINAL_BOSS_AMOUNT);
     }
+
 }

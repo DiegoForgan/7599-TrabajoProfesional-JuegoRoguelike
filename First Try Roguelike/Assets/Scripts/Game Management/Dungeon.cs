@@ -34,6 +34,11 @@ public class Dungeon : MonoBehaviour
     {
         return walls;
     }
+
+    public string GetDungeonTilemapSize()
+    {
+        return "(" + walls.cellBounds.size.x + "," + walls.cellBounds.size.y + ")";
+    }
     
     // Returns level size and wall tilemap structure
     // in string format, ready for output to file

@@ -53,7 +53,10 @@ public class Player : Entity
         keys = INITIAL_KEYS_AMOUNT;
         gold = GameProgressManager.GetGoldCollected();
         //Initialize the HUD
-        _hud.InitHUD(health,mana,gold,keys);
+        _hud.InitHUD(health,
+                     mana,
+                     gold,
+                     keys);
     }
 
     public void InitializeMovementStats(){
@@ -106,6 +109,19 @@ public class Player : Entity
             if (SettingsManager.GetLevelDumpOn()) {
                 GameManager.Instance.DumpLevelToFile();
             }
+        }
+
+        // Update developer mode Info panel
+        if (SettingsManager.GetShowInfoOn()) {
+
+            _hud.UpdateDeveloperModeInfoPanel(
+                GameManager.Instance.GetCurrentAlgorithm(),
+                GameManager.Instance.GetCurrentDungeonSize(),
+                GameManager.Instance.GetCurrentEnemiesCount().ToString(),
+                health.ToString() + "%",
+                ((int)(((float)mana/(float)maxMana)*100)).ToString() + "% (" + mana + ") points",
+                GameManager.Instance.GetCurrentTimeElapsed()
+            );
         }
     }
 

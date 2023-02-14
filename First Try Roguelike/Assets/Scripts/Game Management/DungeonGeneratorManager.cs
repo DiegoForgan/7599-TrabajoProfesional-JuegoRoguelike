@@ -12,6 +12,7 @@ public class DungeonGeneratorManager : MonoBehaviour
     private AbstractDungeonGenerator corridorFirstGenerator;
     private AbstractDungeonGenerator roomFirstGenerator;
     private string algorithmName;
+    private string dungeonSize;
     private List<AbstractDungeonGenerator> algorithmsList;
 
     private void Awake() {
@@ -29,6 +30,7 @@ public class DungeonGeneratorManager : MonoBehaviour
     {
         randomWalkGenerator.GenerateDungeon();
         algorithmName = randomWalkGenerator.GetAlgorithmName();
+        dungeonSize = dungeon.GetDungeonTilemapSize();
         ShowGenerationMessage(algorithmName);        
     }
 
@@ -36,6 +38,7 @@ public class DungeonGeneratorManager : MonoBehaviour
     {
         corridorFirstGenerator.GenerateDungeon();
         algorithmName = corridorFirstGenerator.GetAlgorithmName();
+        dungeonSize = dungeon.GetDungeonTilemapSize();
         ShowGenerationMessage(algorithmName);
     }
 
@@ -43,6 +46,7 @@ public class DungeonGeneratorManager : MonoBehaviour
     {
         roomFirstGenerator.GenerateDungeon();
         algorithmName = roomFirstGenerator.GetAlgorithmName();
+        dungeonSize = dungeon.GetDungeonTilemapSize();
         ShowGenerationMessage(algorithmName);
     }
 
@@ -83,6 +87,7 @@ public class DungeonGeneratorManager : MonoBehaviour
         int selectedAlgorithm = Random.Range(0,algorithmsList.Count);
         algorithmsList[selectedAlgorithm].GenerateDungeon();
         algorithmName = algorithmsList[selectedAlgorithm].GetAlgorithmName();
+        dungeonSize = dungeon.GetDungeonTilemapSize();
         ShowGenerationMessage(algorithmsList[selectedAlgorithm].GetAlgorithmName());
     }
 
@@ -95,4 +100,7 @@ public class DungeonGeneratorManager : MonoBehaviour
     {
         return dungeon;
     }
+    public string GetAlgorithmName() { return algorithmName; }
+    public string GetDungeonSize() { return dungeonSize; }
+
 }

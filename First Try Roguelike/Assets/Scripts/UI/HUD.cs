@@ -72,4 +72,20 @@ public class HUD : MonoBehaviour
         this.UpdateLevelName(name);
         this.UpdateDifficulty(difficultyLevel);
     }
+
+    public void UpdateDeveloperModeInfoPanel(string algorithm, 
+                                             string tilemapSize,
+                                             string enemiesRemaining,
+                                             string healthLevel,
+                                             string manaLevel,
+                                             string timeElapsed)
+    {
+
+        _developerModeHUD.UpdateDeveloperModeInfoHUD(algorithm,
+                                                     tilemapSize,
+                                                     enemiesRemaining,
+                                                     healthLevel,
+                                                     manaLevel,
+                                                     timeElapsed);
+    }
 }

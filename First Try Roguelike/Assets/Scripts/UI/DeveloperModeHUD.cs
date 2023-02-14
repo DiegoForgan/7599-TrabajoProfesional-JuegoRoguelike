@@ -5,12 +5,20 @@ using UnityEngine;
 
 public class DeveloperModeHUD : MonoBehaviour
 {
+    [SerializeField] private GameObject developerModeUI;
     [SerializeField] private GameObject optionRegerateDungeon;
     [SerializeField] private GameObject optionSkipLevel;
     [SerializeField] private GameObject optionSuicide;
     [SerializeField] private GameObject optionDumpLevel;
     [SerializeField] private GameObject optionInfiniteHealth;
     [SerializeField] private GameObject optionInfiniteMana;
+    [SerializeField] private GameObject optionShowAdditinalInfo;
+    [SerializeField] private GameObject infoAlgorithm;
+    [SerializeField] private GameObject infoTilemapSize;
+    [SerializeField] private GameObject infoEnemiesRemaining;
+    [SerializeField] private GameObject infoHealthLevel;
+    [SerializeField] private GameObject infoManaLevel;
+    [SerializeField] private GameObject infoTimeElapsed;
 
     public void initializeDeveloperModeHUD() {
 
@@ -28,29 +36,60 @@ public class DeveloperModeHUD : MonoBehaviour
         Transform optionInfiniteHealthDisabled = optionInfiniteHealth.transform.Find("Disabled");
         Transform optionInfiniteManaDisabled = optionInfiniteMana.transform.Find("Disabled");
 
-        if (SettingsManager.GetRegenerateDungeonOn()) {
-            optionRegerateDungeonEnabled.gameObject.SetActive(true);
-            optionRegerateDungeonDisabled.gameObject.SetActive(false);
+        if (SettingsManager.GetDeveloperModeOn()) {
+
+            if (SettingsManager.GetRegenerateDungeonOn()) {
+                optionRegerateDungeonEnabled.gameObject.SetActive(true);
+                optionRegerateDungeonDisabled.gameObject.SetActive(false);
+            }
+            if (SettingsManager.GetLoadNextLevelOn()) {
+                optionSkipLevelEnabled.gameObject.SetActive(true);
+                optionSkipLevelDisabled.gameObject.SetActive(false);
+            }
+            if (SettingsManager.GetKillEnemiesOn()) {
+                optionSuicideEnabled.gameObject.SetActive(true);
+                optionSuicideDisabled.gameObject.SetActive(false);
+            }
+            if (SettingsManager.GetLevelDumpOn()) {
+                optionDumpLevelEnabled.gameObject.SetActive(true);
+                optionDumpLevelDisabled.gameObject.SetActive(false);
+            }
+            if (SettingsManager.GetInfiniteHealthOn()) {
+                optionInfiniteHealthEnabled.gameObject.SetActive(true);
+                optionInfiniteHealthDisabled.gameObject.SetActive(false);
+            }
+            if (SettingsManager.GetInfiniteHealthOn()) {
+                optionInfiniteManaEnabled.gameObject.SetActive(true);
+                optionInfiniteManaDisabled.gameObject.SetActive(false);
+            }
+
+            if (SettingsManager.GetShowInfoOn()) {
+                optionShowAdditinalInfo.SetActive(true);
+            }
+            else {
+                optionShowAdditinalInfo.SetActive(false);
+            }
+
+            developerModeUI.SetActive(true);
         }
-        if (SettingsManager.GetLoadNextLevelOn()) {
-            optionSkipLevelEnabled.gameObject.SetActive(true);
-            optionSkipLevelDisabled.gameObject.SetActive(false);
+        else {
+            developerModeUI.SetActive(false);
         }
-        if (SettingsManager.GetKillEnemiesOn()) {
-            optionSuicideEnabled.gameObject.SetActive(true);
-            optionSuicideDisabled.gameObject.SetActive(false);
-        }
-        if (SettingsManager.GetLevelDumpOn()) {
-            optionDumpLevelEnabled.gameObject.SetActive(true);
-            optionDumpLevelDisabled.gameObject.SetActive(false);
-        }
-        if (SettingsManager.GetInfiniteHealthOn()) {
-            optionInfiniteHealthEnabled.gameObject.SetActive(true);
-            optionInfiniteHealthDisabled.gameObject.SetActive(false);
-        }
-        if (SettingsManager.GetInfiniteHealthOn()) {
-            optionInfiniteManaEnabled.gameObject.SetActive(true);
-            optionInfiniteManaDisabled.gameObject.SetActive(false);
-        }
+    }
+
+    public void UpdateDeveloperModeInfoHUD(string algorithm, 
+                                             string tilemapSize,
+                                             string enemiesRemaining,
+                                             string healthLevel,
+                                             string manaLevel,
+                                             string timeElapsed)
+    {
+        infoAlgorithm.GetComponent<TMP_Text>().text = algorithm;
+        infoTilemapSize.GetComponent<TMP_Text>().text = tilemapSize;
+
+        infoEnemiesRemaining.GetComponent<TMP_Text>().text = enemiesRemaining;
+        infoHealthLevel.GetComponent<TMP_Text>().text = healthLevel;
+        infoManaLevel.GetComponent<TMP_Text>().text = manaLevel;
+        infoTimeElapsed.GetComponent<TMP_Text>().text = timeElapsed;
     }
 }

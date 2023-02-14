@@ -26,7 +26,7 @@ public static class GameProgressManager
 
 
     // Converts a TimeSpan object to a format compatible with the gameprogress format 
-    private static string FormatTimeSpanAsString(TimeSpan timeToConvert) {
+    public static string FormatTimeSpanAsString(TimeSpan timeToConvert) {
 
         return String.Format("{0:00}:{1:00}:{2:00}.{3:000}", timeToConvert.Hours, timeToConvert.Minutes, timeToConvert.Seconds, timeToConvert.Milliseconds / 10);
     }
