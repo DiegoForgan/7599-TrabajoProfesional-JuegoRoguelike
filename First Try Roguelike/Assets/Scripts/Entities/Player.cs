@@ -101,20 +101,6 @@ public class Player : Entity
             }
         }
 
-        // Regenerate Health 'H'
-        if(Input.GetKeyDown(KeyCode.H)) {
-            if (SettingsManager.GetRegenerateHealthOn()) {
-                AddHealth(maxHealth);
-            }
-        }
-
-        // Regenerate Mana 'M'
-        if(Input.GetKeyDown(KeyCode.M)) {
-            if (SettingsManager.GetRegenerateHealthOn()) {
-                AddMana(maxMana);
-            }
-        }
-
         // Dump level to text file 'X'
         if(Input.GetKeyDown(KeyCode.X)) {
             if (SettingsManager.GetLevelDumpOn()) {
@@ -159,7 +145,9 @@ public class Player : Entity
     }
 
     public override void TakeDamage(int damage){
-        base.TakeDamage(damage);
+        if (SettingsManager.GetInfiniteHealthOn()) return;
+        
+        base.TakeDamage(damage); 
         _hud.UpdateHealth(health);
     }
 

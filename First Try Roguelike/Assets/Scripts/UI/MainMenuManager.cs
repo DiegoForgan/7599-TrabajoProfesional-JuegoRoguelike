@@ -217,9 +217,9 @@ public class MainMenuManager : MonoBehaviour
         Toggle killEnemiesToggle = rootObject.Find("KillEnemiesOn/KillEnemiesOnToggle").GetComponent<Toggle>();
         killEnemiesToggle.isOn = SettingsManager.GetKillEnemiesOn();
         Toggle regenerateHealthToggle = rootObject.Find("RegenerateHealthOn/RegenerateHealthOnToggle").GetComponent<Toggle>();
-        regenerateHealthToggle.isOn = SettingsManager.GetRegenerateHealthOn();
+        regenerateHealthToggle.isOn = SettingsManager.GetInfiniteHealthOn();
         Toggle regenerateManaToggle = rootObject.Find("RegenerateManaOn/RegenerateManaOnToggle").GetComponent<Toggle>();
-        regenerateManaToggle.isOn = SettingsManager.GetRegenerateManaOn();
+        regenerateManaToggle.isOn = SettingsManager.GetInfiniteManaOn();
         Toggle levelDumpToggle = rootObject.Find("LevelDumpOn/LevelDumpOnToggle").GetComponent<Toggle>();
         levelDumpToggle.isOn = SettingsManager.GetLevelDumpOn();
         Toggle showInfoToggle = rootObject.Find("ShowInfoOn/ShowInfoOnToggle").GetComponent<Toggle>();
@@ -266,8 +266,8 @@ public class MainMenuManager : MonoBehaviour
     public void UpdateLoadNextLevelToggle(Toggle toggleControl) { SettingsManager.SetLoadNextLevelOn(toggleControl.isOn); }
     public void UpdateRegenerateDungeonToggle(Toggle toggleControl) { SettingsManager.SetRegenerateDungeonOn(toggleControl.isOn); }
     public void UpdateKillEnemiesToggle(Toggle toggleControl) { SettingsManager.SetKillEnemiesOn(toggleControl.isOn); }
-    public void UpdateRegenerateHealthToggle(Toggle toggleControl) { SettingsManager.SetRegenerateHealthOn(toggleControl.isOn); }
-    public void UpdateRegenerateManaToggle(Toggle toggleControl) { SettingsManager.SetRegenerateManaOn(toggleControl.isOn); }
+    public void UpdateRegenerateHealthToggle(Toggle toggleControl) { SettingsManager.SetInfiniteHealthOn(toggleControl.isOn); }
+    public void UpdateRegenerateManaToggle(Toggle toggleControl) { SettingsManager.SetInfiniteManaOn(toggleControl.isOn); }
     public void UpdateLevelDumpToggle(Toggle toggleControl) { SettingsManager.SetLevelDumpOn(toggleControl.isOn); }
     public void UpdateShowInfoToggle(Toggle toggleControl) { SettingsManager.SetShowInfoOn(toggleControl.isOn); }
     // Shows or hides developer settings from UI
