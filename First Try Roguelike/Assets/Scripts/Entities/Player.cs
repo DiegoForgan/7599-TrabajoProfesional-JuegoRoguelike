@@ -129,8 +129,8 @@ public class Player : Entity
                 GameManager.Instance.GetCurrentAlgorithm(),
                 GameManager.Instance.GetCurrentDungeonSize(),
                 GameManager.Instance.GetCurrentEnemiesCount().ToString(),
-                health.ToString() + "%",
-                ((int)(((float)mana/(float)maxMana)*100)).ToString() + "% (" + mana + ") points",
+                ((int)(((float)health/(float)maxHealth)*100)).ToString() + "%",
+                ((int)(((float)mana/(float)maxMana)*100)).ToString() + "% (" + mana + " points)",
                 GameManager.Instance.GetCurrentTimeElapsed(),
                 avgFramerate.ToString()
             );
