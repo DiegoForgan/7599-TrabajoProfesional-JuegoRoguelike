@@ -3,17 +3,28 @@ using TMPro;
 
 public class GameOverMenu : MonoBehaviour
 {
-    public GameObject _GameOverUI;
+    // References
+    [SerializeField] private GameObject _GameOverUI;
     [SerializeField] private GameObject gameOverText;
+
+    // Constants
+    private const string GO_DIFFICULTY_RESET_TEXT = "You can do better than that... now you'll have to start over!";
+    private const string GO_DIFFICULTY_LOWER_TEXT = "No worries, you can always try again. To help you hone your skills, the difficulty level has been lowered.";
+    
+
+    // Determines is the game progress should be reset or the difficultry lowered by one
+    private bool difficultyReset() {
+        return (GameProgressManager.GetDifficultyLevel() <= (GameProgressManager.GetLowestDifficultyLevel()+1));
+    }
 
     public void Awake() {
         
         // Sets the appropiate text for the game over window
-        if (GameProgressManager.GetDifficultyLevel() <= (GameProgressManager.GetLowestDifficultyLevel()+1)) {
-            gameOverText.GetComponent<TMP_Text>().text = "You can do better than that... now you'll have to start over!";
+        if (difficultyReset()) {
+            gameOverText.GetComponent<TMP_Text>().text = GO_DIFFICULTY_RESET_TEXT;
         }
         else {
-            gameOverText.GetComponent<TMP_Text>().text = "No worries, you can always try again. To help you hone your skills, the difficulty level has been lowered.";
+            gameOverText.GetComponent<TMP_Text>().text = GO_DIFFICULTY_LOWER_TEXT;
         }
     }
 
@@ -24,7 +35,7 @@ public class GameOverMenu : MonoBehaviour
         // When you lose, the game resets to the first level
         GameProgressManager.SetNexLevel(GameProgressManager.GetDefaultNextLevel());
         // If the difficulty level is 1 or 2, the game progress level RESETS
-        if (GameProgressManager.GetDifficultyLevel() <= (GameProgressManager.GetLowestDifficultyLevel()+1)) {
+        if (difficultyReset()) {
             // Goes back to:
             // Level 1
             // The difficulty level set in settings
