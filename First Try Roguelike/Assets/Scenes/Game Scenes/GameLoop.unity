@@ -6473,6 +6473,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseMenuUI: {fileID: 1323685180}
+  gameOverUI: {fileID: 1648336297}
+  FPSCounter: {fileID: 608267361}
 --- !u!1 &878872915
 GameObject:
   m_ObjectHideFlags: 0
@@ -14782,6 +14784,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 386465787}
+    - target: {fileID: 2370704341437052030, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
+      propertyPath: FPSCounter
+      value: 
+      objectReference: {fileID: 608267361}
     - target: {fileID: 2370704341437052030, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
       propertyPath: gameOverUI
       value: 

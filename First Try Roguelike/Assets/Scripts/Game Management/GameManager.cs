@@ -11,7 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DungeonGeneratorManager dungeonGenerator;
     [SerializeField] private GameObject[] cinematics;
     [SerializeField] private GameObject hud;
-    
+    [SerializeField] private GameObject FPSCounter;
+
+
     private System.Diagnostics.Stopwatch stopWatch;
     private ItemSpawner itemSpawner;
     private EnemySpawner enemySpawner;
@@ -188,6 +190,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void ShowGameOver(){
+
+        FPSCounter.SetActive(false);
         gameOverUI.SetActive(true);
         Time.timeScale = 0f;
     }

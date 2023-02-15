@@ -5,19 +5,24 @@ public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
     [SerializeField] private GameObject PauseMenuUI;
+    [SerializeField] private GameObject gameOverUI;
+    [SerializeField] private GameObject FPSCounter;
 
     // Update is called once per frame
     void Update()
     {
         if (LevelLoader.isCinematic) return;
-        if(Input.GetKeyDown(KeyCode.Escape)){
-            if(GameIsPaused) Resume();
-            else Pause();
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            if (!gameOverUI.activeSelf) {
+                if(GameIsPaused) Resume();
+                else Pause();
+            }
         }
     }
 
     public void Pause()
     {
+        FPSCounter.SetActive(false);
         PauseMenuUI.SetActive(true);
         GameIsPaused = true;
         GameManager.Instance.StopStopWatch();
@@ -26,6 +31,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        FPSCounter.SetActive(true);
         PauseMenuUI.SetActive(false);
         GameIsPaused = false;
         GameManager.Instance.StartStopWatch();
