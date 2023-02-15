@@ -1663,6 +1663,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1861801754361088878, guid: 608c0779f62abf14fa0e9a99b676398b, type: 3}
+      propertyPath: m_TagString
+      value: enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 1872602111474654952, guid: 608c0779f62abf14fa0e9a99b676398b, type: 3}
       propertyPath: m_Layer
       value: 6
