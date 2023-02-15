@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour
     private int level;
 
     //CONSTANTS
-    private const string proyectileTag = "proyectile";
+    private const string PROYECTILE_TAG = "proyectile";
+    private const string ENEMY_TAG = "enemy";
     private const int FINAL_LEVEL = 10;
     
     //ALGORITHM NAMES CONSTANTS
@@ -152,9 +153,9 @@ public class GameManager : MonoBehaviour
         player.transform.position = new Vector3(playerPosition.x,playerPosition.y,player.transform.position.z);
     }
 
-    // Developer Mode Settings
-    // Generate New Dungeon In Place 'SPACE'
     private void Update() {
+        // Developer Mode Settings
+        // Generate New Dungeon In Place 'SPACE'
         if(Input.GetKeyDown(KeyCode.Space)){
             if (SettingsManager.GetRegenerateDungeonOn()) {
                 CreateNewDungeon();
@@ -215,12 +216,19 @@ public class GameManager : MonoBehaviour
 
     private void destroyProyectilesCasted()
     {
-        GameObject[] proyectilesActiveOnScene = GameObject.FindGameObjectsWithTag(proyectileTag);
+        GameObject[] proyectilesActiveOnScene = GameObject.FindGameObjectsWithTag(PROYECTILE_TAG);
         if (proyectilesActiveOnScene.Length == 0) return;
         foreach (var proyectile in proyectilesActiveOnScene)
         {
             Destroy(proyectile);
         }
+    }
+
+    private int countRemainingEnemies()
+    {
+        GameObject[] enemiesActiveOnScene = GameObject.FindGameObjectsWithTag(ENEMY_TAG);
+        
+        return enemiesActiveOnScene.Length;
     }
 
     internal void CreateNewLevel()
@@ -259,4 +267,10 @@ public class GameManager : MonoBehaviour
             cinematic.SetActive(false);
         }
     }
+
+    public string GetCurrentTimeElapsed() { return GameProgressManager.FormatTimeSpanAsString(GetTimeElapsed()); }
+    public string GetCurrentAlgorithm() { return dungeonGenerator.GetAlgorithmName(); }
+    public string GetCurrentDungeonSize() { return dungeonGenerator.GetDungeonSize(); }
+    public int GetCurrentEnemiesCount() { return countRemainingEnemies(); }
+
 }

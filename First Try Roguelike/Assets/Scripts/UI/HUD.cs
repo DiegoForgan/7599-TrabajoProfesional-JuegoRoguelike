@@ -7,6 +7,7 @@ public class HUD : MonoBehaviour
     [SerializeField] private PlayerStatusHUD _playerStatusHUD;
     [SerializeField] private CollectablesStatusHUD _collectablesStatusHUD;
     [SerializeField] private LevelDifficultyHUD _levelDifficultyHUD;
+    [SerializeField] private DeveloperModeHUD _developerModeHUD;
 
     public static HUD instance;
 
@@ -22,6 +23,7 @@ public class HUD : MonoBehaviour
         _playerStatusHUD.initializePlayerStatus(maxHealth,maxMana);
         _collectablesStatusHUD.initializeCollectablesStatus(currentGold, currentKeys);
         _spellHUD.initializeSpellHUD();
+        _developerModeHUD.initializeDeveloperModeHUD();
         //_levelDifficultyHUD.restartLevelAndDifficulty();
     }
 
@@ -69,5 +71,23 @@ public class HUD : MonoBehaviour
     {
         this.UpdateLevelName(name);
         this.UpdateDifficulty(difficultyLevel);
+    }
+
+    public void UpdateDeveloperModeInfoPanel(string algorithm, 
+                                             string tilemapSize,
+                                             string enemiesRemaining,
+                                             string healthLevel,
+                                             string manaLevel,
+                                             string timeElapsed,
+                                             string currentFps)
+    {
+
+        _developerModeHUD.UpdateDeveloperModeInfoHUD(algorithm,
+                                                     tilemapSize,
+                                                     enemiesRemaining,
+                                                     healthLevel,
+                                                     manaLevel,
+                                                     timeElapsed,
+                                                     currentFps);
     }
 }

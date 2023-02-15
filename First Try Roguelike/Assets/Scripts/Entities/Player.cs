@@ -11,6 +11,7 @@ public class Player : Entity
     [SerializeField] private HUD _hud;
     private PlayerMovementController _playerMovement;
     private WeaponManagement _weaponManagement;
+    private float timer, refresh, avgFramerate;
     private bool canOpenDoor;
     public static Player instance;
 
@@ -53,7 +54,10 @@ public class Player : Entity
         keys = INITIAL_KEYS_AMOUNT;
         gold = GameProgressManager.GetGoldCollected();
         //Initialize the HUD
-        _hud.InitHUD(health,mana,gold,keys);
+        _hud.InitHUD(health,
+                     mana,
+                     gold,
+                     keys);
     }
 
     public void InitializeMovementStats(){
@@ -106,6 +110,30 @@ public class Player : Entity
             if (SettingsManager.GetLevelDumpOn()) {
                 GameManager.Instance.DumpLevelToFile();
             }
+        }
+
+        // Update developer mode Info panel
+        if (SettingsManager.GetShowInfoOn()) {
+
+            // Calculating FPS
+            // Change smoothDeltaTime to deltaTime or fixedDeltaTime to see the difference
+            float timelapse = Time.smoothDeltaTime;
+            timer = timer <= 0 ? refresh : timer -= timelapse;
+ 
+            if(timer <= 0) {
+                avgFramerate = (int) (1f / timelapse);
+            }
+
+            // Updating data shown in the INFO panel
+            _hud.UpdateDeveloperModeInfoPanel(
+                GameManager.Instance.GetCurrentAlgorithm(),
+                GameManager.Instance.GetCurrentDungeonSize(),
+                GameManager.Instance.GetCurrentEnemiesCount().ToString(),
+                ((int)(((float)health/(float)maxHealth)*100)).ToString() + "%",
+                ((int)(((float)mana/(float)maxMana)*100)).ToString() + "% (" + mana + " points)",
+                GameManager.Instance.GetCurrentTimeElapsed(),
+                avgFramerate.ToString()
+            );
         }
     }
 
