@@ -78,7 +78,8 @@ public class HUD : MonoBehaviour
                                              string enemiesRemaining,
                                              string healthLevel,
                                              string manaLevel,
-                                             string timeElapsed)
+                                             string timeElapsed,
+                                             string currentFps)
     {
 
         _developerModeHUD.UpdateDeveloperModeInfoHUD(algorithm,
@@ -86,6 +87,7 @@ public class HUD : MonoBehaviour
                                                      enemiesRemaining,
                                                      healthLevel,
                                                      manaLevel,
-                                                     timeElapsed);
+                                                     timeElapsed,
+                                                     currentFps);
     }
 }

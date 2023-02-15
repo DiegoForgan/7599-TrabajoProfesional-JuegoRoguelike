@@ -19,6 +19,7 @@ public class DeveloperModeHUD : MonoBehaviour
     [SerializeField] private GameObject infoHealthLevel;
     [SerializeField] private GameObject infoManaLevel;
     [SerializeField] private GameObject infoTimeElapsed;
+    [SerializeField] private GameObject infoFPS;
 
     public void initializeDeveloperModeHUD() {
 
@@ -58,7 +59,7 @@ public class DeveloperModeHUD : MonoBehaviour
                 optionInfiniteHealthEnabled.gameObject.SetActive(true);
                 optionInfiniteHealthDisabled.gameObject.SetActive(false);
             }
-            if (SettingsManager.GetInfiniteHealthOn()) {
+            if (SettingsManager.GetInfiniteManaOn()) {
                 optionInfiniteManaEnabled.gameObject.SetActive(true);
                 optionInfiniteManaDisabled.gameObject.SetActive(false);
             }
@@ -82,7 +83,8 @@ public class DeveloperModeHUD : MonoBehaviour
                                              string enemiesRemaining,
                                              string healthLevel,
                                              string manaLevel,
-                                             string timeElapsed)
+                                             string timeElapsed,
+                                             string currentFps)
     {
         infoAlgorithm.GetComponent<TMP_Text>().text = algorithm;
         infoTilemapSize.GetComponent<TMP_Text>().text = tilemapSize;
@@ -91,5 +93,7 @@ public class DeveloperModeHUD : MonoBehaviour
         infoHealthLevel.GetComponent<TMP_Text>().text = healthLevel;
         infoManaLevel.GetComponent<TMP_Text>().text = manaLevel;
         infoTimeElapsed.GetComponent<TMP_Text>().text = timeElapsed;
+
+        infoFPS.GetComponent<TMP_Text>().text = currentFps;
     }
 }
