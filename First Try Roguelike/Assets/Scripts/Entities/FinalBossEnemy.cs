@@ -27,7 +27,7 @@ public class FinalBossEnemy : MeleeEnemy
 
     private void setBossState(FinalBossState newState)
     {
-        Debug.Log("Changing Nilbud Attack State");
+        Debug.Log("Changing Boss Attack State");
         currentBossState = newState;
     }
 
