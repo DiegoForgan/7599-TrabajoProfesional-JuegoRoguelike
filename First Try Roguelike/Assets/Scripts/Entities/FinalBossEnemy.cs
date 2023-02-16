@@ -15,7 +15,7 @@ public class FinalBossEnemy : MeleeEnemy
     private void Awake()
     {
         //_enemySpriteRenderer = GetComponent<SpriteRenderer>();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        playerTransform = GameObject.FindGameObjectWithTag(PLAYER_TAG).transform;
         meleeWeapon = GetComponent<MeleeWeapon>();
         _finalBossMovement = GetComponent<FinalBossMovement>();
         _attackPoint = transform.Find("AttackPoint");
@@ -27,7 +27,7 @@ public class FinalBossEnemy : MeleeEnemy
 
     private void setBossState(FinalBossState newState)
     {
-        Debug.Log("Changing Nilbud Attack State");
+        Debug.Log("Changing Boss Attack State");
         currentBossState = newState;
     }
 
@@ -91,7 +91,7 @@ public class FinalBossEnemy : MeleeEnemy
 
     private void SetBossStateBasedOnRemainingHealthPercentage()
     {
-        Debug.Log("Nilbud Remaining Health Percentage: " + GetEnemyRemainingHealthPercentage() * 100);
+        Debug.Log("Remaining Health Percentage: " + GetEnemyRemainingHealthPercentage() * 100);
         currentBossState = (GetEnemyRemainingHealthPercentage() < FINAL_BOSS_STATE_THRESHOLD) ? FinalBossState.MeleeAttacker : FinalBossState.SpellCasterAttacker;
         _finalBossMovement.UpdateBossState(currentBossState);
     }
@@ -102,10 +102,14 @@ public class FinalBossEnemy : MeleeEnemy
 
         if (playerTransform.Equals(null)) return;
         if (!IsAbleToAttack(currentBossState)) return;
+        ExecuteAttackBasedOnState();
+    }
 
+    private void ExecuteAttackBasedOnState()
+    {
         if (currentBossState == FinalBossState.MeleeAttacker) ExecuteMeleeAttack();
         if (currentBossState == FinalBossState.SpellCasterAttacker) ExecuteSpellCastingAttack();
-        
+
         nextAttackTime = Time.time + 1f / attackRate;
     }
 

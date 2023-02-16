@@ -8,6 +8,7 @@ public class EnemySpawner : Spawner
     [SerializeField] private GameObject goblinPrefab;
     [SerializeField] private GameObject archerPrefab;
     [SerializeField] private GameObject darkWitchPrefab;
+    [SerializeField] private GameObject midLevelBossPrefab;
     [SerializeField] private GameObject finalBossPrefab;
     
     [SerializeField] private int ogresBoost = 1;
@@ -16,6 +17,7 @@ public class EnemySpawner : Spawner
     [SerializeField] private int darkWitchesBoost = 4;
 
     private const int FINAL_BOSS_AMOUNT = 1;
+    private const int MIDLEVEL_BOSS_AMOUNT = 1;
     private const string ENEMY_TAG = "enemy";
 
     public override void Spawn(int difficultyLevel, Dungeon currentDungeon)
@@ -34,6 +36,12 @@ public class EnemySpawner : Spawner
     {
         finalBossPrefab.gameObject.tag = ENEMY_TAG;
         spawnPrefabsOnDungeonByAmount(dungeon, finalBossPrefab, FINAL_BOSS_AMOUNT);
+    }
+
+    internal void SpawnMidLevelBoss(int difficultyLevel, Dungeon dungeon)
+    {
+        midLevelBossPrefab.gameObject.tag = ENEMY_TAG;
+        spawnPrefabsOnDungeonByAmount(dungeon, midLevelBossPrefab, MIDLEVEL_BOSS_AMOUNT);
     }
 
 }

@@ -16,11 +16,11 @@ public abstract class Enemy : Entity
     protected float attackRate;
     protected float nextAttackTime = 0;
     protected float attackDistance;
+    protected const string PLAYER_TAG = "Player";
 
     //Called before the Start function
     private void Awake() {
-        //_enemySpriteRenderer = GetComponent<SpriteRenderer>();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        playerTransform = GameObject.FindGameObjectWithTag(PLAYER_TAG).transform;
         meleeWeapon = GetComponent<MeleeWeapon>();
         _enemyMovement = GetComponent<EnemyMovement>();
         _attackPoint = transform.Find("AttackPoint");
