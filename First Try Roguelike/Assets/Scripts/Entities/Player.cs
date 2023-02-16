@@ -230,4 +230,6 @@ public class Player : Entity
     }
 
     public int GetMaxMana() { return maxMana; }
+
+    public int GetGold() { return gold; }
 }

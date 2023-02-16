@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     //CONSTANTS
     private const string PROYECTILE_TAG = "proyectile";
     private const string ENEMY_TAG = "enemy";
+    private const int MID_LEVEL = 5;
     private const int FINAL_LEVEL = 10;
     
     //ALGORITHM NAMES CONSTANTS
@@ -119,6 +120,20 @@ public class GameManager : MonoBehaviour
         PlaceFinalBossOnDungeon();
     }
 
+    private void CreateMidLevelBossDungeon()
+    {
+        //erases all gameObjects previously Spawned
+        destroyAllSpawns();
+        // Places the tiles on the tilemap to create the dungeon layout
+        GenerateDungeonByName(RANDOM_WALK_ALGORITHM);
+        // Sets the position of the main player inside the dungeon
+        PlacePlayerOnDungeon();
+        // Instantiates the items that will be available on the dungeon created
+        PlaceBossLevelItemsOnDungeon();
+        // This method will place the mid level boss on the dungeon to challenge the main player on its quest
+        PlaceMidLevelBossOnDungeon();
+    }
+
     private void PlaceDungeonDoor()
     {
         doorSpawner.Spawn(difficultyLevel, dungeonGenerator.GetDungeon());
@@ -146,6 +161,12 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Placing Final Boss on dungeon!");
         enemySpawner.SpawnFinalBoss(difficultyLevel, dungeonGenerator.GetDungeon());
+    }
+
+    private void PlaceMidLevelBossOnDungeon()
+    {
+        Debug.Log("Placing Mid Level Boss on dungeon!");
+        enemySpawner.SpawnMidLevelBoss(difficultyLevel, dungeonGenerator.GetDungeon());
     }
 
     // Searches on the new created floor Tilemap, a location where the player can be spawned
@@ -244,6 +265,7 @@ public class GameManager : MonoBehaviour
         _hud.UpdateLevelName("Level - " + level);
 
         if (IsFinalLevel()) CreateFinalBossDungeon();
+        else if (IsMidLevelBossLevel()) CreateMidLevelBossDungeon();
         else CreateNewDungeon();
 
         rechargePlayerManaAndHealth();
@@ -253,8 +275,13 @@ public class GameManager : MonoBehaviour
         GameManager.Instance.StartStopWatch();
     }
 
+    private bool IsMidLevelBossLevel()
+    {
+        return level == MID_LEVEL;
+    }
+
     public bool IsFinalLevel() {
-        return (level == FINAL_LEVEL);
+        return level == FINAL_LEVEL;
     }
 
     private void rechargePlayerManaAndHealth()

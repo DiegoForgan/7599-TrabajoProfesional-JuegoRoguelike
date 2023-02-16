@@ -14864,6 +14864,10 @@ PrefabInstance:
       propertyPath: ogresBoost
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8129409485682839176, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
+      propertyPath: midLevelBossPrefab
+      value: 
+      objectReference: {fileID: 6557739934708850036, guid: 8a38fba1e7b6c504c89eb240afdaf6f7, type: 3}
     m_RemovedComponents:
     - {fileID: 2370704341410252541, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cbb0e5a30af4bec4f9bfeb8b5c039a04, type: 3}
