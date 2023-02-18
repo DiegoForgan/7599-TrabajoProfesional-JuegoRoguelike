@@ -447,6 +447,9 @@ public class APIRequestHandler : MonoBehaviour
 	        loginMessage.GetComponent<TMP_Text>().text = "Logging into your account\nplease wait...";
 	        loginSpinner.gameObject.SetActive(true);
 	        loginCloseButton.gameObject.SetActive(false);
+
+            // Enabling menu navigation
+	        SessionEnableMainControls();
         }
         else {
             APIErrorResponseDTO errorResponse = JsonConvert.DeserializeObject<APIErrorResponseDTO>(responseDTO.getBody());
@@ -457,7 +460,7 @@ public class APIRequestHandler : MonoBehaviour
                 loginMessage.GetComponent<TMP_Text>().text = "ERROR\nPlease try again later";
                 loginSpinner.gameObject.SetActive(false);
 	            loginCloseButton.gameObject.SetActive(true);
-            
+
                 // Enabling menu navigation
 	            SessionEnableMainControls();
             }
