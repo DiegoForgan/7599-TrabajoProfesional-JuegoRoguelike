@@ -1641,7 +1641,12 @@ public class APIRequestHandler : MonoBehaviour
     private void UpdateGameProgressBadge() {
         Transform gameProgressLevel = gameProgessBadge.gameObject.transform.Find("LevelFlag/CurrentLevelText");
         Transform gameProgressDifficulty = gameProgessBadge.gameObject.transform.Find("DifficultyFlag/CurrentDifficultyLevelText");
+        Transform gameProgressGold = gameProgessBadge.gameObject.transform.Find("ProgressFlag/GoldAmount");
+        Transform gameProgressTime = gameProgessBadge.gameObject.transform.Find("ProgressFlag/ElapsedTime");
+
         gameProgressLevel.GetComponent<TMP_Text>().text = "LEVEL - " + GameProgressManager.GetNextLevel().ToString();
         gameProgressDifficulty.GetComponent<TMP_Text>().text = GameProgressManager.GetDifficultyLevel().ToString();
+        gameProgressGold.GetComponent<TMP_Text>().text = GameProgressManager.GetGoldCollected().ToString();
+        gameProgressTime.GetComponent<TMP_Text>().text = GameProgressManager.GetTimeElapsed();
     }
 }
