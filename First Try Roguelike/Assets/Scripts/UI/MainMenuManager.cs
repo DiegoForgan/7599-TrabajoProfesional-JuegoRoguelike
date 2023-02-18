@@ -121,8 +121,13 @@ public class MainMenuManager : MonoBehaviour
     private void UpdateGameProgressBadge() {
         Transform gameProgressLevel = gameProgessBadge.gameObject.transform.Find("LevelFlag/CurrentLevelText");
         Transform gameProgressDifficulty = gameProgessBadge.gameObject.transform.Find("DifficultyFlag/CurrentDifficultyLevelText");
+        Transform gameProgressGold = gameProgessBadge.gameObject.transform.Find("ProgressFlag/GoldAmount");
+        Transform gameProgressTime = gameProgessBadge.gameObject.transform.Find("ProgressFlag/ElapsedTime");
+
         gameProgressLevel.GetComponent<TMP_Text>().text = "LEVEL - " + GameProgressManager.GetNextLevel().ToString();
         gameProgressDifficulty.GetComponent<TMP_Text>().text = GameProgressManager.GetDifficultyLevel().ToString();
+        gameProgressGold.GetComponent<TMP_Text>().text = GameProgressManager.GetGoldCollected().ToString();
+        gameProgressTime.GetComponent<TMP_Text>().text = GameProgressManager.GetTimeElapsed();
     }
 
     private void ShowFinishedGameAlert() {
@@ -141,10 +146,9 @@ public class MainMenuManager : MonoBehaviour
         }
 
         // Notify the user via an alert dialog that they've won the game
-        QuestionDialogUI.Instance.ShowAlert(
+        QuestionDialogUI.Instance.ShowFinishedGameAlert(
             "Victory!",
             endingText,
-            "OK",
             () => {
                 // Actions to be performed ater game ends
                 // User clicked OK, we POST a new highscore if the user is logged in
