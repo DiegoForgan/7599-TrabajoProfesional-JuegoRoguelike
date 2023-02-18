@@ -48,6 +48,7 @@ public class APIRequestHandler : MonoBehaviour
     [SerializeField] private GameObject registerMenu;
     [SerializeField] private GameObject resetPasswordMenu;
     [SerializeField] private GameObject profileMenu;
+    [SerializeField] private GameObject gameProgessBadge;
 
     // Returns the base URL to use, depending on the configured setting
     // Use the "Use QA Servers" in the Developer mode settings to use QA environment
@@ -288,6 +289,14 @@ public class APIRequestHandler : MonoBehaviour
             StartCoroutine(UpdateUserRequest());
         }
     }
+    // Post a new Highscore record
+    public void PostNewHighScore(string postHighsocreJson) {
+        StartCoroutine(PostNewHighScoreRequest(postHighsocreJson));
+    }
+    // Saves the player's game progress
+    public void UpdateGameProgress(string updateGameProgressJson) {
+        StartCoroutine(UpdateGameProgressRequest(updateGameProgressJson));
+    }
 
     // Async request and result handling implementation
     private IEnumerator CheckValidSessionRequest()
@@ -315,37 +324,26 @@ public class APIRequestHandler : MonoBehaviour
         UnityWebRequestResponseDTO responseDTO = new(request);
         showResponseData(responseDTO);
 
-        // Enabling "New Game" and "High Scores" button
-        newGameButton.GetComponent<Button>().interactable = true;
-        highScoresButton.GetComponent<Button>().interactable = true;
-
         if (responseDTO.getResult() == UnityWebRequest.Result.Success)
         {
             // Session is still valid, and now is renwed
             Debug.Log("Valid session");
 
-            // Setting up logged in panel
-            loggedInMessageContainer.gameObject.SetActive(false);
-            loggedInMessage.GetComponent<TMP_Text>().text = "Logging out of your account\nplease wait...";
-            loggedInMessage.gameObject.SetActive(true);
-            loggedInSpinner.gameObject.SetActive(true);
-            loggedInCloseButton.gameObject.SetActive(false);
-            loggedInUsername.GetComponent<TMP_Text>().text = SessionManager.GetSessionUsername();
-            loggedInPanelContainer.gameObject.SetActive(true);
-
-            // Change UI element status
-            highScoresButton.SetActive(true);
-            loginButton.SetActive(false);
+            // Save the game progress
+            loggedInMessage.GetComponent<TMP_Text>().text = "Syncing your game progress\nplease wait...";
+            StartCoroutine(UpdateGameProgressRequest(GameProgressManager.GetJsonStringUpdateGameProgress(SessionManager.GetSessionUsername(), false)));
         }
         else
         {
             // Session is no longer valid, show error message
             Debug.Log("Invalid session!");
             SetloggedInPanelError("ERROR\nyour session has expired");
+            // Enabling menu navigation
+            SessionEnableMainControls();
+            //loginButton.gameObject.GetComponent<Button>().interactable = false;
         }
         // Session check process done
-        // Enabling menu navigation
-        SessionEnableMainControls();
+        Debug.Log("Done!");
     }
 
     // Configures the logged in panel to show a session expired message
@@ -365,7 +363,7 @@ public class APIRequestHandler : MonoBehaviour
         loggedInMessage.GetComponent<TMP_Text>().text = message;
         loggedInMessage.gameObject.SetActive(true);
         loggedInSpinner.gameObject.SetActive(false);
-        loggedInCloseButton.gameObject.SetActive(true);
+        loggedInCloseButton.gameObject.SetActive(true);        
     }
 
     // Disables navigation during session operations in the main screen (login/logout)
@@ -650,7 +648,11 @@ public class APIRequestHandler : MonoBehaviour
                 Debug.Log("Error");
             }
 
-            // Storing user session data to use it on other API endpoints
+            // Performing after request actions
+            // Reset game progress
+            GameProgressManager.ResetGameProgress();
+            UpdateGameProgressBadge();
+            // Clear sesion data
             SessionManager.ClearSession();
             loginButton.GetComponent<Button>().interactable = true;
             loginButton.SetActive(true);
@@ -1429,9 +1431,99 @@ public class APIRequestHandler : MonoBehaviour
         Debug.Log("Done!");
    }
 
+    // Sends the request to post a new highscore
+    private IEnumerator PostNewHighScoreRequest(string postHighsocreJson){
+        Debug.Log("Posting your highscore!...");
+
+        UnityWebRequest request = UnityWebRequest.Put(GetServerBaseURL()+USERS_ROUTE+"/"+SessionManager.GetSessionUsername()+"/"+HIGHSCORES_ROUTE, postHighsocreJson);
+        request.method = UnityWebRequest.kHttpVerbPOST;
+
+        request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Accept", "application/json");
+        
+        yield return request.SendWebRequest();
+
+        UnityWebRequestResponseDTO responseDTO = new(request);
+        // Show data to the user to reflect the result of the request
+        showResponseData(responseDTO);
+
+        // Status
+        Debug.Log("Done!");
+    }
+
+    // Sends the request to update a new highscore
+    private IEnumerator UpdateGameProgressRequest(string updateGameProgressJson){
+
+        // Getting data from the UI
+        Transform loggedInPanelContainer = loggedPanel.gameObject.transform.Find("LoggedInPanelContainer");
+        Transform loggedInUsername = loggedInPanelContainer.Find("LoggedUsername");
+        Transform loggedInMessageContainer = loggedPanel.gameObject.transform.Find("LoggedInMessageContainer");
+        Transform loggedInMessage = loggedInMessageContainer.Find("LoggedInMessage");
+        Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
+        Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
+
+        Debug.Log("Updating your game progress!...");
+        UnityWebRequest request = UnityWebRequest.Put(GetServerBaseURL()+USERS_ROUTE+"/"+SessionManager.GetSessionUsername()+"/"+GAMEPROGRESS_ROUTE, updateGameProgressJson);
+
+        request.SetRequestHeader("X-Auth-Token", SessionManager.GetSessionToken());
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Accept", "application/json");
+        
+        yield return request.SendWebRequest();
+
+        UnityWebRequestResponseDTO responseDTO = new(request);
+        // Show data to the user to reflect the result of the request
+        showResponseData(responseDTO);
+
+        // Enabling "New Game" and "High Scores" button
+        newGameButton.GetComponent<Button>().interactable = true;
+        highScoresButton.GetComponent<Button>().interactable = true;
+
+        if (responseDTO.getResult() == UnityWebRequest.Result.Success)
+        {
+            // Setting up logged in panel
+            loggedInMessageContainer.gameObject.SetActive(false);
+            loggedInMessage.GetComponent<TMP_Text>().text = "Logging out of your account\nplease wait...";
+            loggedInMessage.gameObject.SetActive(true);
+            loggedInSpinner.gameObject.SetActive(true);
+            loggedInCloseButton.gameObject.SetActive(false);
+            loggedInUsername.GetComponent<TMP_Text>().text = SessionManager.GetSessionUsername();
+            loggedInPanelContainer.gameObject.SetActive(true);
+
+            // Change UI element status
+            highScoresButton.SetActive(true);
+            loginButton.SetActive(false);            
+        }
+        else
+        {
+            // Error updating game progress
+            Debug.Log("Error updating game progress!");
+            if (request.responseCode == (long)HttpStatusCode.Unauthorized){
+                SetloggedInPanelError("ERROR\nyour session has expired");
+            }
+            else {
+                SetloggedInPanelError("ERROR\ncould not update game progress");
+            }
+        }
+        // Session check process done
+        // Enabling menu navigation
+        SessionEnableMainControls();
+        // Status
+        Debug.Log("Done!");
+    }
+
     private void showResponseData(UnityWebRequestResponseDTO response) {
         Debug.LogWarning("Result: " + response.getResult());
         Debug.LogWarning("Status Code: " + response.getCode());
         Debug.LogWarning("Response: " + response.getBody());
+    }
+
+    // Updates the Game Progress level and difficulty shown on the main menu
+    private void UpdateGameProgressBadge() {
+        Transform gameProgressLevel = gameProgessBadge.gameObject.transform.Find("LevelFlag/CurrentLevelText");
+        Transform gameProgressDifficulty = gameProgessBadge.gameObject.transform.Find("DifficultyFlag/CurrentDifficultyLevelText");
+        gameProgressLevel.GetComponent<TMP_Text>().text = "LEVEL - " + GameProgressManager.GetNextLevel().ToString();
+        gameProgressDifficulty.GetComponent<TMP_Text>().text = GameProgressManager.GetDifficultyLevel().ToString();
     }
 }

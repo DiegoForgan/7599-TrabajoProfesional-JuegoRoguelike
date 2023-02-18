@@ -39480,6 +39480,7 @@ MonoBehaviour:
   registerMenu: {fileID: 69652660}
   resetPasswordMenu: {fileID: 1740274635}
   profileMenu: {fileID: 1835514515}
+  gameProgessBadge: {fileID: 250964620}
 --- !u!4 &1576393648
 Transform:
   m_ObjectHideFlags: 0

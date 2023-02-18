@@ -145,20 +145,38 @@ public static class GameProgressManager
         return finishedGame;
     }
 
-    // Generates a json object for an empty gameprogress record
+    // Generates a json object for a gameprogress record
     // Ready to be posted to the server
-    public static string GetJsonStringUpdateGameProgress(string newUsername){
+    // reset=true creates an empty object, otherwise the current status is used
+    public static string GetJsonStringUpdateGameProgress(string newUsername, bool reset){
  
-        // Custom DTO class for registration
+        // Custom DTO class for game progress
         // Id and dates are sent as nulls
         UpdateGameProgressRequestDTO updateGameProgressRequestDTO = new(
-            DEFAULT_NEXT_LEVEL,
-            SettingsManager.GetStartingDifficulty(),
-            DEFAULT_GOLD_COLLECTED,
-            FormatTimeSpanAsString(TimeSpan.Zero)
+            (reset ? DEFAULT_NEXT_LEVEL : nextLevel),
+            (reset ? SettingsManager.GetStartingDifficulty() : difficultyLevel),
+            (reset ? DEFAULT_GOLD_COLLECTED : goldCollected),
+            (reset ? FormatTimeSpanAsString(TimeSpan.Zero) : timeElapsed)
         );
 
         // Generate the output
         return JsonConvert.SerializeObject(updateGameProgressRequestDTO);
+    }
+
+    // Generates a json object for a highscore record
+    // Ready to be posted to the server
+    public static string GetJsonStringPostHighscore(string newUsername){
+ 
+        // Custom DTO class for highscore
+        // Id and dates are sent as nulls
+        PostHighscoreRequestDTO postHighscoreRequestDTO = new(
+            nextLevel,
+            difficultyLevel,
+            goldCollected,
+            timeElapsed
+        );
+
+        // Generate the output
+        return JsonConvert.SerializeObject(postHighscoreRequestDTO);
     }
 }

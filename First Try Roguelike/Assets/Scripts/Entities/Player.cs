@@ -145,7 +145,6 @@ public class Player : Entity
 
         // Update game progress record
         if (GameManager.Instance.IsFinalLevel()) {
-            GameProgressManager.SetNexLevel(1);
             GameProgressManager.SetFinishedGame();
         }
         else {

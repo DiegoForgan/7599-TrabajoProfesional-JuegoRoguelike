@@ -117,8 +117,6 @@ public class FinalBossEnemy : MeleeEnemy
     protected override void DestroyEntity()
     {
         // Update game progress record
-        // Starts with the first level
-        GameProgressManager.SetNexLevel(1);
         // Stop the stopwatch
         GameManager.Instance.StopStopWatch();
         TimeSpan ts = GameManager.Instance.GetTimeElapsed();

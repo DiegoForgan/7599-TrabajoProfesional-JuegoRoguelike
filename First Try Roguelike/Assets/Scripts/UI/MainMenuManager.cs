@@ -62,7 +62,8 @@ public class MainMenuManager : MonoBehaviour
         // Every time the scene loads, as the object is destroyed and then re-instanced!
         audioManager.UpdateVolume((float)SettingsManager.GetSoundVolume());
 
-        // Checking for saved session
+        // If the user is logged in (a saved session was detected)
+        // Display the operation in progress panel
         if (SessionManager.IsUserLoggedIn()) {
             Debug.Log("Session token found");
 
@@ -73,10 +74,13 @@ public class MainMenuManager : MonoBehaviour
             Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
             Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
 
+            // Hiding the login button
+            loginButton.SetActive(false);
+
             // Setting up logged in panel
             loggedPanel.SetActive(true);
             loggedInPanelContainer.gameObject.SetActive(false);
-            loggedInMessage.GetComponent<TMP_Text>().text = "Validating your session\nplease wait...";
+            loggedInMessage.GetComponent<TMP_Text>().text = "Validating session\nplease wait...";
             loggedInMessage.gameObject.SetActive(true);
             loggedInSpinner.gameObject.SetActive(true);
             loggedInCloseButton.gameObject.SetActive(false);
@@ -84,13 +88,25 @@ public class MainMenuManager : MonoBehaviour
 
             loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
 
-            // Check the session
-            apiRequestHandler.CheckValidSession();
+            // If the game is not finished, we need to
+            // Check the saved session
+            // Sync the game progress
+            if (!GameProgressManager.IsFinishedGame()) {
+                apiRequestHandler.CheckValidSession();
+            }
         }
         else {
+            // No saved session found
+            // Just re-enable UI controls
             Debug.Log("No session token found");
             highScoresButton.SetActive(false);
             loginButton.SetActive(true);
+        }
+
+        // Check if game is finished and show game ending message
+        // This will as well check the session and sync the game progress if the user is logged in
+        if (GameProgressManager.IsFinishedGame()) {
+            ShowFinishedGameAlert();
         }
 
         // Set interactability of "Continue" button
@@ -99,11 +115,6 @@ public class MainMenuManager : MonoBehaviour
         // Set the game progress badge
         GameProgressManager.LogGameProgressData();
         UpdateGameProgressBadge();
-
-        // Check if game is finished and show game ending message
-        if (GameProgressManager.IsFinishedGame()) {
-            ShowFinishedGameAlert();
-        }
     }
 
     // Updates the Game Progress level and difficulty shown on the main menu
@@ -115,6 +126,10 @@ public class MainMenuManager : MonoBehaviour
     }
 
     private void ShowFinishedGameAlert() {
+
+        // Getting data from the UI
+        Transform loggedInMessageContainer = loggedPanel.gameObject.transform.Find("LoggedInMessageContainer");
+        Transform loggedInMessage = loggedInMessageContainer.Find("LoggedInMessage");
 
         int currentDifficulty = GameProgressManager.GetDifficultyLevel();
         int maxDifficulty = GameProgressManager.GetHighestDifficultyLevel();
@@ -132,13 +147,24 @@ public class MainMenuManager : MonoBehaviour
             "OK",
             () => {
                 // Actions to be performed ater game ends
-                // User clicked OK, we level up the game progress
+                // User clicked OK, we POST a new highscore if the user is logged in
+                if (SessionManager.IsUserLoggedIn()) {
+                    apiRequestHandler.PostNewHighScore(GameProgressManager.GetJsonStringPostHighscore(SessionManager.GetSessionUsername()));
+                } 
+                // We level up the game progress
                 if (currentDifficulty < GameProgressManager.GetHighestDifficultyLevel()) {
+                    // We reset the starting level
+                    GameProgressManager.SetNexLevel(1);
                     GameProgressManager.SetDifficultyLevel(currentDifficulty+1);
                 }
                 else {
                     // If the player won in level 10, the game goes back to the beginning
                     GameProgressManager.ResetGameProgress();
+                }
+                // We UPDATE the gameprogress if the user is logged in
+                if (SessionManager.IsUserLoggedIn()) {
+                    loggedInMessage.GetComponent<TMP_Text>().text = "Syncing your game progress\nplease wait...";
+                    apiRequestHandler.UpdateGameProgress(GameProgressManager.GetJsonStringUpdateGameProgress(SessionManager.GetSessionUsername(), false));
                 }
 
                 // Set the game progress badge
@@ -408,6 +434,9 @@ public class MainMenuManager : MonoBehaviour
 
         // Clear the session details
         SessionManager.ClearSession();
+        // Clear the game progress
+        GameProgressManager.ResetGameProgress();
+        UpdateGameProgressBadge();
         
         // Change UI element status
         loginButton.SetActive(true);
