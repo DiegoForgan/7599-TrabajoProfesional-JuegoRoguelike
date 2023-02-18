@@ -91,6 +91,8 @@ public static class GameProgressManager
     public static void SetDifficultyLevel(int newDifficultyLevel) { difficultyLevel = newDifficultyLevel; }
     // Sets the current value for "Gold Collected"
     public static void SetGoldCollected(int newGoldCollected) { goldCollected = newGoldCollected; }
+    // Sets the current value for "Gold Collected"
+    public static void SetTimeElapsed(string newTimeElapsed) { timeElapsed = newTimeElapsed; }
 
     // Sets complete gameprogress
     // Time must be passed as a TimeSpan object, and is added to the current value!

@@ -101,6 +101,9 @@ public class MainMenuManager : MonoBehaviour
             Debug.Log("No session token found");
             highScoresButton.SetActive(false);
             loginButton.SetActive(true);
+
+            // Set interactability of "Continue" button
+            continueButton.GetComponent<Button>().interactable = GameProgressManager.PlayerCanContinue();
         }
 
         // Check if game is finished and show game ending message
@@ -108,9 +111,6 @@ public class MainMenuManager : MonoBehaviour
         if (GameProgressManager.IsFinishedGame()) {
             ShowFinishedGameAlert();
         }
-
-        // Set interactability of "Continue" button
-        continueButton.GetComponent<Button>().interactable = GameProgressManager.PlayerCanContinue();
 
         // Set the game progress badge
         GameProgressManager.LogGameProgressData();
@@ -437,6 +437,8 @@ public class MainMenuManager : MonoBehaviour
         // Clear the game progress
         GameProgressManager.ResetGameProgress();
         UpdateGameProgressBadge();
+        // Set interactability of "Continue" button
+        continueButton.GetComponent<Button>().interactable = GameProgressManager.PlayerCanContinue();
         
         // Change UI element status
         loginButton.SetActive(true);
