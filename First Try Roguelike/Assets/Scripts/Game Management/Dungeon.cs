@@ -20,7 +20,7 @@ public class Dungeon : MonoBehaviour
         new Vector3Int(-PLAYER_BOSS_DISTANCE,0), 
         new Vector3Int(-PLAYER_BOSS_DISTANCE, PLAYER_BOSS_DISTANCE) };
 
-    //This method is supposed to put the player on a valid FLOOR tile.
+    //This method is supposed to put the player and any item or enemy on a valid FLOOR tile.
     //It seems to work fine but maybe it needs some tunning
     public Vector2Int GetRandomFloorPosition(){
         Vector2Int candidatePosition = Vector2Int.zero;
