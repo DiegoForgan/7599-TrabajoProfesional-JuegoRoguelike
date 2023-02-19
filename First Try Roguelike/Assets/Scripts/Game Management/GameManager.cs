@@ -194,7 +194,11 @@ public class GameManager : MonoBehaviour
         // Generate New Dungeon In Place 'SPACE'
         if(Input.GetKeyDown(KeyCode.Space)){
             if (SettingsManager.GetRegenerateDungeonOn()) {
-                CreateNewDungeon();
+
+                // Decide which level needs to be created based on story
+                if (IsFinalLevel()) CreateFinalBossDungeon();
+                    else if (IsMidLevelBossLevel()) CreateMidLevelBossDungeon();
+                        else CreateNewDungeon();
             }
         }
     }
