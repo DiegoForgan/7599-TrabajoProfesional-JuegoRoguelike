@@ -112,10 +112,17 @@ public class GameManager : MonoBehaviour
         destroyAllSpawns();
         // Places the tiles on the tilemap to create the dungeon layout
         GenerateDungeonByName(RANDOM_WALK_ALGORITHM);
-        // Sets the position of the main player inside the dungeon
-        PlacePlayerOnDungeon();
         // Instantiates the items that will be available on the dungeon created
         PlaceBossLevelItemsOnDungeon();
+        // Places the Player and the Boss on the map knowing its always a wandom walk map
+        PlacePlayerAndBossOnRandomWalkDungeon();
+    }
+
+    private void PlacePlayerAndBossOnRandomWalkDungeon()
+    {
+        // Sets the position of the main player inside the dungeon
+        // Lets pray (0,0) its always a good spot on this kind of maps
+        player.transform.position = Vector3.zero;
         // This method will place the final boss on the dungeon to challenge the main player on its quest
         PlaceFinalBossOnDungeon();
     }
@@ -126,10 +133,16 @@ public class GameManager : MonoBehaviour
         destroyAllSpawns();
         // Places the tiles on the tilemap to create the dungeon layout
         GenerateDungeonByName(RANDOM_WALK_ALGORITHM);
-        // Sets the position of the main player inside the dungeon
-        PlacePlayerOnDungeon();
         // Instantiates the items that will be available on the dungeon created
         PlaceBossLevelItemsOnDungeon();
+        PlaceMidLevelBossAndPlayerOnRandomWalk();
+    }
+
+    private void PlaceMidLevelBossAndPlayerOnRandomWalk()
+    {
+        // Sets the position of the main player inside the dungeon
+        // Lets pray (0,0) its always a good spot on this kind of maps
+        player.transform.position = Vector3.zero;
         // This method will place the mid level boss on the dungeon to challenge the main player on its quest
         PlaceMidLevelBossOnDungeon();
     }

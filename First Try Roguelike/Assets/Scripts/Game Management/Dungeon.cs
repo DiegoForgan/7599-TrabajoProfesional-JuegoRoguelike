@@ -8,6 +8,17 @@ public class Dungeon : MonoBehaviour
 {
     [SerializeField] private Tilemap floor;
     [SerializeField] private Tilemap walls;
+    [SerializeField] private const int FLOOR_TILE_RADIUS = 2;
+    [SerializeField] private const int PLAYER_BOSS_DISTANCE = 4;
+    private readonly Vector3Int[] bossSpawnPositions = { 
+        new Vector3Int(0,PLAYER_BOSS_DISTANCE), 
+        new Vector3Int(PLAYER_BOSS_DISTANCE, PLAYER_BOSS_DISTANCE), 
+        new Vector3Int(PLAYER_BOSS_DISTANCE, 0), 
+        new Vector3Int(PLAYER_BOSS_DISTANCE, -PLAYER_BOSS_DISTANCE), 
+        new Vector3Int(0, -PLAYER_BOSS_DISTANCE), 
+        new Vector3Int(-PLAYER_BOSS_DISTANCE, -PLAYER_BOSS_DISTANCE), 
+        new Vector3Int(-PLAYER_BOSS_DISTANCE,0), 
+        new Vector3Int(-PLAYER_BOSS_DISTANCE, PLAYER_BOSS_DISTANCE) };
 
     //This method is supposed to put the player on a valid FLOOR tile.
     //It seems to work fine but maybe it needs some tunning
@@ -20,9 +31,32 @@ public class Dungeon : MonoBehaviour
            candidatePosition.x = Random.Range(-1000, 1000);
            candidatePosition.y = Random.Range(-1000, 1000);
            tilePosition = floor.WorldToCell((Vector3Int)candidatePosition);
-        } while (!floor.HasTile(tilePosition));
+        } while (IsInvalidPosition(tilePosition));
         
         return candidatePosition;
+    }
+
+    private bool IsInvalidPosition(Vector3Int candidatePosition)
+    {
+        if (!floor.HasTile(candidatePosition)) return true;
+        
+        int startPointX = candidatePosition.x - FLOOR_TILE_RADIUS;
+        int endPointX = candidatePosition.x + FLOOR_TILE_RADIUS;
+        int startPointY = candidatePosition.y - FLOOR_TILE_RADIUS;
+        int endPointY = candidatePosition.y + FLOOR_TILE_RADIUS;
+        Vector2Int currentPosition = new Vector2Int();
+
+        // checks on the square of sides = 2*radius
+        for (int i = startPointY; i < endPointY; i++)
+        {
+            currentPosition.y = i;
+            for (int j = startPointX; j < endPointX; j++)
+            {
+                currentPosition.x = j;
+                if (!floor.HasTile((Vector3Int)currentPosition)) return true;
+            }
+        }
+        return false;
     }
 
     public Tilemap GetFloorTilemap()
@@ -88,4 +122,17 @@ public class Dungeon : MonoBehaviour
         // We return a ingle string with the entire level
         return string.Join("\n", linesList);
     }
+
+    internal Vector3Int GetBossPosition()
+    {
+        int candidate = 0;
+        // It tries con 6 different positions around the player spawn position which is (0,0)
+        // If None of this positions is valid, we may have a pointer exception. Lets hope it never reaches that state
+        while (IsInvalidPosition(floor.WorldToCell(bossSpawnPositions[candidate])))
+        {
+            candidate++;
+        }
+        return bossSpawnPositions[candidate];
+    }
 }
+
