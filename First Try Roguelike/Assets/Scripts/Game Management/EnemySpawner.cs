@@ -35,13 +35,13 @@ public class EnemySpawner : Spawner
     internal void SpawnFinalBoss(int difficultyLevel, Dungeon dungeon)
     {
         finalBossPrefab.gameObject.tag = ENEMY_TAG;
-        spawnPrefabsOnDungeonByAmount(dungeon, finalBossPrefab, FINAL_BOSS_AMOUNT);
+        spawnFinalBossOnDungeonByAmount(dungeon, finalBossPrefab, FINAL_BOSS_AMOUNT);
     }
 
     internal void SpawnMidLevelBoss(int difficultyLevel, Dungeon dungeon)
     {
         midLevelBossPrefab.gameObject.tag = ENEMY_TAG;
-        spawnPrefabsOnDungeonByAmount(dungeon, midLevelBossPrefab, MIDLEVEL_BOSS_AMOUNT);
+        spawnMidLevelBossOnDungeonByAmount(dungeon, midLevelBossPrefab, MIDLEVEL_BOSS_AMOUNT);
     }
 
 }
