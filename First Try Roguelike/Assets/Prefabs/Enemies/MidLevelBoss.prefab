@@ -4686,6 +4686,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementTolerance: 0.3
   _renderer: {fileID: 628613732251135623}
+  attackPointPositions:
+  - {x: 0, y: -0.6}
+  - {x: 0, y: 2.15}
+  - {x: 1, y: 0.55}
+  - {x: -1, y: 0.55}
 --- !u!114 &116208871127060298
 MonoBehaviour:
   m_ObjectHideFlags: 0

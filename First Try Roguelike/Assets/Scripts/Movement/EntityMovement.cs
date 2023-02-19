@@ -8,7 +8,7 @@ public abstract class EntityMovement : MonoBehaviour
     protected Rigidbody2D _rigidBody;
     protected Vector2 movement;
     private readonly Vector2[] _directions = { Vector2.right, Vector2.left, Vector2.up, Vector2.down };
-    protected Vector2[] attackPointPositions;
+    [SerializeField] protected Vector2[] attackPointPositions;
     protected Transform _attackPoint;
     protected CharactersAnimator movementAnimator;
 

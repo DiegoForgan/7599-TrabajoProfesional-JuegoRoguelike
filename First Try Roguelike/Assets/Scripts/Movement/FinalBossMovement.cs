@@ -14,7 +14,7 @@ public class FinalBossMovement : MonoBehaviour
     private Rigidbody2D _rigidBody;
     private Vector2 movement;
     private readonly Vector2[] _directions = { Vector2.right, Vector2.left, Vector2.up, Vector2.down };
-    private Vector2[] attackPointPositions;
+    [SerializeField] private Vector2[] attackPointPositions;
     private Transform _attackPoint;
 
     private HealthBarEnemies _healthBar;
@@ -102,7 +102,7 @@ public class FinalBossMovement : MonoBehaviour
         movementAnimator.ResetRigs();
         _attackPoint = transform.Find("AttackPoint");
         // Set vector2 to enemy attackpoints
-        attackPointPositions = new Vector2[] { new Vector2(0f, -0.2f), new Vector2(0f, 2f), new Vector2(0.8f, 0.5f), new Vector2(-0.8f, 0.5f) };
+        //attackPointPositions = new Vector2[] { new Vector2(0f, -0.2f), new Vector2(0f, 2f), new Vector2(0.8f, 0.5f), new Vector2(-0.8f, 0.5f) };
         _attackPoint.localPosition = attackPointPositions[0];
     }
 
