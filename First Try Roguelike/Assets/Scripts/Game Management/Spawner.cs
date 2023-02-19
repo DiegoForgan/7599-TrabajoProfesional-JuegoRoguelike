@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public abstract class Spawner : MonoBehaviour
 {
     private List<GameObject> spawned = new List<GameObject>();
@@ -27,6 +28,18 @@ public abstract class Spawner : MonoBehaviour
         {
             spawnPrefabOnRandomPosition(dungeon, prefab);
         }
+    }
+
+    protected void spawnFinalBossOnDungeonByAmount(Dungeon dungeon, GameObject finalBossPrefab, int fINAL_BOSS_AMOUNT)
+    {
+        Vector3Int spawnPosition = dungeon.GetBossPosition();
+        addGameObjectToList(Instantiate(finalBossPrefab, spawnPosition, Quaternion.identity));
+    }
+
+    protected void spawnMidLevelBossOnDungeonByAmount(Dungeon dungeon, GameObject midLevelBossPrefab, int mIDLEVEL_BOSS_AMOUNT)
+    {
+        Vector3Int spawnPosition = dungeon.GetBossPosition();
+        addGameObjectToList(Instantiate(midLevelBossPrefab, spawnPosition, Quaternion.identity));
     }
 
     private void spawnPrefabOnRandomPosition(Dungeon dungeon, GameObject prefab)
