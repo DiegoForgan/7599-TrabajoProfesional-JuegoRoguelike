@@ -91,8 +91,10 @@ public abstract class Enemy : Entity
 
     protected bool IsInAttackDistanceAndVisibleOnScreen()
     {
-        //Checks if player is at the distance required for enemy to attack
-        float playerEnemyDistance = Vector2.Distance(transform.position,playerTransform.position);
+        // Checks if player is at the distance required for enemy to attack
+        // I feel absolutely DIRTY
+        // Vector3 playerPositionOverride = new Vector3(playerTransform.position.x - 0.45f, playerTransform.position.y, playerTransform.position.z);
+        float playerEnemyDistance = Vector2.Distance(transform.position, playerTransform.position);
         Debug.Log("Current Distance beetween Enemy and Player: " + playerEnemyDistance);
         Debug.Log("Attack Distance: " + attackDistance);
         return (_renderer.isVisible) && (playerEnemyDistance <= attackDistance) && (Time.time >= nextAttackTime);
