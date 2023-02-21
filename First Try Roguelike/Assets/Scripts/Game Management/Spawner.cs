@@ -5,6 +5,11 @@ using UnityEngine;
 public abstract class Spawner : MonoBehaviour
 {
     private List<GameObject> spawned = new List<GameObject>();
+    // this will make max random spawns for enemies the half of the current difficulty level
+    // example: On difficulty "4", you will be able to spawn:
+    // difficultyLevel * factor => 4*0.5 => 2 (up to 2 enemies of that type)
+    private const float SPAWN_DIFFICULTY_FACTOR = 0.5f; //half the current difficulty level
+    private const int MIN_SPAWN_AMOUNT = 1;
     
     protected int getRandomSpawnNumberBasedOnDifficulty(int difficultyLevel, int boost)
     {
@@ -15,11 +20,18 @@ public abstract class Spawner : MonoBehaviour
 
     protected void spawnPrefabsOnDungeonByBoost(Dungeon dungeon, int difficultyLevel, GameObject prefab, int boostValue)
     {
-        int amountToSpawnBasedOnDifficulty = getRandomSpawnNumberBasedOnDifficulty(difficultyLevel, boostValue);
+        int amountToSpawnBasedOnDifficulty = prefab.CompareTag("enemy") ? getRandomSpawnNumberForEnemies(difficultyLevel, boostValue) : getRandomSpawnNumberBasedOnDifficulty(difficultyLevel, boostValue);
         for (int i = 0; i < amountToSpawnBasedOnDifficulty; i++)
         {
             spawnPrefabOnRandomPosition(dungeon, prefab);
         }
+    }
+
+    private int getRandomSpawnNumberForEnemies(int difficultyLevel, int minAmount)
+    {
+        float maxRandomAmount = Mathf.Floor(difficultyLevel * SPAWN_DIFFICULTY_FACTOR);
+        float randomAmountToSpawn = (maxRandomAmount<= MIN_SPAWN_AMOUNT) ? MIN_SPAWN_AMOUNT : Random.Range(minAmount, maxRandomAmount);
+        return Mathf.FloorToInt(randomAmountToSpawn);
     }
 
     protected void spawnPrefabsOnDungeonByAmount(Dungeon dungeon, GameObject prefab, int amountToSpawn)

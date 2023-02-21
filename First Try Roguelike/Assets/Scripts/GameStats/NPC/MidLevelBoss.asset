@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4787d526462795f49babdb1e0625f94a, type: 3}
   m_Name: MidLevelBoss
   m_EditorClassIdentifier: 
-  health: 50
-  movementSpeed: 1
-  attackRate: 0.4
-  attackDistance: 3
-  availableMeleeWeapon: {fileID: 11400000, guid: 9464cd433cab6e94f83d8fd0627d31f9, type: 2}
+  health: 100
+  movementSpeed: 2
+  attackRate: 1
+  attackDistance: 5
+  availableMeleeWeapon: {fileID: 11400000, guid: 14dbc7e940241f54196c09155881c3de, type: 2}
   availableSpell:
   - {fileID: 11400000, guid: b5449b3d86927334d915d209d79ec794, type: 2}
   - {fileID: 11400000, guid: 65ba44b234552dc459ee3cc9dc3624e7, type: 2}

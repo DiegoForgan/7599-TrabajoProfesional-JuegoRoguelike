@@ -32,4 +32,10 @@ public class SpellCasterEnemy : Enemy
         animator.SetSpellCastingWithStaffAnimation();
         CastRandomSpell();
     }
+
+    public override void RecalculateMovementStats()
+    {
+        //Setting data on the movement component
+        UpdateMovementStats(enemyData.attackDistance);
+    }
 }

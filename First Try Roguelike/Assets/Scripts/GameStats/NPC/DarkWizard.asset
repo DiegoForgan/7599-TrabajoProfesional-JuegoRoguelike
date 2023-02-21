@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4787d526462795f49babdb1e0625f94a, type: 3}
   m_Name: DarkWizard
   m_EditorClassIdentifier: 
-  health: 50
+  health: 30
   movementSpeed: 2
-  attackRate: 0.5
-  attackDistance: 6
+  attackRate: 0.3
+  attackDistance: 10
   availableMeleeWeapon: {fileID: 0}
   availableSpell:
   - {fileID: 11400000, guid: 64caa970409e76546b4af52c5b11d8c1, type: 2}

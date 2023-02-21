@@ -26,7 +26,7 @@ public abstract class Entity : MonoBehaviour, Collidable, Affectable
             Die();
         }
         // Dark magic, don´t ask => probably i will forget how i did this
-        animator.setHurtAnimation();
+        else animator.setHurtAnimation();
     }
     
     protected virtual void Die()

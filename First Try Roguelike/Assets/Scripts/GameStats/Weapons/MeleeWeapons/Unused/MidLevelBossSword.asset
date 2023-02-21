@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48ee2a41a05fee34ab2ac03829309fd4, type: 3}
-  m_Name: BasicSword
+  m_Name: MidLevelBossSword
   m_EditorClassIdentifier: 
-  name: Basic Sword
-  description: "It may seem basic but it\xB4s sharp"
-  damage: 5
+  name: Mid Level Boss Sword
+  description: I know...its name describes it perfectly
+  damage: 8
   range: 0.5

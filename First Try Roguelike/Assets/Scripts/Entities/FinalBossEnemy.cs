@@ -130,6 +130,15 @@ public class FinalBossEnemy : MeleeEnemy
 
         Destroy(gameObject);
     }
+
+    public override void RecalculateMovementStats()
+    {
+        //distance has to be tweaked in order to respond to the attacking point
+        float distance = Vector2.Distance(transform.position, _attackPoint.position) + enemyData.availableMeleeWeapon.range;
+        rangeDistance = enemyData.attackDistance;
+        //Passing movement data to corresponding component
+        InitAllMovementStats(distance, rangeDistance);
+    }
 } 
 
 

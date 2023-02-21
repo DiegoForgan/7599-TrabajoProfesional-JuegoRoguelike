@@ -4753,6 +4753,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementTolerance: 0.3
   _renderer: {fileID: 2489245247378122881}
+  attackPointPositions:
+  - {x: 0, y: -0.6}
+  - {x: 0, y: 2.6}
+  - {x: 1.25, y: 0.7}
+  - {x: -1.25, y: 0.7}
 --- !u!114 &8967750155644058392 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1203780825325970955, guid: 608c0779f62abf14fa0e9a99b676398b, type: 3}

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Arrow
   description: Its a sharp arrow
-  damage: 1
+  damage: 2
   manaCost: 0
   proyectilePrefab: {fileID: 7316854169907788184, guid: 7031efac70a44bd49b80f51d20e11465, type: 3}
   proyectileForce: 10

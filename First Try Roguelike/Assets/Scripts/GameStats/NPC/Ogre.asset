@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   movementSpeed: 2
-  attackRate: 1
+  attackRate: 0.4
   attackDistance: 0
   availableMeleeWeapon: {fileID: 11400000, guid: 7636f4cd5caa40747909d445d95c895f, type: 2}
   availableSpell: []

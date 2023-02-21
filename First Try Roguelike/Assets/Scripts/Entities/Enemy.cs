@@ -56,11 +56,19 @@ public abstract class Enemy : Entity
         nextAttackTime = Time.time + 1f / attackRate;
     }
 
+    public abstract void RecalculateMovementStats();
+
     protected void InitMovementStats(float distance){
         //Passing movement data to corresponding component
         _enemyMovement.SetMovementSpeed(enemyData.movementSpeed);
         _enemyMovement.SetPlayerTransform(playerTransform);
         SetAttackingParameters(enemyData.attackRate,distance);
+        _enemyMovement.SetAttackingDistance(distance);
+    }
+
+    protected void UpdateMovementStats(float distance)
+    {
+        SetAttackingParameters(enemyData.attackRate, distance);
         _enemyMovement.SetAttackingDistance(distance);
     }
 
@@ -83,9 +91,13 @@ public abstract class Enemy : Entity
 
     protected bool IsInAttackDistanceAndVisibleOnScreen()
     {
-        //Checks if player is at the distance required for enemy to attack
-        float playerEnemyDistance = Vector2.Distance(transform.position,playerTransform.position);
-        return ((_renderer.isVisible) && (playerEnemyDistance <= attackDistance) && (Time.time >= nextAttackTime));
+        // Checks if player is at the distance required for enemy to attack
+        // I feel absolutely DIRTY
+        // Vector3 playerPositionOverride = new Vector3(playerTransform.position.x - 0.45f, playerTransform.position.y, playerTransform.position.z);
+        float playerEnemyDistance = Vector2.Distance(transform.position, playerTransform.position);
+        Debug.Log("Current Distance beetween Enemy and Player: " + playerEnemyDistance);
+        Debug.Log("Attack Distance: " + attackDistance);
+        return (_renderer.isVisible) && (playerEnemyDistance <= attackDistance) && (Time.time >= nextAttackTime);
     }
 
     public override void TakeDamage(int damage)

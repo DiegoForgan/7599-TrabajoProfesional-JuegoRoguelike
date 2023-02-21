@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   movementSpeed: 5
-  attackRate: 2
-  sprite: {fileID: 0}
+  attackRate: 3
   mana: 200
   gold: 0
   keys: 0

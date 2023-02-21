@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Freeze
   description: It makes anyone affected by this slower
-  duration: 5
+  duration: 3
   damagePerSecond: 0
   slowDown: 0.25
   type: 3

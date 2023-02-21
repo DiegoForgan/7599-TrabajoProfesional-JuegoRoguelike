@@ -5,7 +5,7 @@ using UnityEngine;
 public class ManaItem : Item
 {
     [SerializeField]
-    private int amountToGrant = 5;
+    private int amountToGrant = 10;
     protected override void MakeEffect(Player player)
     {
         player.AddMana(amountToGrant);

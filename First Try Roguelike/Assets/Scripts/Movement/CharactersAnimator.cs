@@ -91,7 +91,7 @@ public class CharactersAnimator : MonoBehaviour
     }
     internal void setDeadAnimation()
     {
-        if (isDead) return;
+        //if (isDead) return;
         isDead = true;
         animator.SetTrigger("Die");
     }
