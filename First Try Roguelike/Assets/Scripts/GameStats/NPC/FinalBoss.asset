@@ -15,7 +15,7 @@ MonoBehaviour:
   health: 300
   movementSpeed: 2
   attackRate: 0.5
-  attackDistance: 8
+  attackDistance: 6
   availableMeleeWeapon: {fileID: 11400000, guid: 9464cd433cab6e94f83d8fd0627d31f9, type: 2}
   availableSpell:
   - {fileID: 11400000, guid: 64caa970409e76546b4af52c5b11d8c1, type: 2}
