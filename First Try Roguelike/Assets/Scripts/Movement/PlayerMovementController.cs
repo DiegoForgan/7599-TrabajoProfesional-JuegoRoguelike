@@ -12,7 +12,6 @@ public class PlayerMovementController : EntityMovement
         movementAnimator = GetComponent<CharactersAnimator>();
         movementAnimator.ResetRigs();
         _attackPoint = transform.Find("AttackPoint");
-        //attackPointPositions = new Vector2[] { new Vector2(0f, -0.2f), new Vector2(0f, 2f), new Vector2(0.8f, 0.5f), new Vector2(-0.8f, 0.5f) };
         _attackPoint.localPosition = attackPointPositions[0];
     }
 
