@@ -15,4 +15,4 @@ MonoBehaviour:
   name: Club
   description: "It\xB4s big, it\xB4s wodden and it\xB4s poweful"
   damage: 8
-  range: 0.4
+  range: 0.6
