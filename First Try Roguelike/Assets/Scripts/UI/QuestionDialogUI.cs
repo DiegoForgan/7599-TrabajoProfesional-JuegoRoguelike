@@ -7,6 +7,7 @@ using TMPro;
 // Functions can be passed to excecute actions after a button is pressed
 public class QuestionDialogUI : MonoBehaviour
 {
+    // References
     public static QuestionDialogUI Instance { get; private set; }
     [SerializeField] private GameObject menuCanvas;
     [SerializeField] private GameObject questionDialog;
@@ -24,6 +25,13 @@ public class QuestionDialogUI : MonoBehaviour
     private TextMeshProUGUI endingScoreLevel;
     private TextMeshProUGUI endingScoreGold;
     private TextMeshProUGUI endingScoreTime;
+
+    // Constants
+    // Position is relative to anchorage, values taken from Unity Editor
+    const int YES_BUTTON_POSITION_DEFAULT_X = 135;
+    const int YES_BUTTON_POSITION_CENTERED_X = 0;
+    const int YES_BUTTON_POSITION_Y = -140;
+    const int YES_BUTTON_POSITION_Z = 0;
 
 
     private void Awake() {
@@ -52,7 +60,10 @@ public class QuestionDialogUI : MonoBehaviour
         gameEndingDialog.SetActive(false);        
         gameObject.SetActive(false);
         // Returns the 'yes' button to its default position
-        questionYesButton.transform.localPosition = new Vector3(135, -140, 0);
+        questionYesButton.transform.localPosition = new Vector3(
+            YES_BUTTON_POSITION_DEFAULT_X,
+            YES_BUTTON_POSITION_Y,
+            YES_BUTTON_POSITION_Z);
         questionYesButton.onClick.RemoveAllListeners();
         questionNoButton.onClick.RemoveAllListeners();
         endingOkButton.onClick.RemoveAllListeners();
@@ -85,8 +96,10 @@ public class QuestionDialogUI : MonoBehaviour
         questionDialogTitle.text = newDialogTitle;
         questionQuestionText.text = newQuestionText;
         // If we are showing an 'alert' type of dialog, we need to center the 'yes' button
-        // Position is relative to anchorage, values taken from Unity Editor
-        questionYesButton.transform.localPosition = new Vector3(0, -140, 0);
+        questionYesButton.transform.localPosition = new Vector3(
+            YES_BUTTON_POSITION_CENTERED_X,
+            YES_BUTTON_POSITION_Y,
+            YES_BUTTON_POSITION_Z);
         questionYesButtonText.text = newOKButtonText;
         questionYesButton.onClick.AddListener(() => {
             questionNoButton.gameObject.SetActive(true);
