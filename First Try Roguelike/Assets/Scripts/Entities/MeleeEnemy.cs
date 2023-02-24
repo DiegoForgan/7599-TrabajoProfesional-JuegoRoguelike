@@ -7,7 +7,7 @@ public class MeleeEnemy : Enemy
     private void Awake()
     {
         //_enemySpriteRenderer = GetComponent<SpriteRenderer>();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        playerTransform = GameObject.FindGameObjectWithTag(PLAYER_TAG).transform;
         meleeWeapon = GetComponent<MeleeWeapon>();
         _enemyMovement = GetComponent<EnemyMovement>();
         _attackPoint = transform.Find("AttackPoint");
@@ -23,11 +23,13 @@ public class MeleeEnemy : Enemy
         InitHealth();
         meleeWeapon.SetWeaponData(enemyData.availableMeleeWeapon);
         //distance has to be tweaked in order to respond to the attacking point
+        //THIS HAS TO BE RECALCULATED EVERY TIME IT CHANGES DIRECTION!!!!!!!!!!!!!!!
         float distance = Vector2.Distance(transform.position,_attackPoint.position) + enemyData.availableMeleeWeapon.range;
+        Debug.Log(transform.position);
         //Passing movement data to corresponding component
         InitMovementStats(distance);
     }
-   
+
     public override void Attack(){
         Debug.Log("Attacking from Melee atacker class");
         meleeWeapon.AttackPlayer(_attackPoint);
@@ -35,4 +37,13 @@ public class MeleeEnemy : Enemy
     }
 
     public override bool IsMeleeAttacker() { return true; }
+
+    public override void RecalculateMovementStats()
+    {
+        //distance has to be tweaked in order to respond to the attacking point
+        //THIS HAS TO BE RECALCULATED EVERY TIME IT CHANGES DIRECTION!!!!!!!!!!!!!!!
+        float distance = Vector2.Distance(transform.position, _attackPoint.position) + meleeWeapon.GetWeaponReach();
+        //Passing movement data to corresponding component
+        UpdateMovementStats(distance);
+    }
 }

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4787d526462795f49babdb1e0625f94a, type: 3}
   m_Name: Goblin
   m_EditorClassIdentifier: 
-  health: 20
-  movementSpeed: 4
+  health: 25
+  movementSpeed: 3
   attackRate: 1
   attackDistance: 0
   availableMeleeWeapon: {fileID: 11400000, guid: 3616cf0d7031bca4b8fd2339304bd845, type: 2}

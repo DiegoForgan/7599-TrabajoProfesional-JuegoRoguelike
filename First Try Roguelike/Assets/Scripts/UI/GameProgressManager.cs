@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Newtonsoft.Json;
 
 // This class is used to manage a user's Game Progress data
 // Use Stopwatch class to measure time and export to TimeSpan objects for use with this class
@@ -9,6 +10,8 @@ public static class GameProgressManager
     // Default values
     private const int DEFAULT_NEXT_LEVEL = 1;
     private const int DEFAULT_GOLD_COLLECTED = 0;
+    private const int LOWEST_DIFFICULTY_LEVEL = 1;
+    private const int HIGHEST_DIFFICULTY_LEVEL = 10;
 
     // Current values
     // Game Progress
@@ -18,11 +21,15 @@ public static class GameProgressManager
     // Since PlayerPrefs and the FIUBA CloudSync API store text, we use strings for storing and persisting this property
     // Time measurements must be passed to this class' setters as TimeSpan objects
     private static string timeElapsed;
+    // Use this to mark if the user beat level 10, at any difficulty level
+    // This is used so that the final message can be shown!
+    private static bool finishedGame = false;
+
 
     // Converts a TimeSpan object to a format compatible with the gameprogress format 
-    private static string FormatTimeSpanAsString(TimeSpan timeToConvert) {
+    public static string FormatTimeSpanAsString(TimeSpan timeToConvert) {
 
-        return String.Format("{0:00}:{1:00}:{2:00}.{3:000}", timeToConvert.Hours, timeToConvert.Minutes, timeToConvert.Seconds, timeToConvert.Milliseconds / 10);
+        return String.Format("{0:00}:{1:00}:{2:00}.{3:000}", timeToConvert.Hours, timeToConvert.Minutes, timeToConvert.Seconds, timeToConvert.Milliseconds);
     }
 
     // Reads all gameprogress values from PlayerPrefs
@@ -36,7 +43,7 @@ public static class GameProgressManager
     }
 
     // Resets gameprogess to initial values 
-    public static void ResetGameProgress(string newSessionToken, string newSessionUsername)
+    public static void ResetGameProgress()
     {
         nextLevel = DEFAULT_NEXT_LEVEL;
         difficultyLevel = SettingsManager.GetStartingDifficulty();
@@ -47,7 +54,7 @@ public static class GameProgressManager
     public static bool PlayerCanContinue() {
 
         TimeSpan ts = TimeSpan.Parse(timeElapsed);
-        return ((nextLevel > DEFAULT_NEXT_LEVEL) || ((nextLevel == DEFAULT_NEXT_LEVEL) && (ts > TimeSpan.Zero)));
+        return ts > TimeSpan.Zero;
     }
 
     // Saves all current session values to PlayerPrefs
@@ -65,11 +72,17 @@ public static class GameProgressManager
     // Returns the current value for "Next Level"
     public static int GetNextLevel() { return nextLevel; }
     // Returns the current value for setting "Difficulty Level"
-    public static int getDifficultyLevel() { return difficultyLevel; }
+    public static int GetDifficultyLevel() { return difficultyLevel; }
     // Returns the current value for setting "Gold Collected"
-    public static int getGoldCollected() { return goldCollected; }
+    public static int GetGoldCollected() { return goldCollected; }
     // Returns the current value for setting "Time Elapsed"
-    public static string getTimeElapsed() { return timeElapsed; }
+    public static string GetTimeElapsed() { return timeElapsed; }
+    // Returns the current value for constant "LOWEST_DIFFICULTY_LEVEL"
+    public static int GetLowestDifficultyLevel() { return LOWEST_DIFFICULTY_LEVEL; }
+    // Returns the current value for constant "HIGHEST_DIFFICULTY_LEVEL"
+    public static int GetHighestDifficultyLevel() { return HIGHEST_DIFFICULTY_LEVEL; }
+    // Returns the current value for constant "DEFAULT_NEXT_LEVEL"
+    public static int GetDefaultNextLevel() { return DEFAULT_NEXT_LEVEL; }
 
     // Setters
     // Sets the current value for "Next Level"
@@ -78,6 +91,8 @@ public static class GameProgressManager
     public static void SetDifficultyLevel(int newDifficultyLevel) { difficultyLevel = newDifficultyLevel; }
     // Sets the current value for "Gold Collected"
     public static void SetGoldCollected(int newGoldCollected) { goldCollected = newGoldCollected; }
+    // Sets the current value for "Gold Collected"
+    public static void SetTimeElapsed(string newTimeElapsed) { timeElapsed = newTimeElapsed; }
 
     // Sets complete gameprogress
     // Time must be passed as a TimeSpan object, and is added to the current value!
@@ -104,5 +119,66 @@ public static class GameProgressManager
     public static void ResetTimeElapsed()
     {
         timeElapsed = FormatTimeSpanAsString(TimeSpan.Zero);
+    }
+
+    // Logs game progress data
+    public static void LogGameProgressData() {
+
+        Debug.Log(
+            "GameProgress data\n" +
+            "  next_level: " + GameProgressManager.GetNextLevel() + "\n" +
+            "  difficulty_level: " + GameProgressManager.GetDifficultyLevel() + "\n" +
+            "  gold_collected: " + GameProgressManager.GetGoldCollected() + "\n" +
+            "  time_elapsed: " + GameProgressManager.GetTimeElapsed() + "\n"
+        );
+    }
+
+    // Setter for finishedGame: always sets to *true*
+    // Used to signal a game where level 10 has been beat
+    public static void SetFinishedGame() {
+        finishedGame = true;
+    }
+    // Shoud be re-setted to false after excecuting post game actions!
+    public static void ResetFinishedGame() {
+        finishedGame = false;
+    }
+    // Query for game finished condition
+    public static bool IsFinishedGame() {
+        return finishedGame;
+    }
+
+    // Generates a json object for a gameprogress record
+    // Ready to be posted to the server
+    // reset=true creates an empty object, otherwise the current status is used
+    public static string GetJsonStringUpdateGameProgress(string newUsername, bool reset){
+ 
+        // Custom DTO class for game progress
+        // Id and dates are sent as nulls
+        UpdateGameProgressRequestDTO updateGameProgressRequestDTO = new(
+            (reset ? DEFAULT_NEXT_LEVEL : nextLevel),
+            (reset ? SettingsManager.GetStartingDifficulty() : difficultyLevel),
+            (reset ? DEFAULT_GOLD_COLLECTED : goldCollected),
+            (reset ? FormatTimeSpanAsString(TimeSpan.Zero) : timeElapsed)
+        );
+
+        // Generate the output
+        return JsonConvert.SerializeObject(updateGameProgressRequestDTO);
+    }
+
+    // Generates a json object for a highscore record
+    // Ready to be posted to the server
+    public static string GetJsonStringPostHighscore(string newUsername){
+ 
+        // Custom DTO class for highscore
+        // Id and dates are sent as nulls
+        PostHighscoreRequestDTO postHighscoreRequestDTO = new(
+            nextLevel,
+            difficultyLevel,
+            goldCollected,
+            timeElapsed
+        );
+
+        // Generate the output
+        return JsonConvert.SerializeObject(postHighscoreRequestDTO);
     }
 }

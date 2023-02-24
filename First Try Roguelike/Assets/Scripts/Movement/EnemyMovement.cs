@@ -22,8 +22,6 @@ public class EnemyMovement : EntityMovement
         movementAnimator = GetComponent<CharactersAnimator>();
         movementAnimator.ResetRigs();
         _attackPoint = transform.Find("AttackPoint");
-        // Set vector2 to enemy attackpoints
-        attackPointPositions = new Vector2[] { new Vector2(0f, -0.2f), new Vector2(0f, 2f), new Vector2(0.8f, 0.5f), new Vector2(-0.8f, 0.5f) };
         _attackPoint.localPosition = attackPointPositions[0];
     }
 
@@ -50,9 +48,7 @@ public class EnemyMovement : EntityMovement
     private void FixedUpdate()
     {
         if (!CanMove()) return;
-        Vector2 newPosition;
-        if (currentPlayerTransform == null) newPosition = Vector2.zero;
-        else newPosition = getNewPosition();
+        Vector2 newPosition = (currentPlayerTransform == null) ? Vector2.zero : getNewPosition();
         moveEnemy(newPosition);
     }
 
@@ -66,6 +62,7 @@ public class EnemyMovement : EntityMovement
         _rigidBody.MovePosition(newPosition);
         Vector2 direction = GetMovementDirection(movement);
         moveAttackPointToDirection(direction);
+        _enemy.RecalculateMovementStats();
         movementAnimator.HandleMovementAnimation(direction,movementSpeed);
         //Update the location of the enemy healthbar on screen
         UpdateHealthbarPosition(direction);

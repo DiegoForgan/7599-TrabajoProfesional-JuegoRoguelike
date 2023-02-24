@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,5 +25,11 @@ public class ItemSpawner : Spawner
         spawnPrefabsOnDungeonByBoost(currentDungeon, difficultyLevel, manaItemPrefab, manaItemBoost);
         spawnPrefabsOnDungeonByAmount(currentDungeon, goldItemPrefab, GOLD_AMOUNT);
         spawnPrefabsOnDungeonByAmount(currentDungeon, keyItemPrefab, KEY_AMOUNT);
+    }
+
+    internal void SpawnOnlyHealthAndMana(int difficultyLevel, Dungeon currentDungeon)
+    {
+        spawnPrefabsOnDungeonByBoost(currentDungeon, difficultyLevel, healthItemPrefab, healthItemBoost);
+        spawnPrefabsOnDungeonByBoost(currentDungeon, difficultyLevel, manaItemPrefab, manaItemBoost);
     }
 }

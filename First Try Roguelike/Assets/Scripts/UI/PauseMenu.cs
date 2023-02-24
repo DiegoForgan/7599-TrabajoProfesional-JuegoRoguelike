@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,28 +5,36 @@ public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
     [SerializeField] private GameObject PauseMenuUI;
+    [SerializeField] private GameObject gameOverUI;
+    [SerializeField] private GameObject FPSCounter;
 
     // Update is called once per frame
     void Update()
     {
         if (LevelLoader.isCinematic) return;
-        if(Input.GetKeyDown(KeyCode.Escape)){
-            if(GameIsPaused) Resume();
-            else Pause();
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            if (!gameOverUI.activeSelf) {
+                if(GameIsPaused) Resume();
+                else Pause();
+            }
         }
     }
 
     public void Pause()
     {
+        FPSCounter.SetActive(false);
         PauseMenuUI.SetActive(true);
         GameIsPaused = true;
+        GameManager.Instance.StopStopWatch();
         Time.timeScale = 0f;
     }
 
     public void Resume()
     {
+        FPSCounter.SetActive(true);
         PauseMenuUI.SetActive(false);
         GameIsPaused = false;
+        GameManager.Instance.StartStopWatch();
         Time.timeScale = 1f;
     }
 
@@ -40,17 +47,5 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene(1);
         //This command plays the desired sound clip
         FindObjectOfType<AudioManager>().PlaySound("MainMenuTheme");
-    }
-
-    public void QuitGame(){
-        Debug.Log("Quitting Game...");
-        // Saves user settings
-        SettingsManager.PersistSettings();
-        // Saves session data
-        SessionManager.PersistSession();
-        // Saves gameprogress data
-        GameProgressManager.PersistGameProgress();
-
-        Application.Quit();
     }
 }

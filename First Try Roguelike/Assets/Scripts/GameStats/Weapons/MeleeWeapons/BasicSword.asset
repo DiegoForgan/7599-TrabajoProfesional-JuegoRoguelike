@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Basic Sword
   description: "It may seem basic but it\xB4s sharp"
-  damage: 2
-  range: 0.4
+  damage: 5
+  range: 0.5

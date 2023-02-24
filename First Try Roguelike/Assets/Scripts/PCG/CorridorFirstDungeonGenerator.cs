@@ -107,12 +107,12 @@ public class CorridorFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         for (int i = 0; i < corridorLength; i++)
         {
             currentPosition += randomDirection;
-            
+
             //This adds extra floor tiles to make corridors wider so the player can walk on them
-            if(isHorizontal) corridor.Add(new Vector2Int(currentPosition.x, currentPosition.y - 1));
-            else corridor.Add(new Vector2Int(currentPosition.x + 1, currentPosition.y));
-            
-            corridor.Add(currentPosition);    
+            if (isHorizontal) CreateHorizontalCorridor(corridor, ref currentPosition);
+            else CreateVerticalCorridor(corridor, ref currentPosition);
+
+            corridor.Add(currentPosition);
         }
         return corridor;
     }

@@ -57,4 +57,9 @@ public class MeleeWeapon : MonoBehaviour
     public void SetWeaponReach(float newReach){
         weaponRange = newReach;
     }
+
+    public float GetWeaponReach()
+    {
+        return weaponRange;
+    }
 }

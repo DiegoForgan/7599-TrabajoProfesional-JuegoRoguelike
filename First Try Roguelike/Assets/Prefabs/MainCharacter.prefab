@@ -3288,6 +3288,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebf4e5691ee8a1a4b986ea7a1f6b18c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackPointPositions:
+  - {x: 0, y: -0.3}
+  - {x: 0, y: 2}
+  - {x: 0.8, y: 0.5}
+  - {x: -0.8, y: 0.5}
 --- !u!114 &6973446318259662236
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -54,4 +54,10 @@ public class ArcherEnemy : Enemy
 
         //FindObjectOfType<AudioManager>().PlaySound(selectedSpell.name);
     }
+
+    public override void RecalculateMovementStats()
+    {
+        //Setting data on the movement component
+        UpdateMovementStats(enemyData.attackDistance);
+    }
 }

@@ -8,7 +8,7 @@ public class SpellCasterEnemy : Enemy
     private void Awake()
     {
         //_enemySpriteRenderer = GetComponent<SpriteRenderer>();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        playerTransform = GameObject.FindGameObjectWithTag(PLAYER_TAG).transform;
         _enemyMovement = GetComponent<EnemyMovement>();
         _attackPoint = transform.Find("AttackPoint");
         animator = GetComponent<CharactersAnimator>();
@@ -31,5 +31,11 @@ public class SpellCasterEnemy : Enemy
         Debug.Log("Spell casting from SPELL CASTER CLASS");
         animator.SetSpellCastingWithStaffAnimation();
         CastRandomSpell();
+    }
+
+    public override void RecalculateMovementStats()
+    {
+        //Setting data on the movement component
+        UpdateMovementStats(enemyData.attackDistance);
     }
 }

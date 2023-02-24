@@ -6,6 +6,8 @@ TagManager:
   tags:
   - GameOver
   - HighScoreEntry
+  - proyectile
+  - enemy
   layers:
   - Default
   - TransparentFX

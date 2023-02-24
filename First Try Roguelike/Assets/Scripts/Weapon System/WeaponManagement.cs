@@ -88,7 +88,7 @@ public class WeaponManagement : MonoBehaviour
             {
                 if (currentSpell == null) return;
 
-                int currentManaCost = currentSpell.manaCost;
+                int currentManaCost = (SettingsManager.GetInfiniteManaOn()) ? 0 : currentSpell.manaCost;
                 if (playerCanAffordSpellWithCost(currentManaCost))
                 {
                     _player.SpendMana(currentManaCost);

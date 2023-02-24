@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -5,9 +6,13 @@ using TMPro;
 public class MainMenuManager : MonoBehaviour
 {
     private static bool initDone = false;
+    private bool loginPanelWasShowing = false;
     private AudioManager audioManager;
     [SerializeField] private APIRequestHandler apiRequestHandler;
     [SerializeField] private Animator loginFormAnimator;
+    [SerializeField] private GameObject gameProgessBadge;
+    [SerializeField] private GameObject newGameButton;
+    [SerializeField] private GameObject continueButton;
     [SerializeField] private GameObject highScoresButton;
     [SerializeField] private GameObject loginButton;
     [SerializeField] private GameObject loginPanel;
@@ -16,6 +21,10 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject highScoresEntryTemplate;
     [SerializeField] private GameObject devSettingsPanel;
     [SerializeField] private GameObject aboutVersionField;
+    [SerializeField] private GameObject registerMenu;
+    [SerializeField] private GameObject resetPasswordMenu;
+    [SerializeField] private GameObject profileMenu;
+
 
     // Start is called before the first frame update
     void Start()
@@ -53,7 +62,8 @@ public class MainMenuManager : MonoBehaviour
         // Every time the scene loads, as the object is destroyed and then re-instanced!
         audioManager.UpdateVolume((float)SettingsManager.GetSoundVolume());
 
-        // Checking for saved session
+        // If the user is logged in (a saved session was detected)
+        // Display the operation in progress panel
         if (SessionManager.IsUserLoggedIn()) {
             Debug.Log("Session token found");
 
@@ -64,10 +74,13 @@ public class MainMenuManager : MonoBehaviour
             Transform loggedInSpinner = loggedInMessageContainer.Find("LoggedInSpinner");
             Transform loggedInCloseButton = loggedInMessageContainer.Find("LoggedInCloseButton");
 
+            // Hiding the login button
+            loginButton.SetActive(false);
+
             // Setting up logged in panel
             loggedPanel.SetActive(true);
             loggedInPanelContainer.gameObject.SetActive(false);
-            loggedInMessage.GetComponent<TMP_Text>().text = "Validating your session\nplease wait...";
+            loggedInMessage.GetComponent<TMP_Text>().text = "Validating session\nplease wait...";
             loggedInMessage.gameObject.SetActive(true);
             loggedInSpinner.gameObject.SetActive(true);
             loggedInCloseButton.gameObject.SetActive(false);
@@ -75,14 +88,102 @@ public class MainMenuManager : MonoBehaviour
 
             loggedPanel.GetComponent<Animator>().SetTrigger("ShowOrHide");
 
-            // Check the session
-            apiRequestHandler.CheckValidSession();
+            // If the game is not finished, we need to
+            // Check the saved session
+            // Sync the game progress
+            if (!GameProgressManager.IsFinishedGame()) {
+                apiRequestHandler.CheckValidSession();
+            }
         }
         else {
+            // No saved session found
+            // Just re-enable UI controls
             Debug.Log("No session token found");
             highScoresButton.SetActive(false);
             loginButton.SetActive(true);
+
+            // Set interactability of "Continue" button
+            continueButton.GetComponent<Button>().interactable = GameProgressManager.PlayerCanContinue();
         }
+
+        // Check if game is finished and show game ending message
+        // This will as well check the session and sync the game progress if the user is logged in
+        if (GameProgressManager.IsFinishedGame()) {
+            ShowFinishedGameAlert();
+        }
+
+        // Set the game progress badge
+        GameProgressManager.LogGameProgressData();
+        UpdateGameProgressBadge();
+    }
+
+    // Updates the Game Progress level and difficulty shown on the main menu
+    private void UpdateGameProgressBadge() {
+        Transform gameProgressLevel = gameProgessBadge.gameObject.transform.Find("LevelFlag/CurrentLevelText");
+        Transform gameProgressDifficulty = gameProgessBadge.gameObject.transform.Find("DifficultyFlag/CurrentDifficultyLevelText");
+        Transform gameProgressGold = gameProgessBadge.gameObject.transform.Find("ProgressFlag/GoldAmount");
+        Transform gameProgressTime = gameProgessBadge.gameObject.transform.Find("ProgressFlag/ElapsedTime");
+
+        gameProgressLevel.GetComponent<TMP_Text>().text = "LEVEL - " + GameProgressManager.GetNextLevel().ToString();
+        gameProgressDifficulty.GetComponent<TMP_Text>().text = GameProgressManager.GetDifficultyLevel().ToString();
+        gameProgressGold.GetComponent<TMP_Text>().text = GameProgressManager.GetGoldCollected().ToString();
+        gameProgressTime.GetComponent<TMP_Text>().text = GameProgressManager.GetTimeElapsed();
+    }
+
+    private void ShowFinishedGameAlert() {
+
+        // Getting data from the UI
+        Transform loggedInMessageContainer = loggedPanel.gameObject.transform.Find("LoggedInMessageContainer");
+        Transform loggedInMessage = loggedInMessageContainer.Find("LoggedInMessage");
+
+        int currentDifficulty = GameProgressManager.GetDifficultyLevel();
+        int maxDifficulty = GameProgressManager.GetHighestDifficultyLevel();
+
+        // Set message to be shown on dialog
+        string endingText = "Congratulations! You have successfully escaped Nodnol! You have beat the game at difficulty level " + currentDifficulty + ". For a greater challenge, please play again, difficulty has been increased.";
+        if (currentDifficulty == maxDifficulty) {
+            endingText = "Congratulations! You have successfully escaped Nodnol! You have beat the game at its most challenging difficulty level (" + currentDifficulty + "). Please review your score, and if you’d like to improve it, you are welcome to try again!";
+        }
+
+        // Notify the user via an alert dialog that they've won the game
+        QuestionDialogUI.Instance.ShowFinishedGameAlert(
+            "Victory!",
+            endingText,
+            () => {
+                // Actions to be performed ater game ends
+                // User clicked OK, we POST a new highscore if the user is logged in
+                if (SessionManager.IsUserLoggedIn()) {
+                    apiRequestHandler.PostNewHighScore(GameProgressManager.GetJsonStringPostHighscore(SessionManager.GetSessionUsername()));
+                } 
+                // We level up the game progress
+                if (currentDifficulty < GameProgressManager.GetHighestDifficultyLevel()) {
+                    // We reset the starting level
+                    GameProgressManager.SetNexLevel(1);
+                    GameProgressManager.SetDifficultyLevel(currentDifficulty+1);
+                }
+                else {
+                    // If the player won in level 10, the game goes back to the beginning
+                    GameProgressManager.ResetGameProgress();
+                }
+                // We UPDATE the gameprogress if the user is logged in
+                if (SessionManager.IsUserLoggedIn()) {
+                    loggedInMessage.GetComponent<TMP_Text>().text = "Syncing your game progress\nplease wait...";
+                    apiRequestHandler.UpdateGameProgress(GameProgressManager.GetJsonStringUpdateGameProgress(SessionManager.GetSessionUsername(), false));
+                }
+
+                // Set the game progress badge
+                // This needs to be *repeated* here because this runs *after* the user clicks the dialog button!
+                // ToDo: send to FIUBA CloudSync and post highscore.
+                GameProgressManager.LogGameProgressData();
+                UpdateGameProgressBadge();
+
+                // Set interactability of "Continue" button
+                continueButton.GetComponent<Button>().interactable = GameProgressManager.PlayerCanContinue();
+            }
+        );
+
+        // Clear finished game flag
+        GameProgressManager.ResetFinishedGame();
     }
 
     // Resets the highscores table
@@ -94,6 +195,8 @@ public class MainMenuManager : MonoBehaviour
         // Reset initial table message
         Transform highScoresTableMessageText = highScoresTableMessage.gameObject.transform.Find("HighscoresTableMessageText");
         Transform highScoresTableMessageSpinner = highScoresTableMessage.gameObject.transform.Find("HighscoresTableSpinner");
+        Transform highScoresTableMessageSucess = highScoresTableMessage.gameObject.transform.Find("HighscoresTableSuccess");
+        Transform highScoresTableMessageFailure = highScoresTableMessage.gameObject.transform.Find("HighscoresTableError");
         highScoresTableMessageText.GetComponent<TMP_Text>().text = "Loading Highscores, please wait...";
         // Delete old entries
         var highscoreResults = GameObject.FindGameObjectsWithTag("HighScoreEntry");
@@ -104,12 +207,48 @@ public class MainMenuManager : MonoBehaviour
         highScoresTableMessage.SetActive(true);
         highScoresTableMessageText.gameObject.SetActive(true);
         highScoresTableMessageSpinner.gameObject.SetActive(true);
+        highScoresTableMessageSucess.gameObject.SetActive(false);
+        highScoresTableMessageFailure.gameObject.SetActive(false);
+    }
+
+    // Verifies if the user wants to start a new game
+    public void StartNewGameConfirm() {
+
+        if (GameProgressManager.PlayerCanContinue())
+        {
+            // Ask the user via a confirmation dialog if they want to lose their game progress
+            QuestionDialogUI.Instance.ShowConfirm(
+                "WARNING",
+                "All your saved progress will be lost. Are you sure?",
+                "Yes!",
+                "Cancel",
+                () => {
+                    // User clicked yes, we start a new game
+                    StartNewGame();
+                },
+                // If the user cancels, we just close the dialog
+                () => {}
+            );
+        }
+        else {
+            StartNewGame();
+        }
     }
 
     // Starts a new game!
     // Loads first cinematic scene
-    public void StartNewGame() {
+    private void StartNewGame() {
         Debug.Log("Starting new game");
+
+        //Resetting game progress record
+        GameProgressManager.ResetGameProgress();
+        LevelLoader.Instance.LoadNextScene();
+    }
+
+    // Continues a saved game!
+    // Loads the game where the game progress record indicates
+    public void ContinueGame() {
+        Debug.Log("Continuing saved game");
         LevelLoader.Instance.LoadNextScene();
     }
 
@@ -155,9 +294,9 @@ public class MainMenuManager : MonoBehaviour
         Toggle killEnemiesToggle = rootObject.Find("KillEnemiesOn/KillEnemiesOnToggle").GetComponent<Toggle>();
         killEnemiesToggle.isOn = SettingsManager.GetKillEnemiesOn();
         Toggle regenerateHealthToggle = rootObject.Find("RegenerateHealthOn/RegenerateHealthOnToggle").GetComponent<Toggle>();
-        regenerateHealthToggle.isOn = SettingsManager.GetRegenerateHealthOn();
+        regenerateHealthToggle.isOn = SettingsManager.GetInfiniteHealthOn();
         Toggle regenerateManaToggle = rootObject.Find("RegenerateManaOn/RegenerateManaOnToggle").GetComponent<Toggle>();
-        regenerateManaToggle.isOn = SettingsManager.GetRegenerateManaOn();
+        regenerateManaToggle.isOn = SettingsManager.GetInfiniteManaOn();
         Toggle levelDumpToggle = rootObject.Find("LevelDumpOn/LevelDumpOnToggle").GetComponent<Toggle>();
         levelDumpToggle.isOn = SettingsManager.GetLevelDumpOn();
         Toggle showInfoToggle = rootObject.Find("ShowInfoOn/ShowInfoOnToggle").GetComponent<Toggle>();
@@ -183,6 +322,13 @@ public class MainMenuManager : MonoBehaviour
 
         TextMeshProUGUI sliderValue = sliderContainer.gameObject.transform.Find("StartingDifficultySliderValue").GetComponent<TextMeshProUGUI>();
         sliderValue.text = SettingsManager.GetStartingDifficulty().ToString();
+
+        // If the player can't continue we have to update the starting difficulty in the game progress class
+        if (!GameProgressManager.PlayerCanContinue())
+        {
+            GameProgressManager.ResetGameProgress();
+            UpdateGameProgressBadge();
+        }
     }
     public void UpdateDeveloperModeToggle(GameObject settingsMenu)
     {
@@ -197,8 +343,8 @@ public class MainMenuManager : MonoBehaviour
     public void UpdateLoadNextLevelToggle(Toggle toggleControl) { SettingsManager.SetLoadNextLevelOn(toggleControl.isOn); }
     public void UpdateRegenerateDungeonToggle(Toggle toggleControl) { SettingsManager.SetRegenerateDungeonOn(toggleControl.isOn); }
     public void UpdateKillEnemiesToggle(Toggle toggleControl) { SettingsManager.SetKillEnemiesOn(toggleControl.isOn); }
-    public void UpdateRegenerateHealthToggle(Toggle toggleControl) { SettingsManager.SetRegenerateHealthOn(toggleControl.isOn); }
-    public void UpdateRegenerateManaToggle(Toggle toggleControl) { SettingsManager.SetRegenerateManaOn(toggleControl.isOn); }
+    public void UpdateRegenerateHealthToggle(Toggle toggleControl) { SettingsManager.SetInfiniteHealthOn(toggleControl.isOn); }
+    public void UpdateRegenerateManaToggle(Toggle toggleControl) { SettingsManager.SetInfiniteManaOn(toggleControl.isOn); }
     public void UpdateLevelDumpToggle(Toggle toggleControl) { SettingsManager.SetLevelDumpOn(toggleControl.isOn); }
     public void UpdateShowInfoToggle(Toggle toggleControl) { SettingsManager.SetShowInfoOn(toggleControl.isOn); }
     // Shows or hides developer settings from UI
@@ -228,6 +374,7 @@ public class MainMenuManager : MonoBehaviour
             // Using screen width and panel position to determine weather it is showing or not
             if (loginPanel.transform.position.x < Screen.width)
             {
+                loginPanelWasShowing = true;
                 ShowOrHideLoginForm();
             }
         }
@@ -243,6 +390,10 @@ public class MainMenuManager : MonoBehaviour
         else
         {
             loginButton.SetActive(true);
+            if (loginPanelWasShowing) {
+                loginPanelWasShowing = false;
+                ShowOrHideLoginForm();
+            }
         }
     }
 
@@ -287,6 +438,11 @@ public class MainMenuManager : MonoBehaviour
 
         // Clear the session details
         SessionManager.ClearSession();
+        // Clear the game progress
+        GameProgressManager.ResetGameProgress();
+        UpdateGameProgressBadge();
+        // Set interactability of "Continue" button
+        continueButton.GetComponent<Button>().interactable = GameProgressManager.PlayerCanContinue();
         
         // Change UI element status
         loginButton.SetActive(true);
@@ -302,11 +458,524 @@ public class MainMenuManager : MonoBehaviour
         GameProgressManager.PersistGameProgress();
     }
 
-    // Saves user data and quits the game
-    public void ExitGame() {  
-        Debug.Log("Quitting Game...");
+    // Resets the "Reset Password" main menu screen
+    public void ResetPasswordMenuForm() {
+        // Getting data from the UI      
+        Transform usernameInputField = resetPasswordMenu.gameObject.transform.Find("UsernameInputField");
 
-        PersistAll();
-        Application.Quit();
+        Transform statusContainer = resetPasswordMenu.gameObject.transform.Find("StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        TMP_InputField usernameInputFieldComponent = usernameInputField.GetComponent<TMP_InputField>();
+        Transform validationText = usernameInputField.gameObject.transform.Find("UsernameValidationText");
+        TMP_Text statusText = statusContainer.Find("StatusText").GetComponent<TMP_Text>();
+        Button sendButton = resetPasswordMenu.gameObject.transform.Find("SendButton").GetComponent<Button>();
+
+        usernameInputField.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        validationText.gameObject.SetActive(false);
+        usernameInputFieldComponent.interactable = true;
+        sendButton.interactable = true;
+        statusContainer.gameObject.SetActive(false);
+        statusSpinner.gameObject.SetActive(true);
+        statusText.text = "Sending your request\nplease wait...";
+    }
+
+    // Resets the "Register" main menu screen
+    public void ResetRegisterMenuForm() {
+        // Getting data from the UI
+        // Form container
+        Transform formContainer = registerMenu.gameObject.transform.Find("RegisterFormContainer");
+        // Submit button
+        Transform submitButton = registerMenu.gameObject.transform.Find("RegisterFormContainer/SubmitButton");
+        // Username
+        Transform usernameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/UsernameInputField");
+        Transform usernameValidationText = usernameInput.Find("UsernameValidationText");
+        Transform usernameOK = usernameInput.Find("UsernameOK");
+        Transform usernameSpinner = usernameInput.Find("UsernameSpinner");
+        // Password
+        Transform passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform passwordHintText = passwordInput.Find("PasswordHintText");
+        Transform passwordValidationText = passwordInput.Find("PasswordValidationText");
+        Transform passwordOK = passwordInput.Find("PasswordOK");
+        // Password validation
+        Transform passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
+        Transform passwordValidationValidationText = passwordValidationInput.Find("PasswordValidationValidationText");
+        Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
+        // First Name
+        Transform firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
+        Transform firstNameValidationText = firstNameInput.Find("FirstNameValidationText");
+        Transform firstNameOK = firstNameInput.Find("FirstNameValidationOK");
+        // Last Name
+        Transform lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
+        Transform lastNameValidationText = lastNameInput.Find("LastNameValidationText");
+        Transform lastNameOK = lastNameInput.Find("LastNameValidationOK");
+        // Email
+        Transform emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
+        Transform emailValidationText = emailInput.Find("EmailValidationText");
+        Transform emailOK = emailInput.Find("EmailValidationOK");
+        Transform emailSpinner = emailInput.Find("EmailSpinner");
+        // Status
+        Transform statusContainer = registerMenu.gameObject.transform.Find("StatusContainer");
+        Transform statusSpinner = statusContainer.Find("StatusSpinner");
+        Transform statusSuccess = statusContainer.Find("StatusSuccess");
+        Transform statusError = statusContainer.Find("StatusError");
+        Transform statusText = statusContainer.Find("StatusText");
+
+        // Register form
+        // Resetting submit button
+        submitButton.gameObject.GetComponent<Button>().interactable = true;
+        // Resetting form fields
+        // Reset username field
+        usernameInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        usernameValidationText.gameObject.SetActive(false);
+        usernameOK.gameObject.SetActive(false);
+        usernameSpinner.gameObject.SetActive(false);
+        // Reset password field
+        passwordInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        passwordHintText.gameObject.SetActive(true);
+        passwordValidationText.gameObject.SetActive(false);
+        passwordOK.gameObject.SetActive(false);
+        // Reset password validation field
+        passwordValidationInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        passwordValidationValidationText.gameObject.SetActive(false);
+        passwordValidationOK.gameObject.SetActive(false);
+        // Reset first name field
+        firstNameInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        firstNameValidationText.gameObject.SetActive(false);
+        firstNameOK.gameObject.SetActive(false);
+        // Reset last name field
+        lastNameInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        lastNameValidationText.gameObject.SetActive(false);
+        lastNameOK.gameObject.SetActive(false);
+        // Reset email field
+        emailInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+        emailValidationText.gameObject.SetActive(false);
+        emailOK.gameObject.SetActive(false);
+        emailSpinner.gameObject.SetActive(false);
+        // Resetting form container
+        formContainer.gameObject.SetActive(true);
+        // Status
+        // Resetting status container
+        statusContainer.gameObject.SetActive(false);
+        // Resetting status elements
+        statusSpinner.gameObject.SetActive(true);
+        statusSuccess.gameObject.SetActive(false);
+        statusError.gameObject.SetActive(false);
+        statusText.gameObject.GetComponent<TMP_Text>().text = "Sending your request\nplease wait...";
+    }
+
+    // Clear methods for register form
+    // Username
+    public void RegisterClearUsername() {
+        // Getting data from the UI
+        // Username
+        Transform usernameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/UsernameInputField");
+        Transform usernameValidationText = usernameInput.Find("UsernameValidationText");
+        Transform usernameOK = usernameInput.Find("UsernameOK");
+        Transform usernameSpinner = usernameInput.Find("UsernameSpinner");
+
+        // If there is an error, we clear the field
+        if (!FormDataValidation.IsValidUsername(usernameInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            usernameInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            usernameSpinner.gameObject.SetActive(false);
+            usernameValidationText.gameObject.SetActive(false);
+            usernameOK.gameObject.SetActive(false);
+        }
+    }
+    // Password
+    public void RegisterClearPassword(string mode) {
+
+        // Getting data from the UI
+        // Password
+        Transform passwordInput = null;
+        passwordInput = profileMenu.gameObject.transform.Find("ChangePassword/ChangePasswordFormContainer/PasswordInputField");
+        if (mode=="register")
+            passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform passwordHintText = passwordInput.Find("PasswordHintText");
+        Transform passwordValidationText = passwordInput.Find("PasswordValidationText");
+        Transform passwordOK = passwordInput.Find("PasswordOK");
+        // Password validation
+        Transform passwordValidationInput = null;
+        passwordValidationInput = profileMenu.gameObject.transform.Find("ChangePassword/ChangePasswordFormContainer/PasswordValidationInputField");
+        if (mode=="register")
+            passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
+        Transform passwordValidationValidationText = passwordValidationInput.Find("PasswordValidationValidationText");
+        Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
+
+        string password = passwordInput.gameObject.GetComponent<TMP_InputField>().text;
+
+        // If there is an error, we clear the field
+        if (!FormDataValidation.IsValidPassword(password))
+        {
+            passwordInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            passwordHintText.gameObject.SetActive(true);
+            passwordValidationText.gameObject.SetActive(false);
+            passwordOK.gameObject.SetActive(false);
+
+            passwordValidationInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            passwordValidationValidationText.gameObject.SetActive(false);
+            passwordValidationOK.gameObject.SetActive(false);
+        }
+    }
+    // Email
+    public void RegisterClearEmail(string mode) {
+        // Getting data from the UI
+        // Email
+        Transform emailInput = null;
+        emailInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/EmailInputField");
+        if (mode=="register")
+            emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
+        Transform emailValidationText = emailInput.Find("EmailValidationText");
+        Transform emailOK = emailInput.Find("EmailValidationOK");
+        Transform emailSpinner = emailInput.Find("EmailSpinner");
+
+        // If there is an error, we clear the field
+        if (!FormDataValidation.IsValidEmail(emailInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            emailInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            emailSpinner.gameObject.SetActive(false);
+            emailValidationText.gameObject.SetActive(false);
+            emailOK.gameObject.SetActive(false);
+        }
+    }
+    // First Name
+    public void RegisterClearFirstName(string mode) {
+        // Getting data from the UI
+        // First Name
+        Transform firstNameInput = null;
+        firstNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/FirstNameInputField");
+        if (mode=="register")
+            firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
+        Transform firstNameValidationText = firstNameInput.Find("FirstNameValidationText");
+        Transform firstNameOK = firstNameInput.Find("FirstNameValidationOK");
+
+        // If there is an error, we clear the field
+        if (!FormDataValidation.IsValidName(firstNameInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            firstNameInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            firstNameValidationText.gameObject.SetActive(false);
+            firstNameOK.gameObject.SetActive(false);
+        }
+    }
+    // Last Name
+    public void RegisterClearLastName(string mode) {
+        // Getting data from the UI
+        // Last Name
+        Transform lastNameInput = null;
+        lastNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/LastNameInputField");
+        if (mode=="register")
+            lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
+        Transform lastNameValidationText = lastNameInput.Find("LastNameValidationText");
+        Transform lastNameOK = lastNameInput.Find("LastNameValidationOK");
+
+        // If there is an error, we clear the field
+        if (!FormDataValidation.IsValidName(lastNameInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            lastNameInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            lastNameValidationText.gameObject.SetActive(false);
+            lastNameOK.gameObject.SetActive(false);
+        }
+    }
+
+    // Validate methods for register form
+    // Username
+    public void RegisterValidateUsername() {
+        // Getting data from the UI
+        // Username
+        Transform usernameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/UsernameInputField");
+        Transform usernameValidationText = usernameInput.Find("UsernameValidationText");
+        Transform usernameOK = usernameInput.Find("UsernameOK");
+        Transform usernameSpinner = usernameInput.Find("UsernameSpinner");
+
+        // Validating the username field
+        if (FormDataValidation.IsValidUsername(usernameInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            usernameValidationText.gameObject.SetActive(false);
+            usernameSpinner.gameObject.SetActive(false);
+            usernameOK.gameObject.SetActive(true);
+        }
+        else
+        {
+            usernameValidationText.gameObject.SetActive(true);
+            usernameSpinner.gameObject.SetActive(false);
+            usernameOK.gameObject.SetActive(false);
+        }    
+    }
+    // Password
+    public void RegisterValidatePassword(string mode) {
+
+        // Getting data from the UI
+        // Password
+        Transform passwordInput = null;
+        passwordInput = profileMenu.gameObject.transform.Find("ChangePassword/ChangePasswordFormContainer/PasswordInputField");
+        if (mode=="register")
+            passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform passwordHintText = passwordInput.Find("PasswordHintText");
+        Transform passwordValidationText = passwordInput.Find("PasswordValidationText");
+        Transform passwordOK = passwordInput.Find("PasswordOK");
+        // Password validation
+        Transform passwordValidationInput = null;
+        passwordValidationInput = profileMenu.gameObject.transform.Find("ChangePassword/ChangePasswordFormContainer/PasswordValidationInputField");
+        if (mode=="register")
+            passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
+        Transform passwordValidationValidationText = passwordValidationInput.Find("PasswordValidationValidationText");
+        Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
+
+        string password = passwordInput.gameObject.GetComponent<TMP_InputField>().text;
+        string passwordValidation = passwordValidationInput.gameObject.GetComponent<TMP_InputField>().text;
+
+        // Validating the password field, and the confirmation
+        if (FormDataValidation.IsValidPassword(password))
+        {
+            passwordHintText.gameObject.SetActive(true);
+            passwordValidationText.gameObject.SetActive(false);
+            passwordOK.gameObject.SetActive(true);
+
+            if (password == passwordValidation)
+            {
+                passwordValidationValidationText.gameObject.SetActive(false);
+                passwordValidationOK.gameObject.SetActive(true);
+            }
+            else
+            {
+                passwordValidationValidationText.gameObject.SetActive(true);
+                passwordValidationOK.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            passwordHintText.gameObject.SetActive(false);
+            passwordValidationText.gameObject.SetActive(true);
+            passwordOK.gameObject.SetActive(false);
+
+            passwordValidationInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            passwordValidationValidationText.gameObject.SetActive(false);
+            passwordValidationOK.gameObject.SetActive(false);
+        }
+    }
+    public void RegisterValidatePasswordValidation(string mode) {
+
+        // Getting data from the UI
+        // Password
+        Transform passwordInput = null;
+        passwordInput = profileMenu.gameObject.transform.Find("ChangePassword/ChangePasswordFormContainer/PasswordInputField");
+        if (mode=="register")
+            passwordInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordInputField");
+        Transform passwordHintText = passwordInput.Find("PasswordHintText");
+        Transform passwordValidationText = passwordInput.Find("PasswordValidationText");
+        Transform passwordOK = passwordInput.Find("PasswordOK");
+        // Password validation
+        Transform passwordValidationInput = null;
+        passwordValidationInput = profileMenu.gameObject.transform.Find("ChangePassword/ChangePasswordFormContainer/PasswordValidationInputField");
+        if (mode=="register")
+            passwordValidationInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/PasswordValidationInputField");
+        Transform passwordValidationValidationText = passwordValidationInput.Find("PasswordValidationValidationText");
+        Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
+
+        string password = passwordInput.gameObject.GetComponent<TMP_InputField>().text;
+        string passwordValidation = passwordValidationInput.gameObject.GetComponent<TMP_InputField>().text;
+
+        // Validating the password field, and the confirmation
+        if (FormDataValidation.IsValidPassword(password))
+        {
+            passwordHintText.gameObject.SetActive(true);
+            passwordValidationText.gameObject.SetActive(false);
+            passwordOK.gameObject.SetActive(true);
+
+            if (password == passwordValidation)
+            {
+                passwordValidationValidationText.gameObject.SetActive(false);
+                passwordValidationOK.gameObject.SetActive(true);
+            }
+            else
+            {
+                passwordValidationValidationText.gameObject.SetActive(true);
+                passwordValidationOK.gameObject.SetActive(false);
+            }
+        }
+    }    
+    // Email
+    public void RegisterValidateEmail(string mode) {
+        // Getting data from the UI
+        // Email
+        Transform emailInput = null;
+        emailInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/EmailInputField");
+        if (mode=="register")
+            emailInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/EmailInputField");
+        Transform emailValidationText = emailInput.Find("EmailValidationText");
+        Transform emailOK = emailInput.Find("EmailValidationOK");
+        Transform emailSpinner = emailInput.Find("EmailSpinner");
+
+        // Validating the email field
+        if (FormDataValidation.IsValidEmail(emailInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            emailValidationText.gameObject.SetActive(false);
+            emailSpinner.gameObject.SetActive(false);
+            emailOK.gameObject.SetActive(true);
+        }
+        else
+        {
+            emailValidationText.gameObject.SetActive(true);
+            emailSpinner.gameObject.SetActive(false);
+            emailOK.gameObject.SetActive(false);
+        }   
+    }
+    // First Name
+    public void RegisterValidateFirstName(string mode) {
+        // Getting data from the UI
+        // First Name
+        Transform firstNameInput = null;
+        firstNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/FirstNameInputField");
+        if (mode=="register")
+            firstNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/FirstNameInputField");
+        Transform firstNameValidationText = firstNameInput.Find("FirstNameValidationText");
+        Transform firstNameOK = firstNameInput.Find("FirstNameValidationOK");
+
+        // Validating the first name field
+        if (FormDataValidation.IsValidName(firstNameInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            firstNameValidationText.gameObject.SetActive(false);
+            firstNameOK.gameObject.SetActive(true);
+        }
+        else
+        {
+            firstNameValidationText.gameObject.SetActive(true);
+            firstNameOK.gameObject.SetActive(false);
+        }    
+    }
+    // Last Name
+    public void RegisterValidateLastName(string mode) {
+        // Getting data from the UI
+        // Last Name
+        Transform lastNameInput = null;
+        lastNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/LastNameInputField");
+        if (mode=="register")
+            lastNameInput = registerMenu.gameObject.transform.Find("RegisterFormContainer/LastNameInputField");
+        Transform lastNameValidationText = lastNameInput.Find("LastNameValidationText");
+        Transform lastNameOK = lastNameInput.Find("LastNameValidationOK");
+
+        // Validating the last name field
+        if (FormDataValidation.IsValidName(lastNameInput.gameObject.GetComponent<TMP_InputField>().text))
+        {
+            lastNameValidationText.gameObject.SetActive(false);
+            lastNameOK.gameObject.SetActive(true);
+        }
+        else
+        {
+            lastNameValidationText.gameObject.SetActive(true);
+            lastNameOK.gameObject.SetActive(false);
+        }    
+    }
+
+    // Navigates to profile action
+    // actionToOpen must be either
+    // "edit": to open the profile details edit form
+    // "avatar": to open the change avatar form
+    // "password": to open the change password form
+    public void OpenProfileAction(string actionToOpen) {
+
+        // Getting data from the UI
+        // Form modes
+        Transform displayMode = profileMenu.gameObject.transform.Find("DisplayMode");
+        Transform editMode = profileMenu.gameObject.transform.Find("EditMode");
+        Transform changeAvatar = profileMenu.gameObject.transform.Find("ChangeAvatar");
+        Transform changePassword = profileMenu.gameObject.transform.Find("ChangePassword");
+        Transform operationStatus = profileMenu.gameObject.transform.Find("OperationStatus");
+        // Only for edit profile mode
+        // Source fields
+        Transform profileSection = profileMenu.gameObject.transform.Find("DisplayMode/ScrollView/Viewport/Content/ProfileSection");
+        Transform emailField = profileSection.Find("Data/EmailData");
+        Transform firstNameField = profileSection.Find("Data/FirstNameData");
+        Transform lastNameField = profileSection.Find("Data/LastNameData");
+        // Fields to update
+        Transform emailInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/EmailInputField");
+        Transform firstNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/FirstNameInputField");
+        Transform lastNameInput = profileMenu.gameObject.transform.Find("EditMode/EditProfileFormContainer/LastNameInputField");
+        // Only for change password mode
+        Transform passwordInput = changePassword.gameObject.transform.Find("ChangePasswordFormContainer/PasswordInputField");
+        Transform passwordHintText = passwordInput.Find("PasswordHintText");
+        Transform passwordValidationText = passwordInput.Find("PasswordValidationText");
+        Transform passwordOK = passwordInput.Find("PasswordOK");
+        Transform passwordValidationInput = changePassword.gameObject.transform.Find("ChangePasswordFormContainer/PasswordValidationInputField");
+        Transform passwordValidationValidationText = passwordValidationInput.Find("PasswordValidationValidationText");
+        Transform passwordValidationOK = passwordValidationInput.Find("PasswordValidationOK");
+
+        // Setting default mode
+        displayMode.gameObject.SetActive(false);
+        if (actionToOpen == "edit") {
+            emailInput.gameObject.GetComponent<TMP_InputField>().text = emailField.gameObject.GetComponent<TMP_Text>().text;
+            firstNameInput.gameObject.GetComponent<TMP_InputField>().text = firstNameField.gameObject.GetComponent<TMP_Text>().text;
+            lastNameInput.gameObject.GetComponent<TMP_InputField>().text = lastNameField.gameObject.GetComponent<TMP_Text>().text;
+            RegisterValidateEmail("profile");
+            RegisterValidateFirstName("profile");
+            RegisterValidateLastName("profile");
+            editMode.gameObject.SetActive(true);
+        }
+        else
+            editMode.gameObject.SetActive(false);
+        if (actionToOpen == "password") {
+            passwordHintText.gameObject.SetActive(true);
+            passwordValidationText.gameObject.SetActive(false);
+            passwordOK.gameObject.SetActive(false);
+            passwordValidationValidationText.gameObject.SetActive(false);
+            passwordValidationOK.gameObject.SetActive(false);
+            passwordInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            passwordValidationInput.gameObject.GetComponent<TMP_InputField>().text = string.Empty;
+            changePassword.gameObject.SetActive(true);
+        }
+        else
+            changePassword.gameObject.SetActive(false);
+        if (actionToOpen == "avatar")
+            changeAvatar.gameObject.SetActive(true);
+        else
+            changeAvatar.gameObject.SetActive(false);
+        operationStatus.gameObject.SetActive(false);
+    }
+
+    // Goes back to main profile screen
+    public void CancelProfileAction() {
+
+        // Getting data from the UI
+        // Form modes
+        Transform displayMode = profileMenu.gameObject.transform.Find("DisplayMode");
+        Transform editMode = profileMenu.gameObject.transform.Find("EditMode");
+        Transform changeAvatar = profileMenu.gameObject.transform.Find("ChangeAvatar");
+        Transform changePassword = profileMenu.gameObject.transform.Find("ChangePassword");
+        Transform operationStatus = profileMenu.gameObject.transform.Find("OperationStatus");
+
+        // Setting default mode
+        displayMode.gameObject.SetActive(true);
+        changeAvatar.gameObject.SetActive(false);
+        changePassword.gameObject.SetActive(false);
+        editMode.gameObject.SetActive(false);
+        operationStatus.gameObject.SetActive(false);
+    }
+
+    // Saves user data and quits the game
+    public void ExitGame() {
+
+        var exitMessages = new List<string> {
+            "Your quest is not finished!",
+            "The people of Nodnol need you!",
+            "Nilbud is still at large!",
+            "Ordanel is cold in his cell!",
+            "Don't be such a wuss!"
+        };
+
+        // Ask the user via a confirmation dialog if they want to quit
+        QuestionDialogUI.Instance.ShowConfirm(
+            "QUIT?",
+            "How dare you quit. " + exitMessages[Random.Range(0,(exitMessages.Count-1))],
+            "I'm scared",
+            "Fight on!",
+            () => {
+                // User clicked yes, we quit the game
+                Debug.Log("Quitting Game...");
+                PersistAll();
+                Application.Quit();
+            },
+            // If the user cancels, we just close the dialog
+            () => {}
+        );
     }
 }

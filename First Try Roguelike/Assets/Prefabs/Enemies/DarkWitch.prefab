@@ -165,7 +165,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -675774301
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &7664619175385529572
@@ -4811,6 +4811,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8746090421077416876, guid: 326a40dc18ddd894ba68f57ef60472f6, type: 3}
+      propertyPath: m_TagString
+      value: enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8756921298749320909, guid: 326a40dc18ddd894ba68f57ef60472f6, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -5213,6 +5217,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8727a9ee29467d1429a9f671b4913c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackPointPositions:
+  - {x: 0, y: -0.6}
+  - {x: 0, y: 2.6}
+  - {x: 1.2, y: 0.5}
+  - {x: -1.2, y: 0.5}
   movementTolerance: 0.3
   _renderer: {fileID: 4240004384559591042}
 --- !u!114 &7445423193516230896

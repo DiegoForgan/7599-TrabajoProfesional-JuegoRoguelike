@@ -13,6 +13,8 @@ public abstract class Entity : MonoBehaviour, Collidable, Affectable
     public int GetHealth(){
         return health;
     }
+
+    public int GetMaxHealth() { return maxHealth; }
     
     //Implementing "Collidable" interface method
     public virtual void TakeDamage(int damage){
@@ -24,7 +26,7 @@ public abstract class Entity : MonoBehaviour, Collidable, Affectable
             Die();
         }
         // Dark magic, don´t ask => probably i will forget how i did this
-        animator.setHurtAnimation();
+        else animator.setHurtAnimation();
     }
     
     protected virtual void Die()
@@ -83,12 +85,23 @@ public abstract class Entity : MonoBehaviour, Collidable, Affectable
         slowedDown = true;
         //The slowdown parameter is the percentage (beetween 0 and 1) of speed that remains on the player
         EntityMovement _entityMovement = GetComponent<EntityMovement>();
-        float normalMovementSpeed = _entityMovement.GetMovementSpeed();
-        //The movement speed is reduced by the slow down parameter
-        _entityMovement.SetMovementSpeed(normalMovementSpeed*slowDown);
+        FinalBossMovement _finalBossMovement = GetComponent<FinalBossMovement>();
+        float normalMovementSpeed;
+        if (!_entityMovement) { 
+            normalMovementSpeed = _finalBossMovement.GetMovementSpeed();
+            _finalBossMovement.SetMovementSpeed(normalMovementSpeed * slowDown);
+        }
+        else
+        {
+            normalMovementSpeed = _entityMovement.GetMovementSpeed();
+            //The movement speed is reduced by the slow down parameter
+            _entityMovement.SetMovementSpeed(normalMovementSpeed * slowDown);
+        }
         yield return new WaitForSeconds(duration);
         //After the duration of the spell effect, the movement speed goes back to normal
-        _entityMovement.SetMovementSpeed(normalMovementSpeed);
+        if (!_entityMovement) _finalBossMovement.SetMovementSpeed(normalMovementSpeed);
+        else _entityMovement.SetMovementSpeed(normalMovementSpeed);
+        
         slowedDown = false;
     }
 }
