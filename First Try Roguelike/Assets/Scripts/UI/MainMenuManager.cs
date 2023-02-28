@@ -100,7 +100,8 @@ public class MainMenuManager : MonoBehaviour
             // Just re-enable UI controls
             Debug.Log("No session token found");
             highScoresButton.SetActive(false);
-            loginButton.SetActive(true);
+            // This version is OFFLINE only!
+            // loginButton.SetActive(true);
 
             // Set interactability of "Continue" button
             continueButton.GetComponent<Button>().interactable = GameProgressManager.PlayerCanContinue();

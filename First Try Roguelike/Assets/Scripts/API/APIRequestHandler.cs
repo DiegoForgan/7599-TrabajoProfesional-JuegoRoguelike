@@ -19,8 +19,8 @@ public class APIRequestHandler : MonoBehaviour
     // Resources and Routes 
     // The PR environment of FIUBA CloudSync is not online for the develepment process
     // Use the "Use QA Servers" in the Developer mode settings
-    private const string PR_URL = "https://app.7599-fiuba-cs.net/api/v1/";
-    private const string QA_URL = "https://app-qa.7599-fiuba-cs.net/api/v1/";
+    private const string PR_URL = "#";
+    private const string QA_URL = "#";
     private const string DEFAULT_AVATAR_URL = "https://ui-avatars.com/api/?background=321FDB&color=FFFFFF&size=512&name=";
     private const string HIGHSCORES_ROUTE = "highscores?start=0&limit=50&sort_column=difficulty_level,achieved_level,gold_collected,time_elapsed&sort_order=-1,-1,-1,1";
     private const string GAMEPROGRESS_ROUTE = "gameprogress";
