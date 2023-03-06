@@ -1,5 +1,9 @@
 # 75.99 Trabajo Profesional - "Juego Roguelike"
 
+![Unity](https://img.shields.io/badge/unity-%23000000.svg?style=for-the-badge&logo=unity&logoColor=white)
+![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)  
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 ### Resumen
 
 Repositorio correspondiente al desarrollo del trabajo final de la carrera **_"Ingeniería en Informática"_** de la **_"Facultad de Ingeniería de la Universidad de Buenos Aires" (FIUBA)_**.  
