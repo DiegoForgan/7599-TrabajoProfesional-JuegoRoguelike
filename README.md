@@ -22,7 +22,7 @@ El mismo consiste en la creación de un juego en 2D con mecánicas _roguelike_ c
 
 ## Herramientas Utilizadas
 
-- Unity 2020.3.11f1
+- Unity 2021.3.3f1
 
 ## Documentación
 
